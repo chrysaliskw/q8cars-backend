@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\User\GuestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::post('/guests', GuestController::class);
+Route::post('/guests', GuestController::class);
 
 //Routes which can be accessed by guest user also
 Route::middleware('auth:user_api')->group(function () {
