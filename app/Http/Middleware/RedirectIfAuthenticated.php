@@ -32,14 +32,6 @@ class RedirectIfAuthenticated
                     $this->redirectRoute = route('admin.dashboard');
                     break;
 
-                case 'business_user':
-                    $this->redirectRoute = route('business-user.dashboard');
-                    break;
-                    
-                case 'web_user':
-                    $this->redirectRoute = route('web-user.buisness-form.create');
-                    break;
-
                 default:
                     $this->redirectRoute = RouteServiceProvider::HOME;
             }

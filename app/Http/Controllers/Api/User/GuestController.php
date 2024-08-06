@@ -24,7 +24,7 @@ class GuestController extends ApiBaseController
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request)
-    {
+    { 
         $validator = Validator::make($request->all(), [
             'device_name' => ['required', 'string', 'max:200', new RegexAlphaNumSpace]
         ]);

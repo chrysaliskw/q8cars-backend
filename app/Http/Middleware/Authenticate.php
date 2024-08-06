@@ -35,13 +35,6 @@ class Authenticate extends Middleware
             if (in_array('admin', $guards)) {
                 return route('admin.login');
             }
-            else if (in_array('business_user', $guards)) {
-                return route('business-user.login');
-            }
-            else if (in_array('web_user', $guards)) {
-                return route('web-user.login');
-            }
-
             return '/';
         }
     }

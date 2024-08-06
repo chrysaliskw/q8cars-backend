@@ -12,8 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'clickpay-callback',
-        'business-user/clickpay-return-url',
-        'api/user/clickpay-return-url',
+      'api/*',// Exclude all API routes from CSRF protection
     ];
 }

@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::middleware('guest:admin')->group(function () {
-    //
+    Route::get('/test', function () {
+        return view('welcome');
+        //return redirect()->route('admin.login');
+    });
 });
 
 /**
