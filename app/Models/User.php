@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
@@ -126,5 +127,19 @@ class User extends Authenticatable
             // 'picture' => file_asset('files-user', $this->picture),
             'is_guest' => false,
         ];
+    }
+
+     /**
+     * Clear the session to limit the mobile sesison to the value of SESSION_LIMIT.
+     * 
+     * @return void
+     */
+    public function clearMobileSessions()
+    {
+        $tokensCount = $this->tokens()->count();
+
+        if ($tokensCount >= (self::SESSION_LIMIT)) {
+            $this->tokens()->limit($tokensCount - (self::SESSION_LIMIT - 1))->delete();
+        }
     }
 }
