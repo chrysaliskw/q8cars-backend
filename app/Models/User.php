@@ -20,7 +20,7 @@ class User extends Authenticatable
     const ROLE_GUEST = 1;
     const ROLE_DEFAULT = 2;
     
-    const IMAGE_DIR = 'users';
+    const FILE_DIR = 'users';
 
     const DEVICE_ANDROID = 1;
     const DEVICE_IOS = 2;
@@ -122,9 +122,14 @@ class User extends Authenticatable
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'country_id' => $this->country_id,
             'email' => $this->email,
+            'phone_code' => $this->phone_code,
             'mobile' => $this->mobile,
-            // 'picture' => file_asset('files-user', $this->picture),
+            'address' => $this->address,
+            'picture' => $this->picture ? file_asset('files-user', $this->picture) : null, 
+            'role' => $this->role,
+            'status' => $this->status,
             'is_guest' => false,
         ];
     }

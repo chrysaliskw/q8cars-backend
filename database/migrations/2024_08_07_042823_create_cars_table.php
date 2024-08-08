@@ -29,9 +29,9 @@ return new class extends Migration
             $table->string('power_windows')->nullable();
             $table->float('fuel_tank_capacity')->nullable();
             $table->string('seat_upholstery')->nullable();
-            $table->array('fuel_types');
-            $table->array('transmission_type');
-            $table->array('colours');
+            $table->json('fuel_types');
+            $table->json('transmission_type');
+            $table->json('colours');
             $table->float('engine_capacity');
             $table->float('power');
             $table->float('torque');
