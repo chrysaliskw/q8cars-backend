@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,12 @@ Route::middleware('guest:admin')->group(function () {
 Route::middleware('auth:admin')->group(function () {
     // Dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+       // Admin Profile
+       Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+       Route::get('/profile/{profile}', [ProfileController::class, 'edit'])->name('profile.edit');
+       Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+   
     
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');

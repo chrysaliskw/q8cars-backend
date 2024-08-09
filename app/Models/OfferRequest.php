@@ -5,12 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Car extends Model
+class OfferRequest extends Model
 {
     use HasFactory;
-
-    public function brand()
-    {
-        return $this->belongsTo(Brand::class);  
-    }
 }

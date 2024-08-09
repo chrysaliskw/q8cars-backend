@@ -62,7 +62,7 @@
                             <a href="#" onclick="event.preventDefault();
                                                      document.getElementById('profile-form').submit();" class="dropdown-item"><i class="md md-face-unlock mr-2"></i> Profile</a>
                            
-                            <form id="profile-form" action="" method="GET" style="display:none">
+                           <form id="profile-form" action="{{ route('admin.profile') }}" method="GET" style="display:none">
                             </form>
                         </li>
                         <li>

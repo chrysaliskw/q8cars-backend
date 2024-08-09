@@ -9,6 +9,11 @@ use App\Http\Controllers\Api\User\OtpController;
 use App\Http\Controllers\Api\User\OtpVerificationController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\User\ProfileImageUpdateController;
+use App\Http\Controllers\Api\User\TestDriveRequestController;
+use App\Http\Controllers\Api\User\FavouriteController;
+use App\Http\Controllers\Api\User\OfferRequestController;
+use App\Http\Controllers\Api\User\SubmitReviewController;
+use App\Http\Controllers\Api\User\FaqListingController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -34,6 +39,17 @@ Route::middleware('auth:user_api')->group(function () {
     //Body Type List
     Route::get('/body-types', BodyTypeController::class);
 
+    //test drive request
+    Route::post('/test-drive-send-otp',[TestDriveRequestController::class, 'sendOtp']);
+    Route::post('/test-drive-otp-verify',[TestDriveRequestController::class,'verifyOtp']);
+    //favourites api
+    Route::apiResource('favourite',FavouriteController::class)->only(['index', 'store']);
+    //get offers and onroad price
+    Route::post('/offer-request', OfferRequestController::class);
+    //sub,it review
+    Route::post('/submit-review',SubmitReviewController::class);
+    //faq listing
+    Route::get('/faq',FaqListingController::class);
 });
 
 /**
