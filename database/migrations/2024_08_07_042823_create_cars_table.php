@@ -50,6 +50,13 @@ return new class extends Migration
             $table->integer('rating_5')->default(0);
             $table->integer('total_reviews_count')->default(0);
             $table->integer('view_count')->default(0);
+            $table->text('why_choose')->nullable();;
+            $table->text('market_introduction');
+            $table->text('engine_transmission');
+            $table->text('exterior');
+            $table->text('interior');
+            $table->text('safety_features');
+            $table->text('rivals')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

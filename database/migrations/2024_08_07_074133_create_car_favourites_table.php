@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('car_favourites', function (Blueprint $table) {
             $table->id();
-            $table->id();
             $table->bigInteger('car_id')->index();
             $table->bigInteger('user_id')->index();
             $table->timestamps();
