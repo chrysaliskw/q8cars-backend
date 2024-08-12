@@ -21,7 +21,17 @@
             <ul>
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="waves-effect">
-                        <i class="md md-home"></i><span> Dashboard </span>
+                    <i class='fa fa-home'></i><span> Dashboard </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.brand.index') }}" class="waves-effect">
+                        <i class="fa fa-car"></i><span> Brands </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.body-type.index') }}" class="waves-effect">
+                    <i class="fa fa-truck"></i><span> Body Types </span>
                     </a>
                 </li>
 

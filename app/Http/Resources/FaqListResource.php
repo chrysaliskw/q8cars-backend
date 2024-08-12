@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Review;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FaqListResource extends JsonResource

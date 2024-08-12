@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\BodyTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +41,9 @@ Route::middleware('auth:admin')->group(function () {
        Route::get('/profile/{profile}', [ProfileController::class, 'edit'])->name('profile.edit');
        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
    
-    
+    //brands
+    Route::resource('brand',BrandController::class);
+    Route::resource('body-type',BodyTypeController::class);
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

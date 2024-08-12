@@ -24,6 +24,8 @@ class FavouriteListResource extends JsonResource
         'on_road_price' => $this->car->on_road_price,
         'review_count' => $this->car->total_reviews_count,
         'avg_rating' => $this->car->avg_rating,
+        'image' => $this->car->image ? file_asset('files-car', $this->car->image) : null, 
+        'isFavourite' => true,
     
     ];
   }

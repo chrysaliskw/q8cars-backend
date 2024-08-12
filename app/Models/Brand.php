@@ -13,6 +13,18 @@ class Brand extends Model
     const STATUS_INACTIVE = 2;
 
     const FILE_DIR = 'brands';
+
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'icon',
+        'is_top_brand',
+        'status'
+    ];
      /*
     |--------------------------------------------------------------------------
     | Local Scopes
