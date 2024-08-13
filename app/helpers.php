@@ -247,6 +247,54 @@ if (! function_exists('resizeImage'))
 	}
 }
 
+/**
+ * time ago
+ */
+if (! function_exists('get_time_ago'))
+{
+	function get_time_ago($created_at) {
+        $start_datetime = new DateTime(now()); 
+        $diff = $start_datetime->diff(new DateTime($created_at)); 
+        if($diff->y >= 1) {
+            return $diff->y . ' year ago'; 
+        }
+        
+        if($diff->m >= 1) {
+            return $diff->m . ' month ago';
+        }
+
+        if($diff->d >= 21) {
+            return '3 weeks ago';
+        }
+
+        if($diff->d >= 14) {
+            return '2 weeks ago';
+        }
+
+        if($diff->d >= 7) {
+            return '1 week ago';
+        }
+
+        if($diff->d > 1) {
+            return $diff->d . ' days ago';
+        }
+
+        if($diff->d == 1) {
+            return 'yesterday';
+        }
+
+        if($diff->h < 24){
+            if($diff->h >= 1 ) {
+                return $diff->h . ' hrs ago';
+            }
+            if($diff->i < 60 && $diff->i > 0) {
+                return $diff->i . ' min ago';
+            }
+            return 'now';
+        }
+	}
+}
+
 
 
 

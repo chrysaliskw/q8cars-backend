@@ -22,6 +22,7 @@ return [
             2 => 'Inactive',
         ],
     ],
+
     'brand' => [
         'status' => [
             1 => 'Active',
@@ -32,10 +33,38 @@ return [
             2 => 'No'
         ],
     ],
+    
     'body-type' =>  [
         'status' => [
             1 => 'Active',
             2 => 'Inactive',
+        ],
+    ],
+
+    'review' => [
+        'status' => [
+            1 => 'Verified',
+            2 => 'Submitted',
+            3 => 'Rejected',
+        ],
+    ],
+
+    'car' => [
+        'status' => [
+            1 => 'Active',
+            2 => 'Inactive',
+        ],
+        'fuel_type' => [
+            1 => 'Petrol',
+            2 => 'Diesel',
+            3 => 'CNG',
+            4 => 'Electric',
+        ],
+        'transmission_type' => [
+            1 => 'Automatic',
+            2 => 'Manual',
+            3 => 'Clutchless Manual',
+            4 => 'Automatic -TC',
         ],
     ],
    
