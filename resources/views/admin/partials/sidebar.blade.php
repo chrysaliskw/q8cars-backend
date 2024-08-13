@@ -34,6 +34,11 @@
                     <i class="fa fa-truck"></i><span> Body Types </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.user.index') }}" class="waves-effect">
+                    <i class="fa fa-user"></i><span> Users</span>
+                    </a>
+                </li>
 
              
             </ul>

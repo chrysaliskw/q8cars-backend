@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\BodyTypeController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,10 @@ Route::middleware('auth:admin')->group(function () {
    
     //brands
     Route::resource('brand',BrandController::class);
+    //body types
     Route::resource('body-type',BodyTypeController::class);
+    //users
+    Route::resource('user',UserController::class);
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
