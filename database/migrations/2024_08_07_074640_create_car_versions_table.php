@@ -75,6 +75,7 @@ return new class extends Migration
             $table->string('passenger_airbags');
             $table->string('driver_airbags');
             $table->string('360_view_camera');
+            $table->tinyInteger('body_type');
             $table->timestamps();
         });
     }

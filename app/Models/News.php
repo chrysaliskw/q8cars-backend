@@ -5,38 +5,36 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class News extends Model
 {
     use HasFactory;
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
+    const STATUS_EXPIRED = 3;
 
-    const FILE_DIR = 'brands';
+    const PUBLISHED = 1;
+    const NOT_PUBLISHED = 2;
 
-     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'icon',
-        'is_top_brand',
-        'status'
-    ];
+    const TRENDING = 1;
+    const NOT_TRENDING = 2;
+
     /*
     |--------------------------------------------------------------------------
     | Relationships
     |--------------------------------------------------------------------------
     */
-    public function cars()
+    public function car()
     {
-        return $this->hasMany(Car::class);
+        return $this->belongsTo(Car::class);
     }
-    public function news()
+    public function brand()
     {
-        return $this->hasMany(News::class);  
+        return $this->belongsTo(Brand::class);
+    }
+    public function carVersion()
+    {
+        return $this->belongsTo(CarVersion::class);
     }
      /*
     |--------------------------------------------------------------------------
@@ -46,5 +44,13 @@ class Brand extends Model
     public function scopeActive($query)
     {
         return $query->where('status', self::STATUS_ACTIVE);
+    }
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', self::PUBLISHED);
+    }
+    public function scopeTrending($query)
+    {
+        return $query->where('is_trending', self::TRENDING);
     }
 }
