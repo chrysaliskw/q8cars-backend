@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\RegexAlphaNumSpace;
+use App\Rules\RegexAlphaNumSpaceHyphen;
 
 class BrandRequest extends FormRequest
 {
@@ -35,7 +35,7 @@ class BrandRequest extends FormRequest
     {
      
         return [
-            'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200'],
+            'name' => ['required', new RegexAlphaNumSpaceHyphen, 'string', 'max:200'],
             'icon' => 'required|mimes:jpg,png,jpeg|max:2048',
             'is_top_brand' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
@@ -47,7 +47,7 @@ class BrandRequest extends FormRequest
     private function updateRules()
     {
         return [
-            'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200'],
+            'name' => ['required', new RegexAlphaNumSpaceHyphen, 'string', 'max:200'],
             'icon' => 'nullable|mimes:jpg,png,jpeg|max:2048',
             'is_top_brand' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
