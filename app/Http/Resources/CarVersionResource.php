@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Car;
+use App\Models\Review;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FaqListResource extends JsonResource
+class CarVersionResource extends JsonResource
 {
   /**
    * Transform the resource collection into an array.
@@ -16,13 +18,14 @@ class FaqListResource extends JsonResource
   {
     return [
         'id' => $this->id,
-        'model_name' => $this->car->model_name,
         'brand_id' => $this->car->brand_id,
         'brand_name' => $this->car->brand->name,
-        'question' => $this->question,
-        'answer' => $this->answer,
-        'answer_status' =>$this->answer_status,
-        'sort_order' =>$this->sort_order,
+        'name' => $this->car->model_name,
+        'varient_name' => $this->varient_name,
+        'ex_showroom_price' => 'KWD ' . $this->ex_showroom_price,
+        'on_road_price' => 'KWD ' . $this->on_road_price,
+        'finance_available' => 'KWD '. $this->finance_available,
+        'image' => file_asset('files-car', $this->car->image),
     ];
   }
 }

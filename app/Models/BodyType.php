@@ -22,4 +22,14 @@ class BodyType extends Model
     {
         return $query->where('status', self::STATUS_ACTIVE);
     }
+
+     /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+    public function carVersions()
+    {
+        return $this->hasMany(CarVersion::class);
+    }
 }

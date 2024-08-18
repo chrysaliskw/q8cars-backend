@@ -66,6 +66,42 @@ return [
             3 => 'Clutchless Manual',
             4 => 'Automatic -TC',
         ],
+        'image-section' =>  [
+            1 => 'Exterior',
+            2 => 'Interior',
+            3 => 'Gears, Pedals and Stalks',
+            4 => 'Seat & seat adjustments
+',
+        ],
+    ],
+
+    'news' => [
+        'status' => [
+            1 => 'Active',
+            2 => 'Inactive',
+            3 => 'Expired',
+        ],
+    ],
+
+    'colors' => [
+        1 => 'Cyan',
+        2 => 'Green',
+        3 => 'Carpathian Grey',
+        4 => 'Firenze Red',
+        5 => 'Blue',
+        6 => 'White',
+        7 => 'Black',
+        8 => 'Yellow',
+        9 => 'Red',
+        10 => 'Grey',
+        11 => 'Purple',
+        12 => 'Brown',
+        13 => 'Silver',
+        14 => 'Orange',
+        15 => 'Beige',
+        16 => 'Gold',
+        17 => 'Bronze',
+        18 => 'Copper',
     ],
     'test_drive' => [
         'status' => [

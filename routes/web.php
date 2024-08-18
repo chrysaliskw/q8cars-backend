@@ -10,6 +10,7 @@ Route::get('/', function () {
 
 // File path
 Route::get('/file', [FileController::class, 'index'])->name('file.index');
+Route::get('/file/create', [FileController::class, 'create'])->name('file.create');
 
 Route::name('admin.')->prefix('admin')->group(function () {
     require __DIR__.'/admin.php';
