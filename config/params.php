@@ -67,5 +67,22 @@ return [
             4 => 'Automatic -TC',
         ],
     ],
+    'test_drive' => [
+        'status' => [
+            1 => 'Submitted',
+            2 => 'Ongoing',
+            3 => 'Completed',
+            4 => 'Cancelled',
+            5 => 'Not Verified',
+            6 => 'Rejected',
+        ],
+    ],
+    'offer_request' => [
+        'type' => [
+            1 => 'Offer Request',
+            2 => 'On Road Price Request',
+            3 => 'Emi Request',
+        ],
+    ]
    
 ];

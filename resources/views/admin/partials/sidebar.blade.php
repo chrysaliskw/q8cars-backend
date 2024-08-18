@@ -39,8 +39,21 @@
                     <i class="fa fa-user"></i><span> Users</span>
                     </a>
                 </li>
-
-             
+                <li>
+                    <a href="{{ route('admin.test-ride-requests.index') }}" class="waves-effect">
+                    <i class="fa fa-taxi"></i><span> Test Ride Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.offer-requests.index') }}" class="waves-effect">
+                    <i class="fa fa-gift"></i><span> Offer Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.reviews.index') }}" class="waves-effect">
+                    <i class="fa fa-comment"></i><span> Reviews</span>
+                    </a>
+                </li>
             </ul>
             <div class="clearfix"></div>
         </div>

@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\BodyTypeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\TestRideRequestController;
+use App\Http\Controllers\Admin\OfferRequestController;
+use App\Http\Controllers\Admin\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +51,16 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('body-type',BodyTypeController::class);
     //users
     Route::resource('user',UserController::class);
+    //test ride requests
+    Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
+    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index','show']);
+
+    //offer request
+    Route::resource('offer-requests', OfferRequestController::class)->only(['index','show']);
+    //review
+    Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::resource('reviews', ReviewController::class)->only(['index','show']);
+   
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

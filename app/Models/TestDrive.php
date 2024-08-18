@@ -14,4 +14,14 @@ class TestDrive extends Model
     const STATUS_COMPLETED = 3;
     const STATUS_CANCELLED = 4;
     const STATUS_NOT_VERIFIED = 5;
+    const STATUS_REJECTED = 6;
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withTrashed();
+    }
 }
