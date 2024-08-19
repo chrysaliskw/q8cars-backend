@@ -6,7 +6,7 @@ use App\Models\Car;
 use App\Models\Review;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CarimageResource extends JsonResource
+class CarImageResource extends JsonResource
 {
   /**
    * Transform the resource collection into an array.
