@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\User\HomeController;
 use App\Http\Controllers\Api\User\JustLaunchController;
 use App\Http\Controllers\Api\User\OfferRequestController;
 use App\Http\Controllers\Api\User\SubmitReviewController;
-
+use App\Http\Controllers\Api\User\AccountDeleteController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -47,6 +47,8 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('homes', HomeController::class);
     Route::get('just-launch/cars', [JustLaunchController::class, 'getJustLaunchCars']);
     Route::get('just-launch', [JustLaunchController::class, 'index']);
+//delete account
+    Route::get('/account-delete', AccountDeleteController::class);
    
 });
 
