@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\DataGrids\Admin\BrandDataGrid;
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
 use Exception;
-use App\Http\Requests\Admin\BrandRequest;
-use App\Services\Admin\BrandService;
-use Illuminate\Support\Facades\DB;
+use App\Models\Brand;
+use Illuminate\Http\Request;
 use App\Jobs\JunkFileDeleteJob;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Services\Admin\BrandService;
+use App\DataGrids\Admin\BrandDataGrid;
+use App\Http\Requests\Admin\BrandRequest;
 
 class BrandController extends Controller
 {
@@ -119,6 +120,32 @@ class BrandController extends Controller
         }
         return redirect()->route('admin.brand.index')->with('success', 'Brand deleted successfully!');
 
+    }
+
+     /**
+     * Search endpoint for select2 dropdown
+     * 
+     * @param Request $request
+     * @return array
+     */
+    public function select(Request $request)
+    {
+        $page = $request->query('page');
+        $term = $request->query('search');
+        $countryId = $request->query('country_id');
+        $limit = 100;
+        $offset = ($page - 1) * $limit;
+
+        $query = Brand::where('name', 'like', "%$term%")->active();
+        if ($countryId) {
+            $query->where('country_id', $countryId);
+        }
+        $cities = $query->select(['id', 'name AS text'])->offset($offset)->limit($limit)->get()->toArray();
+
+        $response['results'] = $cities;
+        $response['pagination'] = ['more' => !empty($cities) ?? false];
+        
+        return $response;
     }
 
 }

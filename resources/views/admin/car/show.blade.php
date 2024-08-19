@@ -2,7 +2,7 @@
 
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ route('admin.brand.index') }}">Cars</a></li>
+        <li><a href="{{ route('admin.car.index') }}">Cars</a></li>
         <li class="active">View</li>
     </x-slot>
     

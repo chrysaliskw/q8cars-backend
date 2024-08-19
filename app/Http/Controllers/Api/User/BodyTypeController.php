@@ -13,7 +13,13 @@ class BodyTypeController extends ApiBaseController
     
 public function __invoke(Request $request)
     {
-        $bodyTypes = BodyType::active()->select(['id', 'name', 'icon'])->get();
+        $bodyTypes = null;
+        if($request->with_icon == 1) {
+            $bodyTypes = BodyType::active()->select(['id', 'name', 'icon'])->get();
+        }else {
+            $bodyTypes = BodyType::active()->select(['id', 'name'])->get();
+        }
+        
         return $this->success([
             'data' => $bodyTypes,
             'common_data' => ['base_img_url' => file_asset('files-body_type')]

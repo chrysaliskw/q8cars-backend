@@ -46,6 +46,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/profile/{profile}', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
+    // Select2
+    Route::get('brand/select', [BrandController::class, 'select'])->name('brand.select');
+
     Route::resources([
         'brand' => BrandController::class,          // Brands
         'body-type' => BodyTypeController::class,   // Body Type

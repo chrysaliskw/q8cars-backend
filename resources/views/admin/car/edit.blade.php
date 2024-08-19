@@ -12,6 +12,12 @@
             class="form" enctype="multipart/form-data">
             <div class="row">
 
+                <div class="col-md-4">
+                    <x-form-select field="brand_id" field-name="Brand" id="brand_id">
+                    </x-form-select>
+                    <input type="hidden" id="brand_id_text" name="brand_id_text" />
+                    <span class="error" role="alert" id="brand_id_error" ></span>
+                </div>
                 <div class="col-md-3">
                     <x-form-input type="text" field="model_name" field-name="Model Name" value="{{ $car->model_name  ?? old('model_name')}}"></x-form-input>
                 </div>
@@ -55,6 +61,36 @@
     </x-crud-update>
     
     <x-slot name="scripts">
+        <script type="text/javascript">
+            $('#brand_id').select2({
+                
+                placeholder: "Search brand",
+                minimumInputLength: 1,
+                ajax: {
+                    url: "{{ route('admin.brand.select') }}",
+                    dataType: 'json',
+                    data: function(params) {
+                        var query = {
+                            search: params.term,
+                            page: params.page || 1,
+                        }
+
+                        // Query parameters will be ?search=[term]&page=[page]
+                        return query;
+                    }
+                }
+            });
+            $('#brand_id').on('select2:select', function (e) {
+                const data = e.params.data;
+                $("#brand_id_text").val(data.text);
+            });
+            if('{!! $currentBrand !!}') {
+                const currentBrand = JSON.parse('{!! $currentBrand !!}');
+                const brandOption = new Option(currentBrand.text, currentBrand.id, true, true);
+                $('#brand_id').append(brandOption).trigger('change');
+            }
+        </script>
+
        
     </x-slot>
     

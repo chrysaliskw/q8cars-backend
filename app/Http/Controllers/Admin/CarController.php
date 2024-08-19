@@ -49,7 +49,11 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        return view('admin.car.edit', compact('car'));
+        $currentBrand = json_encode([
+            'id' => $car->brand_id,
+            'text' => $car->brand->name
+        ]);
+        return view('admin.car.edit', compact('car', 'currentBrand'));
     }
 
     /**
@@ -62,6 +66,7 @@ class CarController extends Controller
             if($request->hasfile('image')){
                 $request->image->store(Car::FILE_DIR);
                 $car->image = $request->image->hashName();  
+                $car->brand_id = $request->brand_id;  
                 $car->save();
            }
              
