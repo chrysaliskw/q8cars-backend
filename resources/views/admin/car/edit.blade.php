@@ -19,7 +19,7 @@
                     <span class="error" role="alert" id="brand_id_error" ></span>
                 </div>
                 <div class="col-md-3">
-                    <x-form-input type="text" field="model_name" field-name="Model Name" value="{{ $car->model_name  ?? old('model_name')}}"></x-form-input>
+                    <x-form-input type="text" field="model_name" field-name="Model Name" value="{{ $car->brand_id ?? old('brand_id')}}"></x-form-input>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">

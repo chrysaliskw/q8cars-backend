@@ -22,6 +22,15 @@ class Car extends Model
 
     const FILE_DIR = 'cars';
 
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'brand_id',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | Relationships
