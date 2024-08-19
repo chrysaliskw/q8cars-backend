@@ -30,15 +30,21 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.body-type.index') }}" class="waves-effect">
-                    <i class="fa fa-truck"></i><span> Body Types </span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('admin.user.index') }}" class="waves-effect">
                     <i class="fa fa-user"></i><span> Users</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.body-type.index') }}" class="waves-effect">
+                    <i class="fa fa-truck"></i><span> Body Types </span>
+                    </a>
+                </li>
+                </li>
+                    <a href="{{ route('admin.car.index') }}" class="waves-effect">
+                    <i class="fa fa-car"></i><span> Cars</span>
+                    </a>
+                </li>
+               
                 <li>
                     <a href="{{ route('admin.test-ride-requests.index') }}" class="waves-effect">
                     <i class="fa fa-taxi"></i><span> Test Ride Requests</span>
@@ -54,6 +60,9 @@
                     <i class="fa fa-comment"></i><span> Reviews</span>
                     </a>
                 </li>
+              
+
+             
             </ul>
             <div class="clearfix"></div>
         </div>
