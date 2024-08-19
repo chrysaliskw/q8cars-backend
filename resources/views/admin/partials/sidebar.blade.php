@@ -39,9 +39,9 @@
                     <i class="fa fa-truck"></i><span> Body Types </span>
                     </a>
                 </li>
-                </li>
+                <li>
                     <a href="{{ route('admin.car.index') }}" class="waves-effect">
-                    <i class="fa fa-car"></i><span> Cars</span>
+                    <i class="fa fa-car"></i><span> Cars </span>
                     </a>
                 </li>
                

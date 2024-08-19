@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use App\DataGrids\Admin\CarDataGrid;
@@ -48,7 +49,7 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        //
+        return view('admin.car.edit', compact('car'));
     }
 
     /**
@@ -56,7 +57,20 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        //
+        try 
+        {
+            if($request->hasfile('image')){
+                $request->image->store(Car::FILE_DIR);
+                $car->image = $request->image->hashName();  
+                $car->save();
+           }
+             
+        }
+        catch (Exception $ex) {
+            logger($ex);
+            return back()->with('error', __('app.error'))->withInput();
+        }
+        return redirect()->route('admin.car.show', $car)->with('success', 'Car updated successfully!');
     }
 
     /**
