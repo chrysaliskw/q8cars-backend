@@ -66,9 +66,10 @@ class CarController extends Controller
             if($request->hasfile('image')){
                 $request->image->store(Car::FILE_DIR);
                 $car->image = $request->image->hashName();  
-                $car->brand_id = $request->brand_id;  
-                $car->save();
+               
            }
+           $car->brand_id = $request->brand_id;  
+           $car->save();
              
         }
         catch (Exception $ex) {
