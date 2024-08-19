@@ -18,7 +18,7 @@ use App\Http\Resources\NewsResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ReviewResource;
 use App\Http\Resources\FaqListResource;
-use App\Http\Resources\CarimageResource;
+use App\Http\Resources\CarImageResource;
 use App\Http\Resources\CarDetailResource;
 use App\Services\Api\User\Car\FilterService;
 use App\Http\Controllers\Api\ApiBaseController;
