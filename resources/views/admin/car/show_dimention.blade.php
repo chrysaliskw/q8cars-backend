@@ -5,25 +5,25 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Body Type</label>
                     <div class="col-sm-6">
-                               {{ $car->engine_type}}
+                               {{ config('params.body-types')[$car->body_type]}}
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4 control-label">Length(mm)</label>
+                    <label class="col-sm-4 control-label">Length</label>
                     <div class="col-sm-8">
-                                {{ $car->no_of_cylinders}}
+                                {{ $car->length}} mm
                     </div>
                 </div>  
                 <div class="form-group row">
-                    <label class="col-sm-4 control-label">Width(mm)</label>
+                    <label class="col-sm-4 control-label">Width</label>
                     <div class="col-sm-8">
-                                {{ $car->valves_per_cylinder}} cc
+                                {{ $car->width}} mm
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4 control-label">Height(mm)</label>
+                    <label class="col-sm-4 control-label">Height</label>
                     <div class="col-sm-8">
-                                {{ $car->bore_stroke }}
+                                {{ $car->height }} mm
                     </div>
                 </div>
              

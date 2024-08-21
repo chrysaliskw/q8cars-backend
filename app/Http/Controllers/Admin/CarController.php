@@ -68,7 +68,9 @@ class CarController extends Controller
             $transmissionTypes = config('params.car.transmission_type')[$transmissionType] . " " .$transmissionTypes;
         }
 
-        return view('admin.car.show', compact('car', 'fuelTypes', 'transmissionTypes'));
+        $carVarient = $car->baseVarient;
+
+        return view('admin.car.show', compact('car', 'fuelTypes', 'transmissionTypes', 'carVarient'));
     }
 
     /**

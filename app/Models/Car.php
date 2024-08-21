@@ -46,6 +46,10 @@ class Car extends Model
     {
         return $this->hasMany(CarVersion::class);  
     }
+    public function baseVarient()
+    {
+        return $this->hasOne(CarVersion::class)->where('is_base_varient', CarVersion::BASE_VARIENT);  
+    }
     public function manualVersion()
     {
         return $this->hasOne(CarVersion::class)->where('transmission_type', Car::TR_MANUAL)->first();  

@@ -5,49 +5,49 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Engine Type</label>
                     <div class="col-sm-6">
-                               {{ $car->engine_type}}
+                               {{ $carVarient->engine_type}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">No.of cylinders</label>
                     <div class="col-sm-8">
-                                {{ $car->no_of_cylinders}}
+                                {{ $carVarient->no_of_cylinders}}
                     </div>
                 </div>  
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Valves per cylinder</label>
                     <div class="col-sm-8">
-                                {{ $car->valves_per_cylinder}} cc
+                                {{ $carVarient->valves_per_cylinder}} 
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Bore x Stroke</label>
                     <div class="col-sm-8">
-                                {{ $car->bore_stroke }}
+                                {{ $carVarient->bore_stroke }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Compression Ratio</label>
                     <div class="col-sm-8">
-                                {{ $car->compression_ratio}} 
+                                {{ $carVarient->compression_ratio}} 
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Super charge</label>
                     <div class="col-sm-8">
-                                {{ $car->super_charge}}
+                                {{ $carVarient->super_charge}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Transmission Type</label>
                     <div class="col-sm-8">
-                                {{ $car->transmission_type}} 
+                                {{ config('params.car.transmission_type')[$carVarient->transmission_type]}} 
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Engine Capacity</label>
                     <div class="col-sm-8">
-                                {{ $car->engine_capcity}} 
+                                {{ $carVarient->engine_capcity}} 
                     </div>
                 </div>
             </div>

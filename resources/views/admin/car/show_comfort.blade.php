@@ -5,34 +5,34 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Seat Upholstery</label>
                     <div class="col-sm-6">
-                               {{ $car->engine_type}}
+                               {{ $carVarient->seat_pholstery}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Seat Capacity</label>
                     <div class="col-sm-8">
-                                {{ $car->no_of_cylinders}}
+                                {{ $carVarient->seat_capacity}}
                     </div>
                 </div>  
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Air Conditioning</label>
                     <div class="col-sm-8">
-                                {{ $car->valves_per_cylinder}} cc
+                                {{ $carVarient->air_condition == 1 }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Wheel Covers</label>
                     <div class="col-sm-8">
-                                {{ $car->bore_stroke }}
+                                {{ $carVarient->wheel_covers }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">360 View Camera</label>
                     <div class="col-sm-8">
-                                {{ $car->compression_ratio}} 
+                                {{ $carVarient->360_view_camera}} 
                     </div>
                 </div>
-            d
+            
             </div>
         </div>
     </div>

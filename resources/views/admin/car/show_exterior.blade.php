@@ -5,31 +5,31 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">LED Taillights</label>
                     <div class="col-sm-6">
-                               {{ $car->engine_type}}
+                               {{ $carVarient->LED_Taillights}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Automatic Headlamps</label>
                     <div class="col-sm-8">
-                                {{ $car->no_of_cylinders}}
+                                {{ $carVarient->Automatic_Headlamps}}
                     </div>
                 </div>  
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">LED DRLs</label>
                     <div class="col-sm-8">
-                                {{ $car->valves_per_cylinder}} cc
+                                {{ $carVarient->LED_DRL}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Halogen Headlamps</label>
                     <div class="col-sm-8">
-                                {{ $car->bore_stroke }}
+                                {{ $carVarient->Halogen_Headlamps }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">LED Headlights</label>
                     <div class="col-sm-8">
-                                {{ $car->compression_ratio}} 
+                                {{ $carVarient->LED_Headlights}} 
                     </div>
                 </div>
             

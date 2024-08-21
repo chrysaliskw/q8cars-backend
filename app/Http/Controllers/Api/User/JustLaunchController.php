@@ -14,7 +14,15 @@ class JustLaunchController extends ApiBaseController
 {
     public function index(Request $request)
     {
-        $result = Car::find($request->id);
+        $result = Car::where('is_just_launched', Car::JUST_LAUNCHED)
+                    ->when($request->brand_id, function($query, $value){
+                        $query->where('cars.brand_id', $value);
+                    })
+                    ->first();
+        if($request->id) {
+            $result = Car::find($request->id);
+        }
+     
         $data['id'] = $result->id;
         $data['brand_id'] = $result->brand_id;
         $data['model_name'] = $result->model_name;

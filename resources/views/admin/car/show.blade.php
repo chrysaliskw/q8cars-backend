@@ -339,13 +339,7 @@
                             <span class="d-none d-sm-block">Exterior</span>
                         </a>
                     </li>
-                    <li class="nav-item tab">
-                        <a class="nav-link" id="exterior-tab-2" data-toggle="tab" href="#exterior-2" role="tab" 
-                            onclick="onTab('exterior')" aria-controls="exterior-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                            <span class="d-none d-sm-block">Exterior</span>
-                        </a>
-                    </li>
+                 
                     <li class="nav-item tab">
                         <a class="nav-link" id="safety-tab-2" data-toggle="tab" href="#safety-2" role="tab" 
                             onclick="onTab('safety')" aria-controls="safety-2" aria-selected="false">
@@ -369,13 +363,13 @@
                         @include('admin.car.show_engine_types')
                     </div>
                     <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
-                        @include('admin.car.show_fuels')
+                        @include('admin.car.show_fuel')
                     </div>
                     <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
                         @include('admin.car.show_suspension')
                     </div>
                     <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
-                        @include('admin.car.show_diemention')
+                        @include('admin.car.show_dimention')
                     </div>
                     <div class="tab-pane" id="comfort-2" role="tabpanel" aria-labelledby="comfort-tab-2">
                         @include('admin.car.show_interior')
