@@ -119,6 +119,13 @@ return [
             2 => 'On Road Price Request',
             3 => 'Emi Request',
         ],
-    ]
+    ],
+    'professions' => [
+        1 => 'Doctor',
+        2 => 'Engineer',
+        3 => 'Designer',
+        4 => 'Architect',
+        5 => 'Others',
+    ],
    
 ];

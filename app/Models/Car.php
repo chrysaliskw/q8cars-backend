@@ -22,6 +22,8 @@ class Car extends Model
 
     const FILE_DIR = 'cars';
 
+    const MAX_NUM_IMAGES = 20;
+
      /**
      * The attributes that are mass assignable.
      *

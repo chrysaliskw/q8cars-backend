@@ -48,6 +48,7 @@ Route::middleware('auth:admin')->group(function () {
 
     // Select2
     Route::get('brand/select', [BrandController::class, 'select'])->name('brand.select');
+    Route::get('body-type/select', [BodyTypeController::class, 'select'])->name('body-type.select');
 
     Route::resources([
         'brand' => BrandController::class,          // Brands

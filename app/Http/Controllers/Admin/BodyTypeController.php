@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\DataGrids\Admin\BodyTypeDataGrid;
-use App\Http\Controllers\Controller;
-use App\Models\BodyType;
 use Exception;
-use App\Http\Requests\Admin\BodyTypeRequest;
-use App\Services\Admin\BodyTypeService;
-use Illuminate\Support\Facades\DB;
+use App\Models\BodyType;
+use Illuminate\Http\Request;
 use App\Jobs\JunkFileDeleteJob;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Services\Admin\BodyTypeService;
+use App\DataGrids\Admin\BodyTypeDataGrid;
+use App\Http\Requests\Admin\BodyTypeRequest;
 
 class BodyTypeController extends Controller
 {
@@ -119,5 +120,30 @@ class BodyTypeController extends Controller
         return redirect()->route('admin.body-type.index')->with('success', 'Body Type deleted successfully!');
 
     }
+
+     /**
+     * Search endpoint for select2 dropdown
+     * 
+     * @param Request $request
+     * @return array
+     */
+    public function select(Request $request)
+    {
+        $page = $request->query('page');
+        $term = $request->query('search');
+       
+        $limit = 100;
+        $offset = ($page - 1) * $limit;
+
+        $query = BodyType::where('name', 'like', "%$term%")->active();
+      
+        $cities = $query->select(['id', 'name AS text'])->offset($offset)->limit($limit)->get()->toArray();
+
+        $response['results'] = $cities;
+        $response['pagination'] = ['more' => !empty($cities) ?? false];
+        
+        return $response;
+    }
+
 
 }

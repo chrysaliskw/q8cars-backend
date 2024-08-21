@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Exception;
 use App\Models\Car;
+use App\Models\CarImage;
 use Illuminate\Http\Request;
+use App\Services\Admin\CarService;
 use App\DataGrids\Admin\CarDataGrid;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CarRequest;
 
 class CarController extends Controller
 {
@@ -23,17 +26,27 @@ class CarController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('admin.car.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CarRequest $request)
     {
-        //
+        try 
+        {
+            $service = new CarService($request->validate());
+            $car = $service->handle();
+        }
+        catch (Exception $ex) {
+            logger($ex);
+            return back()->with('error', __('app.error'))->withInput();
+        }
+        return redirect()->route('admin.car.show', $car)->with('success', 'Car created successfully!');
+
     }
 
     /**
@@ -41,7 +54,21 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        return view('admin.car.show', compact('car'));
+        $fuel = json_decode($car->fuel_types, true);
+        $newArray = array_combine(range(1, count($fuel)), array_values($fuel));
+        $fuelTypes = " ";
+        foreach($newArray as $fuelType) {
+            $fuelTypes = config('params.car.fuel_type')[$fuelType] . " " .$fuelTypes;
+        }
+
+        $transmission = json_decode($car->transmission_type, true);
+        $newAtransmissionarray = array_combine(range(1, count($transmission)), array_values($transmission));
+        $transmissionTypes = " ";
+        foreach($newAtransmissionarray as $transmissionType) {
+            $transmissionTypes = config('params.car.transmission_type')[$transmissionType] . " " .$transmissionTypes;
+        }
+
+        return view('admin.car.show', compact('car', 'fuelTypes', 'transmissionTypes'));
     }
 
     /**

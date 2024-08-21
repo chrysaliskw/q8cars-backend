@@ -51,6 +51,42 @@
                                         alt='brand-img' class='img-thumbnail' width='100' height='150'>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Ex-Showroom Price</label>
+                                <div class="col-sm-8">
+                                    KWD {{ $car->ex_showroom_price }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">On Road Price</label>
+                                <div class="col-sm-8">
+                                    KWD {{ $car->on_road_price }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Finance Available</label>
+                                <div class="col-sm-8">
+                                    KWD {{ $car->finance_available }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Insurance</label>
+                                <div class="col-sm-8">
+                                    KWD {{ $car->insurance }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Service Charge</label>
+                                <div class="col-sm-8">
+                                    KWD {{ $car->service_charge }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Safety ratings</label>
+                                <div class="col-sm-8">
+                                    {{ $car->safety_ratings}}
+                                </div>
+                            </div>
 
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Status</label>
@@ -80,6 +116,148 @@
             </div>
         </div>
     </x-card>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-border card-primary">
+                <div class="card-header"> 
+                    <div class="m-b-30">
+                        <h5>Key Features</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Air Condition</label>
+                            <div class="col-sm-8">
+                                {{ ($car->air_condition == 1) ? 'YES' : 'NO' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Length</label>
+                            <div class="col-sm-8">
+                                {{ $car->length }} mm
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Width</label>
+                            <div class="col-sm-8">
+                                {{ $car->width }} mm
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Height</label>
+                            <div class="col-sm-8">
+                                {{ $car->height }} mm
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Boot Space</label>
+                            <div class="col-sm-8">
+                                {{ $car->boot_space }} L
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Power Windows</label>
+                            <div class="col-sm-8">
+                                {{ $car->power_windows }} 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Fuel Tank Capacity</label>
+                            <div class="col-sm-8">
+                                {{ $car->fuel_tank_capacity }} L
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Seat Upholstery</label>
+                            <div class="col-sm-8">
+                                {{ $car->seat_upholstery }} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-border card-primary">
+                <div class="card-header"> 
+                    <div class="m-b-30">
+                        <h5>Key Specifications</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Fuel Types</label>
+                            <div class="col-sm-8">
+                               {{ $fuelTypes}}
+                            </div>
+                        </div>
+              
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Transmission Types</label>
+                            <div class="col-sm-8">
+                                {{ $transmissionTypes}}
+                            </div>
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Engine Capacity</label>
+                            <div class="col-sm-8">
+                                {{ $car->engine_capacity}} cc
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Power & Torque</label>
+                            <div class="col-sm-8">
+                                {{ $car->power}} Bhp  {{ $car->torque}} rpm
+                            </div>
+                        </div>
+                      
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Drive Train</label>
+                            <div class="col-sm-8">
+                                {{ $car->drive_train}} 
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Acceleration</label>
+                            <div class="col-sm-8">
+                                {{ $car->acceleration}} sec
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Top Speed</label>
+                            <div class="col-sm-8">
+                                {{ $car->top_speed}} kmph
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Avg. Mileage</label>
+                            <div class="col-sm-8">
+                                {{ $car->mileage}} klmp
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     
 </x-admin-layout>
 

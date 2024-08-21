@@ -350,7 +350,7 @@ File: Main Style scss
 }
 
 .card-border.card-primary .card-header {
-  border-color: #5e35b1 !important;
+  border-color: rgb(208, 35, 38) !important;
 }
 
 .card-border.card-success .card-header {
@@ -2333,8 +2333,8 @@ code {
 .pagination>.active>span:hover,
 .pagination>.active>a:focus,
 .pagination>.active>span:focus {
-  background-color: #5e35b1 !important;
-  border-color: #5e35b1 !important;
+  background-color: rgb(208, 35, 38) !important;
+  border-color: rgb(208, 35, 38) !important;
 }
 
 .tabs {
@@ -2368,12 +2368,12 @@ code {
 }
 
 .tabs li.tab a.active {
-  color: #5e35b1 !important;
-  border-bottom: 2px solid #5e35b1 !important;
+  color: rgb(208, 35, 38) !important;
+  border-bottom: 2px solid rgb(208, 35, 38) !important;
 }
 
 .tabs .indicator {
-  background-color: #5e35b1;
+  background-color: rgb(208, 35, 38);
   bottom: 0;
   height: 2px;
   position: absolute;
