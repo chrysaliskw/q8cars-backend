@@ -30,6 +30,9 @@ Route::post('/otps', OtpController::class);
  * User Routes which can be accessed by guest user also 
  */ 
 Route::middleware('auth:user_api')->group(function () {
+    // User Profile 
+    Route::post('profile-image-updates', [ProfileController::class, 'picture']);
+    Route::apiResource('profiles', ProfileController::class)->only(['index', 'store']);
     //test drive request
     Route::post('/test-drive-send-otp',[TestDriveRequestController::class, 'sendOtp']);
     Route::post('/test-drive-otp-verify',[TestDriveRequestController::class,'verifyOtp']);
@@ -47,8 +50,9 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('homes', HomeController::class);
     Route::get('just-launch/cars', [JustLaunchController::class, 'getJustLaunchCars']);
     Route::get('just-launch', [JustLaunchController::class, 'index']);
-//delete account
+    //delete account
     Route::get('/account-delete', AccountDeleteController::class);
+    
    
 });
 

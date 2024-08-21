@@ -6,7 +6,29 @@
         <li class="active">View</li>
     </x-slot>
     
-   <x-card title="">
+    <style>
+        .nav-tabs {
+            display: flex;
+            flex-direction: column;
+            border-bottom: none;
+           
+        }
+
+        .nav-item {
+            width: 100%;
+           
+        }
+
+        .nav-link {
+            text-align: left;
+            border-radius: 0;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            
+        }
+    </style>
+
+    <x-card title="">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-12">
                 <div class="card card-border card-primary">
@@ -257,7 +279,147 @@
             </div>
         </div>
     </div>
-    
-    
+
+    <div class="card card-border card-primary">
+    <div class="card-header"> 
+        <div class="m-b-30">
+            <h5>Other Specifications</h5>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
+                    <li class="nav-item tab">
+                        <a class="nav-link active" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab" 
+                            onclick="onTab('contact')" aria-controls="contact-2" aria-selected="true">
+                            <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
+                            <span class="d-none d-sm-block">Engine and Transmission</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab" >
+                        <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
+                            onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                            <span class="d-none d-sm-block">Fuel & Performance</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab" >
+                        <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab" 
+                            onclick="onTab('colors')" aria-controls="colors-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                            <span class="d-none d-sm-block">Suspension, Steering & Brakes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab">
+                        <a class="nav-link" id="product_service-tab-2" data-toggle="tab" href="#product_service-2" role="tab" 
+                            onclick="onTab('product')" aria-controls="product_service-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Dimensions & Capacity</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab">
+                        <a class="nav-link" id="comfort-tab-2" data-toggle="tab" href="#comfort-2" role="tab" 
+                            onclick="onTab('comfort')" aria-controls="comfort-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Comfort & Convenience</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab">
+                        <a class="nav-link" id="interior-tab-2" data-toggle="tab" href="#interior-2" role="tab" 
+                            onclick="onTab('interior')" aria-controls="interior-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Interior</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab">
+                        <a class="nav-link" id="exterior-tab-2" data-toggle="tab" href="#exterior-2" role="tab" 
+                            onclick="onTab('exterior')" aria-controls="exterior-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Exterior</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab">
+                        <a class="nav-link" id="exterior-tab-2" data-toggle="tab" href="#exterior-2" role="tab" 
+                            onclick="onTab('exterior')" aria-controls="exterior-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Exterior</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab">
+                        <a class="nav-link" id="safety-tab-2" data-toggle="tab" href="#safety-2" role="tab" 
+                            onclick="onTab('safety')" aria-controls="safety-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Safety</span>
+                        </a>
+                    </li>
+                    <li class="nav-item tab">
+                        <a class="nav-link" id="communication-tab-2" data-toggle="tab" href="#communication-2" role="tab" 
+                            onclick="onTab('communication')" aria-controls="communication-2" aria-selected="false">
+                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Entertainment & Communication</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-9">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="contact-2" role="tabpanel" aria-labelledby="contact-tab-2">
+                        @include('admin.car.show_engine_types')
+                    </div>
+                    <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
+                        @include('admin.car.show_fuels')
+                    </div>
+                    <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
+                        @include('admin.car.show_suspension')
+                    </div>
+                    <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
+                        @include('admin.car.show_diemention')
+                    </div>
+                    <div class="tab-pane" id="comfort-2" role="tabpanel" aria-labelledby="comfort-tab-2">
+                        @include('admin.car.show_interior')
+                    </div>
+                    <div class="tab-pane" id="interior-2" role="tabpanel" aria-labelledby="interior-tab-2">
+                        @include('admin.car.show_exterior')
+                    </div>
+                    <div class="tab-pane" id="exterior-2" role="tabpanel" aria-labelledby="exterior-tab-2">
+                        @include('admin.car.show_safety')
+                    </div>
+                    <div class="tab-pane" id="safety-2" role="tabpanel" aria-labelledby="safety-tab-2">
+                        @include('admin.car.show_comfort')
+                    </div>
+                    <div class="tab-pane" id="communication-2" role="tabpanel" aria-labelledby="communication-tab-2">
+                        @include('admin.car.show_communication')
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+                </div>
+                <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
+                    
+                </div>
+                <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
+                    
+                </div>
+                <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
 </x-admin-layout>
 
