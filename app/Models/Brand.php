@@ -12,6 +12,12 @@ class Brand extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
 
+    const TOP_BRAND = 1;
+    const NOT_TOP_BRAND = 2;
+
+    const RECENT_PURCHASED = 1;
+    const NOT_RECENT_PURCHASED = 2;
+
     const FILE_DIR = 'brands';
 
      /**

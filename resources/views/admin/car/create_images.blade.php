@@ -12,13 +12,12 @@
     </div>
    
 </div>
+<label for="image" class="col-md-2 control-label">
+    Additional Images      
+</label>
 @for($key = 0; $key < 20; $key++)
     <div class="form-group row">
-        <label for="image" class="col-md-2 control-label">
-            @if ($key == 0)
-                Additional Images
-            @endif
-        </label>
+       
         
         <div class="col-md-3">
             <div class="form-group">

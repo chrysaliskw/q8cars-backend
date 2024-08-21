@@ -70,8 +70,7 @@ return [
             1 => 'Exterior',
             2 => 'Interior',
             3 => 'Gears, Pedals and Stalks',
-            4 => 'Seat & seat adjustments
-',
+            4 => 'Seat & seat adjustments',
         ],
     ],
 

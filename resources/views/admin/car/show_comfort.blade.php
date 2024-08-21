@@ -29,7 +29,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">360 View Camera</label>
                     <div class="col-sm-8">
-                                {{ $carVarient->360_view_camera}} 
+                               
                     </div>
                 </div>
             

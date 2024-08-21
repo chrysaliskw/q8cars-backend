@@ -23,8 +23,14 @@ public function __invoke(Request $request)
                     $query->where('cars.is_just_launched', Car::JUST_LAUNCHED);
                 });
             })
+            ->when($request->is_recently_purchased, function($query, $value) {
+                $query->where('brands.is_recently_purchased', Brand::RECENT_PURCHASED);
+            })
+            ->when($request->is_top_brand, function($query, $value) {
+                $query->where('brands.is_top_brand', Brand::TOP_BRAND);
+            })
             ->paginate(50);
-         BrandResource::collection($brands);
+        BrandResource::collection($brands);
         return $this->success(['data' => $brands], 'Brand listing!', Response::HTTP_OK);
     }
 }

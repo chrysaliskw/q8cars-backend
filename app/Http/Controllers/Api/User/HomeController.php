@@ -13,6 +13,7 @@ use App\Http\Resources\NewsResource;
 use App\Http\Resources\BrandResource;
 use App\Http\Resources\CarVersionResource;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Models\CarComparisonList;
 
 class HomeController extends ApiBaseController
 {
@@ -31,17 +32,34 @@ class HomeController extends ApiBaseController
 
     private function getPopularCars()
     {
-        $result = Car::active()->orderBy('view_count', 'desc')->limit(20)->get();
+        $result = Car::active()->orderBy('view_count', 'desc')->limit(10)->get();
         return CarResource::collection($result);
     }
 
     private function getCompareCars()
     {
-        $result = CarVersion::whereHas('car', function($query) {
-                        $query->active();
-                    })
-                    ->orderBy('id', 'desc')->limit(20)->get();
-        return CarVersionResource::collection($result);
+        $lists = CarComparisonList::where('page', CarComparisonList::HOME_PAGE)->get();
+        $result = null;
+
+
+        $i = 0;
+        foreach($lists as $list) {
+            $car1 = new CarVersionResource(CarVersion::find($list->car_1_id));
+            if($list->car_version_1_id) {
+                $car1 = new CarVersionResource(CarVersion::find($list->car_version_1_id));
+            }
+
+            $car2 = new CarVersionResource(CarVersion::find($list->car_2_id));
+            if($list->car_version_2_id) {
+                $car2 = new CarVersionResource(CarVersion::find($list->car_version_2_id));
+            }
+
+            $result[$i]['car_1'] = $car1;
+            $result[$i]['car_2'] = $car2;
+            $i++;
+        }
+
+        return $result;
     }
 
     private function getTrending()

@@ -5,13 +5,13 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Fuel Type</label>
                     <div class="col-sm-6">
-                               {{ $carVarient->fuel_type}}
+                               {{ config('params.car.fuel_type')[$carVarient->fuel_type]}}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Mileage</label>
                     <div class="col-sm-8">
-                                {{ $carVarient->mileage}}
+                                {{ $carVarient->mileage}} Kmpl
                     </div>
                 </div>  
                 <div class="form-group row">

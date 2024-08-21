@@ -281,139 +281,284 @@
     </div>
 
     <div class="card card-border card-primary">
-    <div class="card-header"> 
-        <div class="m-b-30">
-            <h5>Other Specifications</h5>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-3">
-                <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
-                    <li class="nav-item tab">
-                        <a class="nav-link active" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab" 
-                            onclick="onTab('contact')" aria-controls="contact-2" aria-selected="true">
-                            <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
-                            <span class="d-none d-sm-block">Engine and Transmission</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab" >
-                        <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
-                            onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
-                            <span class="d-none d-sm-block">Fuel & Performance</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab" >
-                        <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab" 
-                            onclick="onTab('colors')" aria-controls="colors-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
-                            <span class="d-none d-sm-block">Suspension, Steering & Brakes</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab">
-                        <a class="nav-link" id="product_service-tab-2" data-toggle="tab" href="#product_service-2" role="tab" 
-                            onclick="onTab('product')" aria-controls="product_service-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                            <span class="d-none d-sm-block">Dimensions & Capacity</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab">
-                        <a class="nav-link" id="comfort-tab-2" data-toggle="tab" href="#comfort-2" role="tab" 
-                            onclick="onTab('comfort')" aria-controls="comfort-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                            <span class="d-none d-sm-block">Comfort & Convenience</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab">
-                        <a class="nav-link" id="interior-tab-2" data-toggle="tab" href="#interior-2" role="tab" 
-                            onclick="onTab('interior')" aria-controls="interior-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                            <span class="d-none d-sm-block">Interior</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab">
-                        <a class="nav-link" id="exterior-tab-2" data-toggle="tab" href="#exterior-2" role="tab" 
-                            onclick="onTab('exterior')" aria-controls="exterior-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                            <span class="d-none d-sm-block">Exterior</span>
-                        </a>
-                    </li>
-                 
-                    <li class="nav-item tab">
-                        <a class="nav-link" id="safety-tab-2" data-toggle="tab" href="#safety-2" role="tab" 
-                            onclick="onTab('safety')" aria-controls="safety-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                            <span class="d-none d-sm-block">Safety</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab">
-                        <a class="nav-link" id="communication-tab-2" data-toggle="tab" href="#communication-2" role="tab" 
-                            onclick="onTab('communication')" aria-controls="communication-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                            <span class="d-none d-sm-block">Entertainment & Communication</span>
-                        </a>
-                    </li>
-                </ul>
+        <div class="card-header"> 
+            <div class="m-b-30">
+                <h5>Other Specifications</h5>
             </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
+                        <li class="nav-item tab">
+                            <a class="nav-link active" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab" 
+                                onclick="onTab('contact')" aria-controls="contact-2" aria-selected="true">
+                                <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
+                                <span class="d-none d-sm-block">Engine and Transmission</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab" >
+                            <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
+                                onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                                <span class="d-none d-sm-block">Fuel & Performance</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab" >
+                            <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab" 
+                                onclick="onTab('colors')" aria-controls="colors-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                                <span class="d-none d-sm-block">Suspension, Steering & Brakes</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="product_service-tab-2" data-toggle="tab" href="#product_service-2" role="tab" 
+                                onclick="onTab('product')" aria-controls="product_service-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Dimensions & Capacity</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="comfort-tab-2" data-toggle="tab" href="#comfort-2" role="tab" 
+                                onclick="onTab('comfort')" aria-controls="comfort-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Comfort & Convenience</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="interior-tab-2" data-toggle="tab" href="#interior-2" role="tab" 
+                                onclick="onTab('interior')" aria-controls="interior-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Interior</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="exterior-tab-2" data-toggle="tab" href="#exterior-2" role="tab" 
+                                onclick="onTab('exterior')" aria-controls="exterior-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Exterior</span>
+                            </a>
+                        </li>
+                    
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="safety-tab-2" data-toggle="tab" href="#safety-2" role="tab" 
+                                onclick="onTab('safety')" aria-controls="safety-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Safety</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="communication-tab-2" data-toggle="tab" href="#communication-2" role="tab" 
+                                onclick="onTab('communication')" aria-controls="communication-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Entertainment & Communication</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-            <div class="col-md-9">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="contact-2" role="tabpanel" aria-labelledby="contact-tab-2">
-                        @include('admin.car.show_engine_types')
-                    </div>
-                    <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
-                        @include('admin.car.show_fuel')
-                    </div>
-                    <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
-                        @include('admin.car.show_suspension')
-                    </div>
-                    <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
-                        @include('admin.car.show_dimention')
-                    </div>
-                    <div class="tab-pane" id="comfort-2" role="tabpanel" aria-labelledby="comfort-tab-2">
-                        @include('admin.car.show_interior')
-                    </div>
-                    <div class="tab-pane" id="interior-2" role="tabpanel" aria-labelledby="interior-tab-2">
-                        @include('admin.car.show_exterior')
-                    </div>
-                    <div class="tab-pane" id="exterior-2" role="tabpanel" aria-labelledby="exterior-tab-2">
-                        @include('admin.car.show_safety')
-                    </div>
-                    <div class="tab-pane" id="safety-2" role="tabpanel" aria-labelledby="safety-tab-2">
-                        @include('admin.car.show_comfort')
-                    </div>
-                    <div class="tab-pane" id="communication-2" role="tabpanel" aria-labelledby="communication-tab-2">
-                        @include('admin.car.show_communication')
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="contact-2" role="tabpanel" aria-labelledby="contact-tab-2">
+                            @include('admin.car.show_engine_types')
+                        </div>
+                        <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
+                            @include('admin.car.show_fuel')
+                        </div>
+                        <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
+                            @include('admin.car.show_suspension')
+                        </div>
+                        <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
+                            @include('admin.car.show_dimention')
+                        </div>
+                        <div class="tab-pane" id="comfort-2" role="tabpanel" aria-labelledby="comfort-tab-2">
+                            @include('admin.car.show_interior')
+                        </div>
+                        <div class="tab-pane" id="interior-2" role="tabpanel" aria-labelledby="interior-tab-2">
+                            @include('admin.car.show_exterior')
+                        </div>
+                        <div class="tab-pane" id="exterior-2" role="tabpanel" aria-labelledby="exterior-tab-2">
+                            @include('admin.car.show_safety')
+                        </div>
+                        <div class="tab-pane" id="safety-2" role="tabpanel" aria-labelledby="safety-tab-2">
+                            @include('admin.car.show_comfort')
+                        </div>
+                        <div class="tab-pane" id="communication-2" role="tabpanel" aria-labelledby="communication-tab-2">
+                            @include('admin.car.show_communication')
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-</div>
-
-
-
-
-
-
-
-
+    <div class="card card-border card-primary">
+        <div class="card-header"> 
+            <div class="m-b-30">
+                <h5>Additional Images</h5>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
+                        <li class="nav-item tab">
+                            <a class="nav-link active" id="section1-tab-2" data-toggle="tab" href="#section1-2" role="tab" 
+                                onclick="onTab('section1')" aria-controls="section1-2" aria-selected="true">
+                                <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
+                                <span class="d-none d-sm-block">Exterior</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab" >
+                            <a class="nav-link" id="section2-tab-2" data-toggle="tab" href="#section2-2" role="tab" 
+                                onclick="onTab('section2')" aria-controls="section2-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                                <span class="d-none d-sm-block">Interior</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab" >
+                            <a class="nav-link" id="section3-tab-2" data-toggle="tab" href="#section3-2" role="tab" 
+                                onclick="onTab('section3')" aria-controls="section3-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                                <span class="d-none d-sm-block">Gears, Pedals and Stalks</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="section4-tab-2" data-toggle="tab" href="#section4-2" role="tab" 
+                                onclick="onTab('section4')" aria-controls="section4-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Seat & seat adjustments</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="section5-tab-2" data-toggle="tab" href="#section5-2" role="tab" 
+                                onclick="onTab('section5')" aria-controls="section5-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">Colors</span>
+                            </a>
+                        </li>
+                        
+                       
+                    </ul>
                 </div>
-                <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="section1-2" role="tabpanel" aria-labelledby="section1-tab-2">
+                            <img src="{{ file_asset('files-car', $car->image) }}" 
+                                alt='brand-img' class='img-thumbnail'  width='400' height='500'>
+
+                                @foreach($car->carImages as $image)
+                                    @if($image->type == 1 && $image->section == 1)
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                    @endif
+                                @endforeach
+                            
+                           
+                        </div>
+                        <div class="tab-pane" id="section2-2" role="tabpanel" aria-labelledby="section2-tab-2">
+                                @foreach($car->carImages as $image)
+                                    @if($image->type == 1 && $image->section == 2)
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                    @endif
+                                @endforeach
+                        </div>
+                        <div class="tab-pane" id="section3-2" role="tabpanel" aria-labelledby="section3-tab-2">
+                            @foreach($car->carImages as $image)
+                                    @if($image->type == 1 && $image->section == 3)
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                    @endif
+                                @endforeach
+                        </div>
+                        <div class="tab-pane" id="section4-2" role="tabpanel" aria-labelledby="section4-tab-2">
+                            @foreach($car->carImages as $image)
+                                    @if($image->type == 1 && $image->section == 4)
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                    @endif
+                                @endforeach
+                        </div>
+                        <div class="tab-pane" id="section5-2" role="tabpanel" aria-labelledby="section5-tab-2">
+                            @foreach($car->carImages as $image)
+                                    @if($image->type == 1 && $image->color != null)
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                            alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                       
+                                    @endif
+                                    
+                                @endforeach
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="card card-border card-primary">
+        <div class="card-header"> 
+            <div class="m-b-30">
+                <h5>Videos</h5>
+            </div>
+        </div>
+        <div class="card-body">
+            @foreach($car->carImages as $image)
+            @if($image->type == 2)  
+            <div class="row">
+           
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Title</label>
+                        <div class="col-sm-8">
+                            {{ $image->video_title }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Description</label>
+                        <div class="col-sm-8">
+                            {{ $image->video_description }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">View Count</label>
+                        <div class="col-sm-8">
+                            {{ $image->video_view_count }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Posted Date</label>
+                        <div class="col-sm-8">
+                            {{ dateFormat($image->video_posted_date) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Posted Media</label>
+                        <div class="col-sm-8">
+                            {{ $image->video_posted_media }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  
+                            <video width="500" height="400" controls style="margin-top: -53px;">
+                                <source src="{{ file_asset('files-car', 
+                                        $image->file_name) }}">
+                            </video>
+                      
                     
                 </div>
-                <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
-                    
-                </div>
-                <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
-                   
-                </div>
             </div>
+            <hr>
+            @endif  
+                           
+            @endforeach
+            
         </div>
     </div>
+
 
 </x-admin-layout>
 

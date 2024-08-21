@@ -5,7 +5,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Body Type</label>
                     <div class="col-sm-6">
-                               {{ config('params.body-types')[$car->body_type]}}
+                            {{ $carVarient->bodyType->name}}
                     </div>
                 </div>
                 <div class="form-group row">
