@@ -34,14 +34,14 @@ Route::middleware('auth:user_api')->group(function () {
     Route::post('profile-image-updates', [ProfileController::class, 'picture']);
     Route::apiResource('profiles', ProfileController::class)->only(['index', 'store']);
     //test drive request
-    Route::post('/test-drive-send-otp',[TestDriveRequestController::class, 'sendOtp']);
-    Route::post('/test-drive-otp-verify',[TestDriveRequestController::class,'verifyOtp']);
+    Route::post('/test-drive-send-otps',[TestDriveRequestController::class, 'sendOtp']);
+    Route::post('/test-drive-otp-verifys',[TestDriveRequestController::class,'verifyOtp']);
     //favourites api
-    Route::apiResource('favourite',FavouriteController::class)->only(['index', 'store']);
+    Route::apiResource('favourites',FavouriteController::class)->only(['index', 'store']);
     //get offers and onroad price
-    Route::post('/offer-request', OfferRequestController::class);
+    Route::post('/offer-requests', OfferRequestController::class);
     //submit review
-    Route::post('/submit-review',SubmitReviewController::class);
+    Route::post('/submit-reviews',SubmitReviewController::class);
     // Cars Api
     Route::get('cars/compare-similar', [CarController::class, 'compareSimilar']);
     Route::get('cars/images', [CarController::class, 'carImages']);
