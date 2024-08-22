@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataGrids\Admin;
+namespace App\DataGrids\Admin\Trash;
 
 use App\Models\BodyType;
 use Rufaidulk\DataGrid\Grid;
@@ -11,8 +11,8 @@ class BodyTypeDataGrid extends Grid
 
     public function gridQuery()
     {
-        $query = BodyType::query() 
-            ->select(['body_types.*']);
+        $query = BodyType::onlyTrashed()
+        ->select(['*'])->orderBy('id', 'desc');
 
         return $query;
     }
@@ -61,8 +61,15 @@ class BodyTypeDataGrid extends Grid
             ],
 
             'action' => [
-                'routePrefix' => 'admin.body-type', 
+                'routePrefix' => 'admin.trash-body-type', 
                 'contentCssClass' => 'grid-action-col',
+                'buttons' => ['view','restore'],
+                'restore' => function($model){
+                    $btn = "<a onclick='restoreUser(this)' data-id='{$model->id}' class='btn btn-pink waves-effect waves-light m-b-5 mr-1' title='Restore'>";
+                    $btn .= "<span class='fa fa-undo'></span></a>";
+
+                    return $btn;
+                }
             ]
         ];
     }

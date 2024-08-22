@@ -1,6 +1,6 @@
 <div class="left side-menu">
     <div class="sidebar-inner slimscrollleft">
-        <div class="user-details">
+      {{--  <div class="user-details">
             <div class="pull-left">
                 @if (Auth::user()->picture)
                     <img src="{{ file_asset('files-admin', Auth::user()->picture) }}" alt=""
@@ -12,10 +12,10 @@
             </div>
             <div class="user-info">
                 <h4 class="text-black font-weight-bold admin-name" title="{{ auth()->user()->name }}">
-                    {{ auth()->user()->name }}</h4>
+                    </h4>
                 <!-- <p class="text-muted m-0">Administrator</p> -->
             </div>
-        </div>
+        </div>--}}
         <!--- Divider -->
         <div id="sidebar-menu">
             <ul>
@@ -62,10 +62,20 @@
                     </a>
                 </li>
               
-
-             
-            </ul>
-            <div class="clearfix"></div>
+                <li class="has_sub">
+                    <a href="#" class="waves-effect"><i class="fa fa-trash"></i> <span> Trash </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled"> 
+                        <li>
+                            <a href="{{ route('admin.trash-user.index') }}">User</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.trash-brand.index') }}">Brand</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.trash-body-type.index') }}">Body Type</a>
+                        </li>
+                    </ul>
+                </li>
         </div>
         <div class="clearfix"></div>
     </div>

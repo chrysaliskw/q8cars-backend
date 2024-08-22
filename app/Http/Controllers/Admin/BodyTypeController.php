@@ -111,7 +111,8 @@ class BodyTypeController extends Controller
     {
         DB::beginTransaction();
         try {
-            JunkFileDeleteJob::dispatchAfterResponse(BodyType::FILE_DIR, $bodyType->icon); 
+            $oldPicture[] = $bodyType->icon;
+            JunkFileDeleteJob::dispatchAfterResponse(BodyType::FILE_DIR,$oldPicture); 
             $bodyType->delete();
         } catch (Exception $ex) {
             logger($ex);

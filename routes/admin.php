@@ -11,7 +11,10 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TestRideRequestController;
 use App\Http\Controllers\Admin\OfferRequestController;
 use App\Http\Controllers\Admin\ReviewController;
-
+use App\Http\Controllers\Admin\Trash\UserTrashController;
+use App\Http\Controllers\Admin\Trash\BrandTrashController;
+use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
+use App\Http\Controllers\Admin\Trash\CarTrashController;
 /*
 |--------------------------------------------------------------------------
 | Admin Common Routes
@@ -68,6 +71,11 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
     Route::resource('reviews', ReviewController::class)->only(['index','show']);
  
-    // Logout
+
+    //Trash 
+    Route::resource('trash-user',UserTrashController::class)->only('index','show','edit');
+    Route::resource('trash-brand',BrandTrashController::class)->only('index','show','edit');
+    Route::resource('trash-body-type',BodyTypeTrashController::class)->only('index','show','edit');
+      // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
