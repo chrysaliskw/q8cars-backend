@@ -1955,7 +1955,7 @@ a:focus {
   padding: 20px 30px;
   position: absolute;
   right: 0;
-  left: 240px;
+  left: 260px;
 }
 
 #wrapper {
@@ -3209,7 +3209,7 @@ File: Topbar,Left-sidebar,Right-sidebar
   float: left;
   height: 70px;
   position: relative;
-  width: 240px;
+  width: 260px;
   z-index: 1;
 }
 
@@ -3362,7 +3362,7 @@ input.search-bar:-ms-input-placeholder {
 .side-menu {
   bottom: 0;
   top: 0;
-  width: 240px;
+  width: 260px;
   z-index: 2;
 }
 
@@ -3384,7 +3384,7 @@ body.fixed-left .side-menu.left {
 }
 
 .content-page {
-  margin-left: 240px;
+  margin-left: 260px;
   overflow: hidden;
 }
 
