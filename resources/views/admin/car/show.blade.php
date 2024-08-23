@@ -447,12 +447,12 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="section1-2" role="tabpanel" aria-labelledby="section1-tab-2">
                             <img src="{{ file_asset('files-car', $car->image) }}" 
-                                alt='brand-img' class='img-thumbnail'  width='400' height='500'>
+                                alt='brand-img' class='img-thumbnail'  width='200' height='250'>
 
                                 @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 1)
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
-                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                        alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
                             
@@ -462,7 +462,7 @@
                                 @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 2)
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
-                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                        alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
                         </div>
@@ -470,7 +470,7 @@
                             @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 3)
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
-                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                        alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
                         </div>
@@ -478,7 +478,7 @@
                             @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 4)
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
-                                        alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                        alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
                         </div>
@@ -486,7 +486,7 @@
                             @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->color != null)
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
-                                            alt='brand-img' class='img-thumbnail' width='400' height='500'>
+                                            alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                        
                                     @endif
                                     
