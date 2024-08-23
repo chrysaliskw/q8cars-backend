@@ -35,7 +35,12 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Super charge</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->super_charge == 1) ? 'YES' : 'NO'}}
+                        @if($carVarient->super_charge == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                               
                     </div>
                 </div>
                 <div class="form-group row">

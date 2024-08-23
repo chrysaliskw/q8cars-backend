@@ -5,31 +5,58 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">LED Taillights</label>
                     <div class="col-sm-6">
-                               {{ ($carVarient->LED_Taillights == 1) ? 'YES' : 'NO'}}
+                               
+                               @if($carVarient->LED_Taillights == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Automatic Headlamps</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->Automatic_Headlamps == 1) ? 'YES' : 'NO'}}
+                            
+                    @if($carVarient->Automatic_Headlamps == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                              
                     </div>
                 </div>  
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">LED DRLs</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->LED_DRLs == 1) ? 'YES' : 'NO'}}
+                               
+                                @if($carVarient->LED_DRLs == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Halogen Headlamps</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->Halogen_Headlamps == 1) ? 'YES' : 'NO' }}
+                              
+                    @if($carVarient->Halogen_Headlamps == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                                
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">LED Headlights</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->LED_Headlights == 1) ? 'YES' : 'NO'}} 
+                               
+                                @if($carVarient->LED_Headlights == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
             

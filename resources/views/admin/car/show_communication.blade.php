@@ -5,61 +5,112 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Integrated Antenna</label>
                     <div class="col-sm-6">
-                    {{ $carVarient->integrated_antenna}} 
+                    @if($carVarient->integrated_antenna == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                  
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Apple CarPlay</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->apply_carplay}} 
+                    @if($carVarient->apply_carplay == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                   
                     </div>
                 </div>  
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Touch Screen</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->touch_screen}} 
+                
+                    @if($carVarient->touch_screen == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Speakers Rear</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->speakers_rear}} 
+                   
+                    @if($carVarient->speakers_rear == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Speakers Front</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->speakers_front}} 
+                   
+                    @if($carVarient->speakers_front == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Radio</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->radio}} 
+                
+                    @if($carVarient->radio == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif 
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Android Auto</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->andriod_auto}} 
+                    @if($carVarient->andriod_auto == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif 
+                  
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Digital Clock</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->digital_clock}} 
+                    @if($carVarient->digital_clock == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif 
+                   
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">USB & Auxiliary input</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->usb_connectivity}}
+            
+                    @if($carVarient->usb_connectivity == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif 
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Bluetooth Connectivity</label>
                     <div class="col-sm-8">
-                    {{ $carVarient->bluetooth}}
+                
+                    
+                    @if($carVarient->bluetooth == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif 
                     </div>
                 </div>
             </div>

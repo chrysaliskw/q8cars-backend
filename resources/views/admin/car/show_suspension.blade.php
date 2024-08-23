@@ -47,19 +47,35 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Alloy Wheel Front</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->alloy_wheel_front == 1) ? 'YES' : 'NO' }} 
+                           
+                                
+                                @if($carVarient->alloy_wheel_front == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Alloy Wheel Rear</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->alloy_wheel_rear) ? 'YES' : 'NO'}} 
+                             
+                                @if($carVarient->alloy_wheel_rear == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Power Steering</label>
                     <div class="col-sm-8">
-                            {{ ($carVarient->power_steering) ? 'YES' : 'NO'}} 
+                          
+                            @if($carVarient->power_steering == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
             </div>

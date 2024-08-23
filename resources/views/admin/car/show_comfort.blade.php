@@ -17,13 +17,23 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Air Conditioning</label>
                     <div class="col-sm-8">
-                                {{ ($car->air_condition == 1) ? 'YES' : 'NO' }}
+                        @if($carVarient->air_condition == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-cross" style="color:red;"></i>
+                        @endif
+                               
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Wheel Covers</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->wheel_covers==1) ? 'YES' : 'NO' }}
+                        @if($carVarient->wheel_covers == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                                
                     </div>
                 </div>
                 <div class="form-group row">

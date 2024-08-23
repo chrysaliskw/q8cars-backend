@@ -13,7 +13,12 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Anti Theft Alarm</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->anti_theft_alarm == 1) ? 'YES' : 'NO'}}
+                               
+                                @if($carVarient->anti_theft_alarm == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>  
                 <div class="form-group row">
@@ -37,7 +42,12 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Child Safety Locks</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->child_safety_locks == 1) ? 'YES' : 'NO'}} 
+                    @if($carVarient->child_safety_locks == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                                
                     </div>
                 </div>
             </div>

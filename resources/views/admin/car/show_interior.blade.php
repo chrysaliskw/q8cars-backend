@@ -11,19 +11,34 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Tachometer</label>
                     <div class="col-sm-8">
-                                {{ ($carVarient->tachometer == 1) ? 'YES' : 'NO'}}
+                               
+                                @if($carVarient->tachometer == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>  
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Electronic Multi Tripmeter</label>
                     <div class="col-sm-8">
-                                {{ ($car->electronic_multi_tripmeter == 1) ? 'YES' : 'NO'}} 
+                             
+                                @if($carVarient->electronic_multi_tripmeter == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Digital Odometer</label>
                     <div class="col-sm-8">
-                                {{ ($car->digital_odometer == 1) ? 'YES' : 'NO' }}
+                    @if($carVarient->digital_odometer == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                              
                     </div>
                 </div>
         
