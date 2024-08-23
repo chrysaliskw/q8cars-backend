@@ -5,7 +5,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Seat Upholstery</label>
                     <div class="col-sm-6">
-                               {{ $carVarient->seat_pholstery}}
+                               {{ $carVarient->seat_upholstery}}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -17,13 +17,13 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Air Conditioning</label>
                     <div class="col-sm-8">
-                                {{ $carVarient->air_condition == 1 }}
+                                {{ ($car->air_condition == 1) ? 'YES' : 'NO' }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Wheel Covers</label>
                     <div class="col-sm-8">
-                                {{ $carVarient->wheel_covers }}
+                                {{ ($carVarient->wheel_covers==1) ? 'YES' : 'NO' }}
                     </div>
                 </div>
                 <div class="form-group row">

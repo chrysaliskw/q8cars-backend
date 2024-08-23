@@ -4,6 +4,16 @@
         <li><a href="{{ route('admin.car.index') }}">Cars</a></li>
         <li class="active">Create</li>
     </x-slot>
+    @php
+        $pcount = count(config('params.professions'));
+        $fcount = count(config('params.car.fuel_type'));
+        $tcount = count(config('params.car.transmission_type'));
+        $ccount = count(config('params.colors'));
+    @endphp
+    <input type="hidden" name="pcount" id="pcount" value="{{ $pcount }}" />
+    <input type="hidden" name="fcount" id="fcount" value="{{ $fcount }}" />
+    <input type="hidden" name="tcount" id="tcount" value="{{ $tcount }}" />
+    <input type="hidden" name="ccount" id="ccount" value="{{ $ccount }}" />
     
     <div id="loading-spinner" style=font-size:10px>
         <!-- Loading spinner -->
@@ -55,7 +65,7 @@
                     <a class="nav-link" id="product_service-tab-2" data-toggle="tab" href="#product_service-2" role="tab" 
                         onclick="onTab('product')" aria-controls="product_service-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
-                        <span class="d-none d-sm-block">Base Varient Details</span>
+                        <span class="d-none d-sm-block">Features and Specifications</span>
                     </a>
                 </li>
 
@@ -136,14 +146,61 @@
                 $("#image_old_" + id).val('');
             }
 
+  
+            function selectAllProfession()
+            {
+                if ($("#all_profession").prop("checked")) {
+                    var count = document.getElementById("pcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#professions"+i).attr("disabled", true)
+                        $("#professions"+i).prop("checked", true);
+                    }
+                }
+                else {
+                    var count = document.getElementById("pcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#professions"+i).attr("disabled", false);
+                        $("#professions"+i).prop("checked", false);
+                    }
+                }
+            }
 
-         
-           
-          
+            function selectAllFuels()
+            {
+                if ($("#all_fuels").prop("checked")) {
+                    var count = document.getElementById("fcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#fuel_types"+i).attr("disabled", true)
+                        $("#fuel_types"+i).prop("checked", true);
+                    }
+                }
+                else {
+                    var count = document.getElementById("fcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#fuel_types"+i).attr("disabled", false);
+                        $("#fuel_types"+i).prop("checked", false);
+                    }
+                }
+            }
 
-            
+            function selectAllTransmissions()
+            {
+                if ($("#all_transmissions").prop("checked")) {
+                    var count = document.getElementById("tcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#transmission_types"+i).attr("disabled", true)
+                        $("#transmission_types"+i).prop("checked", true);
+                    }
+                }
+                else {
+                    var count = document.getElementById("tcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#transmission_types"+i).attr("disabled", false);
+                        $("#transmission_types"+i).prop("checked", false);
+                    }
+                }
+            }
 
-            
 
             $('#brand_id').select2({
                 
@@ -164,6 +221,16 @@
                     }
                 }
             });
+            $('#brand_id').on('select2:select', function (e) {
+                const data = e.params.data;
+                $("#brand_id_text").val(data.text);
+            });
+
+            if('{!! old("brand_id") !!}' && '{!! old("brand_id_text") !!}') {
+                const countryOption = new Option('{{ old("brand_id_text") }}', '{{ old("brand_id") }}', true, true);
+                $('#brand_id').append(countryOption).trigger('change');
+                $("#brand_id_text").val('{{ old("brand_id_text") }}');
+            }
 
             $('#body_type_id').select2({
                 
@@ -185,32 +252,15 @@
                 }
             });
 
-           
-          
-
-          
-         
-
-         
-           
-            
-          
-
-
-           
-          
-          
-            $('#brand_id').on('select2:select', function (e) {
+            $('#body_type_id').on('select2:select', function (e) {
                 const data = e.params.data;
-                $("#brand_id_text").val(data.text);
+                $("#body_type_id_text").val(data.text);
             });
 
-         
-           
-            if('{!! old("brand_id") !!}' && '{!! old("brand_id_text") !!}') {
-                const countryOption = new Option('{{ old("brand_id_text") }}', '{{ old("brand_id") }}', true, true);
-                $('#brand_id').append(countryOption).trigger('change');
-                $("#brand_id_text").val('{{ old("brand_id_text") }}');
+            if('{!! old("body_type_id") !!}' && '{!! old("body_type_id_text") !!}') {
+                const cOption = new Option('{{ old("body_type_id_text") }}', '{{ old("body_type_id") }}', true, true);
+                $('#body_type_id').append(cOption).trigger('change');
+                $("#body_type_id_text").val('{{ old("body_type_id_text") }}');
             }
         
      

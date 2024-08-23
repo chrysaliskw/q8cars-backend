@@ -35,7 +35,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Super charge</label>
                     <div class="col-sm-8">
-                                {{ $carVarient->super_charge}}
+                                {{ ($carVarient->super_charge == 1) ? 'YES' : 'NO'}}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -47,7 +47,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Engine Capacity</label>
                     <div class="col-sm-8">
-                                {{ $carVarient->engine_capcity}} 
+                                {{ $carVarient->engine_capacity}} 
                     </div>
                 </div>
             </div>

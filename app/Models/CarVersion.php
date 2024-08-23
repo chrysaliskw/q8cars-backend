@@ -12,6 +12,9 @@ class CarVersion extends Model
     const BASE_VARIENT = 1;
     const NOT_BASE_VARIENT = 2;
 
+    const CAR_SPECIFICATION = 1;
+    const CAR_VARIENT_SPECIFICATION = 2;
+
     /*
     |--------------------------------------------------------------------------
     | Relationships

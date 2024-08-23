@@ -38,7 +38,8 @@ class CarController extends Controller
     {
         try 
         {
-            $service = new CarService($request->validate());
+           
+            $service = new CarService($request->validated());
             $car = $service->handle();
         }
         catch (Exception $ex) {
@@ -68,7 +69,7 @@ class CarController extends Controller
             $transmissionTypes = config('params.car.transmission_type')[$transmissionType] . " " .$transmissionTypes;
         }
 
-        $carVarient = $car->baseVarient;
+        $carVarient = $car->carSpec;
 
         return view('admin.car.show', compact('car', 'fuelTypes', 'transmissionTypes', 'carVarient'));
     }

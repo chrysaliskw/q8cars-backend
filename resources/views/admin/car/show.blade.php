@@ -106,7 +106,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Safety ratings</label>
                                 <div class="col-sm-8">
-                                    {{ $car->safety_ratings}}
+                                    @for($i = 1; $i <= $car->safety_ratings ; $i++)
+                                        <i class="fa fa-star"></i>
+                                    @endfor
                                 </div>
                             </div>
 
@@ -372,16 +374,16 @@
                             @include('admin.car.show_dimention')
                         </div>
                         <div class="tab-pane" id="comfort-2" role="tabpanel" aria-labelledby="comfort-tab-2">
-                            @include('admin.car.show_interior')
+                            @include('admin.car.show_comfort')
                         </div>
                         <div class="tab-pane" id="interior-2" role="tabpanel" aria-labelledby="interior-tab-2">
-                            @include('admin.car.show_exterior')
+                            @include('admin.car.show_interior')
                         </div>
                         <div class="tab-pane" id="exterior-2" role="tabpanel" aria-labelledby="exterior-tab-2">
-                            @include('admin.car.show_safety')
+                            @include('admin.car.show_exterior')
                         </div>
                         <div class="tab-pane" id="safety-2" role="tabpanel" aria-labelledby="safety-tab-2">
-                            @include('admin.car.show_comfort')
+                            @include('admin.car.show_safety')
                         </div>
                         <div class="tab-pane" id="communication-2" role="tabpanel" aria-labelledby="communication-tab-2">
                             @include('admin.car.show_communication')
