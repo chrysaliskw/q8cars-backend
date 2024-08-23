@@ -107,7 +107,7 @@
                                 <label class="col-sm-4 control-label">Safety ratings</label>
                                 <div class="col-sm-8">
                                     @for($i = 1; $i <= $car->safety_ratings ; $i++)
-                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star" style="color: red;"></i>
                                     @endfor
                                 </div>
                             </div>
