@@ -1,4 +1,11 @@
-<div class="row">                 
+<div class="row">  <div class="col-md-3">
+    <span class="error" role="alert">
+                        @error('colors')
+                            {{ $message }}</br>
+                        @enderror
+    </span>  </div>    
+</div>
+<div class="row"> 
     @foreach (config('params.colors') as $key => $value)
     <div class="col-md-3">
         <div class="card border-primary" style="background-color: #f0f8ff;">
@@ -9,6 +16,7 @@
                         {{ $value }}
                         </label>
                 </div>
+           
                 <div class="form-group" style="padding-top: 10px;">
                     <input type="file" id="colors_image_{{$key}}" name="colors_image_{{$key}}">
                 </div> 

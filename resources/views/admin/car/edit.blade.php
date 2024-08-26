@@ -2,66 +2,258 @@
 
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ route('admin.car.index') }}">Brands</a></li>
+        <li><a href="{{ route('admin.car.index') }}">Cars</a></li>
+        <li><a href="{{ route('admin.car.show', $car) }}">{{$car->model_name}}</a></li>
         <li class="active">Update</li>
     </x-slot>
 
-    <x-crud-update title="Car">
-        <x-form method="PUT" 
-            action="{{ route('admin.car.update', $car) }}" 
-            class="form" enctype="multipart/form-data">
-            <div class="row">
-
-                <div class="col-md-4">
-                    <x-form-select field="brand_id" field-name="Brand" id="brand_id">
-                    </x-form-select>
-                    <input type="hidden" id="brand_id_text" name="brand_id_text" />
-                    <span class="error" role="alert" id="brand_id_error" ></span>
-                </div>
-                <div class="col-md-3">
-                    <x-form-input type="text" field="model_name" field-name="Model Name" value="{{ $car->model_name ?? old('model_name')}}"></x-form-input>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="image" class="control-label">Image</label><br>
-                        <img src="{{ file_asset('files-car', $car->image) }}" 
-                            alt="image-img" class="img-thumbnail" width="100" height="150">
-                        <input id="image" type="file" name="image" class="form-control">
-                        <span class="error" role="alert">
-                            @error('image')
-                                {{ $message }}</br>
-                            @enderror
-                        </span>
-                        <span class="text-muted">
-                            {{'Max size : 2MB'}} 
-                        </span>
+    @php
+        $pcount = count(config('params.professions'));
+        $fcount = count(config('params.car.fuel_type'));
+        $tcount = count(config('params.car.transmission_type'));
+        $ccount = count(config('params.colors'));
+    @endphp
+    <input type="hidden" name="pcount" id="pcount" value="{{ $pcount }}" />
+    <input type="hidden" name="fcount" id="fcount" value="{{ $fcount }}" />
+    <input type="hidden" name="tcount" id="tcount" value="{{ $tcount }}" />
+    <input type="hidden" name="ccount" id="ccount" value="{{ $ccount }}" />
+    
+    <div id="loading-spinner" style=font-size:10px>
+        <!-- Loading spinner -->
+    </div>
+    
+    <div id="edit-page" class="row" style="display: none;">
+        <div class="col-xl-12">
+            <div class="card ">
+                <div class="card-header">
+                    <div class="dt-buttons float-right">
+                        <button type="button" onclick="onSubmit()" id="submit-btn" class="btn btn-primary buttons-copy buttons-html5 btn-md">
+                            Save
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <x-form-select field="status" field-name="Status" defaultPrompt="Select">
-                        @foreach (config('params.car.status') as $value => $label)
-                            <option {{ old('status', $car->status) == $value ? 'Selected' : '' }} value="{{ $value }}">
-                                {{ $label }}</option>
-                        @endforeach
-                    </x-form-select>
-                </div>
-                
-            </div> 
-
-               <div class="row">
-              
-               
-
             </div>
+            <ul class="nav nav-tabs tabs" role="tablist" id="business-user-profile-tab">
+                <li class="nav-item tab">
+                    <a class="nav-link active" id="about-tab-2" data-toggle="tab" href="#about-2" role="tab" 
+                        onclick="onTab('about')" aria-controls="about-2" aria-selected="false">
+                        <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
+                        <span class="d-none d-sm-block">Basic Info</span>
+                    </a>
+                </li>
+                <li class="nav-item tab">
+                    <a class="nav-link" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab" 
+                        onclick="onTab('contact')" aria-controls="contact-2" aria-selected="true">
+                        <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
+                        <span class="d-none d-sm-block">Summary</span>
+                    </a>
+                </li>
+                <li class="nav-item tab">
+                    <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
+                        onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
+                        <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                        <span class="d-none d-sm-block">Images</span>
+                    </a>
+                </li>
+                <li class="nav-item tab">
+                    <a class="nav-link" id="videos-tab-2" data-toggle="tab" href="#videos-2" role="tab" 
+                        onclick="onTab('videos')" aria-controls="videos-2" aria-selected="false">
+                        <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                        <span class="d-none d-sm-block">Videos</span>
+                    </a>
+                </li>
+                <li class="nav-item tab">
+                    <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab" 
+                        onclick="onTab('colors')" aria-controls="colors-2" aria-selected="false">
+                        <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                        <span class="d-none d-sm-block">Colors</span>
+                    </a>
+                </li>
 
-            <div class="col-md-10">
-                <x-form-submit>Save</x-form-submit>
+            
+                <li class="nav-item tab">
+                    <a class="nav-link" id="product_service-tab-2" data-toggle="tab" href="#product_service-2" role="tab" 
+                        onclick="onTab('product')" aria-controls="product_service-2" aria-selected="false">
+                        <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                        <span class="d-none d-sm-block">Features and Specifications</span>
+                    </a>
+                </li>
+
+             
+
+            </ul>
+
+            <div class="tab-content">
+                <form method="POST" id="business-user-form"
+                    action="{{ route('admin.car.update', $car) }}"
+                    @submit.prevent="handleSubmit(onSubmit)" class="form" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
+                    <div class="tab-pane show active" id="about-2" role="tabpanel" aria-labelledby="about-tab-2">
+                        @include('admin.car.edit-section.edit_basic_info')
+                    </div>
+                    <div class="tab-pane" id="contact-2" role="tabpanel" aria-labelledby="contact-tab-2">
+                        @include('admin.car.edit-section.edit_summary')
+                    </div>
+                    <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
+                        @include('admin.car.edit-section.edit_images')
+                    </div>
+                    <div class="tab-pane" id="videos-2" role="tabpanel" aria-labelledby="videos-tab-2">
+                        @include('admin.car.edit-section.edit_videos')
+                    </div>
+                    <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
+                        @include('admin.car.edit-section.edit_colors')
+                    </div>
+                    <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
+                        @include('admin.car.edit-section.edit_key_features')
+                    </div>
+
+                 
+
+                </form>
             </div>
-        </x-form>
-    </x-crud-update>
+        </div>
+    </div>
     
     <x-slot name="scripts">
         <script type="text/javascript">
+
+            $("#date_1").datepicker({
+                format: 'dd-mm-yyyy',
+                
+            });
+            $("#date_2").datepicker({
+                format: 'dd-mm-yyyy',
+                
+            });
+             $("#date_3").datepicker({
+                format: 'dd-mm-yyyy',
+                
+            });
+
+            /**
+             * Loading spinner
+             */
+            function onReady(callback) {
+                var intervalID = window.setInterval(checkReady, 1000);
+
+                function checkReady() {
+                    if (document.getElementsByTagName('body')[0] !== undefined) {
+                        window.clearInterval(intervalID);
+                        callback.call(this);
+                    }
+                }
+            }
+
+            function show(id, value) {
+                document.getElementById(id).style.display = value ? 'block' : 'none';
+            }
+
+            onReady(function() {
+                show('edit-page', true);
+                show('loading-spinner', false);
+            });
+
+         
+
+            function onSubmit()
+            {
+                document.getElementById("business-user-form").submit();
+            }
+
+          
+            function deleteImage(id)
+            {
+                $("#image_preview_" + id).remove();
+                $("#image_old_" + id).val('');
+            }
+
+  
+            function selectAllProfession()
+            {
+                if ($("#all_profession").prop("checked")) {
+                    var count = document.getElementById("pcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#professions"+i).attr("disabled", true)
+                        $("#professions"+i).prop("checked", true);
+                    }
+                }
+                else {
+                    var count = document.getElementById("pcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#professions"+i).attr("disabled", false);
+                        $("#professions"+i).prop("checked", false);
+                    }
+                }
+            }
+
+            function selectAllFuels()
+            {
+                if ($("#all_fuels").prop("checked")) {
+                    var count = document.getElementById("fcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#fuel_types"+i).attr("disabled", true)
+                        $("#fuel_types"+i).prop("checked", true);
+                    }
+                }
+                else {
+                    var count = document.getElementById("fcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#fuel_types"+i).attr("disabled", false);
+                        $("#fuel_types"+i).prop("checked", false);
+                    }
+                }
+            }
+
+            function selectAllTransmissions()
+            {
+                if ($("#all_transmissions").prop("checked")) {
+                    var count = document.getElementById("tcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#transmission_types"+i).attr("disabled", true)
+                        $("#transmission_types"+i).prop("checked", true);
+                    }
+                }
+                else {
+                    var count = document.getElementById("tcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#transmission_types"+i).attr("disabled", false);
+                        $("#transmission_types"+i).prop("checked", false);
+                    }
+                }
+            }
+
+            $('#body_type_id').select2({
+                
+                placeholder: "Search body type",
+                minimumInputLength: 1,
+                ajax: {
+                    url: "{{ route('admin.body-type.select') }}",
+                    dataType: 'json',
+                    data: function(params) {
+                        var query = {
+                            search: params.term,
+                            page: params.page || 1,
+                          
+                        }
+
+                        // Query parameters will be ?search=[term]&page=[page]
+                        return query;
+                    }
+                }
+            });
+
+            $('#body_type_id').on('select2:select', function (e) {
+                const data = e.params.data;
+                $("#body_type_id_text").val(data.text);
+            });
+
+            if('{!! $currentBodyType !!}') {
+                const currentBodyType = JSON.parse('{!! $currentBodyType !!}');
+                const bOption = new Option(currentBodyType.text, currentBodyType.id, true, true);
+                $('#body_type_id').append(bOption).trigger('change');
+            }
+        
             $('#brand_id').select2({
                 
                 placeholder: "Search brand",

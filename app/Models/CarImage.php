@@ -21,4 +21,17 @@ class CarImage extends Model
     {
         return $this->belongsTo(Car::class);  
     }
+    /*
+    |--------------------------------------------------------------------------
+    | Local Scopes
+    |--------------------------------------------------------------------------
+    */
+    public function scopeImage($query)
+    {
+        return $query->where('type', self::TYPE_IMAGE);
+    }
+    public function scopeVideo($query)
+    {
+        return $query->where('type', self::TYPE_VIDEO);
+    }
 }

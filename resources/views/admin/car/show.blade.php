@@ -66,13 +66,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="col-sm-4 control-label">Image</label>
-                                <div class="col-sm-8">
-                                    <img src="{{ file_asset('files-car', $car->image) }}" 
-                                        alt='brand-img' class='img-thumbnail' width='100' height='150'>
-                                </div>
-                            </div>
+                        
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Ex-Showroom Price</label>
                                 <div class="col-sm-8">
@@ -109,6 +103,43 @@
                                     @for($i = 1; $i <= $car->safety_ratings ; $i++)
                                         <i class="fa fa-star" style="color: red;"></i>
                                     @endfor
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Colors</label>
+                                <div class="col-sm-8">
+                                   
+                                    @php 
+                                        $i = 0;
+                                    @endphp
+                                    @foreach($colors as $c)
+                                        @if($i == count($colors)-1)
+                                            {{$c}}
+                                        @else
+                                            {{$c}}, 
+                                        @endif
+                                        @php 
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Professions</label>
+                                <div class="col-sm-8">
+                                    @php 
+                                        $i = 0;
+                                    @endphp
+                                    @foreach($professions as $c)
+                                        @if($i == count($professions)-1)
+                                            {{$c}}
+                                        @else
+                                            {{$c}}, 
+                                        @endif
+                                        @php 
+                                            $i++;
+                                        @endphp
+                                    @endforeach
                                 </div>
                             </div>
 
@@ -228,14 +259,42 @@
                         <div class="form-group row">
                             <label class="col-sm-4 control-label">Fuel Types</label>
                             <div class="col-sm-8">
-                               {{ $fuelTypes}}
+                               
+                                    @php 
+                                        $i = 0;
+                                    @endphp
+                                    @foreach($fuelTypes as $c)
+                                        @if($i == count($fuelTypes)-1)
+                                            {{$c}}
+                                        @else
+                                            {{$c}}, 
+                                        @endif
+                                        @php 
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                
                             </div>
                         </div>
               
                         <div class="form-group row">
                             <label class="col-sm-4 control-label">Transmission Types</label>
                             <div class="col-sm-8">
-                                {{ $transmissionTypes}}
+                               
+                                    @php 
+                                        $i = 0;
+                                    @endphp
+                                    @foreach($transmissionTypes as $c)
+                                        @if($i == count($transmissionTypes)-1)
+                                            {{$c}}
+                                        @else
+                                            {{$c}}, 
+                                        @endif
+                                        @php 
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                
                             </div>
                         </div>
                        
@@ -362,31 +421,31 @@
                 <div class="col-md-9">
                     <div class="tab-content">
                         <div class="tab-pane active" id="contact-2" role="tabpanel" aria-labelledby="contact-tab-2">
-                            @include('admin.car.show_engine_types')
+                            @include('admin.car.show-section.show_engine_types')
                         </div>
                         <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
-                            @include('admin.car.show_fuel')
+                            @include('admin.car.show-section.show_fuel')
                         </div>
                         <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
-                            @include('admin.car.show_suspension')
+                            @include('admin.car.show-section.show_suspension')
                         </div>
                         <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
-                            @include('admin.car.show_dimention')
+                            @include('admin.car.show-section.show_dimention')
                         </div>
                         <div class="tab-pane" id="comfort-2" role="tabpanel" aria-labelledby="comfort-tab-2">
-                            @include('admin.car.show_comfort')
+                            @include('admin.car.show-section.show_comfort')
                         </div>
                         <div class="tab-pane" id="interior-2" role="tabpanel" aria-labelledby="interior-tab-2">
-                            @include('admin.car.show_interior')
+                            @include('admin.car.show-section.show_interior')
                         </div>
                         <div class="tab-pane" id="exterior-2" role="tabpanel" aria-labelledby="exterior-tab-2">
-                            @include('admin.car.show_exterior')
+                            @include('admin.car.show-section.show_exterior')
                         </div>
                         <div class="tab-pane" id="safety-2" role="tabpanel" aria-labelledby="safety-tab-2">
-                            @include('admin.car.show_safety')
+                            @include('admin.car.show-section.show_safety')
                         </div>
                         <div class="tab-pane" id="communication-2" role="tabpanel" aria-labelledby="communication-tab-2">
-                            @include('admin.car.show_communication')
+                            @include('admin.car.show-section.show_communication')
                         </div>
                     </div>
                 </div>
@@ -404,6 +463,13 @@
             <div class="row">
                 <div class="col-md-3">
                     <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
+                        <li class="nav-item tab">
+                            <a class="nav-link active" id="section0-tab-2" data-toggle="tab" href="#section0-2" role="tab" 
+                                onclick="onTab('section0')" aria-controls="section0-2" aria-selected="true">
+                                <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
+                                <span class="d-none d-sm-block">Main Images</span>
+                            </a>
+                        </li>
                         <li class="nav-item tab">
                             <a class="nav-link active" id="section1-tab-2" data-toggle="tab" href="#section1-2" role="tab" 
                                 onclick="onTab('section1')" aria-controls="section1-2" aria-selected="true">
@@ -445,10 +511,16 @@
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content">
-                        <div class="tab-pane active" id="section1-2" role="tabpanel" aria-labelledby="section1-tab-2">
+                        <div class="tab-pane active" id="section0-2" role="tabpanel" aria-labelledby="section0-tab-2">
                             <img src="{{ file_asset('files-car', $car->image) }}" 
                                 alt='brand-img' class='img-thumbnail'  width='200' height='250'>
+                            <img src="{{ file_asset('files-car', $car->image_2) }}" 
+                                alt='brand-img' class='img-thumbnail'  width='200' height='250'>
 
+                              
+                        </div>
+                        <div class="tab-pane active" id="section1-2" role="tabpanel" aria-labelledby="section1-tab-2">
+                           
                                 @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 1)
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
@@ -485,12 +557,14 @@
                         <div class="tab-pane" id="section5-2" role="tabpanel" aria-labelledby="section5-tab-2">
                             @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->color != null)
+                              
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
                                             alt='brand-img' class='img-thumbnail' width='200' height='250'>
-                                       
+                                        <button class="btn-primary" >{{config('params.colors')[$image->color]}}</button>
+                                  
                                     @endif
                                     
-                                @endforeach
+                            @endforeach
                         </div>
                      
                     </div>

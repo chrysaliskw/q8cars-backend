@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Http\Resources\CarVersionResource;
 use Exception;
 use App\Models\Car;
 use App\Models\Brand;
@@ -9,6 +10,7 @@ use App\Models\CarImage;
 use Illuminate\Http\Request;
 use App\Jobs\JunkFileDeleteJob;
 use App\Models\CarVersion;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -19,20 +21,21 @@ class CarService
     protected $data;
     protected $version;
 
-    public function __construct(array $data, Car $car = null)
+    public function __construct(array $data, Car $car = null, CarVersion $version = null)
     {
         $this->car = $car;
+        $this->version = $version;
         $this->data = $data;
-        //dd($this->data);
+       
     }
 
     public function handle()
     {
-        if (! $this->car) {
+        // if (! $this->car) {
             return $this->create();
-        }
+        // }
 
-        return $this->update();
+        // return $this->update();
     }
 
     private function create()
@@ -43,13 +46,18 @@ class CarService
             $this->saveCar();
             $this->saveToCarVersion();
             $this->saveCarImages();
-            // $this->saveCarVideos();
-            // $this->saveCarColorsAndImages();
+            $this->saveCarVideos();
+            $this->saveCarColorsAndImages();
           
             DB::commit();
 
             return $this->car;
-        } catch (Exception $e) {
+        }
+        catch(PostTooLargeException $ex){
+            DB::rollBack();
+            throw $ex;
+        }
+        catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -71,11 +79,13 @@ class CarService
 
     private function saveCar()
     {
-        $this->car = new Car();
+        if(!$this->car) {
+            $this->car = new Car();
+        }
+       
         // $oldImageName = $this->car->image;
         $this->car->brand_id = $this->data['brand_id'];
         $this->car->model_name = $this->data['model_name'];
-        // $this->car->varient_name = $this->data['varient_name'];
         $this->car->is_just_launched = $this->data['is_just_launched'];
         $this->car->sort_order = $this->data['sort_order'];
         $this->car->status = $this->data['status'];
@@ -102,7 +112,8 @@ class CarService
         $this->car->top_speed = $this->data['top_speed'];
         $this->car->mileage = $this->data['mileage'];
        
-        $this->car->image = $this->moveUploadedProfileImage();
+        $this->car->image = isset($this->data['image']) ? $this->moveUploadedProfileImage() : $this->car->image;
+        $this->car->image_2 = isset($this->data['image_detail']) ? $this->moveUploadedProfileImage2() : $this->car->image_2;
         $this->car->fuel_types = $this->getIntValueFuel();
         $this->car->transmission_type = $this->getIntValueTransmission();
         $this->car->professions = $this->getIntValueProfession();
@@ -122,15 +133,19 @@ class CarService
     public function saveToCarVersion()
     {
         $name = $this->car->model_name;
-       
+        $carSpec = CarVersion::CAR_VARIENT_SPECIFICATION;
+        if(!$this->version) {
+            $this->version = new CarVersion();
+            $carSpec = CarVersion::CAR_SPECIFICATION;
+        }
+        
         if(isset($this->data['varient_name'])) {
             $name = $this->data['varient_name'];
-            
+            $carSpec = CarVersion::CAR_VARIENT_SPECIFICATION;
         } 
 
-        $this->version = new CarVersion();
         $this->version->car_id = $this->car->id;
-        $this->version->is_car_spec = CarVersion::CAR_SPECIFICATION;
+        $this->version->is_car_spec = $carSpec;
         $this->version->varient_name = $name;
         
         $this->version->ex_showroom_price = $this->data['ex_showroom_price'];
@@ -139,15 +154,14 @@ class CarService
         $this->version->insurance = $this->data['insurance'];
         $this->version->service_charge = $this->data['service_charge'];
         
-        // $this->version->professions = 1;
-
         $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
         $this->version->engine_type = $this->data['engine_type'];
         $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
         $this->version->valves_per_cylinder = $this->data['valves_per_cylinder'];
         $this->version->bore_stroke = $this->data['bore_stroke'];
         $this->version->compression_ratio = $this->data['compression_ratio'];
-        $this->version->super_charge = $this->data['super_charge'];
+        $this->version->super_charge = $this->data['super_charge'];  
+        $this->version->gear_box = $this->data['gear_box'];
         $this->version->engine_capacity = $this->data['engine_capacity'];
         $this->version->power = $this->data['power'];
         $this->version->torque = $this->data['torque'];
@@ -177,6 +191,7 @@ class CarService
         $this->version->seat_capacity = $this->data['seat_capacity'];
         $this->version->air_conditioner = $this->data['air_condition'];
         $this->version->wheel_covers = $this->data['wheel_covers'];
+        // $this->version->alloy_wheels = $this->data['alloy_wheels'];
         // $this->version->360_view_camera = $this->data['360_view_camera'];
         $this->version->boot_space = $this->data['boot_space'];
         $this->version->power_windows = $this->data['power_windows'];
@@ -185,11 +200,14 @@ class CarService
         $this->version->digital_odometer = $this->data['digital_odometer'];
         $this->version->LED_Taillights = $this->data['LED_Taillights'];
         $this->version->automatic_headlamps = $this->data['automatic_headlamps'];
+        $this->version->adjustable_headlamps = $this->data['adjustable_headlamps'];
         $this->version->LED_DRLs = $this->data['LED_DRLs'];
         $this->version->Halogen_Headlamps = $this->data['Halogen_Headlamps'];
         $this->version->LED_Headlights = $this->data['LED_Headlights'];
+        $this->version->sun_roof = $this->data['sun_roof'];
         $this->version->safety_ratings = $this->data['safety_ratings'];
         $this->version->anti_theft_alarm = $this->data['anti_theft_alarm'];
+        $this->version->anti_brake_system = $this->data['anti_brake_system'];
         $this->version->no_of_airbags = $this->data['no_of_airbags'];
         $this->version->passenger_airbags = $this->data['passenger_airbags'];
         $this->version->driver_airbags = $this->data['driver_airbags'];
@@ -204,14 +222,18 @@ class CarService
         $this->version->digital_clock = $this->data['digital_clock'];
         $this->version->usb_charger = $this->data['usb_charger'];
         $this->version->bluetooth = $this->data['bluetooth'];
-        // $this->version->transmission_type = intval($this->data['transmission_types']);
-        // $this->version->fuel_type = intval($this->data['fuel_types']);
-        $this->version->colours = $this->getIntValueColor($this->data['colors']);
+       
+        $this->version->transmission_type = intval($this->data['transmission_types']);
+        $this->version->fuel_type = intval($this->data['fuel_types']);
+       
+        //$this->version->colours = $this->getIntValueColor($this->data['colors']);
+        $this->version->colours = $this->car->colours;
         $this->version->save();
     }
 
     private function moveUploadedProfileImage()
     {
+       
         Log::info($this->data['image']->path());
         compressAndResizeImage($this->data['image']->path(), $this->data['image']->path());
         $this->data['image']->store(Car::FILE_DIR);    // Store original image 
@@ -222,10 +244,24 @@ class CarService
         return $hashedFileName;                                                                                                                                                                                                                                                                                     nm       ;
     }
 
+    private function moveUploadedProfileImage2()
+    {
+        Log::info($this->data['image_detail']->path());
+        compressAndResizeImage($this->data['image_detail']->path(), $this->data['image_detail']->path());
+        $this->data['image_detail']->store(Car::FILE_DIR);    // Store original image 
+        compressAndResizeImage($this->data['image_detail']->path(), $this->data['image_detail']->path(), 'large_x');  // REsixe to 950x550 for images pages
+        $this->data['image_detail']->store(Car::FILE_DIR. DIRECTORY_SEPARATOR . 'large_x');  // Store resized image in car/large_x folder with same name.
+        $hashedFileName = $this->data['image_detail']->hashName();
+      
+        return $hashedFileName;                                                                                                                                                                                                                                                                                     nm       ;
+    }
+
+
     private function saveCarImages()
     {
         $oldImages = $this->getOldAdditionalImages($this->car->id);
-        CarImage::where('car_id', $this->car->id)->whereNull('color')->whereNotnull('section')->delete();
+       
+        CarImage::where('car_id', $this->car->id)->whereNull('color')->whereNotNull('section')->where('type', CarImage::TYPE_IMAGE)->delete();
     
         $images = [];
         for ($i = 1; $i <= Car::MAX_NUM_IMAGES; $i++)
@@ -233,7 +269,7 @@ class CarService
             $name = 'image_' . $i;
             $oldName = 'image_old_' . $i;
             $removedName = 'image_removed_' . $i;
-            $section = 'image_section_' . $i;
+            $section = 'section_' . $i;
     
             if(isset($this->data[$oldName]) && !isset($this->data[$name]) && in_array($this->data[$oldName], $oldImages)){
                 if (($key = array_search($this->data[$oldName], $oldImages)) !== false) {
@@ -242,10 +278,11 @@ class CarService
             }
     
             if (isset($this->data[$name]) && $this->data[$name]->get()) {
+                Log::info("file uploaded ");
                 compressAndResizeImage($this->data[$name]->path(), $this->data[$name]->path());
                 $this->data[$name]->store(Car::FILE_DIR);
-                resizeImage($this->data[$name]->path(), $this->data[$name]->path(), 'large_x');
-                $this->data[$name]->store(Car::FILE_DIR . '/large_x');
+                // resizeImage($this->data[$name]->path(), $this->data[$name]->path(), 'large_x');
+                // $this->data[$name]->store(Car::FILE_DIR . '/large_x');
                 $fileName = $this->data[$name]->hashName();
             }
             elseif(isset($this->data[$removedName]) && $this->data[$removedName] == 1) {
@@ -284,10 +321,86 @@ class CarService
     
     }
 
+    private function saveCarColorsAndImages()
+    {
+        $oldImages = $this->getOldAdditionalImagesColor($this->car->id);
+        CarImage::where('car_id', $this->car->id)->whereNotNull('color')->whereNull('section')->where('type', CarImage::TYPE_IMAGE)->delete();
+    
+        $images = [];
+        for ($i = 1; $i <= count(config('params.colors')); $i++)
+        {
+            $name = 'colors_image_' . $i;
+            $oldName = 'colors_image_old_' . $i;
+            $removedName = 'colors_image_removed_' . $i;
+            $color = $i;
+    
+            if(isset($this->data[$oldName]) && !isset($this->data[$name]) && in_array($this->data[$oldName], $oldImages)){
+                if (($key = array_search($this->data[$oldName], $oldImages)) !== false) {
+                    unset($oldImages[$key]);
+                }
+            }
+    
+            if (isset($this->data[$name]) && $this->data[$name]->get()) {
+                compressAndResizeImage($this->data[$name]->path(), $this->data[$name]->path());
+                $this->data[$name]->store(Car::FILE_DIR);
+                // resizeImage($this->data[$name]->path(), $this->data[$name]->path(), 'large_x');
+                // $this->data[$name]->store(Car::FILE_DIR . '/large_x');
+                $fileName = $this->data[$name]->hashName();
+            }
+            elseif(isset($this->data[$removedName]) && $this->data[$removedName] == 1) {
+                $image = Car::find($this->data['deleted_image_id_' . $i]);
+                if($image){
+                    Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . $image->file_name);
+                    Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x' . DIRECTORY_SEPARATOR . $image->file_name);
+                    $car = Car::where('id', $image->id);
+                    $car->delete();
+                }     
+                continue;
+            }
+            else {
+                $fileName = $this->data[$oldName] ?? null;
+            }
+            if (! $fileName) {
+                continue;
+            }
+    
+            $images[] = [
+                'car_id' => $this->car->id,
+                'file_name' => $fileName,
+                'type' => CarImage::TYPE_IMAGE,
+                'color' => $color,
+            ];
+        }
+    
+        DB::table((new CarImage())->getTable())->insert($images);
+        $imagesToDelete = $this->getJunkImages($images, $oldImages);
+        JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
+        foreach($oldImages as $name)
+        {
+            Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . $name);
+            Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x' . DIRECTORY_SEPARATOR . $name);
+        }
+    
+    }
+
     private function getOldAdditionalImages($carId)
     {
         $oldImages = [];
-        $images = CarImage::where('car_id', $carId)->get();
+        $images = CarImage::where('car_id', $carId)->whereNull('color')->whereNotNull('section')->where('type', CarImage::TYPE_IMAGE)->get();
+        if(!empty($images)){
+            foreach($images as $image){
+                $oldImages[$image->id] = $image->file_name;
+            }
+        }
+
+        return $oldImages;
+    }
+
+
+    private function getOldAdditionalImagesColor($carId)
+    {
+        $oldImages = [];
+        $images = CarImage::where('car_id', $carId)->whereNotNull('color')->whereNotNull('section')->where('type', CarImage::TYPE_IMAGE)->get();
         if(!empty($images)){
             foreach($images as $image){
                 $oldImages[$image->id] = $image->file_name;
@@ -310,14 +423,17 @@ class CarService
 
     private function getIntValueFuel()
     {
-        $result = null;
-        if(isset($this->all_profession)) {
-            foreach(config('params.cars.fuel_type') as $p) {
-                $result[] = intval($p);
+        $result = [];
+        $i = 0;
+        if(isset($this->data['all_fuels']) && $this->data['all_fuels'] == 1) {
+            foreach(config('params.car.fuel_type') as $key => $value) {
+                $result[$i] = intval($key);
+                $i++;
             }
         }else {
             foreach($this->data['fuel_types'] as $p) {
-                $result[] = intval($p);
+                $result[$i] = intval($p);
+                $i++;
             }
         }
         return  json_encode($result);
@@ -325,14 +441,17 @@ class CarService
 
     private function getIntValueTransmission()
     {
-        $result = null;
-        if(isset($this->all_transmission)) {
-            foreach(config('params.car.transmission_type') as $p) {
-                $result[] = intval($p);
+        $result = [];
+        $i = 0;
+        if(isset($this->data['all_transmissions']) && $this->data['all_transmissions'] == 1) {
+            foreach(config('params.car.transmission_type') as $key => $value) {
+                $result[$i] = intval($key);
+                $i++;
             }
         }else {
             foreach($this->data['transmission_types'] as $p) {
-                $result[] = intval($p);
+                $result[$i] = intval($p);
+                $i++;
             }
         }
         return json_encode($result);
@@ -340,14 +459,17 @@ class CarService
 
     private function getIntValueProfession()
     {
-        $result = null;
-        if(isset($this->all_fuels)) {
-            foreach(config('params.car.fuel_type') as $p) {
-                $result[] = intval($p);
+        $result = [];
+        $i = 0;
+        if(isset($this->data['all_profession']) && $this->data['all_profession'] == 1) {
+            foreach(config('params.professions') as $key => $value) {
+                $result[$i] = intval($key);
+                $i++;
             }
         }else {
-            foreach($this->data['fuel_types'] as $p) {
-                $result[] = intval($p);
+            foreach($this->data['professions'] as $p) {
+                $result[$i] = intval($p);
+                $i++;
             }
         }
         return json_encode($result);
@@ -356,11 +478,46 @@ class CarService
     private function getIntValueColor()
     {
         $result = null;
-       
+        $i = 0;
         foreach($this->data['colors'] as $p) {
-            $result[] = intval($p);
+            $result[$i] = intval($p);
+            $i++;
         }
         
         return json_encode($result);
+    }
+
+    private function saveCarVideos()
+    {
+        $videos = [];
+        for($i = 1; $i <=3 ; $i++)
+        {
+            $title = 'title_'.$i;
+            $video = 'video_'.$i;
+            if(isset($this->data[$video])) {
+                $description = 'description_'.$i;
+                $date = 'date_'.$i;
+                $thumbnail = 'thumbnail_'.$i;
+                $postedMedia = 'posted_media_'.$i;
+               
+                $this->data[$video]->store(Car::FILE_DIR);
+                $fileNameVideo = $this->data[$video]->hashName();
+
+                $this->data[$thumbnail]->store(Car::FILE_DIR);
+                $fileNameThumbnail = $this->data[$thumbnail]->hashName();
+
+                $videos[] = [
+                    'car_id' => $this->car->id,
+                    'file_name' => $fileNameVideo,
+                    'type' => CarImage::TYPE_VIDEO,
+                    'thumbnail' => $fileNameThumbnail,
+                    'video_title' => $this->data[$title],
+                    'video_description' => $this->data[$description],
+                    'video_posted_date' => $this->data[$date],
+                    'video_posted_media' => $this->data[$postedMedia],
+                ];
+            }
+        } 
+        DB::table((new CarImage())->getTable())->insert($videos);
     }
 }

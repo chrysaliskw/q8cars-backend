@@ -48,4 +48,6 @@ class Admin extends Authenticatable
     {
         return $this->status == self::STATUS_ACTIVE;
     }
+
+    
 }

@@ -35,7 +35,7 @@ class Authenticate extends Middleware
             if (in_array('admin', $guards)) {
                 return route('admin.login');
             }
-            return '/';
+            return route('admin.login');
         }
     }
 }

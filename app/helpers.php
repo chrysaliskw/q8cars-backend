@@ -4,6 +4,7 @@
  * Application common helper functions
  */
 
+use App\Models\CarImage;
 use App\Services\ZebraImageService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -292,6 +293,20 @@ if (! function_exists('get_time_ago'))
             }
             return 'now';
         }
+	}
+	/**
+	 * time ago
+	 */
+	if (! function_exists('get_car_image_by_color'))
+	{
+		function get_car_image_by_color($colorId, $carId) {
+			$carImage = CarImage::image()->where('car_id', $carId)->where('color', $colorId)->first();
+			if($carImage) {
+				return $carImage->file_name;
+			}
+
+			return null;
+		}
 	}
 }
 

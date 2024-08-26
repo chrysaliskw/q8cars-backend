@@ -49,7 +49,14 @@
                     <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
                         onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
-                        <span class="d-none d-sm-block">Images & Videos</span>
+                        <span class="d-none d-sm-block">Images</span>
+                    </a>
+                </li>
+                <li class="nav-item tab">
+                    <a class="nav-link" id="videos-tab-2" data-toggle="tab" href="#videos-2" role="tab" 
+                        onclick="onTab('videos')" aria-controls="videos-2" aria-selected="false">
+                        <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                        <span class="d-none d-sm-block">Videos</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
@@ -80,20 +87,23 @@
                         @csrf
 
                     <div class="tab-pane show active" id="about-2" role="tabpanel" aria-labelledby="about-tab-2">
-                        @include('admin.car.create_basic_info')
+                        @include('admin.car.create-section.create_basic_info')
                     </div>
                     <div class="tab-pane" id="contact-2" role="tabpanel" aria-labelledby="contact-tab-2">
-                        @include('admin.car.create_summary')
+                        @include('admin.car.create-section.create_summary')
                     </div>
                     <div class="tab-pane" id="images-2" role="tabpanel" aria-labelledby="images-tab-2">
-                        @include('admin.car.create_images')
+                        @include('admin.car.create-section.create_images')
+                    </div>
+                    <div class="tab-pane" id="videos-2" role="tabpanel" aria-labelledby="videos-tab-2">
+                        @include('admin.car.create-section.create_videos')
                     </div>
                     <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
-                        @include('admin.car.create_colors')
+                        @include('admin.car.create-section.create_colors')
                     </div>
                  
                     <div class="tab-pane" id="product_service-2" role="tabpanel" aria-labelledby="product_service-tab-2">
-                        @include('admin.car.create_key_features')
+                        @include('admin.car.create-section.create_key_features')
                     </div>
 
                  
@@ -108,6 +118,20 @@
         
         
         <script defer type="application/javascript">
+
+            $("#date_1").datepicker({
+                format: 'dd-mm-yyyy',
+                
+            });
+            $("#date_2").datepicker({
+                format: 'dd-mm-yyyy',
+                
+            });
+             $("#date_3").datepicker({
+                format: 'dd-mm-yyyy',
+                
+            });
+
 
             /**
              * Loading spinner

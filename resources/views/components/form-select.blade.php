@@ -2,13 +2,15 @@
     'field' => '',
     'fieldName' => '',
     'data' => [],
-    'defaultPrompt' => ''
+    'defaultPrompt' => '',
 ])
 
 <div class="form-group">
     <label for="{{ $field }}" class="control-label">{{ $fieldName }}</label>
     <select name="{{ $field }}" {!! $attributes->merge(['class' => 'form-control']) !!} class="form-control">
+        @if($defaultPrompt)
         <option value=''> {{ $defaultPrompt }} </option>
+        @endif
         {{ $slot }}
     </select>
     @error($field)

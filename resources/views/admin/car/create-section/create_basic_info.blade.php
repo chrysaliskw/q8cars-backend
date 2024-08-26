@@ -7,18 +7,18 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                <x-form-select field="brand_id" field-name="Brand" id="brand_id">
+                <x-form-select field="brand_id" field-name="Brand*" id="brand_id">
                 </x-form-select>
                 <input type="hidden" id="brand_id_text" name="brand_id_text" />
                 <span class="error" role="alert" id="brand_id_error" ></span>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="model_name" field-name="Model Name" value="{{ old('model_name') }}">
+                <x-form-input type="text" field="model_name" field-name="Model Name*" value="{{ old('model_name') }}">
                 </x-form-input>
             </div>
           
             <div class="col-md-4">
-                <x-form-input type="text" field="sort_order" field-name="Sort Order" value="{{ old('sort_order') }}">
+                <x-form-input type="text" field="sort_order" field-name="Sort Order*" value="{{ old('sort_order') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -33,7 +33,7 @@
             </div>
             
             <div class="col-md-4">
-                <x-form-select field="status" field-name="Status" defaultPrompt="Select status">
+                <x-form-select field="status" field-name="Status*" defaultPrompt="Select status">
                     @foreach (config('params.car.status') as $value => $label)
                         <option {{ old('status') == $value ? 'Selected' : '' }} value="{{ $value }}">
                             {{ $label }}</option>
@@ -52,23 +52,23 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                <x-form-input type="text" field="ex_showroom_price" field-name="Ex-Showroom Price" value="{{ old('ex_showroom_price') }}">
+                <x-form-input type="text" field="ex_showroom_price" field-name="Ex-Showroom Price*" value="{{ old('ex_showroom_price') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="on_road_price" field-name="On Road Price" value="{{ old('on_road_price') }}">
+                <x-form-input type="text" field="on_road_price" field-name="On Road Price*" value="{{ old('on_road_price') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="finance_available" field-name="Finance Available" value="{{ old('finance_available') }}">
+                <x-form-input type="text" field="finance_available" field-name="Finance Available*" value="{{ old('finance_available') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="insurance" field-name="Insurance" value="{{ old('insurance') }}">
+                <x-form-input type="text" field="insurance" field-name="Insurance*" value="{{ old('insurance') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="service_charge" field-name="Service Cost(Avg of 5 Years)" value="{{ old('service_charge') }}">
+                <x-form-input type="text" field="service_charge" field-name="Service Cost(Avg of 5 Years)*" value="{{ old('service_charge') }}">
                 </x-form-input>
             </div>
         </div>

@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-4">
             <!-- <span class="badge bg-primary ms-2">key</span> -->
-                <x-form-input type="text" field="engine_type" field-name="Engine Type" value="{{ old('engine_type') }}">
+                <x-form-input type="text" field="engine_type" field-name="Engine Type*" value="{{ old('engine_type') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -23,11 +23,11 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="bore_stroke" field-name="Bore x Stroke" value="{{ old('bore_stroke') }}">
+                <x-form-input type="text" field="bore_stroke" field-name="Bore x Stroke*" value="{{ old('bore_stroke') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="compression_ratio" field-name="Compression Ratio" value="{{ old('compression_ratio') }}">
+                <x-form-input type="text" field="compression_ratio" field-name="Compression Ratio*" value="{{ old('compression_ratio') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -37,19 +37,23 @@
                 </x-form-select>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)" value="{{ old('engine_capacity') }}">
+                <x-form-input type="text" field="gear_box" field-name="Gear Box" value="{{ old('gear_box') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="power" field-name="Power(Bhp)" value="{{ old('power') }}">
+                <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)*" value="{{ old('engine_capacity') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="torque" field-name="Torque(rpm)" value="{{ old('torque') }}">
+                <x-form-input type="text" field="power" field-name="Power(Bhp)*" value="{{ old('power') }}">
+                </x-form-input>
+            </div>
+            <div class="col-md-4">
+                <x-form-input type="text" field="torque" field-name="Torque(rpm)*" value="{{ old('torque') }}">
                 </x-form-input>
             </div>
             <div class="col-md-12">
-                <label class="control-label" for="transmission_types">Transmission Types</label>
+                <label class="control-label" for="transmission_types">Transmission Types*</label>
                 <div class="row">
                     <div class="form-check form-check-inline col-md-2">
                             <input class="form-check-input" type="checkbox" name="all_transmissions" id="all_transmissions"
@@ -89,19 +93,19 @@
         <div class="row">  
        
             <div class="col-md-4">
-                <x-form-input type="text" field="drive_train" field-name="Drive train" value="{{ old('drive_train') }}">
+                <x-form-input type="text" field="drive_train" field-name="Drive train*" value="{{ old('drive_train') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)" value="{{ old('acceleration') }}">
+                <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)*" value="{{ old('acceleration') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="top_speed" field-name="Top speed(kmph)" value="{{ old('top_speed') }}">
+                <x-form-input type="text" field="top_speed" field-name="Top speed(kmph)*" value="{{ old('top_speed') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="mileage" field-name="Mileage" value="{{ old('mileage') }}">
+                <x-form-input type="text" field="mileage" field-name="Mileage*" value="{{ old('mileage') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -109,11 +113,11 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity" value="{{ old('fuel_tank_capacity') }}">
+                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity*" value="{{ old('fuel_tank_capacity') }}">
                 </x-form-input>
             </div>
             <div class="col-md-12">
-                <label class="control-label" for="fuel_types">Fuel Types</label>
+                <label class="control-label" for="fuel_types">Fuel Types*</label>
                 <div class="row">
                     <div class="form-check form-check-inline col-md-2">
                             <input class="form-check-input" type="checkbox" name="all_fuels" id="all_fuels"
@@ -209,21 +213,21 @@
     <div class="card-body">
         <div class="row"> 
             <div class="col-md-4">
-                <x-form-select field="body_type_id" field-name="Body Type" id="body_type_id">
+                <x-form-select field="body_type_id" field-name="Body Type*" id="body_type_id">
                 </x-form-select>
                 <input type="hidden" id="body_type_id_text" name="body_type_id_text" />
                 <span class="error" role="alert" id="body_type_id_error" ></span>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="length" field-name="Length(mm)" value="{{ old('length') }}">
+                <x-form-input type="text" field="length" field-name="Length(mm)*" value="{{ old('length') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="width" field-name="Width(mm)" value="{{ old('width') }}">
+                <x-form-input type="text" field="width" field-name="Width(mm)*" value="{{ old('width') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="height" field-name="Height(mm)" value="{{ old('height') }}">
+                <x-form-input type="text" field="height" field-name="Height(mm)*" value="{{ old('height') }}">
                 </x-form-input>
             </div>
         </div>
@@ -238,11 +242,11 @@
     <div class="card-body">
         <div class="row"> 
             <div class="col-md-4">
-                <x-form-input type="text" field="seat_upholstery" field-name="Seat Upholstery" value="{{ old('seat_upholstery') }}">
+                <x-form-input type="text" field="seat_upholstery" field-name="Seat Upholstery*" value="{{ old('seat_upholstery') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity" value="{{ old('seat_capacity') }}">
+                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ old('seat_capacity') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -324,6 +328,12 @@
                 </x-form-select>
             </div>
             <div class="col-md-4">
+                <x-form-select field="adjustable_headlamps" field-name="Ajustable Headlamps">
+                    <option selected value="1">Yes</option>
+                    <option value="2">No</option>
+                </x-form-select>
+            </div>
+            <div class="col-md-4">
                 <x-form-select field="LED_DRLs" field-name="LED DRLs">
                     <option selected value="1">Yes</option>
                     <option value="2">No</option>
@@ -341,6 +351,12 @@
                     <option value="2">No</option>
                 </x-form-select>
             </div>
+            <div class="col-md-4">
+                <x-form-select field="sun_roof" field-name="Sun Roof">
+                    <option selected value="1">Yes</option>
+                    <option value="2">No</option>
+                </x-form-select>
+            </div>
         </div>
     </div>
 </div>
@@ -351,8 +367,9 @@
         </div>
     </div>
     <div class="card-body">
+        <div class="row"> 
             <div class="col-md-4">
-                <x-form-select field="safety_ratings" field-name="Safety ratings" defaultPrompt="Select">
+                <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
                     <option selected value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -360,7 +377,7 @@
                     <option value="5">5</option>
                 </x-form-select>
             </div>
-        
+            
             <div class="col-md-4">
                 <x-form-select field="anti_theft_alarm" field-name="Anti Theft Alarm">
                     <option selected value="1">Yes</option>
@@ -368,15 +385,21 @@
                 </x-form-select>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags" value="{{ old('no_of_airbags') }}">
+                <x-form-select field="anti_brake_system" field-name="Anti Brake System">
+                    <option selected value="1">Yes</option>
+                    <option value="2">No</option>
+                </x-form-select>
+            </div>
+            <div class="col-md-4">
+                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ old('no_of_airbags') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="passenger_airbags" field-name="Passenger Airbags" value="{{ old('passenger_airbags') }}">
+                <x-form-input type="text" field="passenger_airbags" field-name="Passenger Airbags*" value="{{ old('passenger_airbags') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="driver_airbags" field-name="Driver Airbags" value="{{ old('driver_airbags') }}">
+                <x-form-input type="text" field="driver_airbags" field-name="Driver Airbags*" value="{{ old('driver_airbags') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -385,7 +408,7 @@
                     <option value="2">No</option>
                 </x-form-select>
             </div>
-       
+        </div>
     </div>
 </div>
 <div class="card card-border card-primary">
