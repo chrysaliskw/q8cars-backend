@@ -16,7 +16,8 @@ class FavouriteListResource extends JsonResource
   public function toArray($request)
   {
     return [
-        'id' => $this->id,
+        'id' => $this->car_id,
+        'favourite_id' => $this->id,
         'model_name' => $this->car->model_name,
         'brand_id' => $this->car->brand_id,
         'brand_name' => $this->car->brand->name,
