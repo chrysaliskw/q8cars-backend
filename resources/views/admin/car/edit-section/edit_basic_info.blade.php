@@ -78,13 +78,13 @@
 <div class="card card-border card-primary">
     <div class="card-header"> 
         <div class="m-b-30">
-            
+            Professions
         </div>
     </div>
     <div class="card-body">
  
             <div class="col-md-12">
-                <label class="control-label" for="profession">Professions</label>
+             
                 <div class="row">
                         @php
                             $allProfeessionCheck = '';
@@ -124,6 +124,8 @@
       
 
 </div>
+
+@include('admin.car.edit-section.edit_key_features')
 
 
 

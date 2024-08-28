@@ -78,7 +78,7 @@
 <div class="card card-border card-primary">
     <div class="card-header"> 
         <div class="m-b-30">
-            
+        Professions
         </div>
     </div>
     <div class="card-body">
@@ -88,7 +88,7 @@
 
       
             <div class="col-md-12">
-                <label class="control-label" for="profession">Professions</label>
+              
                 <div class="row">
                     <div class="form-check form-check-inline col-md-2">
                             <input class="form-check-input" type="checkbox" name="all_profession" id="all_profession"
@@ -118,6 +118,8 @@
       
 
 </div>
+
+@include('admin.car.create-section.create_key_features')
 
 
 
