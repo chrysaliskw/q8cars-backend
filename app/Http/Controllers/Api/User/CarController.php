@@ -279,7 +279,7 @@ class CarController extends ApiBaseController
             'No of Cylinders' => $varient->no_of_cylinders,
             'Bore x Stroke' => $varient->bore_stroke,
             'Compression Ratio' => $varient->compression_ratio,
-            'Super Charge' => $varient->super_charge,
+            'Super Charge' => $varient->super_charge==1 ? 'Yes' : 'No',
             'Transmission Type' => config('params.car.transmission_type')[$varient->transmission_type],
             'Engine Capacity' => $varient->engine_capacity,
         ];
