@@ -44,9 +44,9 @@
                 </div>--}}
 
                 <div class="col-md-4">
-                    <x-form-select field="is_recent_purchased" field-name="Is Recent Purchased ?" defaultPrompt="Select">
+                    <x-form-select field="is_recently_purchased" field-name="Is Recent Purchased ?" defaultPrompt="Select">
                         @foreach (config('params.brand.is_top_brand') as $value => $label)
-                            <option {{ old('is_recent_purchased') == $value ? 'Selected' : '' }} value="{{ $value }}">
+                            <option {{ old('is_recently_purchased') == $value ? 'Selected' : '' }} value="{{ $value }}">
                                 {{ $label }}</option>
                         @endforeach
                     </x-form-select>

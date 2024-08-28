@@ -38,7 +38,7 @@ class BrandService
            $this->brand->name = $this->request->name;
            $this->brand->is_top_brand = $this->request->is_top_brand;
         //    $this->brand->is_popular = $this->request->is_top_brand;
-           $this->brand->is_recent_purchased = $this->request->is_top_brand;
+           $this->brand->is_recently_purchased = $this->request->is_recently_purchased;
            $this->brand->status = $this->request->status;
 
            if($this->request->hasfile('icon')){
@@ -62,7 +62,7 @@ class BrandService
             DB::beginTransaction();
             $this->brand->name = $this->request->name;
             $this->brand->is_top_brand = $this->request->is_top_brand;
-            $this->brand->is_recent_purchased = $this->request->is_top_brand;
+            $this->brand->is_recently_purchased = $this->request->is_recently_purchased;
             $this->brand->status = $this->request->status;
             
             if($this->request->has('icon')){

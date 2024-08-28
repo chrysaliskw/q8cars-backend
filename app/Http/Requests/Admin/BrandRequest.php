@@ -38,6 +38,7 @@ class BrandRequest extends FormRequest
             'name' => ['required', new RegexAlphaNumSpaceHyphen, 'string', 'max:200'],
             'icon' => 'required|mimes:jpg,png,jpeg|max:2048',
             'is_top_brand' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],
+            'is_recently_purchased' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
         ];
     }

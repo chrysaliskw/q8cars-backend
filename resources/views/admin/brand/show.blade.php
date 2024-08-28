@@ -63,7 +63,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Is Recently Purchased?</label>
                                 <div class="col-sm-8">
-                                {{ config('params.brand.is_top_brand')[$brand->is_recent_purchased] }}
+                                {{ config('params.brand.is_top_brand')[$brand->is_recently_purchased] }}
                                 </div>
                             </div>
 
