@@ -50,7 +50,7 @@ class CarController extends ApiBaseController
 
         $data['counts'] = $this->getCounts($car);
         $data['key_features'] = $this->getKeyFeatures($car);
-        $data['key_specifications'][] = $this->getKeySpecifications($car);
+        $data['key_specifications'] = $this->getKeySpecifications($car);
         $data['specification_and_features'] = $this->getAllSpecificationAndFeatures($car, $request);
         $data['version_price_mileage'] = $this->getCarVersionAndPrice($car);
         $data['summary'] = $this->getSummary($car);
@@ -160,17 +160,29 @@ class CarController extends ApiBaseController
 
     private function getKeySpecifications(Car $car)
     {
-        return [
-            'Fuel Types' => $this->getFuelTypes($car->fuel_types),
-            'Engine Capacity' => $car->engine_capacity. ' cc',
-            'Power' => $car->power. 'Bph',
-            'Torque' => $car->torque. 'Bph',
-            'Drive Train' => $car->drive_train,
-            'Acceleration' => $car->acceleration.' sec',
-            'Top Speed' => $car->top_speed.' kmph',
-            'Seat Capacity' => $car->seat_capacity,
-            'Mileage' => $car->mileage. ' klmp',
-        ];
+        $data['Fuel Types'] = $this->getFuelTypes($car->fuel_types);
+        $data['Engine Capacity'] = $car->engine_capacity. ' cc';
+        $data['Power'] = $car->power. 'Bph';
+        $data['Torque'] = $car->torque. 'Bph';
+        $data['Drive Train'] = $car->drive_train;
+        $data['Acceleration'] = $car->acceleration.' sec';
+        $data['Top Speed'] = $car->top_speed.' kmph';
+        $data['Seat Capacity'] = $car->seat_capacity;
+        $data['Mileage'] = $car->mileage. ' klmp';
+
+        return $data;
+
+        // return [
+        //     'Fuel Types' => $this->getFuelTypes($car->fuel_types),
+        //     'Engine Capacity' => $car->engine_capacity. ' cc',
+        //     'Power' => $car->power. 'Bph',
+        //     'Torque' => $car->torque. 'Bph',
+        //     'Drive Train' => $car->drive_train,
+        //     'Acceleration' => $car->acceleration.' sec',
+        //     'Top Speed' => $car->top_speed.' kmph',
+        //     'Seat Capacity' => $car->seat_capacity,
+        //     'Mileage' => $car->mileage. ' klmp',
+        // ];
     }
 
     private function getSummary(Car $car)
