@@ -43,7 +43,23 @@
             </div> 
 
                <div class="row">
-              
+             {{--  <div class="col-md-4">
+                    <x-form-select field="is_popular" field-name="Is Popular ?" defaultPrompt="Select">
+                        @foreach (config('params.brand.is_top_brand') as $value => $label)
+                            <option {{ old('is_popular') == $brand->is_popular ? 'Selected' : '' }} value="{{ $value }}">
+                                {{ $label }}</option>
+                        @endforeach
+                    </x-form-select>
+                </div>
+                --}}
+                <div class="col-md-4">
+                    <x-form-select field="is_recent_purchased" field-name="Is Recent Purchased ?" defaultPrompt="Select">
+                        @foreach (config('params.brand.is_top_brand') as $value => $label)
+                            <option {{ old('is_recent_purchased') == $brand->is_recent_purchased ? 'Selected' : '' }} value="{{ $value }}">
+                                {{ $label }}</option>
+                        @endforeach
+                    </x-form-select>
+                </div>
                 <div class="col-md-4">
                     <x-form-select field="status" field-name="Status" defaultPrompt="Select status">
                         @foreach (config('params.brand.status') as $value => $label)

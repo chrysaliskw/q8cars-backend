@@ -70,7 +70,7 @@ class HomeController extends ApiBaseController
 
     private function getBrands()
     {
-        $brands = Brand::active()->orderBy('is_top_brand', 'asc')->limit(50)->get();
+        $brands = Brand::active()->orderBy('is_top_brand', 'asc')->where('is_recent_purchased', 1)->limit(50)->get();
         return BrandResource::collection($brands);
     }
 }

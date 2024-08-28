@@ -53,6 +53,20 @@
                                 </div>
                             </div>
 
+                         {{--  <div class="form-group row">
+                                <label class="col-sm-4 control-label">Is Popular?</label>
+                                <div class="col-sm-8">
+                                {{ config('params.brand.is_top_brand')[$brand->is_popular] }}
+                                </div>
+                            </div>
+                            --}} 
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Is Recently Purchased?</label>
+                                <div class="col-sm-8">
+                                {{ config('params.brand.is_top_brand')[$brand->is_recent_purchased] }}
+                                </div>
+                            </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Status</label>
                                 <div class="col-sm-8">

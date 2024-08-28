@@ -34,6 +34,17 @@ class UserDataGrid extends Grid
                     }
                 }
             ],
+            'mobile' => [
+                'label' => 'Mobile',
+                'value' => function ($model) {
+                    return $model->phone_code .$model->mobile;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'mobile',
+                ]
+            ],
             'name' => [
                 'label' => 'Name',
                 'value' => function ($model) {
@@ -54,17 +65,6 @@ class UserDataGrid extends Grid
                 'filterOptions' => [
                     'type' => 'text',
                     'attribute' => 'email',
-                ]
-            ],
-            'mobile' => [
-                'label' => 'Mobile',
-                'value' => function ($model) {
-                    return $model->phone_code .$model->mobile;
-                },
-                'filter' => true,
-                'filterOptions' => [
-                    'type' => 'text',
-                    'attribute' => 'mobile',
                 ]
             ],
 
