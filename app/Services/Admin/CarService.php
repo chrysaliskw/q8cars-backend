@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\CarImage;
 use Illuminate\Http\Request;
 use App\Jobs\JunkFileDeleteJob;
+use App\Models\CarAdditonalSpecifications;
 use App\Models\CarVersion;
 use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,8 @@ class CarService
     protected $car;
     protected $data;
     protected $version;
+    private $oldAttributeIds;
+    private $oldAttributeKeyIds;
 
     public function __construct(array $data, Car $car = null, CarVersion $version = null)
     {
@@ -48,6 +51,11 @@ class CarService
             $this->saveCarImages();
             $this->saveCarVideos();
             $this->saveCarColorsAndImages();
+            if(isset($this->data['attribute']))
+            {
+                $this->saveCategoryAttributes();
+            }
+            $this->deleteCategoryAttributes();
           
             DB::commit();
 
@@ -81,6 +89,8 @@ class CarService
     {
         if(!$this->car) {
             $this->car = new Car();
+        }else {
+            $this->oldAttributeIds = CarAdditonalSpecifications::where('car_id', $this->car->id)->pluck('id')->toArray();
         }
        
         // $oldImageName = $this->car->image;
@@ -527,5 +537,67 @@ class CarService
             }
         } 
         DB::table((new CarImage())->getTable())->insert($videos);
+    }
+
+    private function saveCategoryAttributes()
+    {
+        $attributes = [];
+
+        foreach ($this->data['attribute'] as $index => $name)
+        {
+            if ($index == 10) {
+                break;
+            }
+
+            if (empty($name)) {
+                continue;
+            }
+
+            if (isset($this->data['attribute_id']) && $this->data['attribute_id'][$index]) 
+            {
+                $categoryAttribute = CarAdditonalSpecifications::find($this->data['attribute_id'][$index]);
+                $categoryAttribute->specification = $name;
+            }
+            else
+            {
+                $categoryAttribute = new CarAdditonalSpecifications();
+            }
+
+            $categoryAttribute->car_id = $this->car->id;
+            $categoryAttribute->car_version_id = $this->version->id;
+            $categoryAttribute->input_type = $this->data['input_type'][$index];
+            $categoryAttribute->specification = $this->data['attribute'][$index];
+            $categoryAttribute->category_id = $this->data['section'][$index];
+            $categoryAttribute->unit = $this->data['units'][$index];
+            if($this->data['input_type'][$index] == CarAdditonalSpecifications::TYPE_TEXT) {
+                $categoryAttribute->value = $this->data['text_value'][$index];
+            }else {
+                $categoryAttribute->value = $this->data['bool_value'][$index];
+            }
+            $categoryAttribute->saveOrFail();
+      
+        }
+    }
+
+    private function deleteCategoryAttributes()
+    {
+        if (empty($this->oldAttributeIds)) {
+            return;
+        }
+
+        if (empty($this->car)) {
+            return;
+        }
+
+        if (!is_array($this->data['attribute_id'])) {
+            $this->data['attribute_id'] = array($this->data['attribute_id']);
+        }
+        
+        $ids = array_diff($this->oldAttributeIds, $this->data['attribute_id']);
+        if (empty($ids)) {
+            return;
+        }
+
+        CarAdditonalSpecifications::destroy($ids);
     }
 }

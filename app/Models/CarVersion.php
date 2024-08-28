@@ -32,6 +32,46 @@ class CarVersion extends Model
     {
         return $this->belongsTo(Car::class);
     }
+    public function carAdditionalSpecifications()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class);
+    }
+    public function engine()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_ENGINE);
+    }
+    public function fuel()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_FUEL);
+    }
+    public function suspension()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_SUSPENSION);
+    }
+    public function dimension()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_DIMENSION);
+    }
+    public function exterior()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_EXTERIOR);
+    }
+    public function interior()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_INTERIOR);
+    }
+    public function safety()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_SAFETY);
+    }
+    public function entertainment()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_ENTERTAINMENT);
+    }
+    public function comfort()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_COMFORT);
+    }
     /*
     |--------------------------------------------------------------------------
     | Local Scopes

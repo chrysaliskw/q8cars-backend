@@ -70,7 +70,13 @@
                     </a>
                 </li>
 
-            
+                <li class="nav-item tab">
+                    <a class="nav-link" id="additional-tab-2" data-toggle="tab" href="#additional-2" role="tab" 
+                        onclick="onTab('additional')" aria-controls="additional-2" aria-selected="false">
+                        <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
+                        <span class="d-none d-sm-block">Other Specifications</span>
+                    </a>
+                </li>
               
 
              
@@ -99,7 +105,9 @@
                         @include('admin.car.edit-section.edit_colors')
                     </div>
                
-                 
+                    <div class="tab-pane" id="additional-2" role="tabpanel" aria-labelledby="additional-tab-2">
+                        @include('admin.car.create-section.additional')
+                    </div>
 
                 </form>
             </div>
@@ -121,6 +129,16 @@
                 format: 'dd-mm-yyyy',
                 
             });
+            
+            function clearRow(that) 
+            {
+                var i= $(that).data().id;
+                document.getElementById("attribute_"+i).value="";
+                document.getElementById("input_type_"+i).value="";
+                document.getElementById("text_value_"+i).value="";
+                document.getElementById("bool_value_"+i).value="";
+                document.getElementById("section_"+i).value="";
+            }
 
             /**
              * Loading spinner

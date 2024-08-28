@@ -38,7 +38,24 @@
                                 {{ $carVarient->fuel_tank_capacity}}
                     </div>
                 </div>
-              
+                @if($carVarient->fuel)
+                @foreach($carVarient->fuel as $spec)
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">{{ $spec->specification }}</label>
+                    <div class="col-sm-8">
+                         @if($spec->input_type == 1)
+                            {{ $spec->value }}
+                         @else
+                            @if($spec->value == 1)
+                                <i class="fa fa-check" style="color:green;"></i>
+                            @else
+                                <i class="fa fa-times" style="color:red;"></i>
+                            @endif
+                         @endif      
+                    </div>
+                </div>
+                @endforeach
+                @endif
             </div>
         </div>
     </div>
