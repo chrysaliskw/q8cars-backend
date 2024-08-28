@@ -133,6 +133,8 @@ class CarController extends ApiBaseController
         $result = [
             'id' => $car->id,
             'model_name' => $car->model_name,
+            'brand_name' => $car->brand->name,
+            'brand_id' => $car->brand_id,
             'colours' => count(json_decode($car->colours)),
             'photos' => $car->carPhotos->count() + 1,
             'videos' => $car->carVideos->count(),
