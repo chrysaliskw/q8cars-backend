@@ -44,12 +44,12 @@ class HomeController extends ApiBaseController
 
         $i = 0;
         foreach($lists as $list) {
-            $car1 = new CarVersionResource(CarVersion::find($list->car_1_id));
+            $car1 = new CarVersionResource(CarVersion::where('car_id', $list->car_1_id)->where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first());
             if($list->car_version_1_id) {
                 $car1 = new CarVersionResource(CarVersion::find($list->car_version_1_id));
             }
 
-            $car2 = new CarVersionResource(CarVersion::find($list->car_2_id));
+            $car2 = new CarVersionResource(CarVersion::where('car_id', $list->car_2_id)->where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first());
             if($list->car_version_2_id) {
                 $car2 = new CarVersionResource(CarVersion::find($list->car_version_2_id));
             }
