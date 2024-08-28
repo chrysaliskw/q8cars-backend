@@ -266,7 +266,7 @@ class CarController extends ApiBaseController
     private function getAllSpecificationAndFeatures(Car $car, Request $request)
     {
         $result = null;
-        $version = (CarVersion::where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first())->id;
+        $version = (CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first())->id;
         if($request->car_version_id) {
             $version = $request->car_version_id;
         }
