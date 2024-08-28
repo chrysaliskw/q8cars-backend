@@ -50,7 +50,7 @@ class CarController extends ApiBaseController
 
         $data['counts'] = $this->getCounts($car);
         $data['key_features'] = $this->getKeyFeatures($car);
-        $data['key_specifications'] = $this->getKeySpecifications($car);
+        $data['key_specifications'][] = $this->getKeySpecifications($car);
         $data['specification_and_features'] = $this->getAllSpecificationAndFeatures($car, $request);
         $data['version_price_mileage'] = $this->getCarVersionAndPrice($car);
         $data['summary'] = $this->getSummary($car);
