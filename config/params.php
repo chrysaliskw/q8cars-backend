@@ -4,6 +4,7 @@ use App\Models\Admin;
 use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Car;
+use App\Models\News;
 use App\Models\User;
 
 return [
@@ -14,6 +15,7 @@ return [
         'brand' => Brand::FILE_DIR,
         'body_type' => BodyType::FILE_DIR,  
         'car' => Car::FILE_DIR,
+        'news' => News::FILE_DIR,
     ],
 
     'user' => [
@@ -71,6 +73,17 @@ return [
             2 => 'Interior',
             3 => 'Gears, Pedals and Stalks',
             4 => 'Seat & seat adjustments',
+        ],
+        'specification-section' => [
+            1 => 'Engine and Transmission',
+            2 => 'Fuel and Performance',
+            3 => 'Suspension, Steering and Brake',
+            4 => 'Dimension Capacity',
+            5 => 'Comfort Convinience',
+            6 => 'Interior',
+            7 => 'Exterior',
+            8 => 'Safety',
+            9 => 'Entertainment and Comminication',
         ],
     ],
 

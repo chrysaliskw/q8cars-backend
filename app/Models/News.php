@@ -19,6 +19,8 @@ class News extends Model
     const TRENDING = 1;
     const NOT_TRENDING = 2;
 
+    const FILE_DIR = 'news';
+;
     /*
     |--------------------------------------------------------------------------
     | Relationships
