@@ -171,10 +171,12 @@ class CarController extends ApiBaseController
         $data['Mileage'] = $car->mileage. ' klmp';
 
         $list = [];
+        $i=0;
         foreach($data as $key => $value) {
-            $list[]['title'] = $key;
-            $list[]['value'] = $value;
-            $list[]['icon'] = asset('images/car.png');
+            $list[$i]['title'] = $key;
+            $list[$i]['value'] = $value;
+            $list[$i]['icon'] = asset('images/car.png');
+            $i++;
         }
 
         return $list;
