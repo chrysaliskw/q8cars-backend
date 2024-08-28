@@ -408,7 +408,7 @@ final class FilterService
                         break;
 
             default:
-                $this->query = $this->query->orderBy('cars.id', 'asc');
+                $this->query = $this->query->orderBy('cars.sort_order', 'asc');
                 break;
     
         }
