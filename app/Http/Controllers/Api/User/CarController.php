@@ -50,7 +50,7 @@ class CarController extends ApiBaseController
 
         $data['counts'] = $this->getCounts($car);
         $data['key_features'] = $this->getKeyFeatures($car);
-        $data['key_specifications'] = $this->getKeySpecifications($car);
+        $data['key_specifications'][] = $this->getKeySpecifications($car);
         $data['specification_and_features'] = $this->getAllSpecificationAndFeatures($car, $request);
         $data['version_price_mileage'] = $this->getCarVersionAndPrice($car);
         $data['summary'] = $this->getSummary($car);
@@ -264,41 +264,40 @@ class CarController extends ApiBaseController
         ];
 
         $result['fuel_and_performance'] = [
-            'fuel_type' => config('params.car.fuel_type')[$varient->fuel_type],
-            'tank_capacity' => $varient->tank_capacity,
-            'mileage' => $varient->mileage,
-            'power' => $varient->power,
-            'torque' => $varient->torque,
-            'emission_norm_complains' => $varient->emission_norm_complains,
-            'fuel_tank_capacity' => $varient->fuel_tank_capacity,
+            'Fuel Type' => config('params.car.fuel_type')[$varient->fuel_type],
+            'Mileage' => $varient->mileage,
+            'Power' => $varient->power,
+            'Torque' => $varient->torque,
+            'Emission Norm Complains' => $varient->emission_norm_complains,
+            'Fuel Tank Capacity' => $varient->fuel_tank_capacity,
         ];
 
         $result['suspension_steering_brake'] = [
-            'front_suspension' => $varient->front_suspension,
-            'rear_suspension' => $varient->rear_suspension,
-            'steering_type' => $varient->steering_type,
-            'steering_column' => $varient->steering_column,
-            'tuning_radius' => $varient->tuning_radius,
-            'front_brake_type' => $varient->front_brake_type,
-            'rear_brake_type' => $varient->rear_brake_type,
-            'alloy_wheel_front' => $varient->alloy_wheel_front,
-            'alloy_wheel_rear' => $varient->alloy_wheel_rear,
-            'power_steering' => $varient->power_steering,
+            'Front Suspension' => $varient->front_suspension,
+            'Rear Suspension' => $varient->rear_suspension,
+            'Steering Type' => $varient->steering_type,
+            'Steering Column' => $varient->steering_column,
+            'Tuning Radius' => $varient->tuning_radius,
+            'Front Brake Type' => $varient->front_brake_type,
+            'Rear Brake Type' => $varient->rear_brake_type,
+            'Alloy Wheel Front' => $varient->alloy_wheel_front,
+            'Alloy Wheel Rear' => $varient->alloy_wheel_rear,
+            'Power Steering' => $varient->power_steering,
         ];
 
         $result['dimension_capacity'] = [
-            'body_type' => $varient->bodyType->name,
-            'length' => $varient->length,
-            'width' => $varient->width,
-            'height' => $varient->height,
+            'Body Type' => $varient->bodyType->name,
+            'Length' => $varient->length,
+            'Width' => $varient->width,
+            'Height' => $varient->height,
         ];
 
         $result['comfort_convinience'] = [
-            'seat_upholstery' => $varient->seat_upholstery,
-            'seat_capacity' => $varient->seat_capacity,
-            'air_conditioner' => $varient->air_conditioner,
-            'wheel_covers' => $varient->wheel_covers,
-            '360_view_camera' => $varient->view_camera,
+            'Seat Upholstery' => $varient->seat_upholstery,
+            'Seat Capacity' => $varient->seat_capacity,
+            'Air Conditioner' => $varient->air_conditioner,
+            'Wheel Covers' => $varient->wheel_covers,
+            '360 VieW Camera' => $varient->view_camera,
         ];
 
         $result['interior'] = [
