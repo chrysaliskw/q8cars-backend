@@ -131,6 +131,8 @@ class CarController extends ApiBaseController
     private function getCounts(Car $car)
     {
         $result = [
+            'id' => $car->id,
+            'model_name' => $car->model_name,
             'colours' => count(json_decode($car->colours)),
             'photos' => $car->carPhotos->count() + 1,
             'videos' => $car->carVideos->count(),
