@@ -30,7 +30,8 @@ class Brand extends Model
         'name',
         'icon',
         'is_top_brand',
-        'status'
+        'status',
+        'is_recent_purchased',
     ];
     /*
     |--------------------------------------------------------------------------
