@@ -52,7 +52,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Engine Capacity</label>
                     <div class="col-sm-8">
-                                {{ $carVarient->engine_capacity}} 
+                                {{ $carVarient->engine_capacity}} cc
                     </div>
                 </div>
             </div>

@@ -223,12 +223,20 @@ class CarService
         $this->version->usb_charger = $this->data['usb_charger'];
         $this->version->bluetooth = $this->data['bluetooth'];
        
-        $this->version->transmission_type = intval($this->data['transmission_types']);
-        $this->version->fuel_type = intval($this->data['fuel_types']);
-       
+        if(isset($this->data['varient_name'])) {
+            $this->version->transmission_type = $this->data['transmission_type'];
+            $this->version->fuel_type = $this->data['fuel_type'];
+        } else {
+            $this->version->transmission_type = intval($this->data['transmission_types']);
+            $this->version->fuel_type = intval($this->data['fuel_types']);
+        }
+        
         //$this->version->colours = $this->getIntValueColor($this->data['colors']);
         $this->version->colours = $this->car->colours;
+        $this->version->status = $this->data['status'];
         $this->version->save();
+
+        return $this->version;
     }
 
     private function moveUploadedProfileImage()

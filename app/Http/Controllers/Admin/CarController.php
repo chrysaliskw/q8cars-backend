@@ -4,23 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use Exception;
 use App\Models\Car;
+use App\Models\Faq;
+use App\Models\Review;
+use App\Models\CarView;
 use App\Models\CarImage;
+use App\Models\TestDrive;
+use App\Models\CarVersion;
+use App\Models\CarFavourite;
+use App\Models\OfferRequest;
 use Illuminate\Http\Request;
+use App\Models\CarComparisonList;
 use App\Services\Admin\CarService;
+use Illuminate\Support\Facades\DB;
 use App\DataGrids\Admin\CarDataGrid;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CarRequest;
 use App\Models\CarAdditonalSpecifications;
-use App\Models\CarComparisonList;
-use App\Models\CarFavourite;
-use App\Models\CarVersion;
-use App\Models\CarView;
-use App\Models\Faq;
-use App\Models\OfferRequest;
-use App\Models\Review;
-use App\Models\TestDrive;
+use App\DataGrids\Admin\CarVersionDataGrid;
 use Illuminate\Http\Exceptions\PostTooLargeException;
-use Illuminate\Support\Facades\DB;
 
 class CarController extends Controller
 {
@@ -69,6 +70,7 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
+       
         $fuel = json_decode($car->fuel_types, true);
         $newArray = array_combine(range(1, count($fuel)), array_values($fuel));
         $fuelTypes =[];
@@ -91,16 +93,18 @@ class CarController extends Controller
         }
 
         $profession = json_decode($car->professions, true);
-        $professionArray = array_combine(range(1, count($profession)), array_values($profession));
         $professions = [];
-        foreach($professionArray as $c) {
-            $professions[] = config('params.professions')[$c];
+        if($profession) {
+            $professionArray = array_combine(range(1, count($profession)), array_values($profession));
+            foreach($professionArray as $c) {
+                $professions[] = config('params.professions')[$c];
+            }
         }
-
-
+    
         $carVarient = $car->carSpec;
+        $carVersions = CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->get();
 
-        return view('admin.car.show', compact('car', 'fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions'));
+        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions'));
     }
 
     /**
@@ -131,9 +135,11 @@ class CarController extends Controller
 
         $currentProfessions = [];
         $selectedProfessionCount = 0;
-        foreach(json_decode($car->professions) as $p) {
-           array_push($currentProfessions, $p);
-           $selectedProfessionCount++;
+        if($car->professions) {
+            foreach(json_decode($car->professions) as $p) {
+                array_push($currentProfessions, $p);
+                $selectedProfessionCount++;
+            }
         }
         $pcount = count(config('params.professions'));
 
@@ -167,7 +173,8 @@ class CarController extends Controller
             'pcount', 'selectedProfessionCount', 'currentProfessions', 
             'selectedFuelCount', 'currentFuels', 'fcount', 
             'tcount','selectedTransmissionCount', 'currentTransmissions',
-            'ccount','selectedColorsCount', 'currentColors'
+            'ccount','selectedColorsCount', 'currentColors',
+            
         ));
     }
 
@@ -176,6 +183,7 @@ class CarController extends Controller
      */
     public function update(CarRequest $request, Car $car)
     {
+       
         try 
         {
             $service = new CarService($request->validated(), $car);
@@ -217,6 +225,35 @@ class CarController extends Controller
         }catch(Exception $ex) {
             DB::rollBack();
             logger($ex);
+            return back()->with('error', __('app.error'))->withInput();
         }
+
+        return redirect()->route('admin.car.index')->with('success', 'Car deleted successfully!');
+    }
+
+    /**
+     * Search endpoint for select2 dropdown
+     * 
+     * @param Request $request
+     * @return array
+     */
+    public function select(Request $request)
+    {
+        $page = $request->query('page');
+        $term = $request->query('search');
+        $brandId = $request->query('brand_id');
+        $limit = 100;
+        $offset = ($page - 1) * $limit;
+
+        $query = Car::where('model_name', 'like', "%$term%")->active();
+        if ($brandId) {
+            $query->where('brand_id', $brandId);
+        }
+        $cars = $query->select(['id', 'name AS text'])->offset($offset)->limit($limit)->get()->toArray();
+
+        $response['results'] = $cars;
+        $response['pagination'] = ['more' => !empty($cars) ?? false];
+        
+        return $response;
     }
 }

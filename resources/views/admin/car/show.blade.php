@@ -37,16 +37,19 @@
                         <div class="m-b-30">
                             <a href="{{ route('admin.car.edit', $car) }}"
                                 class="btn btn-primary waves-effect waves-light"><i class="fa fa-pencil"></i> Edit</a>
-                                <a href="#"
+                            <a href="#"
                                 onclick="(function(){if(confirm('Are you sure?')){$('form#delete-form').submit()}})()"
                                 class="btn btn-danger btn-custom waves-effect waves-light"><i class="fa fa-trash"></i>
                                 Delete</a>
-                                <form id="delete-form"
+                            <form id="delete-form"
                                 action="{{ route('admin.car.destroy', $car) }}"
                                 method="POST" style="display: none;">
                                 @csrf
                                 @method('delete')
                             </form>
+                            <a href="{{ route('admin.car-version.edit', $carVarient) }}" 
+                                class="btn btn-info waves-effect waves-light float-right" >
+                                 + Add Car Version</a>
                         </div>
                     </div>
 
@@ -635,6 +638,9 @@
         </div>
     </div>
 
+    @include('admin.car.car-version.index')
+
+   
 
 </x-admin-layout>
 

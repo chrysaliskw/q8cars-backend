@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\BodyTypeController;
 use App\Http\Controllers\Admin\CarController;
+use App\Http\Controllers\Admin\CarVersionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TestRideRequestController;
 use App\Http\Controllers\Admin\OfferRequestController;
@@ -52,12 +53,14 @@ Route::middleware('auth:admin')->group(function () {
     // Select2
     Route::get('brand/select', [BrandController::class, 'select'])->name('brand.select');
     Route::get('body-type/select', [BodyTypeController::class, 'select'])->name('body-type.select');
+    Route::get('car/select', [CarController::class, 'select'])->name('car.select');
 
     Route::resources([
-        'brand' => BrandController::class,          // Brands
-        'body-type' => BodyTypeController::class,   // Body Type
-        'user' => UserController::class,            // User
-        'car' => CarController::class,              // Car
+        'brand' => BrandController::class,              // Brands
+        'body-type' => BodyTypeController::class,       // Body Type
+        'user' => UserController::class,                // User
+        'car' => CarController::class,                  // Car
+        'car-version' => CarVersionController::class,   // Car Version
     ]);
    
     // Test ride requests
