@@ -197,13 +197,13 @@ class CarController extends ApiBaseController
     private function getSummary(Car $car)
     {
         return [
-            'why_choose' => $car->why_choose,
-            'market_introduction' => $car->market_introduction,
-            'engine_transmission' => $car->engine_transmission,
-            'exterior' => $car->exterior,
-            'interior' => $car->interior,
-            'safety_features' => $car->safety_features,
-            'rivals' => $car->rivals,
+            'Why Choose' => $car->why_choose,
+            'Market Introduction' => $car->market_introduction,
+            'Engine Transmission' => $car->engine_transmission,
+            'Exterior' => $car->exterior,
+            'Interior' => $car->interior,
+            'Safety Features' => $car->safety_features,
+            'Rivals' => $car->rivals,
         ];
     }
 
@@ -322,33 +322,33 @@ class CarController extends ApiBaseController
         ];
 
         $result['interior'] = [
-            'boot_space' => $varient->boot_space,
-            'tachometer' => $varient->tachometer,
-            'electronic_multi_tripmeter' => $varient->electronic_multi_tripmeter,
-            'digital_odometer' => $varient->digital_odometer,
+            'Boot Space' => $varient->boot_space,
+            'Tachometer' => $varient->tachometer,
+            'Electronic Multi Tripmeter' => $varient->electronic_multi_tripmeter,
+            'Digital Odometer' => $varient->digital_odometer,
         ];
 
         $result['exterior'] = [
-            'LED_Taillights' => $varient->LED_Taillights,
-            'automatic_headlamps' => $varient->automatic_headlamps,
-            'adjustable_headlamps' => $varient->adjustable_headlamps,
-            'LED_DRLs' => $varient->LED_DRLs,
-            'Halogen_Headlamps' => $varient->Halogen_Headlamps,
-            'LED_Headlights' => $varient->LED_Headlights,
+            'LED Taillights' => $varient->LED_Taillights,
+            'Automatic Headlamps' => $varient->automatic_headlamps,
+            'Adjustable Headlamps' => $varient->adjustable_headlamps,
+            'LED DRLs' => $varient->LED_DRLs,
+            'Halogen Headlamps' => $varient->Halogen_Headlamps,
+            'LED Headlights' => $varient->LED_Headlights,
         ];
 
         $result['safety'] = [
-            'engine_type' => $varient->engine_type,
-            'safety_ratings' => $varient->safety_ratings,
-            'anti_theft_alarm' => $varient->anti_theft_alarm,
-            'no_of_airbags' => $varient->no_of_airbags,
-            'passenger_airbags' => $varient->passenger_airbags,
-            'driver_airbags' => $varient->driver_airbags,
+            'Engine Type' => $varient->engine_type,
+            'Safety Ratings' => $varient->safety_ratings,
+            'Anti Theft Alarm' => $varient->anti_theft_alarm,
+            'No of Airbags' => $varient->no_of_airbags,
+            'Passenger Airbags' => $varient->passenger_airbags,
+            'Driver Airbags' => $varient->driver_airbags,
             'Child Safety Locks' => $varient->child_safety_locks,
         ];
 
         $result['entertainment_and_comminication'] = [
-            'integrated_antenna' => $varient->integrated_antenna,
+            'Integrated Antenna' => $varient->integrated_antenna,
             'Apple CarPlay' => $varient->apple_car_play,
             'Touch Screen' => $varient->touch_screen,
             'Speakers Rear' => $varient->speakers_rear,
