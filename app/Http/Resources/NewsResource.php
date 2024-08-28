@@ -25,7 +25,7 @@ class NewsResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'html_content' => $this->html_content,
-            'posted_date' => date('d M, YY', strtotime($this->posted_time)),
+            'posted_date' => date('d M, Y', strtotime($this->posted_time)),
             'posted_time' => dateTimeFormat($this->posted_time),
             'is_published' => $this->is_published,
             'status' => $this->status,
