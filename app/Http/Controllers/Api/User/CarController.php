@@ -147,29 +147,29 @@ class CarController extends ApiBaseController
     private function getKeyFeatures(Car $car)
     {
         return [
-            'air_condition' => $car->air_condition,
-            'length' => $car->length. ' mm',
-            'width' => $car->width. ' mm',
-            'height' => $car->height. ' mm',
-            'boot_space' => $car->boot_space. ' L',
-            'power_windows' => $car->power_windows,
-            'fuel_tank_capacity' => $car->fuel_tank_capacity. 'L',
-            'seat_upholstery' => $car->seat_upholstery,
+            'Air Condition' => $car->air_condition,
+            'Length' => $car->length. ' mm',
+            'Width' => $car->width. ' mm',
+            'Height' => $car->height. ' mm',
+            'Boot Space' => $car->boot_space. ' L',
+            'Power Windows' => $car->power_windows,
+            'Fuel Tank Capacity' => $car->fuel_tank_capacity. 'L',
+            'Seat Upholstery' => $car->seat_upholstery,
         ];
     }
 
     private function getKeySpecifications(Car $car)
     {
         return [
-            'fuel_types' => $this->getFuelTypes($car->fuel_types),
-            'engine_capacity' => $car->engine_capacity. ' cc',
-            'power' => $car->power. 'Bph',
-            'torque' => $car->torque. 'Bph',
-            'drive_train' => $car->drive_train,
-            'acceleration' => $car->acceleration.' sec',
-            'top_speed' => $car->top_speed.' kmph',
-            'seat_capacity' => $car->seat_capacity,
-            'mileage' => $car->mileage. ' klmp',
+            'Fuel Types' => $this->getFuelTypes($car->fuel_types),
+            'Engine Capacity' => $car->engine_capacity. ' cc',
+            'Power' => $car->power. 'Bph',
+            'Torque' => $car->torque. 'Bph',
+            'Drive Train' => $car->drive_train,
+            'Acceleration' => $car->acceleration.' sec',
+            'Top Speed' => $car->top_speed.' kmph',
+            'Seat Capacity' => $car->seat_capacity,
+            'Mileage' => $car->mileage. ' klmp',
         ];
     }
 
@@ -253,14 +253,14 @@ class CarController extends ApiBaseController
         $varient = CarVersion::find($version);
 
         $result['engine_and_transmission'] = [
-            'engine_type' => $varient->engine_type,
-            'valves_per_cylinder' => $varient->valves_per_cylinder,
-            'no_of_cylinders' => $varient->no_of_cylinders,
-            'bore_stroke' => $varient->bore_stroke,
-            'compression_ratio' => $varient->compression_ratio,
-            'super_charge' => $varient->super_charge,
-            'transmission_type' => config('params.car.transmission_type')[$varient->transmission_type],
-            'engine_capacity' => $varient->engine_capacity,
+            'Engine Type' => $varient->engine_type,
+            'Valves Per Cylinder' => $varient->valves_per_cylinder,
+            'No of Cylinders' => $varient->no_of_cylinders,
+            'Bore x Stroke' => $varient->bore_stroke,
+            'Compression Ratio' => $varient->compression_ratio,
+            'Super Charge' => $varient->super_charge,
+            'Transmission Type' => config('params.car.transmission_type')[$varient->transmission_type],
+            'Engine Capacity' => $varient->engine_capacity,
         ];
 
         $result['fuel_and_performance'] = [
