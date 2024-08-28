@@ -170,7 +170,14 @@ class CarController extends ApiBaseController
         $data['Seat Capacity'] = $car->seat_capacity;
         $data['Mileage'] = $car->mileage. ' klmp';
 
-        return $data;
+        $list = [];
+        foreach($data as $key => $value) {
+            $list['title'] = $key;
+            $list['value'] = $value;
+            $list['icon'] = asset('images/car.png');
+        }
+
+        return $list;
 
         // return [
         //     'Fuel Types' => $this->getFuelTypes($car->fuel_types),
