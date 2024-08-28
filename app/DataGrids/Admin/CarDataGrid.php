@@ -54,6 +54,17 @@ class CarDataGrid extends Grid
                     'attribute' => 'model_name',
                 ]
             ],
+            'sort_order' => [
+                'label' => 'Sort Order',
+                'value' => function ($model) {
+                    return $model->sort_order;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'sort_order',
+                ]
+            ],
 
 
             'status' => [
