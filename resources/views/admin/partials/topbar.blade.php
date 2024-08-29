@@ -6,13 +6,13 @@
             <!-- https://dev.kuwait-cars.aufaitux.com/_next/static/media/kuwait-logo-dark.ddd20637.svg -->
             <!-- https://dev.kuwait-cars.aufaitux.com/images/svg/kuwait-logo-light.svg -->
                 <img src="https://dev.kuwait-cars.aufaitux.com/_next/static/media/kuwait-logo-dark.ddd20637.svg" alt="logo" width="50" height="50"> 
-                <span style="color:#333;"> {{ config('app.name') }}</span>
+                <span style="color:#333;"> </span>
             </a>
         </div>
     </div>
     
 
-    <nav class="navbar navbar-default" style="background-color:red !important;">
+    <nav class="navbar navbar-default">
 
         <div class="container-fluid">
             
