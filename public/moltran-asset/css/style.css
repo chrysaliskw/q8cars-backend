@@ -1955,7 +1955,7 @@ a:focus {
   padding: 20px 30px;
   position: absolute;
   right: 0;
-  left: 260px;
+  left: 270px;
 }
 
 #wrapper {
@@ -3209,7 +3209,7 @@ File: Topbar,Left-sidebar,Right-sidebar
   float: left;
   height: 70px;
   position: relative;
-  width: 260px;
+  width: 270px;
   z-index: 1;
 }
 
@@ -3235,7 +3235,7 @@ File: Topbar,Left-sidebar,Right-sidebar
 }
 
 .navbar-default {
-  background-color: rgb(208, 35, 38);
+  background-color: #d31616;
   border-radius: 0px;
   border: none;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -3362,7 +3362,7 @@ input.search-bar:-ms-input-placeholder {
 .side-menu {
   bottom: 0;
   top: 0;
-  width: 260px;
+  width: 270px;
   z-index: 2;
 }
 
@@ -3384,7 +3384,7 @@ body.fixed-left .side-menu.left {
 }
 
 .content-page {
-  margin-left: 260px;
+  margin-left: 270px;
   overflow: hidden;
 }
 
@@ -3475,7 +3475,8 @@ body.fixed-left .side-menu.left {
 }
 
 #sidebar-menu>ul>li>a:hover {
-  background: #f3f3f3;
+  background: #d6e9f0
+  ;
   text-decoration: none;
 }
 .imagemaps-wrapper {
@@ -3578,7 +3579,8 @@ label{
 }
 
 #sidebar-menu>ul>li>a.active {
-  background: #f3f3f3 !important;
+  background: #d6e9f0
+  !important;
 }
 
 #sidebar-menu>ul>li>a.active.subdrop {
