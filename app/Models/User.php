@@ -108,7 +108,7 @@ class User extends Authenticatable
             'name' => $this->name,
             'email' => $this->email,
             'mobile' => $this->mobile,
-            // 'picture' => file_asset('files-user', $this->picture),
+            'picture' => $this->picture ? file_asset('files-user', $this->picture): null,
             'access_token' => $this->createToken($deviceName)->plainTextToken,
             'is_guest' => false,
         ];
