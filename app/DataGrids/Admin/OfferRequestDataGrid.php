@@ -112,7 +112,7 @@ class OfferRequestDataGrid extends Grid
                 'routePrefix' => 'admin.offer-requests',
                 'buttons' => ['view','update'],
                 'update' => function ($model) {
-                    if ($model->status != TestDrive::STATUS_COMPLETED) {
+                    if ($model->status != OfferRequest::STATUS_COMPLETED) {
                     $btn = "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}'class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>";
                     $btn .= "<span class='ion-edit'></span></a>";
                     return $btn;
