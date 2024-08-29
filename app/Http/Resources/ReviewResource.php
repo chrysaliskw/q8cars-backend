@@ -20,6 +20,7 @@ class ReviewResource extends JsonResource
         'car_id' => $this->car_id,
         'car_version_id' => $this->car_version_id,
         'user_id' => $this->user_id,
+        'user_name' => $this->user->name ?? '',
         'user_profile_picture' => $this->user->picture ? file_asset('files-user', $this->user->picture) : null, 
         'short_comment' => $this->short_comment,
         'detailed_comment' => $this->detailed_comment,
