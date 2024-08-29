@@ -485,10 +485,12 @@ class CarService
                 $i++;
             }
         }else {
-            foreach($this->data['professions'] as $p) {
-                $result[$i] = intval($p);
-                $i++;
-            }
+            if(isset($this->data['professions'])){
+                foreach($this->data['professions'] as $p) {
+                    $result[$i] = intval($p);
+                    $i++;
+                }
+            }   
         }
         return json_encode($result);
     }
