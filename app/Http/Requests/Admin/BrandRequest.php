@@ -35,7 +35,7 @@ class BrandRequest extends FormRequest
     {
      
         return [
-            'name' => ['required', new RegexAlphaNumSpaceHyphen, 'string', 'max:200'],
+            'name' => ['required', new RegexAlphaNumSpaceHyphen, 'string', 'max:200','unique:brands'],
             'icon' => 'required|mimes:jpg,png,jpeg|max:2048',
             'is_top_brand' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],
             'is_recently_purchased' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],
@@ -47,8 +47,17 @@ class BrandRequest extends FormRequest
      */
     private function updateRules()
     {
+        $brand = $this->route('brand');
         return [
-            'name' => ['required', new RegexAlphaNumSpaceHyphen, 'string', 'max:200'],
+            'name' => [
+                'required',
+                'string', 
+                'max:200',
+                new RegexAlphaNumSpaceHyphen,
+                Rule::unique('brands')
+                    ->ignore($brand->id) 
+                    ->whereNull('deleted_at') 
+            ],
             'icon' => 'nullable|mimes:jpg,png,jpeg|max:2048',
             'is_top_brand' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],
             'is_recently_purchased' => ['required', Rule::in(array_keys(config('params.brand.is_top_brand')))],

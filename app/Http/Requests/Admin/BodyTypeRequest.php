@@ -35,7 +35,7 @@ class BodyTypeRequest extends FormRequest
     {
      
         return [
-            'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200'],
+            'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200','unique:body_types'],
             'icon' => 'required|mimes:jpg,png,jpeg|max:2048',
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
         ];
@@ -45,8 +45,18 @@ class BodyTypeRequest extends FormRequest
      */
     private function updateRules()
     {
+      
+        $bodyType = $this->route('body_type'); 
         return [
-            'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200'],
+           'name' => [
+                'required',
+                'string', 
+                'max:200',
+                new RegexAlphaNumSpace,
+                Rule::unique('body_types')
+                    ->ignore($bodyType->id) 
+                    ->whereNull('deleted_at') 
+            ],
             'icon' => 'nullable|mimes:jpg,png,jpeg|max:2048',
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
         ];
