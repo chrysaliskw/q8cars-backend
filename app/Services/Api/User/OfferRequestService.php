@@ -36,6 +36,7 @@ class OfferRequestService
         $offerRequest->phone_code = $this->request->phone_code;
         $offerRequest->mobile =  $this->request->mobile;
         $offerRequest->email = $this->request->email;
+        $offerRequest->status = OfferRequest::STATUS_PENDING;
         $offerRequest->saveOrFail();  
         return true;
     }

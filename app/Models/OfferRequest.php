@@ -12,6 +12,9 @@ class OfferRequest extends Model
     const TYPE_OFFER = 1;
     const TYPE_ONROAD_PRICE = 2;
     const TYPE_EMI_OFFER = 3;
+    const STATUS_PENDING = 1;
+    const STATUS_COMPLETED = 2;
+    const STATUS_CANCELLED = 3;
 
     public function user()
     {

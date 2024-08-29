@@ -68,6 +68,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index','show']);
 
     // Offer request
+    Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
     Route::resource('offer-requests', OfferRequestController::class)->only(['index','show']);
     
     // Review

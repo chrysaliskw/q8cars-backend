@@ -129,8 +129,14 @@ return [
         'type' => [
             1 => 'Offer Request',
             2 => 'On Road Price Request',
-            3 => 'Emi Request',
+            3 => 'EMI Request',
         ],
+        'status' => [
+            1 => 'Pending',
+            2 => 'Completed',
+            3 => 'Cancelled',
+
+        ]
     ],
     'professions' => [
         1 => 'Doctor',

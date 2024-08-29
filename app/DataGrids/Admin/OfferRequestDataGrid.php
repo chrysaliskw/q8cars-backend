@@ -95,10 +95,29 @@ class OfferRequestDataGrid extends Grid
                     return config('params.offer_request.type')[$model->type];
                 },
             ],
-
+            'status' => [
+                'label' => 'Status',
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'attribute' => 'offer_requests.status',
+                    'operator' => '=',
+                    'data' => config('params.offer_request.status')
+                ],
+                'value' => function ($model) {
+                    return config('params.offer_request.status')[$model->status];
+                },
+            ],
             'action' => [
                 'routePrefix' => 'admin.offer-requests',
-                'buttons' => ['view'],
+                'buttons' => ['view','update'],
+                'update' => function ($model) {
+                    if ($model->status != TestDrive::STATUS_COMPLETED) {
+                    $btn = "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}'class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>";
+                    $btn .= "<span class='ion-edit'></span></a>";
+                    return $btn;
+                    }
+                },
             ]
         ];
     }

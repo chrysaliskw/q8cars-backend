@@ -39,13 +39,21 @@ class OfferRequestController extends Controller
             'Requeted Mobile' => $offerRequest->mobile,
             'Requeted Email' => $offerRequest->email,
             'Offer' => $offerRequest->type == OfferRequest::TYPE_OFFER ? $offerRequest->offer_id : '',
-            // 'status_key' => $testDrive->status,
+            'Status' =>config('params.offer_request.status')[$offerRequest->status],
             'Type' => config('params.offer_request.type')[$offerRequest->type],
             'Created At' =>  dateTimeFormat($offerRequest->created_at),
             'Updated At' => dateTimeFormat($offerRequest->updated_at),
 
         ];
         return view('admin.offer-requests.show', compact('viewData'));
+    }
+    public function update(Request $request)
+    {
+        $offerRequest = OfferRequest::find($request->id);
+        $offerRequest->status = $request->status;
+        $offerRequest->save();
+        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        // return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
     }
 
 }
