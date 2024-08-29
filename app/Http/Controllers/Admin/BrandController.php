@@ -114,8 +114,10 @@ class BrandController extends Controller
             $oldPicture[] = $brand->icon;
             JunkFileDeleteJob::dispatchAfterResponse(Brand::FILE_DIR, $oldPicture); 
             $brand->delete();
+            DB::commit();
         } catch (Exception $ex) {
             logger($ex);
+            DB::rollBack();
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.brand.index')->with('success', 'Brand deleted successfully!');

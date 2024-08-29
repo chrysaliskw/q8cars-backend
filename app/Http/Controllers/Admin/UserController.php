@@ -94,8 +94,10 @@ class UserController extends Controller
             $oldPicture[] = $user->icon;
             JunkFileDeleteJob::dispatchAfterResponse(User::FILE_DIR, $oldPicture); 
             $user->delete();
+            DB::commit();
         } catch (Exception $ex) {
             logger($ex);
+            DB::rollBack();
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.user.index')->with('success', 'User deleted successfully!');

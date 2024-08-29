@@ -4,6 +4,7 @@ namespace App\DataGrids\Admin;
 
 use App\Models\User;
 use Rufaidulk\DataGrid\Grid;
+use Illuminate\Support\Facades\DB;
 
 class UserDataGrid extends Grid
 {
@@ -12,9 +13,9 @@ class UserDataGrid extends Grid
     public function gridQuery()
     {
         $query = User::query() 
-        ->where('id' ,'!=' ,0)
-            ->select(['users.*']);
-
+        ->where('id' ,'!=' ,0)->orderBy('id','Desc')
+        ->select(['users.*', DB::raw("CONCAT(users.phone_code, users.mobile) as full_mobile")]);
+   
         return $query;
     }
 

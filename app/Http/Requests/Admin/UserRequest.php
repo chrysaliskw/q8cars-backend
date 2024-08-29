@@ -44,10 +44,10 @@ class UserRequest extends FormRequest
         return [
             'name' => ['required', 'regex:/^[a-zA-Z\s\d]*$/', 'string', 'max:255', ],
             'status' => ['required', Rule::in(array_keys(config('params.user.status')))],
-            'email' => 'required|email|string|max:255|unique:users',
-            'phone_code' => 'required|regex:/^[\d]*$/|string|max:5',
+            'email' => 'required|email:filter|string|max:255|unique:users',
+            'phone_code' => 'required|regex:/^\+?[\d]{1,5}$/',
             'mobile' => [
-                'required', 'regex:/^[0-9]*$/', 'max:12', 'min:7',
+                'required', 'regex:/^[0-9]*$/', 'max:8', 'min:7',
                 Rule::unique('users')->whereNull('deleted_at'),
             ],
             'address' => 'nullable|string|max:255',
@@ -65,12 +65,12 @@ class UserRequest extends FormRequest
             'name' => ['required', 'regex:/^[a-zA-Z\s\d]*$/', 'string', 'max:255', ],
             'status' => ['required', Rule::in(array_keys(config('params.user.status')))],
             'email' => [
-                'required', 'email', 'string', 'max:255',
+                'required', 'email:filter', 'string', 'max:255',
                 Rule::unique('users')->ignore($user->id)->whereNull('deleted_at'),
             ],
-            'phone_code' => 'required|regex:/^[\d]*$/|string|max:5',
+            'phone_code' => 'required|regex:/^\+?[\d]{1,5}$/',
             'mobile' => [
-                'required', 'regex:/^[0-9]*$/', 'max:12', 'min:7',
+                'required', 'regex:/^[0-9]*$/', 'max:8', 'min:7',
                 Rule::unique('users')->ignore($user->id)->whereNull('deleted_at'),
             ],
             'address' => 'nullable|string|max:255',

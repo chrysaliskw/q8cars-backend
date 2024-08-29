@@ -5,7 +5,7 @@
         <li class="active">Update</li>
     </x-slot>
     <x-crud-update title="User">
-        <x-form method="PUT" action="{{ route('admin.user.update', $user->id) }}" class="form">
+        <x-form method="PUT" action="{{ route('admin.user.update', $user->id) }}" class="form" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-4">
                     <x-form-input type="text" field="name" field-name="Name" value="{{ $user->name }}"></x-form-input>
@@ -33,10 +33,10 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-input type="text" field="phone_code" field-name="Country code" value="{{ $user->phone_code }}" id="phone_code"></x-form-input>
+                    <x-form-input type="text" field="phone_code" field-name="Country code" value="{{ $user->phone_code }}" id="phone_code" readonly></x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="mobile" field-name="Mobile" value="{{ $user->mobile }}"></x-form-input>
+                    <x-form-input type="text" field="mobile" field-name="Mobile" value="{{ $user->mobile }}" maxlength="8"></x-form-input>
                 </div>
                 <div class="col-md-4">
                     <x-form-textarea field="address" field-name="Address" field-value="{{ $user->address }}"> </x-form-textarea>

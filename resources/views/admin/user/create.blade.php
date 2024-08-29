@@ -11,7 +11,7 @@
                     <x-form-input type="text" field="name" field-name="Name" value="{{ old('name') }}"></x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="email" field="email" field-name="Email" value="{{ old('email') }}">
+                    <x-form-input type="text" field="email" field-name="Email" value="{{ old('email') }}">
                     </x-form-input>
                 </div>
                 <div class="col-md-4">
@@ -24,11 +24,11 @@
             </div>  
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-input readonly type="text" field="phone_code" field-name="Country Code" 
-                        value="{{ +965 }}" readonly ></x-form-input>
+                    <x-form-input type="text" field="phone_code" field-name="Country Code" 
+                        value="+965" readonly ></x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="mobile" field-name="Mobile" value="{{ old('mobile') }}"></x-form-input>
+                    <x-form-input type="text" field="mobile" field-name="Mobile" value="{{ old('mobile') }}" maxlength="8"></x-form-input>
                 </div>   
                 
                 <div class="col-md-4">

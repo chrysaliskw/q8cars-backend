@@ -109,13 +109,16 @@ class BodyTypeController extends Controller
      */
     public function destroy(BodyType $bodyType)
     {
+      
         DB::beginTransaction();
         try {
             $oldPicture[] = $bodyType->icon;
             JunkFileDeleteJob::dispatchAfterResponse(BodyType::FILE_DIR,$oldPicture); 
             $bodyType->delete();
+            DB::commit();
         } catch (Exception $ex) {
             logger($ex);
+            DB::rollBack();
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.body-type.index')->with('success', 'Body Type deleted successfully!');
