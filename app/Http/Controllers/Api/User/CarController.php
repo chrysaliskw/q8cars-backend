@@ -162,8 +162,8 @@ class CarController extends ApiBaseController
     {
         $data['Fuel Types'] = $this->getFuelTypes($car->fuel_types);
         $data['Engine Capacity'] = $car->engine_capacity. ' cc';
-        $data['Power'] = $car->power. 'Bph';
-        $data['Torque'] = $car->torque. 'Bph';
+        $data['Power&Torque'] = $car->power. '-'. $car->torque. 'Bph';
+        // $data['Torque'] = $car->torque. 'Bph';
         $data['Drive Train'] = $car->drive_train;
         $data['Acceleration'] = $car->acceleration.' sec';
         $data['Top Speed'] = $car->top_speed.' kmph';
@@ -175,7 +175,7 @@ class CarController extends ApiBaseController
         foreach($data as $key => $value) {
             $list[$i]['title'] = $key;
             $list[$i]['value'] = $value;
-            $list[$i]['icon'] = asset('images/car.png');
+            $list[$i]['icon'] = asset('images/Car.png');
             $i++;
         }
 
