@@ -162,7 +162,7 @@ class CarController extends ApiBaseController
     {
         $data['Fuel Types'] = $this->getFuelTypes($car->fuel_types);
         $data['Engine Capacity'] = $car->engine_capacity. ' cc';
-        $data['Power&Torque'] = $car->power. '-'. $car->torque. 'Bph';
+        $data['Power & Torque'] = $car->power. '-'. $car->torque. 'Bph';
         // $data['Torque'] = $car->torque. 'Bph';
         $data['Drive Train'] = $car->drive_train;
         $data['Acceleration'] = $car->acceleration.' sec';
@@ -175,7 +175,7 @@ class CarController extends ApiBaseController
         foreach($data as $key => $value) {
             $list[$i]['title'] = $key;
             $list[$i]['value'] = $value;
-            $list[$i]['icon'] = asset('images/Car.png');
+            $list[$i]['icon'] = $this->findImage($key);
             $i++;
         }
 
@@ -192,6 +192,35 @@ class CarController extends ApiBaseController
         //     'Seat Capacity' => $car->seat_capacity,
         //     'Mileage' => $car->mileage. ' klmp',
         // ];
+    }
+    private function findImage($key)
+    {
+        switch ($key) {
+            case 'Fuel Types':
+            return  asset('images/fuel_type.png');
+                break;
+            case 'Engine Capacity':
+                return  asset('images/engine.png');
+                break;
+            case 'Power & Torque':
+                return  asset('images/power_torgue.png');
+                break;
+            case 'Drive Train':
+                return  asset('images/drive_train.png');
+                break;
+            case 'Acceleration':
+                return  asset('images/acceleration.png');
+                break;
+            case 'Top Speed':
+                return  asset('images/top_speed.png');
+                break; 
+            case 'Seat Capacity':
+                return  asset('images/seat_capacity.png');
+                break;     
+            default:
+                return  asset('images/avg_milage.png');
+                break;
+        }
     }
 
     private function getSummary(Car $car)
