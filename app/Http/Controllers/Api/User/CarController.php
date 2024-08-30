@@ -412,14 +412,14 @@ class CarController extends ApiBaseController
         }else{
             // $cars = Car::where('brand_id', '!=', $car->brand_id)->where('version_id')->active()->limit(2)->get();
             $carBaseVariantBodyType = CarVersion::where('car_id', $car->id)
-                ->where('car_base_variant', 1)
+                ->where('is_base_varient', 1)
                 ->value('body_type');
 
             $cars = Car::where('brand_id', '!=', $car->brand_id)
                 ->whereIn('id', function ($query) use ($carBaseVariantBodyType) {
                     $query->select('car_id')
                         ->from('car_versions')
-                        ->where('car_base_variant', 1)
+                        ->where('is_base_varient', 1)
                         ->where('body_type', $carBaseVariantBodyType);
                     })
                 ->whereBetween('onroad_price', [$car->onroad_price * 0.95, $car->onroad_price * 1.05])
