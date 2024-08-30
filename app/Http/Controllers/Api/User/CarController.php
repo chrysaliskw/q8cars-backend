@@ -422,7 +422,7 @@ class CarController extends ApiBaseController
                         ->where('is_base_varient', 1)
                         ->where('body_type', $carBaseVariantBodyType);
                     })
-                ->whereBetween('onroad_price', [$car->onroad_price * 0.95, $car->onroad_price * 1.05])
+                ->whereBetween('on_road_price', [$car->on_road_price * 0.95, $car->on_road_price * 1.05])
                 ->whereNotNull('version_id')
                 ->active()
                 ->limit(2)
