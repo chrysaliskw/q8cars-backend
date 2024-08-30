@@ -143,10 +143,10 @@ class CarController extends ApiBaseController
             'photos' => $car->carPhotos->count() + 1,
             'videos' => $car->carVideos->count(),
             'main_image' =>  file_asset('files-car', $car->image),
-            'showroom_price' => $car->ex_showroom_price,
-            'finance_available' => $car->finance_available,
-            'insurance' => $car->insurance,
-            'service_amount' => $car->service_charge,
+            'showroom_price' => 'KWD '.$car->ex_showroom_price,
+            'finance_available' =>'KWD '. $car->finance_available,
+            'insurance' =>'KWD '. $car->insurance,
+            'service_amount' => 'KWD '.$car->service_charge,
             'gear_box' => $car->gear_box,
             'torque_power' => $car->power.'Bhp @'.$car->torque.'rpm',
         ];
@@ -442,7 +442,7 @@ class CarController extends ApiBaseController
             $result[$i]['id'] = $compare->id;
             $result[$i]['name'] = $compare->model_name;
             $result[$i]['image'] = file_asset('files-car', $car->image);
-            $result[$i]['ex_show_room_price'] = 'KWD '.$version->ex_showroom_price;
+            $result[$i]['showroom_price'] = 'KWD '.$version->ex_showroom_price;
             $result[$i]['finance_available'] = 'KWD '.$version->finance_available;
             $result[$i]['insurance'] = 'KWD '.$version->insurance;
             $result[$i]['service_amount'] = 'KWD '.$version->service_charge;
