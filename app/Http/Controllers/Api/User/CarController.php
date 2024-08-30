@@ -427,7 +427,7 @@ class CarController extends ApiBaseController
                 ->whereBetween('on_road_price', [$car->on_road_price * 0.95, $car->on_road_price * 1.05])
                 //->whereNotNull('version_id')
                 ->active()
-                ->limit(2)
+                ->limit(3)
                 ->get();
         }
         $i = 0;
@@ -436,7 +436,7 @@ class CarController extends ApiBaseController
             $result[$i]['id'] = $compare->id;
             $result[$i]['name'] = $compare->model_name;
             $result[$i]['image'] = file_asset('files-car', $car->image);
-            $result[$i]['ex_show_room_price'] = 'KWD '.$version->ex_show_room_price;
+            $result[$i]['ex_show_room_price'] = 'KWD '.$version->ex_showroom_price;
             $result[$i]['finance_available'] = 'KWD '.$version->finance_available;
             $result[$i]['insurance'] = 'KWD '.$version->insurance;
             $result[$i]['service_amount'] = 'KWD '.$version->service_amount;
@@ -445,6 +445,7 @@ class CarController extends ApiBaseController
             $result[$i]['torque'] = $version->torque;
             $result[$i]['transmission_type'] = $version->transmission_type;
             $result[$i]['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
+            $result[$i]['rating'] = $compare->avg_rating;
             $i++;
         }
 
