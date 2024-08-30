@@ -81,40 +81,34 @@
         Professions
         </div>
     </div>
-    <div class="card-body">
- 
-       
-
-
-      
-            <div class="col-md-12">
-              
-                <div class="row">
-                    <div class="form-check form-check-inline col-md-2">
-                            <input class="form-check-input" type="checkbox" name="all_profession" id="all_profession"
-                                value="-1" onclick="selectAllProfession()">
-                            &nbsp;<label class="form-check-label" for="all_profession" style="color: black;">
-                                All 
-                            </label>
-                    </div>
-                    @foreach (config('params.professions') as $key => $value)
-                    <div class="form-check form-check-inline col-md-2">
-                                <input class="form-check-input" type="checkbox" name="professions[]"
-                                    id="professions{{ $key }}" value="{{ $key }}">
-                                &nbsp;<label class="form-check-label" for="professions{{ $key }}"
-                                    style="color: black;">
-                                    {{ $value }}
-                                </label>
-                    </div>  
-                    @endforeach
+    <div class="card-body"> 
+        <div class="col-md-12">
+            <div class="row">
+                <div class="form-check form-check-inline col-md-2">
+                    <input class="form-check-input" type="checkbox" name="all_profession" id="all_profession"
+                        value="-1" onclick="selectAllProfession()" {{ old('all_profession') == '-1' ? 'checked' : '' }}>
+                    &nbsp;<label class="form-check-label" for="all_profession" style="color: black;">
+                        All
+                    </label>
                 </div>
-                <span class="error" role="alert">
-                        @error('professions')
-                            {{ $message }}</br>
-                        @enderror
-                </span>
+                @foreach (config('params.professions') as $key => $value)
+                <div class="form-check form-check-inline col-md-2">
+                    <input class="form-check-input" type="checkbox" name="professions[]"
+                        id="professions{{ $key }}" value="{{ $key }}" 
+                        {{ in_array($key, old('professions', [])) ? 'checked' : '' }}>
+                    &nbsp;<label class="form-check-label" for="professions{{ $key }}" style="color: black;">
+                        {{ $value }}
+                    </label>
+                </div>
+                @endforeach
             </div>
+            <span class="error" role="alert">
+                @error('professions')
+                    {{ $message }}</br>
+                @enderror
+            </span>
         </div>
+    </div>
       
 
 </div>

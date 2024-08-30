@@ -60,6 +60,8 @@ class CarController extends ApiBaseController
         $data['faq'] = $this->getFaq($car);
         $data['news_banner'] = $this->getNewsBanner($car);
         $data['related_news'] = $this->getRelatedNews($car);
+        $data['mileage_details'] = $this->getMileageDetails($car);
+        $data['mileage_desc'] = $car->mileage_summary;
 
         try {
             if (! empty($result) && Auth::user()->isNotGuest()) {
@@ -164,12 +166,12 @@ class CarController extends ApiBaseController
     {
         $data['Fuel Types'] = $this->getFuelTypes($car->fuel_types);
         $data['Engine Capacity'] = $car->engine_capacity. ' cc';
-        $data['Power & Torque'] = $car->power. '-'. $car->torque. 'Bph';
+        $data['Power & Torque'] = $car->power. '-'. $car->torque. ' Bph';
         // $data['Torque'] = $car->torque. 'Bph';
         $data['Drive Train'] = $car->drive_train;
         $data['Acceleration'] = $car->acceleration.' sec';
         $data['Top Speed'] = $car->top_speed.' kmph';
-        $data['Seat Capacity'] = $car->seat_capacity;
+        $data['Seat Capacity'] = $car->seat_capacity.' Persons';
         $data['Mileage'] = $car->mileage. ' klmp';
 
         $list = [];
@@ -479,6 +481,16 @@ class CarController extends ApiBaseController
             DB::rollBack();
             throw $ex;
         }
+    }
+
+    private function getMileageDetails(Car $car)
+    {
+        $versions = CarVersion::select('*')->where('car_id', $car->id)
+                    ->groupBy('fuel_type', 'transmission_type')
+                    ->orderBy('id')
+                    ->get();
+        return CarDetailResource::collection($versions);
+
     }
 
     

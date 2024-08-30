@@ -56,20 +56,20 @@
                 <label class="control-label" for="transmission_types">Transmission Types*</label>
                 <div class="row">
                     <div class="form-check form-check-inline col-md-2">
-                            <input class="form-check-input" type="checkbox" name="all_transmissions" id="all_transmissions"
-                                value="-1" onclick="selectAllTransmissions()">
-                            &nbsp;<label class="form-check-label" for="all_transmissions" style="color: black;">
-                                All 
-                            </label>
+                        <input class="form-check-input" type="checkbox" name="all_transmissions" id="all_transmissions"
+                            value="-1" onclick="selectAllTransmissions()" {{ old('all_transmissions') == '-1' ? 'checked' : '' }}>
+                        &nbsp;<label class="form-check-label" for="all_transmissions" style="color: black;">
+                            All 
+                        </label>
                     </div>
                     @foreach (config('params.car.transmission_type') as $key => $value)
                     <div class="form-check form-check-inline col-md-2">
-                                <input class="form-check-input" type="checkbox" name="transmission_types[]"
-                                    id="transmission_types{{ $key }}" value="{{ $key }}">
-                                &nbsp;<label class="form-check-label" for="transmission_types{{ $key }}"
-                                    style="color: black;">
-                                    {{ $value }}
-                                </label>
+                        <input class="form-check-input" type="checkbox" name="transmission_types[]"
+                            id="transmission_types{{ $key }}" value="{{ $key }}" 
+                            {{ in_array($key, old('transmission_types', [])) ? 'checked' : '' }}>
+                        &nbsp;<label class="form-check-label" for="transmission_types{{ $key }}" style="color: black;">
+                            {{ $value }}
+                        </label>
                     </div>  
                     @endforeach
                 </div>
@@ -120,27 +120,27 @@
                 <label class="control-label" for="fuel_types">Fuel Types*</label>
                 <div class="row">
                     <div class="form-check form-check-inline col-md-2">
-                            <input class="form-check-input" type="checkbox" name="all_fuels" id="all_fuels"
-                                value="-1" onclick="selectAllFuels()">
-                            &nbsp;<label class="form-check-label" for="all_fuels" style="color: black;">
-                                All 
-                            </label>
+                        <input class="form-check-input" type="checkbox" name="all_fuels" id="all_fuels" value="-1"
+                            onclick="selectAllFuels()" {{ old('all_fuels') == '-1' ? 'checked' : '' }}>
+                        &nbsp;<label class="form-check-label" for="all_fuels" style="color: black;">
+                            All
+                        </label>
                     </div>
                     @foreach (config('params.car.fuel_type') as $key => $value)
                     <div class="form-check form-check-inline col-md-2">
-                                <input class="form-check-input" type="checkbox" name="fuel_types[]"
-                                    id="fuel_types{{ $key }}" value="{{ $key }}">
-                                &nbsp;<label class="form-check-label" for="fuel_types{{ $key }}"
-                                    style="color: black;">
-                                    {{ $value }}
-                                </label>
+                        <input class="form-check-input" type="checkbox" name="fuel_types[]"
+                            id="fuel_types{{ $key }}" value="{{ $key }}" 
+                            {{ in_array($key, old('fuel_types', [])) ? 'checked' : '' }}>
+                        &nbsp;<label class="form-check-label" for="fuel_types{{ $key }}" style="color: black;">
+                            {{ $value }}
+                        </label>
                     </div>  
                     @endforeach
                 </div>
                 <span class="error" role="alert">
-                        @error('fuel_types')
-                            {{ $message }}</br>
-                        @enderror
+                    @error('fuel_types')
+                        {{ $message }}</br>
+                    @enderror
                 </span>
             
             </div>
