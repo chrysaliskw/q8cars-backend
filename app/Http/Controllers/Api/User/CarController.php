@@ -203,7 +203,7 @@ class CarController extends ApiBaseController
                 return  asset('images/engine.png');
                 break;
             case 'Power & Torque':
-                return  asset('images/power_torgue.png');
+                return  asset('images/power_torque.png');
                 break;
             case 'Drive Train':
                 return  asset('images/drive_train.png');
