@@ -92,10 +92,11 @@ class CarController extends ApiBaseController
         $result['ex_show_room_price'] = 'KWD '.$version->ex_show_room_price;
         $result['finance_available'] = 'KWD '.$version->finance_available;
         $result['insurance'] = 'KWD '.$version->insurance;
-        $result['service_amount'] = 'KWD '.$version->service_amount;
+        $result['service_amount'] = 'KWD '.$version->service_charge;
         $result['gear_box'] = $version->gear_box;
         $result['power'] = $version->power;
         $result['torque'] = $version->torque;
+        $result['torque_power'] = $version->power.'Bhp @'.$version->torque.'rpm';
         $result['transmission_type'] = $version->transmission_type;
         $result['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
 
@@ -143,6 +144,11 @@ class CarController extends ApiBaseController
             'videos' => $car->carVideos->count(),
             'main_image' =>  file_asset('files-car', $car->image),
             'showroom_price' => $car->ex_showroom_price,
+            'finance_available' => $car->finance_available,
+            'insurance' => $car->insurance,
+            'service_amount' => $car->service_charge,
+            'gear_box' => $car->gear_box,
+            'torque_power' => $car->power.'Bhp @'.$car->torque.'rpm',
         ];
 
         return $result;
@@ -439,13 +445,14 @@ class CarController extends ApiBaseController
             $result[$i]['ex_show_room_price'] = 'KWD '.$version->ex_showroom_price;
             $result[$i]['finance_available'] = 'KWD '.$version->finance_available;
             $result[$i]['insurance'] = 'KWD '.$version->insurance;
-            $result[$i]['service_amount'] = 'KWD '.$version->service_amount;
+            $result[$i]['service_amount'] = 'KWD '.$version->service_charge;
             $result[$i]['gear_box'] = $version->gear_box;
             $result[$i]['power'] = $version->power;
             $result[$i]['torque'] = $version->torque;
             $result[$i]['transmission_type'] = $version->transmission_type;
             $result[$i]['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
             $result[$i]['rating'] = $compare->avg_rating;
+            $result[$i]['torque_power'] = $version->power.'Bhp @'.$version->torque.'rpm';
             $i++;
         }
 

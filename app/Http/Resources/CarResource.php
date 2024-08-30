@@ -28,6 +28,7 @@ class CarResource extends JsonResource
         'total_reviews_count' => $this->total_reviews_count,
         'image' => file_asset('files-car', $this->image),
         'is_favourite' => $this->is_favourite,
+        'image_2' => $this->image_2 ? file_asset('files-car', $this->image_2):null,
     ];
   }
 }
