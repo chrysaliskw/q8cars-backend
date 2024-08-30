@@ -268,6 +268,7 @@ class CarRequest extends FormRequest
             'exterior' => 'required|string',
             'interior' => 'required|string',
             'safety_features' => 'required|string',
+            'mileage_summary' => 'required|string',
             'rivals' => 'nullable|string',
 
             'professions.*' => ['nullable', Rule::in(array_keys(config('params.professions')))],
@@ -534,6 +535,7 @@ class CarRequest extends FormRequest
         'interior' => 'required|string',
         'safety_features' => 'required|string',
         'rivals' => 'nullable|string',
+        'mileage_summary' => 'required|string', 
 
         'professions.*' => ['nullable', Rule::in(array_keys(config('params.professions')))],
         'colors.*' => ['required', Rule::in(array_keys(config('params.colors')))],

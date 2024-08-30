@@ -23,6 +23,10 @@
         </x-form-textarea>
     </div>
     <div class="col-md-6">
+        <x-form-textarea type="text" field="mileage_summary" rows="6" field-name="Mileage Summary*" field-value="{{ old('mileage_summary') }}">
+        </x-form-textarea>
+    </div>
+    <div class="col-md-6">
         <x-form-textarea type="text" field="rivals" rows="6" field-name="Rivals" field-value="{{ old('rivals') }}">
         </x-form-textarea>
     </div>

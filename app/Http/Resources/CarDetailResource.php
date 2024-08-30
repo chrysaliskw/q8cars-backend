@@ -17,7 +17,7 @@ class CarDetailResource extends JsonResource
   {
     return [
         'id' => $this->id,
-        'version_name' => $this->version_name,
+        'version_name' => $this->varient_name,
         'transmission_type' => config('params.car.transmission_type')[$this->transmission_type],  
         'fuel_type' => config('params.car.fuel_type')[$this->fuel_type],
         'engine_capacity' => $this->engine_capacity. ' cc',

@@ -136,6 +136,7 @@ class CarService
         $this->car->interior = $this->data['interior'];
         $this->car->safety_features = $this->data['safety_features'];
         $this->car->rivals = $this->data['rivals'];
+        $this->car->mileage_summary = $this->data['mileage_summary'];
 
         $this->car->save();
     }
