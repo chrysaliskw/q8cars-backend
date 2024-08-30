@@ -492,7 +492,7 @@ class CarController extends ApiBaseController
 
         $versions = CarVersion::whereIn(DB::raw('(fuel_type, transmission_type)'), $subquery)
             ->where('car_id', $car->id)
-            ->get();
+            ->limit(2)->get();
        
         return CarDetailResource::collection($versions);
 
