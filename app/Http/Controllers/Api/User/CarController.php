@@ -23,6 +23,7 @@ use App\Http\Resources\CarDetailResource;
 use App\Services\Api\User\Car\FilterService;
 use App\Http\Controllers\Api\ApiBaseController;
 use Carbon\Carbon;
+use App\Models\CarComparisonList;
 
 class CarController extends ApiBaseController
 {
@@ -139,6 +140,7 @@ class CarController extends ApiBaseController
             'photos' => $car->carPhotos->count() + 1,
             'videos' => $car->carVideos->count(),
             'main_image' =>  file_asset('files-car', $car->image),
+            'showroom_price' => $car->ex_showroom_price,
         ];
 
         return $result;
@@ -401,7 +403,31 @@ class CarController extends ApiBaseController
     public function getComparison(Car $car)
     {
         $result[] = null;
-        $cars = Car::where('brand_id', '!=', $car->brand_id)->active()->limit(2)->get();
+        $compareCar = CarComparisonList::where('car_id',$car->id)->first();
+        if($compareCar)
+        {     
+            $carId1 = $compareCar->car_1_id;
+            $carId2 = $compareCar->car_2_id;
+            $cars = Car::whereIn('id',[$carId1,$carId2])->get();
+        }else{
+            // $cars = Car::where('brand_id', '!=', $car->brand_id)->where('version_id')->active()->limit(2)->get();
+            $carBaseVariantBodyType = CarVersion::where('car_id', $car->id)
+                ->where('car_base_variant', 1)
+                ->value('body_type');
+
+            $cars = Car::where('brand_id', '!=', $car->brand_id)
+                ->whereIn('id', function ($query) use ($carBaseVariantBodyType) {
+                    $query->select('car_id')
+                        ->from('car_versions')
+                        ->where('car_base_variant', 1)
+                        ->where('body_type', $carBaseVariantBodyType);
+                    })
+                ->whereBetween('onroad_price', [$car->onroad_price * 0.95, $car->onroad_price * 1.05])
+                ->whereNotNull('version_id')
+                ->active()
+                ->limit(2)
+                ->get();
+        }
         $i = 0;
         foreach($cars as $compare) {
             $version = CarVersion::where('car_id', $compare->id)->where('transmission_type', Car::TR_MANUAL)->first();

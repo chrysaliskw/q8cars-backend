@@ -33,9 +33,10 @@ class NewsResource extends JsonResource
             'read_time' => $this->read_time,
             'expiry_date' => dateFormat($this->expiry_date),
             'show_in_detail_page' => $this->show_in_detail_page,
-            'media_logo' => file_asset('files-news', $this->media_logo),
+            'media_logo' => asset('images/medialogo.png'),
             'image' => file_asset('files-news', $this->image),
             'posted_time_ago' => get_time_ago($this->posted_time),
+            'media_name' => $this->media_name,
         ];
     }
 }   
