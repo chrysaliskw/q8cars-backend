@@ -287,7 +287,7 @@ class CarController extends ApiBaseController
     private function getNewsBanner(Car $car)
     {
         $result = News::where('car_id', $car->id)->where('show_in_detail_page', 1)->first();
-        return $result;
+        return NewsResource::make($result);
     }
 
     private function getFuelTypes($fuel_types)
