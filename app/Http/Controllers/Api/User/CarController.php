@@ -266,7 +266,7 @@ class CarController extends ApiBaseController
                     ->get();
 
         return [
-            'avg_rating' => $car->avg_rating,
+            'avg_rating' => round($car->avg_rating,2),
             'total_reviews_count' => $car->total_reviews_count,
             'rating_1_count' => $car->rating_1,
             'rating_2_count' => $car->rating_2,
