@@ -201,9 +201,10 @@ class CarController extends Controller
         }
     
         $carVarient = $car->carSpec;
+        $carVersion = $carVarient; 
         $carVersions = CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->get();
 
-        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions'));
+        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions','carVersion'));
     }
 
     /**
@@ -223,10 +224,9 @@ class CarController extends Controller
 
         $carVarient = $car->carSpec;
         $carImages = collect(CarImage::where('car_id', $car->id)->image()->whereNull('color')->get());
-        for ($i = $car->carImages->count() + 1; $i <= Car::MAX_NUM_IMAGES; $i++) {
+        for ($i = $carImages->count() + 1; $i <= Car::MAX_NUM_IMAGES; $i++) {
             $carImages->push(new CarImage());
         }
-
         $carVideos = collect(CarImage::where('car_id', $car->id)->video()->get());
         for ($i = $car->carVideos->count() + 1; $i <= 3; $i++) {
             $carVideos->push(new CarImage());
@@ -388,13 +388,15 @@ class CarController extends Controller
 
         $attributeData = $this->setAttributes($validator->validated());
 
-        $data = array_merge($request->validated(), $attributeData);    
-        for($i=0;$i<10;$i++){
-            $data['attribute_id'][$i] = $this->setAttributeIds($request);
-        } 
+        $data = array_merge($request->validated(), $attributeData); 
+// dd($data);
+        // for($i=0;$i<10;$i++){
+        //     $data['attribute_id'][$i] = $this->setAttributeIds($request);
+        // } 
+        $carVarient = $car->carSpec;
         try 
         {
-            $service = new CarService($data, $car);
+            $service = new CarService($data, $car,$carVarient);
             $car = $service->handle(); 
         }
         catch (Exception $ex) {
@@ -495,11 +497,11 @@ class CarController extends Controller
         for($i = 0 ; $i < 10; $i++) {
             $data['section'][$j] = $array['section_'. $i];
             $data['attribute'][$j] = $array['attribute_'. $i];
-            $data['input_type'][$j] = isset($array['input_type_'. $i]) ?? null;
+            $data['input_type'][$j] = ($array['input_type_'. $i] == 1) ? 1: 2;
             $data['text_value'][$j] = $array['text_value_'. $i];
-            $data['bool_value'][$j] = isset($array['bool_value_'. $i]) ?? null;
+            $data['bool_value'][$j] = ($array['input_type_'. $i] == 2) ? $array['bool_value_'.$i]: null;
             $data['units'][$j] = $array['units_'. $i];
-            $data['attribute_id'][$j] = isset($array['attribute_id_'. $i]) ?? null;
+            $data['attribute_id'][$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;
             $j++;
         }
 
@@ -515,7 +517,7 @@ class CarController extends Controller
 
         for($i = 0 ; $i < 10; $i++) {
            
-            $data[$j] = isset($array['attribute_id_'. $i]) ?? null;
+            $data[$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;
           
             $j++;
         }

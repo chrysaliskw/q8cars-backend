@@ -28,7 +28,7 @@
                                             <x-form-select field="section_{{$i}}" id="section_{{$i}}" >
                                                 @foreach(config('params.car.specification-section') as $value => $label)
                                                     <option value="{{ $value }}"  
-                                                        <?php if($value == $additionals[$i]->section){ echo "selected";}?>>
+                                                        <?php if($value == $additionals[$i]->category_id){ echo "selected";}?>>
                                                     {{ $label }}</option>
                                                 @endforeach
                                             </x-form-select>
@@ -44,12 +44,12 @@
                                         </td>
                                        
                                         <td>
-                                            <x-form-input type="text" field="text_value_{{$i}}" id="text_value_{{$i}}" class="validate" value="{{$additionals[$i]->value}}"></x-form-input>
+                                            <x-form-input type="text" field="text_value_{{$i}}" id="text_value_{{$i}}" class="validate" value="{{(1 == $additionals[$i]->input_type) ?$additionals[$i]->value : ''}}"></x-form-input>
                                         </td>
                                         <td>
                                             <x-form-select field="bool_value_{{$i}}" id="bool_value_{{$i}}">
                                                 <option value="1" <?php if(1 == $additionals[$i]->value){ echo "selected";}?>>Yes</option>
-                                                <option value="2" <?php if(1 == $additionals[$i]->value){ echo "selected";}?>>No</option>
+                                                <option value="2" <?php if(2 == $additionals[$i]->value){ echo "selected";}?>>No</option>
                                             </x-form-select>
                                         </td>
                                         <td>
@@ -61,7 +61,7 @@
                                                 <span class="ion-trash-a" data-attribute></span>
                                             </button>  
                                         </td>         
-                                        <input type="hidden" name="attribute_id_{{$i}}" id="attribute_id_{{$i}}" value="{{ $additionals[$i]->id }}" />
+                                        <input type="hidden" name="attribute_id_{{$i}}" id="attribute_id_{{$i}}" value="{{ $additionals[$i]->id ?? '' }}" />
                                     </tr>
                                
                                 

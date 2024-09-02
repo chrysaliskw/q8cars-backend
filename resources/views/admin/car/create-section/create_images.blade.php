@@ -34,13 +34,13 @@
         
         <div class="col-md-3">
             <div class="form-group">
-                <select name="section_{{$key}}" class="form-control">
+                <select name="img_section_{{$key}}" class="form-control">
                     @foreach (config('params.car.image-section') as $value => $label)
                     <option value="{{ $value }}">
                         {{ $label }}</option>
                     @endforeach
                 </select>
-                @error('section_' . ($key))
+                @error('img_section_' . ($key))
                     <span class="error" role="alert">{{ $message }}</span>
                 @enderror
             </div>

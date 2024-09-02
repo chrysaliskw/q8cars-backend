@@ -5,6 +5,7 @@ namespace App\DataGrids\Admin;
 use App\Models\Review;
 use App\Models\TestDrive;
 use Rufaidulk\DataGrid\Grid;
+use App\Services\FaRatingHtmlService;
 
 class ReviewDataGrid extends Grid
 {
@@ -62,14 +63,21 @@ class ReviewDataGrid extends Grid
             ],
             'rating' => [
                 'label' => 'Rating',
-                'value' => function ($model) {
-                    return $model->rating;
-                },
                 'filter' => true,
                 'filterOptions' => [
-                    'type' => 'text',
-                    'attribute' => 'rating',
-                ]
+                    'type' => 'select',
+                    'data' => [
+                        1 => 1,
+                        2 => 2,
+                        3 => 3,
+                        4 => 4,
+                        5 => 5
+                    ]
+                ],
+                'value' => function ($model) {
+                    return (new FaRatingHtmlService($model->rating))->handle();
+                },
+                'contentCssClass' => 'review-rating-cell',
             ],
             'status' => [
                 'label' => 'Status',

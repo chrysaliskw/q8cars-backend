@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\User\JustLaunchController;
 use App\Http\Controllers\Api\User\OfferRequestController;
 use App\Http\Controllers\Api\User\SubmitReviewController;
 use App\Http\Controllers\Api\User\AccountDeleteController;
+use App\Http\Controllers\Api\User\PopularCarController;
+use App\Http\Controllers\Api\User\PopularCarFilterController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -50,6 +52,11 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('homes', HomeController::class);
     Route::get('just-launch/cars', [JustLaunchController::class, 'getJustLaunchCars']);
     Route::get('just-launch', [JustLaunchController::class, 'index']);
+
+    //popular car listing
+    Route::get('popular-cars',PopularCarController::class);
+    Route::get('popular-cars/filter',PopularCarFilterController::class);
+    
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
     

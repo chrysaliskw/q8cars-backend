@@ -121,6 +121,7 @@ class CarService
         $this->car->acceleration = $this->data['acceleration'];
         $this->car->top_speed = $this->data['top_speed'];
         $this->car->mileage = $this->data['mileage'];
+        $this->car->gear_box = $this->data['gear_box'];
        
         $this->car->image = isset($this->data['image']) ? $this->moveUploadedProfileImage() : $this->car->image;
         $this->car->image_2 = isset($this->data['image_detail']) ? $this->moveUploadedProfileImage2() : $this->car->image_2;
@@ -156,7 +157,7 @@ class CarService
         } 
 
         $this->version->car_id = $this->car->id;
-        $this->version->is_car_spec = $carSpec;
+        $this->version->is_car_spec =  $this->version->is_car_spec ?? $carSpec;
         $this->version->varient_name = $name;
         
         $this->version->ex_showroom_price = $this->data['ex_showroom_price'];
@@ -283,12 +284,12 @@ class CarService
         CarImage::where('car_id', $this->car->id)->whereNull('color')->whereNotNull('section')->where('type', CarImage::TYPE_IMAGE)->delete();
     
         $images = [];
-        for ($i = 1; $i <= Car::MAX_NUM_IMAGES; $i++)
+        for ($i = 0; $i <= Car::MAX_NUM_IMAGES; $i++)
         {
             $name = 'image_' . $i;
             $oldName = 'image_old_' . $i;
             $removedName = 'image_removed_' . $i;
-            $section = 'section_' . $i;
+            $section = 'img_section_' . $i;
     
             if(isset($this->data[$oldName]) && !isset($this->data[$name]) && in_array($this->data[$oldName], $oldImages)){
                 if (($key = array_search($this->data[$oldName], $oldImages)) !== false) {
@@ -342,65 +343,64 @@ class CarService
 
     private function saveCarColorsAndImages()
     {
-        $oldImages = $this->getOldAdditionalImagesColor($this->car->id);
-        CarImage::where('car_id', $this->car->id)->whereNotNull('color')->whereNull('section')->where('type', CarImage::TYPE_IMAGE)->delete();
+        $existingColors = array_keys(config('params.colors'));
+        $submittedColors = $this->data['colors'] ?? [];
+        
+        $uncheckedColors = array_diff($existingColors, $submittedColors);
+        
+        $imagesToDelete = CarImage::where('car_id', $this->car->id)
+                                  ->whereIn('color', $uncheckedColors)
+                                  ->where('type', CarImage::TYPE_IMAGE)
+                                  ->pluck('file_name')
+                                  ->toArray();
     
-        $images = [];
-        for ($i = 1; $i <= count(config('params.colors')); $i++)
-        {
-            $name = 'colors_image_' . $i;
-            $oldName = 'colors_image_old_' . $i;
-            $removedName = 'colors_image_removed_' . $i;
-            $color = $i;
+        CarImage::where('car_id', $this->car->id)
+                ->whereIn('color', $uncheckedColors)
+                ->where('type', CarImage::TYPE_IMAGE)
+                ->delete();
     
-            if(isset($this->data[$oldName]) && !isset($this->data[$name]) && in_array($this->data[$oldName], $oldImages)){
-                if (($key = array_search($this->data[$oldName], $oldImages)) !== false) {
-                    unset($oldImages[$key]);
-                }
-            }
-    
-            if (isset($this->data[$name]) && $this->data[$name]->get()) {
-                compressAndResizeImage($this->data[$name]->path(), $this->data[$name]->path());
-                $this->data[$name]->store(Car::FILE_DIR);
-                // resizeImage($this->data[$name]->path(), $this->data[$name]->path(), 'large_x');
-                // $this->data[$name]->store(Car::FILE_DIR . '/large_x');
-                $fileName = $this->data[$name]->hashName();
-            }
-            elseif(isset($this->data[$removedName]) && $this->data[$removedName] == 1) {
-                $image = Car::find($this->data['deleted_image_id_' . $i]);
-                if($image){
-                    Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . $image->file_name);
-                    Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x' . DIRECTORY_SEPARATOR . $image->file_name);
-                    $car = Car::where('id', $image->id);
-                    $car->delete();
-                }     
-                continue;
-            }
-            else {
-                $fileName = $this->data[$oldName] ?? null;
-            }
-            if (! $fileName) {
-                continue;
-            }
-    
-            $images[] = [
-                'car_id' => $this->car->id,
-                'file_name' => $fileName,
-                'type' => CarImage::TYPE_IMAGE,
-                'color' => $color,
-            ];
-        }
-    
-        DB::table((new CarImage())->getTable())->insert($images);
-        $imagesToDelete = $this->getJunkImages($images, $oldImages);
-        JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
-        foreach($oldImages as $name)
-        {
+        foreach ($imagesToDelete as $name) {
             Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . $name);
             Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x' . DIRECTORY_SEPARATOR . $name);
         }
-    
+        $images = [];
+        foreach ($submittedColors as $color) {
+            $imageData = $this->handleImageUpload($color);
+            
+            if ($imageData) {
+                $images[] = array_merge([
+                    'car_id' => $this->car->id,
+                    'type' => CarImage::TYPE_IMAGE,
+                    'color' => $color,
+                ], $imageData);
+            }
+        }
+        DB::table((new CarImage())->getTable())->upsert($images, ['car_id', 'color'], ['file_name']);
+        JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
     }
+    
+    /**
+     * Handle image upload and resizing
+     *
+     * @param string $color
+     * @return array|null
+     */
+    private function handleImageUpload($color)
+    {
+        $name = 'colors_image_' . $color;
+        $oldName = 'colors_image_old_' . $color;
+    
+        if (isset($this->data[$name]) && $this->data[$name]->get()) {
+            $file = $this->data[$name];
+            compressAndResizeImage($file->path(), $file->path());
+            $file->store(Car::FILE_DIR);
+            $fileName = $file->hashName();
+        } else {
+            $fileName = $this->data[$oldName] ?? null;
+        }
+    
+        return $fileName ? ['file_name' => $fileName] : null;
+    }    
 
     private function getOldAdditionalImages($carId)
     {
@@ -419,7 +419,7 @@ class CarService
     private function getOldAdditionalImagesColor($carId)
     {
         $oldImages = [];
-        $images = CarImage::where('car_id', $carId)->whereNotNull('color')->whereNotNull('section')->where('type', CarImage::TYPE_IMAGE)->get();
+        $images = CarImage::where('car_id', $carId)->whereNotNull('color')->whereNull('section')->where('type', CarImage::TYPE_IMAGE)->get();
         if(!empty($images)){
             foreach($images as $image){
                 $oldImages[$image->id] = $image->file_name;
@@ -555,9 +555,10 @@ class CarService
             if (empty($name)) {
                 continue;
             }
-
-            if (isset($this->data['attribute_id']) && $this->data['attribute_id'][$index]) 
+         
+            if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index])) 
             {
+             
                 $categoryAttribute = CarAdditonalSpecifications::find($this->data['attribute_id'][$index]);
                 $categoryAttribute->specification = $name;
             }
@@ -577,6 +578,7 @@ class CarService
             }else {
                 $categoryAttribute->value = $this->data['bool_value'][$index];
             }
+         
             $categoryAttribute->saveOrFail();
       
         }
@@ -600,7 +602,8 @@ class CarService
         if (empty($ids)) {
             return;
         }
-
+        $idsNotTodelete = CarAdditonalSpecifications::where('car_id',$this->car->id)->where('car_version_id',$this->car->carSpec->id)->pluck('id')->toArray();
+        $ids = array_diff($ids, $idsNotTodelete);
         CarAdditonalSpecifications::destroy($ids);
     }
 }

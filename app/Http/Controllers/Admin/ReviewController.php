@@ -58,7 +58,11 @@ class ReviewController extends Controller
         $review->save();
         if($review->status == Review::STATUS_VERIFIED && $oldStatus !=  Review::STATUS_VERIFIED)
         {
-            $review->car->avg_rating = (($review->car->avg_rating* $review->car->total_reviews_count) + ($review->rating)) /($review->car->total_reviews_count +1);
+            $review->car->avg_rating =  round(
+                (($review->car->avg_rating * $review->car->total_reviews_count) + $review->rating) / 
+                ($review->car->total_reviews_count + 1), 
+                2
+            );
             $review->car->total_reviews_count = $review->car->total_reviews_count+1;
             $review->car->save();
         }

@@ -106,7 +106,7 @@
                     </div>
                
                     <div class="tab-pane" id="additional-2" role="tabpanel" aria-labelledby="additional-tab-2">
-                        @include('admin.car.create-section.additional')
+                        @include('admin.car.edit-section.additional')
                     </div>
 
                 </form>
