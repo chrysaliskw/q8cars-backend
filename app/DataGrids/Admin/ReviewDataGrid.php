@@ -35,7 +35,7 @@ class ReviewDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'user_mobile',
+                    'attribute' => 'u.mobile',
                 ]
             ],
             'car_model' => [
@@ -46,7 +46,7 @@ class ReviewDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'car_model',
+                    'attribute' => 'c.model_name',
                 ]
             ],
            

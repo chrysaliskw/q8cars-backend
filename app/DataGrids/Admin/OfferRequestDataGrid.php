@@ -34,7 +34,7 @@ class OfferRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'user_mobile',
+                    'attribute' => 'u.mobile',
                 ]
             ],
             'car_model' => [
@@ -45,11 +45,11 @@ class OfferRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'car_model',
+                    'attribute' => 'c.model_name',
                 ]
             ],
             
-            'first_name' => [
+            'full_name' => [
                 'label' => 'Requested Name',
                 'value' => function ($model) {
                     return $model->full_name;
@@ -68,7 +68,7 @@ class OfferRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'mobile',
+                    'attribute' => 'offer_requests.mobile',
                 ]
             ],
             'email' => [
@@ -79,7 +79,7 @@ class OfferRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'email',
+                    'attribute' => 'offer_requests.email',
                 ]
             ],
             'type' => [

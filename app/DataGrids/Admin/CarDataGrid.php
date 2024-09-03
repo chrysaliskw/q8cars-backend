@@ -11,7 +11,7 @@ class CarDataGrid extends Grid
 
     public function gridQuery()
     {
-        $query = Car::query() 
+        $query = Car::query()->orderBy('id','Desc')
             ->leftJoin('brands as b', 'b.id', 'cars.brand_id')
             ->select(['b.id as brand_id', 'b.name as brand_name','cars.*']);
 

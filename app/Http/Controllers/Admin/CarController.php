@@ -418,8 +418,8 @@ class CarController extends Controller
         DB::beginTransaction();
         try {
 
-            $car->carImages->delete();
-            $car->news->delete();
+            $car->carImages()->delete();
+            $car->news()->delete();
             Faq::where('car_id', $car->id)->delete();
             CarFavourite::where('car_id', $car->id)->delete();
             Review::where('car_id', $car->id)->delete();

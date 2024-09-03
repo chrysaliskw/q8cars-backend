@@ -23,17 +23,15 @@ class TestRideRequestDataGrid extends Grid
     public function columns()
     {
         return [
-           
             'user_mobile' => [
                 'label' => 'User Mobile',
                 'value' => function ($model) {
-                    return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_phone_code $model->user_mobile</a>";
-                  
+                    return "<a href='" . route('admin.user.show', $model->user_id) . "'> {$model->user_phone_code} {$model->user_mobile}</a>";
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'user_mobile',
+                    'attribute' => 'u.mobile',
                 ]
             ],
             'car_model' => [
@@ -44,7 +42,7 @@ class TestRideRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'car_model',
+                    'attribute' => 'c.model_name',
                 ]
             ],
             'brand_name' => [
@@ -57,7 +55,7 @@ class TestRideRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'brand_name',
+                    'attribute' => 'brands.name',
                 ]
             ],
             'first_name' => [
@@ -68,18 +66,18 @@ class TestRideRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => ['first_name','last_name'],
-                ]
+                    'attribute' => 'first_name',
+                ],
             ],
             'mobile' => [
                 'label' => 'Requested Mobile',
                 'value' => function ($model) {
-                    return $model->phone_code . $model->mobile;
+                    return $model->user_phone_code . $model->user_mobile;
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'mobile',
+                    'attribute' => 'test_drives.mobile',
                 ]
             ],
             'status' => [
@@ -87,23 +85,22 @@ class TestRideRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'select',
-                    'attribute' => 'test_drives.status',
+                    'attribute' => 'status',
                     'operator' => '=',
                     'data' => config('params.test_drive.status')
                 ],
                 'value' => function ($model) {
-                    return config('params.test_drive.status')[$model->status];
+                    return config('params.test_drive.status')[$model->status] ?? 'Unknown';
                 },
             ],
-
             'action' => [
                 'routePrefix' => 'admin.test-ride-requests',
                 'buttons' => ['view','update'],
                 'update' => function ($model) {
                     if ($model->status != TestDrive::STATUS_COMPLETED) {
-                    $btn = "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}'class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>";
-                    $btn .= "<span class='ion-edit'></span></a>";
-                    return $btn;
+                        return "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}' class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>
+                                    <span class='ion-edit'></span>
+                                </a>";
                     }
                 },
             ]

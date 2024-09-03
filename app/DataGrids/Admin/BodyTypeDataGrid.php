@@ -11,7 +11,7 @@ class BodyTypeDataGrid extends Grid
 
     public function gridQuery()
     {
-        $query = BodyType::query() 
+        $query = BodyType::query()->orderBy('id','Desc')
             ->select(['body_types.*']);
 
         return $query;

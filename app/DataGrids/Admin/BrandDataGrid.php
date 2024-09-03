@@ -11,7 +11,7 @@ class BrandDataGrid extends Grid
 
     public function gridQuery()
     {
-        $query = Brand::query() 
+        $query = Brand::query()->orderBy('id','Desc')
             ->select(['brands.*']);
 
         return $query;

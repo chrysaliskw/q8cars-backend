@@ -20,6 +20,7 @@ class BrandResource extends JsonResource
             'name' => $this->name,
             'icon' => $this->icon ? file_asset('files-brand', $this->icon) : null, 
             'is_top_brand' => $this->is_top_brand,
+            'is_recently_purchased' => $this->is_recent_purchased,
         ];
     }
 }
