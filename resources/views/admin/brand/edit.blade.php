@@ -17,18 +17,22 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="icon" class="control-label">Icon</label><br>
+                        <label for="icon" class="control-label">Icon</label>
+                        <div>
+                            <input id="icon" type="file" name="icon" class="form-control" style="padding-left: 2px;padding-top:2px">
+                       
+                            <span class="text-muted">
+                            {{'Max size : 2MB'}} 
+                        </span>
+                            </div>
                         <img src="{{ file_asset('files-brand', $brand->icon) }}" 
                             alt="brand-img" class="img-thumbnail" width="100" height="150">
-                        <input id="icon" type="file" name="icon" class="form-control">
-                        <span class="error" role="alert">
+                            <span class="error" role="alert">
                             @error('icon')
                                 {{ $message }}</br>
                             @enderror
-                        </span>
-                        <span class="text-muted">
-                            {{'Max size : 2MB'}} 
-                        </span>
+                        </span>  
+                       
                     </div>
                 </div>
                 <div class="col-md-4">

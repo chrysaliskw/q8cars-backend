@@ -350,7 +350,7 @@
                 <h5>Other Specifications</h5>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body car-spec">
             <div class="row">
                 <div class="col-md-3">
                     <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
@@ -462,7 +462,7 @@
                 <h5>Additional Images</h5>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body car-spec car-add-image">
             <div class="row">
                 <div class="col-md-3">
                     <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >

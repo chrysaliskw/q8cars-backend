@@ -238,9 +238,9 @@ class CarService
         if(isset($this->data['varient_name'])) {
             $this->version->transmission_type = $this->data['transmission_type'];
             $this->version->fuel_type = $this->data['fuel_type'];
-        } else {
-            $this->version->transmission_type = intval($this->data['transmission_types']);
-            $this->version->fuel_type = intval($this->data['fuel_types']);
+        } else {         
+            $this->version->transmission_type = ($this->getIntValueTransmission()[1]);
+            $this->version->fuel_type = ($this->getIntValueFuel()[1]);
         }
         
         //$this->version->colours = $this->getIntValueColor($this->data['colors']);
@@ -542,7 +542,7 @@ class CarService
         DB::table((new CarImage())->getTable())->insert($videos);
     }
 
-    private function saveCategoryAttributes()
+    public function saveCategoryAttributes()
     {
         $attributes = [];
 
@@ -602,8 +602,10 @@ class CarService
         if (empty($ids)) {
             return;
         }
-        $idsNotTodelete = CarAdditonalSpecifications::where('car_id',$this->car->id)->where('car_version_id',$this->car->carSpec->id)->pluck('id')->toArray();
-        $ids = array_diff($ids, $idsNotTodelete);
+       
+        // $idsNotTodelete = CarAdditonalSpecifications::where('car_id',$this->car->id)->where('car_version_id',$this->version->id)->pluck('id')->toArray();
+        //     $ids = array_diff($ids, $idsNotTodelete);
+       
         CarAdditonalSpecifications::destroy($ids);
     }
 }

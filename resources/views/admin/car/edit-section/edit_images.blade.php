@@ -37,60 +37,76 @@
 <label for="additional-images" class="col-md-2 control-label">
     Additional Images      
 </label>
-@foreach ($carImages as $key => $carImage)
+
+@php
+    $carImagesCount = count($carImages);
+    $rows = ceil($carImagesCount / 3); // Calculate the number of rows needed
+@endphp
+
+@for($row = 0; $row < $rows; $row++)
     <div class="form-group row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <select name="img_section_{{$key}}" class="form-control">
-                    @foreach (config('params.car.image-section') as $value => $label)
-                    <option value="{{ $value }}" 
-                        @if($value == $carImage->section) selected @endif>
-                        {{ $label }}
-                    </option>
-                    @endforeach
-                </select>
-                @error('img_section_' . ($key))
-                    <span class="error" role="alert">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-3">
-            <input id="image_{{ $key }}" type="file" name="image_{{$key}}" class="form-control"
-                onchange="previewImage(event, {{ $key }})">
-            <input type="hidden" id="image_old_{{$key}}" name="image_old_{{$key}}"
-                value="{{ $carImage->file_name }}">
-            <span class="error" role="alert">
-                @error('image_' . ($key))
-                    {{ $message }}</br>
-                @enderror
-            </span>
-        </div>
-        <div class="col-md-3">
-            @if ($carImage->file_name)
-                <img src="{{ file_asset('files-car', $carImage->file_name) }}" alt="profile-image"
-                    id="image_preview_{{ $key }}" class="img-thumbnail" width="100" height="150">
-            @else
-                <img src="" alt="" id="image_preview_{{ $key }}" class="img-thumbnail"
-                    width="100" height="150" style="display:none;">
+        @for($col = 0; $col < 3; $col++)
+            @php
+                $index = ($row * 3) + $col;
+                $carImage = $carImages[$index] ?? null;
+            @endphp
+            
+            @if($carImage)
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="img_section_{{ $index }}" class="form-control">
+                            @foreach (config('params.car.image-section') as $value => $label)
+                                <option value="{{ $value }}" 
+                                    @if($value == $carImage->section) selected @endif>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('img_section_' . $index)
+                            <span class="error" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <input id="image_{{ $index }}" type="file" name="image_{{ $index }}" class="form-control"
+                            onchange="previewImage(event, {{ $index }})">
+                        <input type="hidden" id="image_old_{{ $index }}" name="image_old_{{ $index }}"
+                            value="{{ $carImage->file_name }}">
+                        <span class="error" role="alert">
+                            @error('image_' . $index)
+                                {{ $message }}</br>
+                            @enderror
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @if ($carImage->file_name)
+                            <img src="{{ file_asset('files-car', $carImage->file_name) }}" alt="profile-image"
+                                id="image_preview_{{ $index }}" class="img-thumbnail" width="100" height="150">
+                        @else
+                            <img src="" alt="" id="image_preview_{{ $index }}" class="img-thumbnail"
+                                width="100" height="150" style="display:none;">
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        @if ($carImage->file_name)
+                            <button id="remove-image_{{ $index }}" type="button" class="btn btn-danger">
+                                x
+                            </button>
+                            <input type="hidden" id="image_removed_{{ $index }}" name="image_removed_{{ $index }}"
+                                value="0">
+                            <input type="hidden" id="deleted_image_id_{{ $index }}" name="deleted_image_id_{{ $index }}"
+                                value="{{ $carImage->id }}">
+                        @else
+                            <button id="remove-image_{{ $index }}" type="button" class="btn btn-danger" style="display:none">
+                                x
+                            </button>
+                        @endif
+                    </div>
+                </div>
             @endif
-        </div>
-        <div class="col-md-2">
-            @if ($carImage->file_name)
-                <button id="remove-image_{{ $key }}" type="button" class="btn btn-danger">
-                    x
-                </button>
-                <input type="hidden" id="image_removed_{{ $key }}" name="image_removed_{{ $key }}"
-                    value="0">
-                <input type="hidden" id="deleted_image_id_{{ $key }}" name="deleted_image_id_{{ $key }}"
-                    value="{{ $carImage->id }}">
-            @else
-                <button id="remove-image_{{ $key }}" type="button" class="btn btn-danger" style="display:none">
-                    x
-                </button>
-            @endif
-        </div>
+        @endfor
     </div>
-@endforeach
+@endfor
+
 
 <script>
    function previewImage(event, index)

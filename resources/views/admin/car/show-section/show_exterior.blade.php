@@ -1,6 +1,6 @@
 <div class="col-md-12"  style="color:#333;">
     <div class="card card-border card-primary">
-        <div class="card-body">
+        <div class="card-body car-add-image">
             <div class="form-horizontal">
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">LED Taillights</label>

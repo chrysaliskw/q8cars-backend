@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
 use App\Http\Requests\Admin\CarVersionRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class CarVersionController extends Controller
 {
@@ -104,10 +106,29 @@ class CarVersionController extends Controller
            $selectedColorsCount++;
         }
         $ccount = count(config('params.colors'));
-
+        $additionals = collect(CarAdditonalSpecifications::where('car_id', $car->id)->where('car_version_id',$carVarient->id)->get());
+        for ($i = $carVarient->carAdditionalSpecifications->count() + 1; $i <= 10; $i++) {
+            $additionals->push(new CarAdditonalSpecifications());
+        }
+        $allTransmissionTypes = config('params.car.transmission_type');
+        $selectedTransmissionTypes = array_filter(
+            config('params.car.transmission_type'),
+            function ($key) use ($car) {
+                return in_array($key, json_decode($car->transmission_type));
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+        $selectedFuelTypes = array_filter(
+            config('params.car.fuel_type'),
+            function ($key) use ($car) {
+                return in_array($key, json_decode($car->fuel_types));
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+      
         return view('admin.car.car-version.edit', compact('car','carVersion', 'carVarient', 
-            'currentFuel', 'currentTransmission', 'currentBodyType', 'currentBrand', 'currentCar',
-            'currentColors', 'selectedColorsCount', 'ccount', 'carVarientName',
+            'currentFuel', 'currentTransmission', 'currentBodyType', 'currentBrand', 'currentCar','selectedFuelTypes',
+            'currentColors', 'selectedColorsCount', 'ccount', 'carVarientName','additionals','selectedTransmissionTypes'
         ));
     }
 
@@ -116,15 +137,114 @@ class CarVersionController extends Controller
      */
     public function update(CarVersionRequest $request, CarVersion $carVersion)
     {
-        // dd($request);
+        $validator = Validator::make($request->all(), [
+            'attribute_1' =>'nullable|string|max:255',
+            'input_type_1' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_1' => 'nullable|integer',
+            'text_value_1' => 'nullable|string',
+            'bool_value_1' => 'nullable|integer',
+            'units_1' => 'nullable|string',
+         
+            'attribute_2' =>'nullable|string|max:255',
+            'input_type_2' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_2' => 'nullable|integer',
+            'text_value_2' => 'nullable|string',
+            'bool_value_2' => 'nullable|integer',
+            'units_2' => 'nullable|string',
+            
+            'attribute_3' =>'nullable|string|max:255',
+            'input_type_3' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_3' => 'nullable|integer',
+            'text_value_3' => 'nullable|string',
+            'bool_value_3' => 'nullable|integer',
+            'units_3' => 'nullable|string',
+           
+            'attribute_4' =>'nullable|string|max:255',
+            'input_type_4' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_4' => 'nullable|integer',
+            'text_value_4' => 'nullable|string',
+            'bool_value_4' => 'nullable|integer',
+            'units_4' => 'nullable|string',
+            
+            'attribute_5' =>'nullable|string|max:255',
+            'input_type_5' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_5' => 'nullable|integer',
+            'text_value_5' => 'nullable|string',
+            'bool_value_5' => 'nullable|integer',
+            'units_5' => 'nullable|string',
+            
+            'attribute_6' =>'nullable|string|max:255',
+            'input_type_6' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_6' => 'nullable|integer',
+            'text_value_6' => 'nullable|string',
+            'bool_value_6' => 'nullable|integer',
+            'units_6' => 'nullable|string',
+           
+            'attribute_7' =>'nullable|string|max:255',
+            'input_type_7' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_7' => 'nullable|integer',
+            'text_value_7' => 'nullable|string',
+            'bool_value_7' => 'nullable|integer',
+            'units_7' => 'nullable|string',
+           
+            'attribute_8' =>'nullable|string|max:255',
+            'input_type_8' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_8' => 'nullable|integer',
+            'text_value_8' => 'nullable|string',
+            'bool_value_8' => 'nullable|integer',
+            'units_8' => 'nullable|string',
+            
+            'attribute_9' =>'nullable|string|max:255',
+            'input_type_9' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_9' => 'nullable|integer',
+            'text_value_9' => 'nullable|string',
+            'bool_value_9' => 'nullable|integer',
+            'units_9' => 'nullable|string',
+            
+            'attribute_0' =>'nullable|string|max:255',
+            'input_type_0' => ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])],
+            'section_0' => 'nullable|integer',
+            'text_value_0' => 'nullable|string',
+            'bool_value_0' => 'nullable|integer',
+            'units_0' => 'nullable|string',
+            
+        ], 
+        [], 
+        ['attribute_.*' => 'attribute', 'input_type_.*' => 'input type', 'section_.*' => 'category', 
+        'text_value_.*' => 'value', 'bool_value_.*' => 'value', 'units_.*' => 'units',]);
+        
+        if($validator->fails()) {
+            return back()->with('error',$validator->errors()->first())->withInput();
+        }
+       
+        if ($msg = $this->categoryAttributeHasError('attribute', $validator->errors()->toArray())) {
+            return back()->with('error', $msg)->withInput();
+        }
+        if ($msg = $this->categoryAttributeHasError('text_value', $validator->errors()->toArray())) {
+            return back()->with('error', $msg)->withInput();
+        }
+        if ($msg = $this->categoryAttributeHasError('units', $validator->errors()->toArray())) {
+            return back()->with('error', $msg)->withInput();
+        }
+
+        $attributeData = $this->setAttributes($validator->validated());
+
+        $data = array_merge($request->validated(), $attributeData);   
         $car = $carVersion->car;
         if($carVersion->is_car_spec == CarVersion::CAR_SPECIFICATION) {
             $carVersion = null;
         }
         try 
         {
-            $service = new CarService($request->validated(), $car, $carVersion);
+            $service = new CarService($data, $car, $carVersion);
             $carVersion = $service->saveToCarVersion(); 
+           
+            if(isset($data['attribute']))
+            {
+                CarAdditonalSpecifications::where('car_id',$car->id)->where('car_version_id',$carVersion->id)->delete();
+                $service->saveCategoryAttributes();
+            }
+          
         }
         catch (Exception $ex) {
             logger($ex);
@@ -153,5 +273,45 @@ class CarVersionController extends Controller
         }
 
         return redirect()->route('admin.car.show', $car)->with('success', 'Car version deleted successfully!');
+    }
+    private function categoryAttributeHasError($key, $errors)
+    {
+        if (empty($errors)) {
+            return false;
+        }
+
+        $result = array_filter($errors, function ($a) use($key) {
+            return preg_match("!^{$key}.!", $a);
+        }, ARRAY_FILTER_USE_KEY);
+        if (empty($result)) {
+            return false;
+        }
+
+        return array_values($result)[0][0];
+    }
+
+    public function setAttributes($array)
+    {
+        // dd($array);
+        $data['section'] = [];
+        $data['attribute'] = [];
+        $data['input_type'] = [];
+        $data['text_value'] = [];
+        $data['units'] = [];
+        $data['attribute_id'] = [];
+        $j = 0;
+
+        for($i = 0 ; $i < 10; $i++) {
+            $data['section'][$j] = $array['section_'. $i];
+            $data['attribute'][$j] = $array['attribute_'. $i];
+            $data['input_type'][$j] = ($array['input_type_'. $i] == 1) ? 1: 2;
+            $data['text_value'][$j] = $array['text_value_'. $i];
+            $data['bool_value'][$j] = ($array['input_type_'. $i] == 2) ? $array['bool_value_'.$i]: null;
+            $data['units'][$j] = $array['units_'. $i];
+            $data['attribute_id'][$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;
+            $j++;
+        }
+
+        return $data;
     }
 }

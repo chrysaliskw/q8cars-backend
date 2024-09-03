@@ -58,17 +58,18 @@
                 @enderror
             </span>
         </div>
-  
-        <div class="col-mod-3">
+        <div style="display:flex;">
+            <div class="col-md">
                 <img src="" alt="" id="image_preview_{{ $key}}" class="img-thumbnail"
-                    width="100" height="150" style="display:none;">
-        </div>
-        <div class="col-md-2">
-                <button id="remove-image_{{ $key}}" type="button" class="btn btn-danger"
-                    style="display:none">
-                    x
+                                width="100" height="150" style="display:none;">
+            </div>
+            <div class="col-md">
+                    <button id="remove-image_{{ $key}}" type="button" class="btn btn-danger"
+                        style="display:none">
+                         x
                 </button>
-        </div>
+            </div>
+        </div>    
      
     </div>
 @endfor

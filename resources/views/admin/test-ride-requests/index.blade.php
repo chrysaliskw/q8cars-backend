@@ -7,7 +7,7 @@
         $statuses = config('params.test_drive.status');
         unset($statuses[5]);
     @endphp
-    <x-crud-index title="Test Ride Requests" createUrl="">
+    <x-crud-index title="" createUrl="" createButtonText="">
         <div class="row">
             <div class="col-lg-12">
                 {!! $grid->render() !!}

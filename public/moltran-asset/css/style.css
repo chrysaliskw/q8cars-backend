@@ -305,7 +305,7 @@ File: Main Style scss
 }
 
 .card .card-header {
-  padding: 0px 20px 10px 20px;
+  padding: 10px 20px 10px 20px;
   border: none;
 }
 
@@ -323,6 +323,7 @@ File: Main Style scss
 
 .table-small-font td:last-child {
   padding: 10px !important;
+  display: flex;
 }
 
 .card .card-body p+p {
@@ -4991,4 +4992,13 @@ File: Responsive
 #suggestion{
   padding:15px;
   border-radius:10px;
+}
+.car-spec .indicator{
+display: none;
+}
+.car-add-image .tab-content img{
+  min-width: 100px;
+  max-width: 100px;
+  height: 100px;
+  object-fit: fill;
 }

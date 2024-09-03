@@ -66,13 +66,23 @@ class CarDataGrid extends Grid
                 ]
             ],
 
-
+            'view_count' => [
+                'label' => 'View Count',
+                'value' => function ($model) {
+                    return $model->view_count;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'view_count',
+                ]
+            ],
             'status' => [
                 'label' => 'Status',
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'select',
-                    'attribute' => 'car.status',
+                    'attribute' => 'cars.status',
                     'operator' => '=',
                     'data' => config('params.car.status')
                 ],

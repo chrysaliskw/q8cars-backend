@@ -130,15 +130,21 @@
                 
             });
             
-            function clearRow(that) 
-            {
-                var i= $(that).data().id;
-                document.getElementById("attribute_"+i).value="";
-                document.getElementById("input_type_"+i).value="";
-                document.getElementById("text_value_"+i).value="";
-                document.getElementById("bool_value_"+i).value="";
-                document.getElementById("section_"+i).value="";
+            function clearRow(button) {
+                const row = button.closest('tr');
+                row.querySelectorAll('input[type="text"]').forEach(input => {
+                    input.value = '';
+                });
+        
+                row.querySelectorAll('select').forEach(select => {
+                    select.selectedIndex = 0; 
+                });
+        
+                row.querySelectorAll('input[type="hidden"]').forEach(hiddenInput => {
+                    hiddenInput.value = '';
+                });
             }
+    
 
             /**
              * Loading spinner

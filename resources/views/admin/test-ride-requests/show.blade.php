@@ -14,6 +14,7 @@
                 <div class="card card-border card-primary">
                     <div class="card-header">
                         <div class="m-b-30">
+                            @if($testDrive->status != \App\Models\TestDrive::STATUS_COMPLETED)
                         <button 
                             onclick="openUpdateStatusModal(this)" 
                             data-id="{{ $testDrive->id }}" 
@@ -21,6 +22,7 @@
                             class="btn btn-primary waves-effect waves-light">
                             <i class="fa fa-pencil"></i> Edit
                         </button>
+                        @endif
                         </div>
                     </div>
                     <div class="card-body">
