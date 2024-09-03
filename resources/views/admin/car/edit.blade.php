@@ -125,10 +125,32 @@
                 format: 'dd-mm-yyyy',
                 
             });
-             $("#date_3").datepicker({
+             $("#date_0").datepicker({
                 format: 'dd-mm-yyyy',
                 
             });
+            function toggleFields(index) 
+           {
+                const inputType = document.getElementById(`input_type_${index}`).value;
+                const textField = document.getElementById(`text_value_${index}`);
+                const booleanField = document.getElementById(`bool_value_${index}`);
+
+  
+            if (inputType == 1) { // Text
+                textField.disabled = false;
+                booleanField.disabled = true;
+            } else if (inputType == 2) { // Boolean
+                textField.disabled = true;
+                booleanField.disabled = false;
+            }
+        }
+        // Initialize visibility based on the existing input types on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            @for($i = 0; $i < 10; $i++)
+                toggleFields({{ $i }});
+            @endfor
+        });
+     
             
             function clearRow(button) {
                 const row = button.closest('tr');

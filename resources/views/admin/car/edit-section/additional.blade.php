@@ -37,7 +37,7 @@
                                             <x-form-input type="text" field="attribute_{{$i}}" id="attribute_{{$i}}" class="validate" value="{{$additionals[$i]->specification}}"> </x-form-input>
                                         </td>
                                         <td>
-                                            <x-form-select field="input_type_{{$i}}" id="input_type_{{$i}}">
+                                            <x-form-select field="input_type_{{$i}}" id="input_type_{{$i}}" onchange="toggleFields({{$i}})">
                                                 <option value="1" <?php if(1 == $additionals[$i]->input_type){ echo "selected";}?>>Text</option>
                                                 <option value="2" <?php if(2 == $additionals[$i]->input_type){ echo "selected";}?>>Boolean</option>
                                             </x-form-select>
@@ -53,7 +53,7 @@
                                             </x-form-select>
                                         </td>
                                         <td>
-                                            <x-form-input type="text" field="units_{{$i}}" id="units_{{$i}}" class="validate" value="{{$additionals[$i]->units}}"></x-form-input>
+                                            <x-form-input type="text" field="units_{{$i}}" id="units_{{$i}}" class="validate" value="{{$additionals[$i]->unit}}"></x-form-input>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-md btn-danger mt-4" title="Clear"

@@ -305,7 +305,7 @@ class CarVersionController extends Controller
             $data['section'][$j] = $array['section_'. $i];
             $data['attribute'][$j] = $array['attribute_'. $i];
             $data['input_type'][$j] = ($array['input_type_'. $i] == 1) ? 1: 2;
-            $data['text_value'][$j] = $array['text_value_'. $i];
+            $data['text_value'][$j] =($array['input_type_'. $i] == 1)? $array['text_value_'. $i]: '';
             $data['bool_value'][$j] = ($array['input_type_'. $i] == 2) ? $array['bool_value_'.$i]: null;
             $data['units'][$j] = $array['units_'. $i];
             $data['attribute_id'][$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;

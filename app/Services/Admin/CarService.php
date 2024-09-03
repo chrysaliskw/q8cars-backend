@@ -511,7 +511,7 @@ class CarService
     private function saveCarVideos()
     {
         $videos = [];
-        for($i = 1; $i <=3 ; $i++)
+        for($i = 0; $i <= 3 ; $i++)
         {
             $title = 'title_'.$i;
             $video = 'video_'.$i;
