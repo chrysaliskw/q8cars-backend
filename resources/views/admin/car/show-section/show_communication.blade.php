@@ -119,7 +119,7 @@
                     <label class="col-sm-4 control-label">{{ $spec->specification }}</label>
                     <div class="col-sm-8">
                          @if($spec->input_type == 1)
-                            {{ $spec->value }}
+                         {{ $spec->value}} {{$spec->unit}}
                          @else
                             @if($spec->value == 1)
                                 <i class="fa fa-check" style="color:green;"></i>

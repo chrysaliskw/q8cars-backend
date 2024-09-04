@@ -597,7 +597,14 @@
                 <h5>Videos</h5>
             </div>
         </div>
+        @php 
+        $videoCount = \App\Models\CarImage::where('car_id',$car->id)->where('type',2)->count();
+        @endphp  
         <div class="card-body">
+        @if($videoCount == 0)
+        <p> {{'No Records Found'}}</p>
+        @else
+       
             @foreach($car->carImages as $image)
             @if($image->type == 2)  
             <div class="row">
@@ -650,6 +657,7 @@
             @endforeach
             
         </div>
+        @endif
     </div>
 
     @include('admin.car.car-version.index')

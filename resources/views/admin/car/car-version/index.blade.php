@@ -6,7 +6,9 @@
                 <h5>Car Versions</h5>
             </div>
         </div>
+     
         <div class="card-body">
+        @if($carVersions->count() > 0)
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -66,8 +68,11 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            </div> @else
+
+{{'No Records Found'}} @endif
         </div>
+       
     </div>
 </div>
 @endif
