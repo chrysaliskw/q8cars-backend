@@ -17,7 +17,7 @@
                     <label class="col-sm-4 control-label">Automatic Headlamps</label>
                     <div class="col-sm-8">
                             
-                    @if($carVarient->Automatic_Headlamps == 1)
+                    @if($carVarient->automatic_headlamps == 1)
                         <i class="fa fa-check" style="color:green;"></i>
                         @else
                         <i class="fa fa-times" style="color:red;"></i>

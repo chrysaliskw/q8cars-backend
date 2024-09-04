@@ -389,7 +389,8 @@ class CarController extends Controller
         $attributeData = $this->setAttributes($validator->validated());
 
         $data = array_merge($request->validated(), $attributeData); 
-// dd($data);
+        $data['update'] = 1;
+
         // for($i=0;$i<10;$i++){
         //     $data['attribute_id'][$i] = $this->setAttributeIds($request);
         // } 

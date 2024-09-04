@@ -22,7 +22,7 @@ class CarService
     protected $data;
     protected $version;
     private $oldAttributeIds;
-    private $oldAttributeKeyIds;
+    public $idstobedeleted;
 
     public function __construct(array $data, Car $car = null, CarVersion $version = null)
     {
@@ -512,7 +512,14 @@ class CarService
     private function saveCarVideos()
     {
         $videos = [];
-        for($i = 1; $i <= 3 ; $i++)
+        $idstobedeleted = [];
+      
+        if(isset($this->data['update']))
+        {
+            $videosArr = $this->car->carVideos()->pluck('thumbnail')->toArray();
+            $carVediosiIds = $this->car->carVideos()->pluck('id')->toArray();
+        }  
+        for($i =1; $i <3 ; $i++)
         {
             $title = 'title_'.$i;
             $video = 'video_'.$i;
@@ -524,10 +531,16 @@ class CarService
                
                 $this->data[$video]->store(Car::FILE_DIR);
                 $fileNameVideo = $this->data[$video]->hashName();
-
-                $this->data[$thumbnail]->store(Car::FILE_DIR);
-                $fileNameThumbnail = $this->data[$thumbnail]->hashName();
-
+                if(isset($this->data[$thumbnail])){
+                    $this->data[$thumbnail]->store(Car::FILE_DIR);
+                    $fileNameThumbnail = $this->data[$thumbnail]->hashName();
+                }else{
+                    $fileNameThumbnail = $videosArr[$i-1] ?? '';
+                }
+               
+                if(isset($videosArr[$i-1])) {
+                    $idstobedeleted[] = $carVediosiIds[$i-1];
+                }
                 $videos[] = [
                     'car_id' => $this->car->id,
                     'file_name' => $fileNameVideo,
@@ -538,9 +551,12 @@ class CarService
                     'video_posted_date' =>  $this->data[$date] ? (new DateTime($this->data[$date]))->format('Y-m-d'):'',
                     'video_posted_media' => $this->data[$postedMedia],
                 ];
+                // dd($idstobedeleted);
             }
+           
         } 
         DB::table((new CarImage())->getTable())->insert($videos);
+        CarImage::whereIn('id',$idstobedeleted)->delete();
     }
 
     public function saveCategoryAttributes()

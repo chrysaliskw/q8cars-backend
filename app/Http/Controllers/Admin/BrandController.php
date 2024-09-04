@@ -118,9 +118,9 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
-        $brandsIds = Car::active()->pluck('brand_id')->toArray();
+        $brandsIds = Car::pluck('brand_id')->toArray();
         if (in_array($brand->id, $brandsIds)) {
-            return back()->with('error', __('Cannot delete brand: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+            return back()->with('error', __('Cannot delete brand: Cars are associated with it. Please deactivate or reassign the cars first.'));
         }
         DB::beginTransaction();
         try {

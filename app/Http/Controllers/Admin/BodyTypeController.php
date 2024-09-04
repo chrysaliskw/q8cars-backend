@@ -118,9 +118,9 @@ class BodyTypeController extends Controller
      */
     public function destroy(BodyType $bodyType)
     {
-        $bodyTypeIds = CarVersion::active()->pluck('body_type')->toArray();
+        $bodyTypeIds = CarVersion::pluck('body_type')->toArray();
         if (in_array($bodyType->id, $bodyTypeIds)) {
-            return back()->with('error', __('Cannot delete body type: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+            return back()->with('error', __('Cannot delete body type: Cars are associated with it. Please deactivate or reassign the cars first.'));
         }
         DB::beginTransaction();
         try {
