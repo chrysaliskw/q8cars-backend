@@ -287,7 +287,13 @@ class CarController extends ApiBaseController
     private function getNewsBanner(Car $car)
     {
         $result = News::where('car_id', $car->id)->where('show_in_detail_page', 1)->first();
-        return NewsResource::make($result);
+        if($result){
+            return NewsResource::make($result);
+        }
+        else{
+            return [];
+        }
+        
     }
 
     private function getFuelTypes($fuel_types)
@@ -405,7 +411,12 @@ class CarController extends ApiBaseController
     private function getRelatedNews(Car $car)
     {
         $result = News::active()->published()->where('car_id', $car->id)->limit(4)->orderBy('posted_time', 'asc')->get();
-        return NewsResource::collection($result);
+        if($result){
+            return NewsResource::collection($result);
+        }else{
+            return [];
+        }
+       
     }
 
     public function getComparison(Car $car)

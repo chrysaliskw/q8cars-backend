@@ -22,13 +22,13 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-select field="is_just_launched" field-name="Is Just Launched ?" >
+                <x-form-select field="is_just_launched" field-name="Is Just Launched ?" onchange="toggleJustLaunch(this)" id="is_just_launched" >
                     <option value="1" <?php if(1 == $car->is_just_launched){ echo "selected";}?>>Yes</option>
                     <option  value="2" <?php if(2 == $car->is_just_launched){ echo "selected";}?>>No</option>
                 </x-form-select>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="just_launch_sort_order" field-name="Just Lauch Sort Order" value="{{ $car->just_launch_sort_order }}">
+                <x-form-input type="text" field="just_launch_sort_order" field-name="Just Lauch Sort Order" value="{{ $car->just_launch_sort_order }}" id="just_launch_sort_order">
                 </x-form-input>
             </div>
             
@@ -124,6 +124,24 @@
       
 
 </div>
+<script>
+    if(($('#is_just_launched').val()) == 1){
+        $('#just_launch_sort_order').prop('disabled', false);
+    }else{
+        $('#just_launch_sort_order').prop('disabled', true);
+       
+    }
+    function toggleJustLaunch(that){
+   
+   console.log(that.value);
+   if ((that).value == 1) { // If "Yes" is selected
+       $('#just_launch_sort_order').prop('disabled', false); // Enable the input field
+   } else {
+    $('#just_launch_sort_order').val(''); // If "No" is selected
+       $('#just_launch_sort_order').prop('disabled', true); // Disable the input field
+   }
+};
+</script>
 
 @include('admin.car.edit-section.edit_key_features')
 

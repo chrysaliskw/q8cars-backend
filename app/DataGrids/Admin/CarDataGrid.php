@@ -28,20 +28,9 @@ class CarDataGrid extends Grid
                 'value' => function ($model) {
                     if ($model->image) {
                         $url = file_asset('files-car', $model->image);
-                        return "<img src='{$url}' alt='car-img' class='img-thumbnail' width='100' height='150'>";
+                        return "<img src='{$url}' alt='car-img' class='img-thumbnail img-list' >";
                     } 
                 }
-            ],
-            'brand_name' => [
-                'label' => 'Brand',
-                'value' => function ($model) {
-                    return $model->brand_name;
-                },
-                'filter' => true,
-                'filterOptions' => [
-                    'type' => 'text',
-                    'attribute' => 'b.name',
-                ]
             ],
             'model_name' => [
                 'label' => 'Model Name',
@@ -52,6 +41,17 @@ class CarDataGrid extends Grid
                 'filterOptions' => [
                     'type' => 'text',
                     'attribute' => 'model_name',
+                ]
+            ],
+            'brand_name' => [
+                'label' => 'Brand',
+                'value' => function ($model) {
+                    return $model->brand_name;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'b.name',
                 ]
             ],
             'sort_order' => [
@@ -71,11 +71,11 @@ class CarDataGrid extends Grid
                 'value' => function ($model) {
                     return $model->view_count;
                 },
-                'filter' => true,
-                'filterOptions' => [
-                    'type' => 'text',
-                    'attribute' => 'view_count',
-                ]
+                'filter' => false,
+                // 'filterOptions' => [
+                //     'type' => 'text',
+                //     'attribute' => 'view_count',
+                // ]
             ],
             'status' => [
                 'label' => 'Status',

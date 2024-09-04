@@ -22,13 +22,13 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-select field="is_just_launched" field-name="Is Just Launched ?" defaultPrompt="Select">
+                <x-form-select field="is_just_launched" field-name="Is Just Launched ?" defaultPrompt="Select" id="is_just_launched" onchange="toggleJustLaunch(this)">
                     <option value="1">Yes</option>
                     <option selected value="2">No</option>
                 </x-form-select>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="just_launch_sort_order" field-name="Just Lauch Sort Order" value="{{ old('just_launch_sort_order') }}">
+                <x-form-input type="text" id="just_launch_sort_order" field="just_launch_sort_order" field-name="Just Lauch Sort Order" value="{{ old('just_launch_sort_order') }}" disabled>
                 </x-form-input>
             </div>
             
@@ -113,6 +113,19 @@
 
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function toggleJustLaunch(that){
+   
+    console.log(that.value);
+    if ((that).value == 1) { // If "Yes" is selected
+        $('#just_launch_sort_order').prop('disabled', false); // Enable the input field
+    } else { // If "No" is selected
+        $('#just_launch_sort_order').prop('disabled', true); // Disable the input field
+    }
+};
+</script>
+</script>
 @include('admin.car.create-section.create_key_features')
 
 

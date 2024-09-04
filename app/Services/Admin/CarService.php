@@ -15,7 +15,7 @@ use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
+use DateTime;
 class CarService
 {
     protected $car;
@@ -535,7 +535,7 @@ class CarService
                     'thumbnail' => $fileNameThumbnail,
                     'video_title' => $this->data[$title],
                     'video_description' => $this->data[$description],
-                    'video_posted_date' => $this->data[$date],
+                    'video_posted_date' =>  $this->data[$date] ? (new DateTime($this->data[$date]))->format('Y-m-d'):'',
                     'video_posted_media' => $this->data[$postedMedia],
                 ];
             }

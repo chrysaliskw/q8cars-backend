@@ -5002,3 +5002,7 @@ display: none;
   height: 100px;
   object-fit: fill;
 }
+.img-list {
+  height: 100px;
+  width: 150px;
+}
