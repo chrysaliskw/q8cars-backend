@@ -72,11 +72,12 @@ class TestRideRequestDataGrid extends Grid
             'mobile' => [
                 'label' => 'Requested Mobile',
                 'value' => function ($model) {
-                    return $model->user_phone_code . $model->user_mobile;
+                    return $model->phone_code . $model->mobile;
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
+                    'operator' => '=',
                     'attribute' => 'test_drives.mobile',
                 ]
             ],
