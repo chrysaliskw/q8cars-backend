@@ -172,7 +172,7 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="tuning_radius" field-name="Tuning Radius" value="{{ old('tuning_radius') }}">
+                <x-form-input type="text" field="tuning_radius" field-name="Tuning Radius(m)" value="{{ old('tuning_radius') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">

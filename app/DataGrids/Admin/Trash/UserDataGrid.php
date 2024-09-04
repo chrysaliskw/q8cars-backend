@@ -26,9 +26,9 @@ class UserDataGrid extends Grid
                 'value' => function ($model) {
                     if ($model->picture) {
                         $url = file_asset('files-user', $model->picture);
-                        return "<img src='{$url}' alt='body-type-img' class='img-thumbnail' width='100' height='150'>";
+                        return "<img src='{$url}' alt='body-type-img' class='img-thumbnail img-list' >";
                     } else {
-                        return '<img src="' . asset('moltran-asset/images/dp.png') . '" alt="profile-img" class="img-thumbnail rounded-circle" width="100" height="150">';
+                        return '<img src="' . asset('moltran-asset/images/dp.png') . '" alt="profile-img" class="img-thumbnail img-list">';
                     }
                 }
             ],

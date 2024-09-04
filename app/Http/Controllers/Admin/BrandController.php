@@ -91,6 +91,14 @@ class BrandController extends Controller
     {
         try 
         {
+            if($brand->status == Brand::STATUS_ACTIVE && $request->status == Brand::STATUS_INACTIVE)
+            {
+                $brandIds = Car::active()->pluck('brand_id')->toArray();
+                if (in_array($brand->id, $brandIds)) {
+                    return back()->with('error', __('Cannot deactivate brand: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+                }
+                
+            }
             $service = new BrandService($request,$brand);
             $brand = $service->handle();
         }

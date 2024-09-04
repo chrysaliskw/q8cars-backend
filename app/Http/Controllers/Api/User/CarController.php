@@ -24,6 +24,7 @@ use App\Services\Api\User\Car\FilterService;
 use App\Http\Controllers\Api\ApiBaseController;
 use Carbon\Carbon;
 use App\Models\CarComparisonList;
+use App\Models\CarFavourite;
 
 class CarController extends ApiBaseController
 {
@@ -149,6 +150,7 @@ class CarController extends ApiBaseController
             'service_amount' => 'KWD '.$car->service_charge,
             'gear_box' => $car->gear_box,
             'torque_power' => $car->power.'Bhp @'.$car->torque.'rpm',
+            'is_favourite' => CarFavourite::where('user_id',Auth::id())->where('car_id',$car->id)->first() ? 1:0,
         ];
 
         return $result;

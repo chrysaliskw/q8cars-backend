@@ -22,7 +22,7 @@ class JustLaunchController extends ApiBaseController
         if($request->id) {
             $result = Car::find($request->id);
         }
-     
+   
         $data['id'] = $result->id;
         $data['brand_id'] = $result->brand_id;
         $data['model_name'] = $result->model_name;
@@ -103,8 +103,8 @@ class JustLaunchController extends ApiBaseController
 
     private function getTankCapacity(Car $car)
     {
-        $version = CarVersion::where('car_id', $car->id)->orderBy('tank_capacity', 'asc')->pluck('tank_capacity')->toArray();
-        $uniqueArray = array_unique($version);
+        $version = CarVersion::where('car_id', $car->id)->orderBy('tank_capacity', 'asc')->distinct()->pluck('tank_capacity');
+        $uniqueArray = json_decode($version);
         return $uniqueArray;
     }
 }

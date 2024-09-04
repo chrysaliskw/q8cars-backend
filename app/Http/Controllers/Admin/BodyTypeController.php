@@ -91,6 +91,14 @@ class BodyTypeController extends Controller
     {
         try 
         {
+            if($bodyType->status == BodyType::STATUS_ACTIVE && $request->status == BodyType::STATUS_INACTIVE)
+            {
+                $bodyTypeIds = CarVersion::active()->pluck('body_type')->toArray();
+                if (in_array($bodyType->id, $bodyTypeIds)) {
+                    return back()->with('error', __('Cannot deactivate body type: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+                }
+                
+            }
             $service = new BodyTypeService($request,$bodyType);
             $bodyType = $service->handle();
         }
