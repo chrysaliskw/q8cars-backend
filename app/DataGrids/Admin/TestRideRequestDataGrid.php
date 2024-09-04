@@ -85,7 +85,7 @@ class TestRideRequestDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'select',
-                    'attribute' => 'status',
+                    'attribute' => 'test_drives.status',
                     'operator' => '=',
                     'data' => config('params.test_drive.status')
                 ],
