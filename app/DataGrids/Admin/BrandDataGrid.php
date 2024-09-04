@@ -27,9 +27,9 @@ class BrandDataGrid extends Grid
                 'value' => function ($model) {
                     if ($model->icon) {
                         $url = file_asset('files-brand', $model->icon);
-                        return "<img src='{$url}' alt='brand-img' class='img-thumbnail img-list img-list'>";
+                        return "<img src='{$url}' alt='brand-img' class='img-thumbnail img-list'>";
                     } else {
-                        return '<img src="' . asset('moltran-asset/images/dp.png') . '" alt="profile-img" class="img-thumbnail rounded-circle" width="100" height="150">';
+                        return '<img src="' . asset('moltran-asset/images/dp.png') . '" alt="profile-img" class="img-thumbnail img-list rounded-circle">';
                     }
                 }
             ],

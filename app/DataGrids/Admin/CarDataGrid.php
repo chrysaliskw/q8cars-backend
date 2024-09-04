@@ -28,7 +28,7 @@ class CarDataGrid extends Grid
                 'value' => function ($model) {
                     if ($model->image) {
                         $url = file_asset('files-car', $model->image);
-                        return "<img src='{$url}' alt='car-img' class='img-thumbnail img-list' >";
+                        return "<img src='{$url}' alt='car-img' class='img-thumbnail img-list'>";
                     } 
                 }
             ],
