@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\BodyTypeService;
 use App\DataGrids\Admin\BodyTypeDataGrid;
 use App\Http\Requests\Admin\BodyTypeRequest;
+use App\Models\CarVersion;
 
 class BodyTypeController extends Controller
 {
@@ -109,11 +110,14 @@ class BodyTypeController extends Controller
      */
     public function destroy(BodyType $bodyType)
     {
-      
+        $bodyTypeIds = CarVersion::active()->pluck('body_type')->toArray();
+        if (in_array($bodyType->id, $bodyTypeIds)) {
+            return back()->with('error', __('Cannot delete body type: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+        }
         DB::beginTransaction();
         try {
             $oldPicture[] = $bodyType->icon;
-            JunkFileDeleteJob::dispatchAfterResponse(BodyType::FILE_DIR,$oldPicture); 
+            // JunkFileDeleteJob::dispatchAfterResponse(BodyType::FILE_DIR,$oldPicture); 
             $bodyType->delete();
             DB::commit();
         } catch (Exception $ex) {

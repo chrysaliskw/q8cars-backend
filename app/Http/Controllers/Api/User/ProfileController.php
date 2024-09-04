@@ -33,7 +33,7 @@ class ProfileController extends ApiBaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:255',
-            'email' => 'email|string|max:255|unique:users,email,' . Auth::id(),
+            'email' => 'email:filter|string|max:255|unique:users,email,' . Auth::id(),
             'address' => 'string',
         ]);
 

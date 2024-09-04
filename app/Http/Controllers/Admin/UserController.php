@@ -92,7 +92,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $oldPicture[] = $user->icon;
-            JunkFileDeleteJob::dispatchAfterResponse(User::FILE_DIR, $oldPicture); 
+            // JunkFileDeleteJob::dispatchAfterResponse(User::FILE_DIR, $oldPicture); 
             $user->delete();
             DB::commit();
         } catch (Exception $ex) {

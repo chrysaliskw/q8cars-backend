@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\BrandService;
 use App\DataGrids\Admin\BrandDataGrid;
 use App\Http\Requests\Admin\BrandRequest;
+use App\Models\Car;
 
 class BrandController extends Controller
 {
@@ -109,10 +110,14 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
+        $brandsIds = Car::active()->pluck('brand_id')->toArray();
+        if (in_array($brand->id, $brandsIds)) {
+            return back()->with('error', __('Cannot delete brand: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+        }
         DB::beginTransaction();
         try {
             $oldPicture[] = $brand->icon;
-            JunkFileDeleteJob::dispatchAfterResponse(Brand::FILE_DIR, $oldPicture); 
+            // JunkFileDeleteJob::dispatchAfterResponse(Brand::FILE_DIR, $oldPicture); 
             $brand->delete();
             DB::commit();
         } catch (Exception $ex) {
