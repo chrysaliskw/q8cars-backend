@@ -39,7 +39,12 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">360 View Camera</label>
                     <div class="col-sm-8">
-                               
+                        @if($carVarient->view_camera == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                                
                     </div>
                 </div>
 

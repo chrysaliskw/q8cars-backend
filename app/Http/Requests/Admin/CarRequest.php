@@ -69,6 +69,10 @@ class CarRequest extends FormRequest
             'model_name' => 'required|string|max:100',
             'sort_order' => 'required|integer',
             'is_just_launched' => ['required', Rule::in([Car::JUST_LAUNCHED, Car::NOT_JUST_LAUNCHED])],
+            'just_launch_sort_order' => [
+                'required_if:is_just_launched,' . Car::JUST_LAUNCHED,
+                'nullable', 
+            ],
             'status' => ['required', Rule::in(array_keys(config('params.car.status')))],
            
             'ex_showroom_price' => 'required|numeric|min:0|max:99999999',
@@ -336,7 +340,10 @@ class CarRequest extends FormRequest
         'sort_order' => 'required|integer',
         'is_just_launched' => ['required', Rule::in([Car::JUST_LAUNCHED, Car::NOT_JUST_LAUNCHED])],
         'status' => ['required', Rule::in(array_keys(config('params.car.status')))],
-       
+        'just_launch_sort_order' => [
+            'required_if:is_just_launched,' . Car::JUST_LAUNCHED,
+            'nullable', 
+        ],
         'ex_showroom_price' => 'required|numeric|min:0|max:99999999',
         'on_road_price' => 'required|numeric|min:0|max:99999999',
         'finance_available' => 'required|numeric|min:0|max:99999999',

@@ -9,6 +9,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-sm-4 control-label">Power Windows</label>
+                    <div class="col-sm-6">
+                               {{ $car->power_windows}}
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-sm-4 control-label">Tachometer</label>
                     <div class="col-sm-8">
                                

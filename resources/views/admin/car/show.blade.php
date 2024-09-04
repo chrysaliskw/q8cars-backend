@@ -68,6 +68,20 @@
                                     {{ $car->model_name }}
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Is Just Launched</label>
+                                <div class="col-sm-8">
+                                    {{$car->is_just_launched == 1 ? 'Yes' :'No' }}
+                                </div>
+                            </div>
+                            @if($car->is_just_launched == 1)
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label"> Just Launched Sort Order</label>
+                                <div class="col-sm-8">
+                                    {{$car->just_launch_sort_order }}
+                                </div>
+                            </div>
+                            @endif
 
                         
                             <div class="form-group row">

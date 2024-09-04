@@ -37,6 +37,9 @@
     <div class="col-md-4">
         <x-form-input type="file" field="video_1" field-name="Video File" value="{{ old('video_1') }}">
         </x-form-input>
+        <span class="text-muted">
+            {{' MP4 only ,Max size : 2MB'}} 
+        </span>
     </div>
 </div>
 <hr><br>
@@ -79,6 +82,9 @@
     <div class="col-md-4">
         <x-form-input type="file" field="video_2" field-name="Video File" value="{{ old('video_2') }}">
         </x-form-input>
+        <span class="text-muted">
+            {{' MP4 only ,Max size : 2MB'}} 
+        </span>
     </div>
 </div>
 <hr><br>
@@ -120,5 +126,8 @@
     <div class="col-md-4">
         <x-form-input type="file" field="video_3" field-name="Video File" value="{{ old('video_3') }}">
         </x-form-input>
+        <span class="text-muted">
+            {{' MP4 only ,Max size : 2MB'}} 
+        </span>
     </div>
 </div>

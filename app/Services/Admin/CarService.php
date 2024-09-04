@@ -97,6 +97,7 @@ class CarService
         $this->car->brand_id = $this->data['brand_id'];
         $this->car->model_name = $this->data['model_name'];
         $this->car->is_just_launched = $this->data['is_just_launched'];
+        $this->car->just_launch_sort_order = $this->data['just_launch_sort_order'] ?? null;
         $this->car->sort_order = $this->data['sort_order'];
         $this->car->status = $this->data['status'];
         $this->car->ex_showroom_price = $this->data['ex_showroom_price'];
@@ -204,7 +205,7 @@ class CarService
         $this->version->air_conditioner = $this->data['air_condition'];
         $this->version->wheel_covers = $this->data['wheel_covers'];
         // $this->version->alloy_wheels = $this->data['alloy_wheels'];
-        // $this->version->360_view_camera = $this->data['360_view_camera'];
+        $this->version->view_camera = $this->data['360_view_camera'];
         $this->version->boot_space = $this->data['boot_space'];
         $this->version->power_windows = $this->data['power_windows'];
         $this->version->tachometer = $this->data['tachometer'];

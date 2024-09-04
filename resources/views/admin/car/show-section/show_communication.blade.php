@@ -16,7 +16,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Apple CarPlay</label>
                     <div class="col-sm-8">
-                    @if($carVarient->apply_carplay == 1)
+                    @if($carVarient->apple_car_play == 1)
                         <i class="fa fa-check" style="color:green;"></i>
                         @else
                         <i class="fa fa-times" style="color:red;"></i>
@@ -71,7 +71,7 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Android Auto</label>
                     <div class="col-sm-8">
-                    @if($carVarient->andriod_auto == 1)
+                    @if($carVarient->android_auto == 1)
                         <i class="fa fa-check" style="color:green;"></i>
                         @else
                         <i class="fa fa-times" style="color:red;"></i>
@@ -94,7 +94,7 @@
                     <label class="col-sm-4 control-label">USB & Auxiliary input</label>
                     <div class="col-sm-8">
             
-                    @if($carVarient->usb_connectivity == 1)
+                    @if($carVarient->usb_charger == 1)
                         <i class="fa fa-check" style="color:green;"></i>
                         @else
                         <i class="fa fa-times" style="color:red;"></i>

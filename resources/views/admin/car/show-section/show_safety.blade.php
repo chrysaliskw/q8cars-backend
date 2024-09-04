@@ -22,6 +22,17 @@
                     </div>
                 </div>  
                 <div class="form-group row">
+                    <label class="col-sm-4 control-label">Anti Brake System</label>
+                    <div class="col-sm-8">
+                               
+                                @if($carVarient->anti_brake_system == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                    </div>
+                </div>  
+                <div class="form-group row">
                     <label class="col-sm-4 control-label">No.of Airbags</label>
                     <div class="col-sm-8">
                                 {{ $carVarient->no_of_airbags}} 

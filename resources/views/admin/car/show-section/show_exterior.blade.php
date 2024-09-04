@@ -49,6 +49,17 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-sm-4 control-label">Ajustable Headlamps</label>
+                    <div class="col-sm-8">
+                               
+                        @if($carVarient->adjustable_headlamps == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-sm-4 control-label">LED Headlights</label>
                     <div class="col-sm-8">
                                
@@ -77,6 +88,17 @@
                 </div>
                 @endforeach
                 @endif
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Sun Roof</label>
+                    <div class="col-sm-8">
+                               
+                        @if($carVarient->sun_roof == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>

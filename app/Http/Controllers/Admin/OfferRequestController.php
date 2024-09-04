@@ -45,7 +45,7 @@ class OfferRequestController extends Controller
             'Updated At' => dateTimeFormat($offerRequest->updated_at),
 
         ];
-        return view('admin.offer-requests.show', compact('viewData'));
+        return view('admin.offer-requests.show', compact('viewData','offerRequest'));
     }
     public function update(Request $request)
     {

@@ -105,7 +105,7 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="mileage" field-name="Mileage*" value="{{ old('mileage') }}">
+                <x-form-input type="text" field="mileage" field-name="Mileage(Kmpl)*" value="{{ old('mileage') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -113,7 +113,7 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity*" value="{{ old('fuel_tank_capacity') }}">
+                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity(L)*" value="{{ old('fuel_tank_capacity') }}">
                 </x-form-input>
             </div>
             <div class="col-md-12">
@@ -279,7 +279,7 @@
     <div class="card-body">
         <div class="row"> 
             <div class="col-md-4">
-                <x-form-input type="text" field="boot_space" field-name="Boot Space*" value="{{ old('boot_space') }}">
+                <x-form-input type="text" field="boot_space" field-name="Boot Space(cubic feet)*" value="{{ old('boot_space') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">

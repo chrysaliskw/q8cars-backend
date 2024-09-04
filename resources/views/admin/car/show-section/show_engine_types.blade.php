@@ -55,6 +55,24 @@
                                 {{ $carVarient->engine_capacity}} cc
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Gear Box</label>
+                    <div class="col-sm-8">
+                                {{ $carVarient->gear_box}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Power</label>
+                    <div class="col-sm-8">
+                                {{ $carVarient->power}} Bhp
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Torque</label>
+                    <div class="col-sm-8">
+                                {{ $carVarient->torque }} rpm
+                    </div>
+                </div>
                 @if($carVarient->engine)
                 @foreach($carVarient->engine as $spec)
                 <div class="form-group row">

@@ -3,6 +3,24 @@
         <div class="card-body">
             <div class="form-horizontal">
                 <div class="form-group row">
+                    <label class="col-sm-4 control-label">Drive Train</label>
+                    <div class="col-sm-8">
+                                {{ $carVarient->drive_train}}
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Acceleration</label>
+                    <div class="col-sm-8">
+                                {{ $carVarient->acceleration}} sec
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Top Speed</label>
+                    <div class="col-sm-8">
+                                {{ $carVarient->top_speed}} Kmph
+                    </div>
+                </div> 
+                <div class="form-group row">
                     <label class="col-sm-4 control-label">Fuel Type</label>
                     <div class="col-sm-6">
                                {{ config('params.car.fuel_type')[$carVarient->fuel_type]}}
@@ -14,18 +32,6 @@
                                 {{ $carVarient->mileage}} Kmpl
                     </div>
                 </div>  
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Power</label>
-                    <div class="col-sm-8">
-                                {{ $carVarient->power}} Bhp
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Torque</label>
-                    <div class="col-sm-8">
-                                {{ $carVarient->torque }} rpm
-                    </div>
-                </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Emission Norm Complains</label>
                     <div class="col-sm-8">
