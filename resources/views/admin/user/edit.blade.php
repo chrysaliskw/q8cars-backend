@@ -16,8 +16,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="picture" class="control-label">Picture</label><br>
-                        <img src="{{ file_asset('files-user', $user->picture) }}" 
-                            alt="user-img" class="img-thumbnail" width="100" height="150">
+                        @if($user->picture)<img src="{{ file_asset('files-user', $user->picture) }}" alt='user-img' class='img-thumbnail' width='100' height='150'> @else<img src="{{asset('moltran-asset/images/dp.png')}}"   alt='user-img' class='img-thumbnail' width='100' height='150'> @endif
                         <input id="picture" type="file" name="picture" class="form-control">
                         <span class="error" role="alert">
                             @error('picture')
