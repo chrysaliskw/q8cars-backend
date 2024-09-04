@@ -14,6 +14,8 @@ class CarVersion extends Model
 
     const CAR_SPECIFICATION = 1;
     const CAR_VARIENT_SPECIFICATION = 2;
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
 
     /*
     |--------------------------------------------------------------------------
@@ -80,6 +82,10 @@ class CarVersion extends Model
     public function scopeBaseVarient($query)
     {
         return $query->where('is_base_varient', self::BASE_VARIENT);
+    }
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
     }
 
     
