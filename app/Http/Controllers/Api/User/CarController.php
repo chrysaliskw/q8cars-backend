@@ -151,6 +151,7 @@ class CarController extends ApiBaseController
             'gear_box' => $car->gear_box,
             'torque_power' => $car->power.'Bhp @'.$car->torque.'rpm',
             'is_favourite' => CarFavourite::where('user_id',Auth::id())->where('car_id',$car->id)->first() ? 1:0,
+            'tranmission_version_count' => $this->getVersionTransmissionTypesCount($car),
         ];
 
         return $result;
@@ -282,8 +283,15 @@ class CarController extends ApiBaseController
 
     private function getCarVersionAndPrice(Car $car)
     {
-        $versions = CarVersion::where('car_id', $car->id)->get();
-        return CarDetailResource::collection($versions);
+        $carTransmissionTypes = $this->getCarTransmissionTypes($car);
+        $versionsByTransmission = [];
+        foreach ($carTransmissionTypes as $typeKey => $typeName) {
+            $versions = CarVersion::where('car_id', $car->id)
+                ->where('transmission_type', $typeKey)
+                ->get();
+            $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
+        }
+        return $versionsByTransmission;
     }
 
     private function getNewsBanner(Car $car)
@@ -518,6 +526,27 @@ class CarController extends ApiBaseController
         return CarDetailResource::collection($versions);
 
     }
+    private function getCarTransmissionTypes(Car $car)
+    {
+        $carTransmissionTypes = [];
+        foreach (json_decode($car->transmission_type) as $type) {
+            if (isset(config('params.car.transmission_type')[$type])) {
+                $carTransmissionTypes[$type] = config('params.car.transmission_type')[$type];
+            }
+        }
+        return $carTransmissionTypes;
+    }
+    private function getVersionTransmissionTypesCount(Car $car)
+    {
+        foreach (json_decode($car->transmission_type) as $type) {
+            if (isset(config('params.car.transmission_type')[$type])) {
+                $count[config('params.car.transmission_type')[$type] ]= CarVersion::where('car_id',$car->id)->where('transmission_type',$type)->count();
+            }
+        }
+        return $count;
+
+    }
+    
 
     
 }

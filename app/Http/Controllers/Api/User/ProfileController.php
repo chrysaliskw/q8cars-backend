@@ -65,20 +65,28 @@ class ProfileController extends ApiBaseController
     */
    public function picture(Request $request)
    {
-       $validator = Validator::make($request->all(), [
-           'picture' => 'required|mimes:jpg,png,jpeg|max:2048',
-       ]);
+    //    $validator = Validator::make($request->all(), [
+    //        'picture' => 'required|mimes:jpg,png,jpeg|max:2048',
+    //    ]);
 
-       if ($validator->fails()) {
-           return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
-       }
+    //    if ($validator->fails()) {
+    //        return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+    //    }
 
        try
        {
            $user = User::find(Auth::id());
-           $request->picture->store(User::FILE_DIR);
-           $user->picture = $request->picture->hashName();            
+           if($request->hasFile('picture'))
+           {
+                $request->picture->store(User::FILE_DIR);
+                $user->picture = $request->picture->hashName();  
+                $msg = 'Profile Image updated successfully!';          
+           }else{
+                $user->picture = '';  
+                $msg = 'Profile Image deleted successfully!';
+           }
            $user->saveOrFail();
+          
        }
        catch (Exception $ex) {
            logger($ex);
@@ -86,7 +94,7 @@ class ProfileController extends ApiBaseController
        }
        return $this->success([
            'data' => $user->profileResponseToApi()
-       ], 'Profile Image updated successfully!', Response::HTTP_OK);
+       ], $msg, Response::HTTP_OK);
 
    }
 }
