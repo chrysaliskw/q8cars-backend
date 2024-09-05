@@ -61,7 +61,7 @@ class ReviewController extends Controller
             $review->car->avg_rating =  round(
                 (($review->car->avg_rating * $review->car->total_reviews_count) + $review->rating) / 
                 ($review->car->total_reviews_count + 1), 
-                2
+                1
             );
             $review->car->total_reviews_count = $review->car->total_reviews_count+1;
             $review->car->save();

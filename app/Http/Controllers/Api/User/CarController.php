@@ -143,7 +143,7 @@ class CarController extends ApiBaseController
             'colours' => count(json_decode($car->colours)),
             'photos' => $car->carPhotos->count() + 1,
             'videos' => $car->carVideos->count(),
-            'main_image' =>  file_asset('files-car', $car->image),
+            'main_image' =>  file_asset('files-car', $car->image_2),
             'showroom_price' => 'KWD '.$car->ex_showroom_price,
             'finance_available' =>'KWD '. $car->finance_available,
             'insurance' =>'KWD '. $car->insurance,
@@ -268,7 +268,7 @@ class CarController extends ApiBaseController
                     ->get();
 
         return [
-            'avg_rating' => round($car->avg_rating,2),
+            'avg_rating' => round($car->avg_rating,1),
             'total_reviews_count' => $car->total_reviews_count,
             'rating_1_count' => $car->rating_1,
             'rating_2_count' => $car->rating_2,
