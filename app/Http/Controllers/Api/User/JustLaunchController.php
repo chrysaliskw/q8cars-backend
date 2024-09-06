@@ -37,6 +37,7 @@ class JustLaunchController extends ApiBaseController
         $data['seating'] =  $this->getSeatingCapacity($result);
         $data['tank_capacity'] =  $this->getTankCapacity($result);
         $data['summary'] = $result->why_choose;
+        $data['image_2'] = file_asset('files-car', $result->image_2);
 
         return $this->success(['data' => $data], 'Just Launch Details', Response::HTTP_OK);
     }
