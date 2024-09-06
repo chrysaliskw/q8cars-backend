@@ -328,7 +328,7 @@ class CarController extends ApiBaseController
 
         $varient = CarVersion::find($version);
        
-        $result[] = [
+        $result = [
             ['key' => 1,
             'id' => 'engine-type',
             'section' => 'Engine and Transmission',
