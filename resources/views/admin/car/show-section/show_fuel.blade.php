@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="form-horizontal">
                 <div class="form-group row">
-                    <label class="col-sm-4 control-label">Drive Train</label>
+                    <label class="col-sm-4 control-label">Drivetrain</label>
                     <div class="col-sm-8">
                                 {{ $carVarient->drive_train}}
                     </div>
@@ -33,7 +33,7 @@
                     </div>
                 </div>  
                 <div class="form-group row">
-                    <label class="col-sm-4 control-label">Emission Norm Complains</label>
+                    <label class="col-sm-4 control-label">emission norm compliance</label>
                     <div class="col-sm-8">
                                 {{ $carVarient->emission_norm_complains}} 
                     </div>

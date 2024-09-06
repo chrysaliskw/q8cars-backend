@@ -177,7 +177,7 @@ class CarController extends ApiBaseController
         $data['Engine Capacity'] = $car->engine_capacity. ' cc';
         $data['Power & Torque'] = $car->power. '-'. $car->torque. ' Bph';
         // $data['Torque'] = $car->torque. 'Bph';
-        $data['Drive Train'] = $car->drive_train;
+        $data['Drivetrain'] = $car->drive_train;
         $data['Acceleration'] = $car->acceleration.' sec';
         $data['Top Speed'] = $car->top_speed.' kmph';
         $data['Seat Capacity'] = $car->seat_capacity.' Persons';
@@ -346,7 +346,7 @@ class CarController extends ApiBaseController
                     'value' => $varient->power.'Bhp@'.$varient->torque.'rpm',
                 ],
                 [
-                    'title' => 'Drive train',
+                    'title' => 'Drivetrain',
                     'value' => $varient->drive_train,
                 ],
                 [

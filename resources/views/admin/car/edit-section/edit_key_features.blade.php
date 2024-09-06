@@ -102,7 +102,7 @@
         <div class="row">  
        
             <div class="col-md-4">
-                <x-form-input type="text" field="drive_train" field-name="Drive train*" value="{{ $carVarient->drive_train }}">
+                <x-form-input type="text" field="drive_train" field-name="Drivetrain*" value="{{ $carVarient->drive_train }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -118,7 +118,7 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Complains" value="{{ $carVarient->emission_norm_complains }}">
+                <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Compliance" value="{{ $carVarient->emission_norm_complains }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
