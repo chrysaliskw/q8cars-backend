@@ -152,6 +152,10 @@ class CarController extends ApiBaseController
             'torque_power' => $car->power.'Bhp @'.$car->torque.'rpm',
             'is_favourite' => CarFavourite::where('user_id',Auth::id())->where('car_id',$car->id)->first() ? 1:0,
             'tranmission_version_count' => $this->getVersionTransmissionTypesCount($car),
+            'transmission_type' => $car->carSpec->transmission_type,
+            'transmission_type_text' => config('params.car.transmission_type')[$car->carSpec->transmission_type],
+            'available_transmission_types' =>$this->getversionTransmissionTypes($car)
+
         ];
 
         return $result;
@@ -768,7 +772,7 @@ class CarController extends ApiBaseController
             $version = CarVersion::where('car_id', $compare->id)->where('transmission_type', Car::TR_MANUAL)->first();
             $result[$i]['id'] = $compare->id;
             $result[$i]['name'] = $compare->model_name;
-            $result[$i]['image'] = file_asset('files-car', $car->image);
+            $result[$i]['image'] = file_asset('files-car', $compare->image);
             $result[$i]['showroom_price'] = 'KWD '.$version->ex_showroom_price;
             $result[$i]['finance_available'] = 'KWD '.$version->finance_available;
             $result[$i]['insurance'] = 'KWD '.$version->insurance;
@@ -780,6 +784,7 @@ class CarController extends ApiBaseController
             $result[$i]['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
             $result[$i]['rating'] = $compare->avg_rating;
             $result[$i]['torque_power'] = $version->power.'Bhp @'.$version->torque.'rpm';
+            $result[$i]['available_transmission_types'] =  $this->getversionTransmissionTypes($version->car);
             $i++;
         }
 
@@ -851,6 +856,19 @@ class CarController extends ApiBaseController
         }
         return $count;
 
+       
+    }
+    private function  getversionTransmissionTypes(Car $car)
+    {
+        foreach (json_decode($car->transmission_type) as $type) {
+            if (isset(config('params.car.transmission_type')[$type])) {
+             if(CarVersion::where('car_id',$car->id)->where('transmission_type',$type)->count()> 0)
+             {
+                $res[$type]= config('params.car.transmission_type')[$type];
+             }
+            }
+        }
+        return $res;
     }
     
 
