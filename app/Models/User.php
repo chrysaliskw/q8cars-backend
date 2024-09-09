@@ -127,7 +127,7 @@ class User extends Authenticatable
             'email' => $this->email,
             'phone_code' => $this->phone_code,
             'mobile' => $this->mobile,
-            'address' => $this->address,
+            'address' => !empty($this->address)?$this->address :null,
             'picture' => $this->picture ? file_asset('files-user', $this->picture) : null, 
             'role' => $this->role,
             'status' => $this->status,
