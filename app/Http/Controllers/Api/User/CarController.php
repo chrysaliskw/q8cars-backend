@@ -342,7 +342,7 @@ class CarController extends ApiBaseController
                     'value' => $varient->engine_type,
                 ],
                 [
-                    'title' => 'Engine Displacement (cc)',
+                    'title' => 'Engine Capacity (cc)',
                     'value' => $varient->engine_capacity.'cc',
                 ],
                 [
