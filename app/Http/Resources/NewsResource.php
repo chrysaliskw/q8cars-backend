@@ -17,11 +17,11 @@ class NewsResource extends JsonResource
         return [
             'id' => $this->id,
             'car_id' => $this->car_id,
-            'car_name' => $this->car->name,
+            'car_name' => $this->car->model_name,
             'brand_id' => $this->brand_id,
             'brand_name' => $this->brand ? $this->brand->name : null,
             'car_version_id' => $this->car_version_id,
-            'car_version_name' => $this->carVersion ? $this->carVersion->version_name : null,
+            'car_version_name' => $this->carVersion ? $this->carVersion->varient_name : null,
             'title' => $this->title,
             'content' => $this->content,
             'html_content' => $this->html_content,
