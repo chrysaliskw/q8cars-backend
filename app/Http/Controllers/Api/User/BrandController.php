@@ -24,7 +24,7 @@ public function __invoke(Request $request)
                 });
             })
             ->when($request->is_recently_purchased, function($query, $value) {
-                $query->where('brands.is_recently_purchased', Brand::RECENT_PURCHASED);
+                $query->where('brands.is_recent_purchased', Brand::RECENT_PURCHASED);
             })
             ->when($request->is_top_brand, function($query, $value) {
                 $query->where('brands.is_top_brand', Brand::TOP_BRAND);
