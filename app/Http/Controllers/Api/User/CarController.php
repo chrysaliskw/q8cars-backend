@@ -292,7 +292,12 @@ class CarController extends ApiBaseController
         foreach ($carTransmissionTypes as $typeKey => $typeName) {
             $versions = CarVersion::where('car_id', $car->id)
                 ->where('transmission_type', $typeKey)
-                ->get();
+                ->get()
+                ->unique(function ($item) {
+                    // Use both fuel_type and transmission_type to ensure uniqueness
+                    return $item->transmission_type . '-' . $item->fuel_type;
+                });
+                
             $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
         }
         return $versionsByTransmission;
