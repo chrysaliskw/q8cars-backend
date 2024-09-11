@@ -52,6 +52,10 @@
                 <x-form-input type="text" field="torque" field-name="Torque(rpm)*" value="{{ old('torque') }}">
                 </x-form-input>
             </div>
+            <div class="col-md-4">
+                <x-form-input type="text" field="drive_train" field-name="Drivetrain*" value="{{ old('drive_train') }}">
+                </x-form-input>
+            </div>
             <div class="col-md-12">
                 <label class="control-label" for="transmission_types">Transmission Types*</label>
                 <div class="row">
@@ -92,10 +96,7 @@
     <div class="card-body">
         <div class="row">  
        
-            <div class="col-md-4">
-                <x-form-input type="text" field="drive_train" field-name="Drivetrain*" value="{{ old('drive_train') }}">
-                </x-form-input>
-            </div>
+           
             <div class="col-md-4">
                 <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)*" value="{{ old('acceleration') }}">
                 </x-form-input>

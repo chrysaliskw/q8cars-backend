@@ -2,12 +2,7 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Drivetrain</label>
-                    <div class="col-sm-8">
-                                {{ $carVarient->drive_train}}
-                    </div>
-                </div> 
+                
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Acceleration</label>
                     <div class="col-sm-8">

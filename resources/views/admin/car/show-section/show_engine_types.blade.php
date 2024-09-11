@@ -73,6 +73,12 @@
                                 {{ $carVarient->torque }} rpm
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Drivetrain</label>
+                    <div class="col-sm-8">
+                                {{ $carVarient->drive_train}}
+                    </div>
+                </div> 
                 @if($carVarient->engine)
                 @foreach($carVarient->engine as $spec)
                 <div class="form-group row">
