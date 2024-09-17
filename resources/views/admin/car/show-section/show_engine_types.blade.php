@@ -46,7 +46,19 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Transmission Type</label>
                     <div class="col-sm-8">
-                                {{ config('params.car.transmission_type')[$carVarient->transmission_type]}} 
+                    @php 
+                                        $i = 0;
+                                    @endphp
+                                    @foreach($transmissionTypes as $c)
+                                        @if($i == count($transmissionTypes)-1)
+                                            {{$c}}
+                                        @else
+                                            {{$c}}, 
+                                        @endif
+                                        @php 
+                                            $i++;
+                                        @endphp
+                                    @endforeach
                     </div>
                 </div>
                 <div class="form-group row">
