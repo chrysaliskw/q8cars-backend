@@ -114,7 +114,8 @@ class CarController extends ApiBaseController
             return $this->error(null, 'Car Not Found', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $images = CarImage::when($request->section, function($query, $value) {
+        $images = CarImage::where('car_id',$car->id)
+            ->when($request->section, function($query, $value) {
                 $query->where('section', $value);
             })
             ->when($request->colour, function($query, $value) {
