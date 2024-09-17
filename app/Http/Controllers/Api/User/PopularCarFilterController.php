@@ -35,7 +35,7 @@ class PopularCarFilterController extends ApiBaseController
             $query->where('car_versions.body_type', (int) $request->body_type);
         }
         $cars = $query->limit(10)->get();
-        CarResource::collection($cars);
-        return $this->success(['data' => $cars], 'Popular Cars', Response::HTTP_OK);
+        //CarResource::collection($cars);
+        return $this->success(['data' =>  CarResource::collection($cars)], 'Popular Cars', Response::HTTP_OK);
     }
 }
