@@ -35,7 +35,7 @@ class PopularCarController extends ApiBaseController
             })
             ->orderBy('view_count', 'desc')
             ->limit(10)
-            ->groupBy('brand_id')
+           
             ->get(); 
         return CarResource::collection($cars); 
     }
