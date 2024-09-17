@@ -17,7 +17,7 @@ class PopularCarFilterController extends ApiBaseController
     {
       
         $query = Car::join('car_versions', 'cars.id', '=', 'car_versions.car_id')
-                    ->active()
+                    ->where('cars.status',Car::STATUS_ACTIVE)
                     ->orderBy('view_count', 'desc');
                       
         if ($request->has('brand')) {   
