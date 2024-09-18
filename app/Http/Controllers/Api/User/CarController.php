@@ -91,7 +91,7 @@ class CarController extends ApiBaseController
         $result['name'] = $car->model_name;
         $result['rating'] = round($car->avg_rating,1);
         $result['image'] = file_asset('files-car', $car->image);
-        $result['ex_show_room_price'] = 'KWD '.$version->ex_show_room_price;
+        $result['ex_show_room_price'] = 'KWD '.$version->ex_showroom_price;
         $result['finance_available'] = 'KWD '.$version->finance_available;
         $result['insurance'] = 'KWD '.$version->insurance;
         $result['service_amount'] = 'KWD '.$version->service_charge;
@@ -116,12 +116,14 @@ class CarController extends ApiBaseController
             return $this->error(null, 'Car Not Found', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+      
         $images = CarImage::where('car_id',$car->id)
             ->when($request->section, function($query, $value) {
                 $query->where('section', $value);
             })
             ->when($request->colour, function($query, $value) {
-                $query->where('color', $value);
+                $query->where('color', $value)
+                ->limit(1);
             })
             ->when($request->type, function($query, $value) {
                 $query->where('type', $value);
