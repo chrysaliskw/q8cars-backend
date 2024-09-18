@@ -17,14 +17,17 @@ class PopularCarController extends ApiBaseController
      */
     public function __invoke(Request $request)
     {
-        $data['popular_cars'] = $this->getPopularCars();
+        $data['popular_cars'] = $this->getPopularCars($request);
         $data['similar_cars'] = $this->getSimilarCras($request);
-        $data['related_news'] = $this->relatedNews();
+        $data['related_news'] = $this->relatedNews($request);
         return $this->success(['data' => $data], 'Popular Cars List with News and Similar cars', Response::HTTP_OK);
     }
-    private function getPopularCars()
+    private function getPopularCars(Request $request)
     {
-        $result = Car::active()->orderBy('view_count', 'desc')->limit(10)->get();
+        $result = Car::active()->
+        when($request->brand_id, function ($query) use ($request) {
+            $query->where('brand_id', $request->brand_id);
+        })->orderBy('view_count', 'desc')->limit(10)->get();
         return CarResource::collection($result);
     }
     private function getSimilarCras(Request $request)
@@ -35,13 +38,16 @@ class PopularCarController extends ApiBaseController
             })
             ->orderBy('view_count', 'desc')
             ->limit(10)
-            ->groupBy('brand_id')
+           
             ->get(); 
         return CarResource::collection($cars); 
     }
-    private function relatedNews()
+    private function relatedNews(Request $request)
     {
         $carIds = Car::active()
+        ->when($request->brand_id, function ($query) use ($request) {
+            $query->where('brand_id', $request->brand_id);
+        })
             ->orderBy('view_count', 'desc')
             ->limit(10)
             ->pluck('id'); 

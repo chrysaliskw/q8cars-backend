@@ -18,7 +18,20 @@
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Fuel Type</label>
                     <div class="col-sm-6">
-                               {{ config('params.car.fuel_type')[$carVarient->fuel_type]}}
+                    @php 
+                                        $i = 0;
+                                    @endphp
+                                    @foreach($fuelTypes as $c)
+                                        @if($i == count($fuelTypes)-1)
+                                            {{$c}}
+                                        @else
+                                            {{$c}}, 
+                                        @endif
+                                        @php 
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                    
                     </div>
                 </div>
                 <div class="form-group row">
