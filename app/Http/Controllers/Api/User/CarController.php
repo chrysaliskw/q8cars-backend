@@ -100,7 +100,8 @@ class CarController extends ApiBaseController
         $result['torque_power'] = $version->power.'Bhp @'.$version->torque.'rpm';
         $result['transmission_type'] = $version->transmission_type;
         $result['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
-
+        $result['available_transmission_types'] =  $this->getversionTransmissionTypes($version->car);
+        
         return $this->success(['data' => $result], 'Car Details', Response::HTTP_OK);
 
     }
