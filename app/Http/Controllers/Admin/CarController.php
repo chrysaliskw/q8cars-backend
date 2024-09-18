@@ -460,7 +460,7 @@ class CarController extends Controller
         if ($brandId) {
             $query->where('brand_id', $brandId);
         }
-        $cars = $query->select(['id', 'name AS text'])->offset($offset)->limit($limit)->get()->toArray();
+        $cars = $query->select(['id', 'model_name AS text'])->offset($offset)->limit($limit)->get()->toArray();
 
         $response['results'] = $cars;
         $response['pagination'] = ['more' => !empty($cars) ?? false];
