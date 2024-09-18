@@ -89,6 +89,7 @@ class CarController extends ApiBaseController
         $version = CarVersion::where('car_id', $car->id)->where('transmission_type', $request->transmission_type)->first();
         $result['id'] = $car->id;
         $result['name'] = $car->model_name;
+        $result['rating'] = round($car->avg_rating,1);
         $result['image'] = file_asset('files-car', $car->image);
         $result['ex_show_room_price'] = 'KWD '.$version->ex_show_room_price;
         $result['finance_available'] = 'KWD '.$version->finance_available;
@@ -779,6 +780,7 @@ class CarController extends ApiBaseController
             $version = CarVersion::where('car_id', $compare->id)->where('transmission_type', Car::TR_MANUAL)->first();
             $result[$i]['id'] = $compare->id;
             $result[$i]['name'] = $compare->model_name;
+            $result[$i]['rating'] = round($compare->avg_rating,1);
             $result[$i]['image'] = file_asset('files-car', $compare->image);
             $result[$i]['showroom_price'] = 'KWD '.$version->ex_showroom_price;
             $result[$i]['finance_available'] = 'KWD '.$version->finance_available;
