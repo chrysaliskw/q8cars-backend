@@ -61,6 +61,16 @@
                     <i class="fa fa-comment"></i><span> Reviews</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.faq.index') }}" class="waves-effect">
+                    <i class="fa fa-question"></i><span> FAQ</span>
+                    </a>
+                </li>
+            {{--    <li>
+                    <a href="{{ route('admin.news.index') }}" class="waves-effect">
+                    <i class="fa fa-newspaper-o"></i><span> News</span>
+                    </a>
+                </li>--}}
               
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-trash"></i> <span> Trash </span> <span class="pull-right"><i class="md md-add"></i></span></a>

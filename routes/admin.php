@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\BodyTypeController;
 use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\CarVersionController;
+use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\NewsPostController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TestRideRequestController;
 use App\Http\Controllers\Admin\OfferRequestController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\Admin\Trash\UserTrashController;
 use App\Http\Controllers\Admin\Trash\BrandTrashController;
 use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\Trash\CarTrashController;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Common Routes
@@ -54,6 +57,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('brand/select', [BrandController::class, 'select'])->name('brand.select');
     Route::get('body-type/select', [BodyTypeController::class, 'select'])->name('body-type.select');
     Route::get('car/select', [CarController::class, 'select'])->name('car.select');
+    Route::get('car-version/select', [CarVersionController::class, 'select'])->name('car-version.select');
 
     Route::resources([
         'brand' => BrandController::class,              // Brands
@@ -61,6 +65,8 @@ Route::middleware('auth:admin')->group(function () {
         'user' => UserController::class,                // User
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version
+        'faq' => FaqController::class,                  // FAQ
+        'news' => NewsPostController::class,            // News
     ]);
    
     // Test ride requests

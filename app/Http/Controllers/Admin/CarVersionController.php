@@ -314,4 +314,31 @@ class CarVersionController extends Controller
 
         return $data;
     }
+
+    /**
+     * Search endpoint for select2 dropdown
+     * 
+     * @param Request $request
+     * @return array
+     */
+    public function select(Request $request)
+    {
+        $page = $request->query('page');
+        $term = $request->query('search');
+        $carId = $request->query('car_id');
+        $limit = 100;
+        $offset = ($page - 1) * $limit;
+
+        $query = CarVersion::where('varient_name', 'like', "%$term%")->where('is_car_spec', CarVersion::NOT_BASE_VARIENT)->active();
+        if ($carId) {
+            $query->where('car_id', $carId);
+        }
+        $cars = $query->select(['id', 'varient_name AS text'])->offset($offset)->limit($limit)->get()->toArray();
+       
+        $response['results'] = $cars;
+        $response['pagination'] = ['more' => !empty($cars) ?? false];
+        
+        return $response;
+    }
+
 }

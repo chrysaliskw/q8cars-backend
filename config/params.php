@@ -93,6 +93,10 @@ return [
             2 => 'Inactive',
             3 => 'Expired',
         ],
+        'is_trending' => [
+            1 => 'Yes',
+            2 => 'No',
+        ],
     ],
 
     'colors' => [
@@ -145,5 +149,10 @@ return [
         4 => 'Architect',
         5 => 'Others',
     ],
-   
+    'faq' => [
+        'status' => [
+            1 => 'Active',
+            2 => 'Inactive',
+        ],
+    ],
 ];
