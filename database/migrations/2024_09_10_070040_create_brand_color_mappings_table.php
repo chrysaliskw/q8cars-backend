@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('brand_color_mappings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code');
             $table->bigInteger('brand_id');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

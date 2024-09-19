@@ -33,9 +33,10 @@ class ColorRequest extends FormRequest
     }
     private function createRules()
     {
-     
+    
         return [
             'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200','unique:brand_color_mappings'],
+            'color_code' => 'required',
             'brand' => 'required|array',
             'status' => ['required', Rule::in(array_keys(config('params.brand_color.status')))],
         ];

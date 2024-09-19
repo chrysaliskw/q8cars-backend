@@ -38,6 +38,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-sm-4 control-label">Color Code</label>
+                                <div class="col-sm-8">
+                                    {{ $color->code }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-sm-4 control-label">Brand</label>
                                 <div class="col-sm-8">
                                     {{ $color->brand->name }}

@@ -17,6 +17,10 @@
                     </x-form-input>
                 </div>
                 <div class="col-md-4">
+                    <label for=""> Change color <span id="selectedColor"> -Selected:({{$color->code}})</span></label>  
+                    <input type="color" class="form-control" id="colorPicker" name="color_code" value="{{$color->code}}">                 
+                </div> 
+                <div class="col-md-4">
                 <x-form-input type="text" field="brand" field-name="Brand" value="{{ old('brand') ?? $color->brand->name }}" readonly>
                 </x-form-input>  
                 </div>
@@ -38,7 +42,13 @@
     </x-crud-update>
     
     <x-slot name="scripts">
-       
+        <script>
+            const colorPicker = document.getElementById("colorPicker");
+            const selectedColor = document.getElementById("selectedColor");
+            colorPicker.addEventListener("input", function() {
+                selectedColor.textContent = colorPicker.value;
+            });
+        </script>
     </x-slot>
     
 </x-admin-layout>

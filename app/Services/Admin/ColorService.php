@@ -37,6 +37,7 @@ class ColorService
             foreach ($this->request->brand as $label) {
                 $insertData[] = [
                     'name' => $this->request->name,
+                    'code' => $this->request->color_code,
                     'brand_id' => $label,
                     'status' => $this->request->status,
                     'created_at' => now(),
@@ -61,6 +62,7 @@ class ColorService
                 $this->color->brand_id = $this->request->brand;
                 $this->color->status = $this->request->status;
                 $this->color->name = $this->request->name;
+                $this->color->code = $this->request->color_code;
                 $this->color->save();
                 DB::commit();
 

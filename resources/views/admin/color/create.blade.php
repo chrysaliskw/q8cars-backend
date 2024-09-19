@@ -13,7 +13,10 @@
                     <x-form-input type="text" field="name" field-name="Name" value="{{ old('name') }}">
                     </x-form-input>
                 </div>
-
+                <div class="col-md-4">
+                    <label for=""> Choose color <span id="selectedColor"></span></label>  
+                    <input type="color" class="form-control" id="colorPicker" name="color_code" value="">                 
+                </div>   
                 <div class="col-md-4"> 
                     <x-form-multi-select field="brand" field-name="Brand" defaultPrompt="Select Brand" id="userSelect">
                         @foreach($brandArr as $key => $value)
@@ -35,4 +38,13 @@
             </div>
         </x-form>
     </x-crud-create>
+    <x-slot name="scripts">
+        <script>
+            const colorPicker = document.getElementById("colorPicker");
+            const selectedColor = document.getElementById("selectedColor");
+            colorPicker.addEventListener("input", function() {
+                selectedColor.textContent = colorPicker.value;
+            });
+        </script>
+    </x-slot>
 </x-admin-layout>
