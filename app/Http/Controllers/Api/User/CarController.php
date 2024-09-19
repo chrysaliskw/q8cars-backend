@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\ApiBaseController;
 use Carbon\Carbon;
 use App\Models\CarComparisonList;
 use App\Models\CarFavourite;
+use Illuminate\Support\Facades\Validator;
 
 class CarController extends ApiBaseController
 {
@@ -882,6 +883,29 @@ class CarController extends ApiBaseController
         return $res;
     }
     
+    public function colors(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'car_id' => 'required|exists:cars,id',
+        ]);
 
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $car = Car::find($request->car_id);
+
+$colours = [];
+        foreach (json_decode($car->colours) as $type) {
+           
+            if (isset(config('params.colors')[$type])) {
+                 $colours[$type] = config('params.colors')[$type];
+            }
+        }
+        return $this->success(['data' => $colours], 'Color List!', Response::HTTP_OK);
+       
+        
+
+    }
     
 }

@@ -45,6 +45,7 @@ Route::middleware('auth:user_api')->group(function () {
     //submit review
     Route::post('/submit-reviews',SubmitReviewController::class);
     // Cars Api
+    Route::get('cars/colors',[CarController::class,'colors']);
     Route::get('cars/compare-similar', [CarController::class, 'compareSimilar']);
     Route::get('cars/images', [CarController::class, 'carImages']);
     Route::apiResource('cars', CarController::class)->only(['index', 'show']);
