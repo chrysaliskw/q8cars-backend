@@ -40,7 +40,7 @@ class ColorDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'b.name',
+                    'attribute' => 'brands.name',
                 ]
             ],
 
