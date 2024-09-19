@@ -31,7 +31,7 @@ class Brand extends Model
         'icon',
         'is_top_brand',
         'status',
-        'is_recent_purchased',
+        'is_recently_purchased',
     ];
     /*
     |--------------------------------------------------------------------------

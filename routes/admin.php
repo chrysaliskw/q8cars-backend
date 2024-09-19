@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\Trash\UserTrashController;
 use App\Http\Controllers\Admin\Trash\BrandTrashController;
 use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
-use App\Http\Controllers\Admin\Trash\CarTrashController;
+use App\Http\Controllers\Admin\ColorController;
 /*
 |--------------------------------------------------------------------------
 | Admin Common Routes
@@ -30,7 +30,7 @@ use App\Http\Controllers\Admin\Trash\CarTrashController;
  */
 
 Route::middleware('guest:admin')->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login'); // This is 'admin.login'
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
     Route::get('/login/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword'])->name('login.forgot-password');
     Route::get('/login/send-reset-password-link', [AuthenticatedSessionController::class, 'sendResetLink'])->name('login.send-reset-password-link');
@@ -54,6 +54,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('brand/select', [BrandController::class, 'select'])->name('brand.select');
     Route::get('body-type/select', [BodyTypeController::class, 'select'])->name('body-type.select');
     Route::get('car/select', [CarController::class, 'select'])->name('car.select');
+    Route::get('color/select', [ColorController::class, 'select'])->name('color.select');
 
     Route::resources([
         'brand' => BrandController::class,              // Brands
@@ -61,7 +62,8 @@ Route::middleware('auth:admin')->group(function () {
         'user' => UserController::class,                // User
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version
-    ]);
+        'color' =>ColorController::class  ,             //color
+    ]);                 
    
     // Test ride requests
     Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');

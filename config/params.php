@@ -115,6 +115,12 @@ return [
         17 => 'Bronze',
         18 => 'Copper',
     ],
+    'brand_color' => [
+        'status' => [
+            1 => 'Active',
+            2 => 'Inactive',
+        ],
+    ],
     'test_drive' => [
         'status' => [
             1 => 'Submitted',

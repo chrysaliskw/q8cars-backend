@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('brands', function (Blueprint $table) {
-            //$table->tinyInteger('is_recent_purchased')->default(1);
+        Schema::create('brand_color_mappings', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->bigInteger('brand_id');
+            $table->tinyInteger('status')->default(1);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('brands', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('brand_color_mappings');
     }
 };

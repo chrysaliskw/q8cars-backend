@@ -41,6 +41,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.color.index') }}" class="waves-effect">
+                        <i class="fa fa-paint-brush"></i><span> Colors </span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.car.index') }}" class="waves-effect">
                     <i class="fa fa-car"></i><span> Cars </span>
                     </a>
