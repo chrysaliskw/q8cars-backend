@@ -92,7 +92,7 @@ class CarController extends ApiBaseController
         $result['name'] = $car->model_name;
         $result['rating'] = round($car->avg_rating,1);
         $result['image'] = file_asset('files-car', $car->image);
-        $result['ex_show_room_price'] = 'KWD '.$version->ex_showroom_price;
+        $result['showroom_price'] = 'KWD '.$version->ex_showroom_price;
         $result['finance_available'] = 'KWD '.$version->finance_available;
         $result['insurance'] = 'KWD '.$version->insurance;
         $result['service_amount'] = 'KWD '.$version->service_charge;
