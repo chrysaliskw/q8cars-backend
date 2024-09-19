@@ -7,8 +7,8 @@
         </span>
     </div>    
 </div>
-<div class="row">
-    @foreach (config('params.colors') as $key => $value)
+<div class="row" id="color-options">
+    @foreach ($colorsAvailable as $key => $value)
         @php
             $attrCCheck = in_array($key, $currentColors) ? 'checked' : '';
         @endphp

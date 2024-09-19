@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\CarImage;
 use Illuminate\Http\Request;
 use App\Jobs\JunkFileDeleteJob;
+use App\Models\BrandColorMapping;
 use App\Models\CarAdditonalSpecifications;
 use App\Models\CarVersion;
 use Illuminate\Http\Exceptions\PostTooLargeException;
@@ -344,17 +345,14 @@ class CarService
 
     private function saveCarColorsAndImages()
     {
-        $existingColors = array_keys(config('params.colors'));
+        $existingColors = BrandColorMapping::where('brand_id',$this->car->brand_id)->pluck('id')->toArray();
         $submittedColors = $this->data['colors'] ?? [];
-        
         $uncheckedColors = array_diff($existingColors, $submittedColors);
-        
         $imagesToDelete = CarImage::where('car_id', $this->car->id)
                                   ->whereIn('color', $uncheckedColors)
                                   ->where('type', CarImage::TYPE_IMAGE)
                                   ->pluck('file_name')
                                   ->toArray();
-    
         CarImage::where('car_id', $this->car->id)
                 ->whereIn('color', $uncheckedColors)
                 ->where('type', CarImage::TYPE_IMAGE)

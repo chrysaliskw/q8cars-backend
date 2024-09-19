@@ -577,7 +577,7 @@
                               
                                         <img src="{{ file_asset('files-car', $image->file_name) }}" 
                                             alt='brand-img' class='img-thumbnail' width='200' height='250'>
-                                        <button class="btn-primary" >{{config('params.colors')[$image->color]}}</button>
+                                        <button class="btn-primary" >{{$colorsAvailable[$image->color]}}</button>
                                   
                                     @endif
                                     
