@@ -344,7 +344,7 @@ class CarController extends ApiBaseController
 
         $varient = CarVersion::find($version);
        
-        $result = [
+        $sections = [
             ['key' => 1,
             'id' => 'engine-type',
             'section' => 'Engine and Transmission',
@@ -648,6 +648,33 @@ class CarController extends ApiBaseController
                 ]
                 ],]
         ];
+        $additionalSpecsMapping = [
+            'engine-type' => $varient->engine,
+            'fuel-type' => $varient->fuel,
+            'suspension' => $varient->suspension,
+            'dimension-capacity' => $varient->dimension,
+            'comfort-convinience' => $varient->comfort,
+            'interior' =>$varient->interior,
+            'exterior' => $varient->exterior,
+            'safety' => $varient->safety,
+            'entertainment' => $varient->entertainment,
+        ];
+        foreach ($sections as &$section) {
+        
+            $sectionId = $section['id'];
+            if (isset($additionalSpecsMapping[$sectionId]) && !empty($additionalSpecsMapping[$sectionId])) {
+                foreach ($additionalSpecsMapping[$sectionId] as $spec) {
+                    $section['features'][] = [
+                        'title' => $spec->specification,
+                        'value' => $spec->input_type == 1
+                            ? $spec->value . ' ' . $spec->unit
+                            : ($spec->value == 1 ? 'Yes' : 'No'),
+                    ];
+                }
+            }
+        }
+        unset($section);
+        return $sections;
         
 
         // $result['engine_and_transmission'] = [
@@ -737,7 +764,7 @@ class CarController extends ApiBaseController
         //     'Bluetooth Connectivity' => $varient->bluetooth,
         // ];
         
-        return $result;
+        // return $result;
     }
 
     private function getRelatedNews(Car $car)
