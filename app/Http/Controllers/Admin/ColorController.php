@@ -148,18 +148,11 @@ class ColorController extends Controller
      */
     public function select(Request $request)
     {
-     
-        $page = $request->query('page');
-        $term = $request->query('search');
-        $brandId = $request->query('brand_id');
-        $limit = 100;
-        $offset = ($page - 1) * $limit;
-
-        $query = BrandColorMapping::where('brand_id', $brandId)->pluck('name','id')->toArray();
-        $response['results'] = $query;
-        $response['pagination'] = ['more' => !empty($cities) ?? false];
         
-        return $response;
+        $brandId = $request->query('brand_id');
+        $colors = BrandColorMapping::where('brand_id', $brandId)->pluck('name', 'id');
+    
+        return response()->json($colors);
     }
 
 }

@@ -23,6 +23,7 @@ use App\Http\Requests\Admin\CarRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
+use App\Models\BrandColorMapping;
 use Illuminate\Http\Exceptions\PostTooLargeException;
 
 class CarController extends Controller
@@ -146,7 +147,13 @@ class CarController extends Controller
         for($i=0;$i<10;$i++){
             $data['attribute_id'][$i] = null;
         }    
-       
+        $colorsAvailable = BrandColorMapping::where('brand_id',$request->brand_id)->pluck('id')->toArray();
+        $rules = [];
+        foreach ($colorsAvailable as $id) {
+            $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg|max:2048';
+        }
+        $validatedData = $request->validate($rules);
+        $data = array_merge($data, $validatedData);
         try 
         {
             $service = new CarService($data);
@@ -184,13 +191,12 @@ class CarController extends Controller
             $transmissionTypes[] = config('params.car.transmission_type')[$transmissionType];
         }
 
-        $color = json_decode($car->colours, true);
+        $color = json_decode($car->colours, true);   
         $colorArray = array_combine(range(1, count($color)), array_values($color));
         $colors = [];
         foreach($colorArray as $c) {
-            $colors[] = config('params.colors')[$c];
+            $colors[] = BrandColorMapping::find($c)->name;
         }
-
         $profession = json_decode($car->professions, true);
         $professions = [];
         if($profession) {
@@ -199,12 +205,12 @@ class CarController extends Controller
                 $professions[] = config('params.professions')[$c];
             }
         }
-    
+        $colorsAvailable = BrandColorMapping::where('brand_id',$car->brand_id)->pluck('name','id')->toArray();
         $carVarient = $car->carSpec;
         $carVersion = $carVarient; 
         $carVersions = CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->get();
 
-        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions','carVersion'));
+        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions','carVersion','colorsAvailable'));
     }
 
     /**
@@ -265,11 +271,12 @@ class CarController extends Controller
 
         $currentColors = [];
         $selectedColorsCount = 0;
+        $colorsAvailable = BrandColorMapping::where('brand_id',$car->brand_id)->pluck('name','id')->toArray();
         foreach(json_decode($car->colours) as $c) {
            array_push($currentColors, $c);
            $selectedColorsCount++;
         }
-        $ccount = count(config('params.colors'));
+        $ccount = count($colorsAvailable);
 
         return view('admin.car.edit', compact('car', 'carVarient',
             'currentBrand', 'currentBodyType',  
@@ -278,7 +285,7 @@ class CarController extends Controller
             'selectedFuelCount', 'currentFuels', 'fcount', 
             'tcount','selectedTransmissionCount', 'currentTransmissions',
             'ccount','selectedColorsCount', 'currentColors',
-            'additionals',
+            'additionals','colorsAvailable',
         ));
     }
 
@@ -389,11 +396,14 @@ class CarController extends Controller
         $attributeData = $this->setAttributes($validator->validated());
 
         $data = array_merge($request->validated(), $attributeData); 
+        $colorsAvailable = BrandColorMapping::where('brand_id',$car->brand_id)->pluck('id')->toArray();
+        $rules = [];
+        foreach ($colorsAvailable as $id) {
+            $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg|max:2048';
+        }
+        $validatedData = $request->validate($rules);
+        $data = array_merge($data, $validatedData);
         $data['update'] = 1;
-
-        // for($i=0;$i<10;$i++){
-        //     $data['attribute_id'][$i] = $this->setAttributeIds($request);
-        // } 
         $carVarient = $car->carSpec;
         try 
         {
