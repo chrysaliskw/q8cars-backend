@@ -22,6 +22,7 @@ use App\Http\Resources\CarImageResource;
 use App\Http\Resources\CarDetailResource;
 use App\Services\Api\User\Car\FilterService;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Models\BrandColorMapping;
 use Carbon\Carbon;
 use App\Models\CarComparisonList;
 use App\Models\CarFavourite;
@@ -895,11 +896,12 @@ class CarController extends ApiBaseController
 
         $car = Car::find($request->car_id);
 
-$colours = [];
+        $colours = [];
         foreach (json_decode($car->colours) as $type) {
-           
-            if (isset(config('params.colors')[$type])) {
-                 $colours[$type] = config('params.colors')[$type];
+            $map=BrandColorMapping::find($type);
+            if (isset($map)) {
+                 $colours[$type]['color'] = $map->name;
+                 $colours[$type]['code'] = $map->code;
             }
         }
         return $this->success(['data' => $colours], 'Color List!', Response::HTTP_OK);
