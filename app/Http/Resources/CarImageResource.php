@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BrandColorMapping;
 use App\Models\Car;
 use App\Models\Review;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,11 +17,13 @@ class CarImageResource extends JsonResource
    */
   public function toArray($request)
   {
+    $availableColours = BrandColorMapping::where('brand_id',$this->car->brand_id)->pluck('name', 'id')->toArray();
     return [
         'id' => $this->id,
         'car_id' => $this->car_id,
         'color' => $this->color,
-        'color_name' => $this->color ? config('params.colors')[$this->color] : null,
+        // 'color_name' => $this->color ? config('params.colors')[$this->color] : null,
+        'color_name' => $this->color ?$availableColours[$this->color] : null,
         'type' => $this->type,
         'section' => $this->section,
         'section_name' => $this->section ? config('params.car.image-section')[$this->section] : null,

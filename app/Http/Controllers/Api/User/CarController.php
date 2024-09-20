@@ -123,7 +123,7 @@ class CarController extends ApiBaseController
             ->when($request->section, function($query, $value) {
                 $query->where('section', $value);
             })
-            ->when($request->colour, function($query, $value) {
+            ->when($request->color, function($query, $value) {
                 $query->where('color', $value)
                 ->limit(1);
             })
