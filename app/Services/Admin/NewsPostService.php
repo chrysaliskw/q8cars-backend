@@ -134,7 +134,7 @@ final class NewsPostService
             $this->post->image = $this->moveUploadedNewsImage();
         }
         if($this->post->media_logo) {
-            $this->post->author_image = $this->moveUploadedAuthorImage();
+            $this->post->media_logo = $this->moveUploadedAuthorImage();
         }
               //  $this->post->sort_order = $this->data['sort_order'];
         $this->post->status = $this->data['status'];
