@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('brand_id');
             $table->bigInteger('user_id')->nullable();
             $table->text('question');
-            $table->text('answer');
+            $table->longText('answer');
             $table->tinyInteger('question_status');
             $table->tinyInteger('answer_status');
             $table->timestamps();

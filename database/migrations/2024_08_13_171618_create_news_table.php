@@ -17,10 +17,10 @@ return new class extends Migration
             $table->bigInteger('brand_id')->nullable();
             $table->bigInteger('car_version_id')->nullable();
             $table->string('title'); 
-            $table->text('content');
+            $table->longText('content');
             $table->string('media_name'); 
             $table->string('media_logo'); 
-            $table->text('html_content');
+            $table->longText('html_content');
             $table->string('image'); 
             $table->dateTime('posted_time'); 
             $table->tinyInteger('is_published')->default(1); 

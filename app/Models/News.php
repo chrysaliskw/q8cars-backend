@@ -13,6 +13,9 @@ class News extends Model
     const STATUS_INACTIVE = 2;
     const STATUS_EXPIRED = 3;
 
+    const POSTED_BY_Q8CARS = 1;
+    const POSTED_BY_OTHER_SOURCES = 2;
+
     const PUBLISHED = 1;
     const NOT_PUBLISHED = 2;
 
@@ -20,6 +23,24 @@ class News extends Model
     const NOT_TRENDING = 2;
 
     const FILE_DIR = 'news';
+
+      /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'content',
+        'html_content',
+        'read_time',
+        'media_name',
+        'is_trending',
+        'status',
+        'brand_id',
+        'car_id',
+        'car_version_id',
+    ];
 
     /*
     |--------------------------------------------------------------------------
