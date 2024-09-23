@@ -30,7 +30,7 @@ class NewsResource extends JsonResource
             'is_published' => $this->is_published,
             'status' => $this->status,
             // 'status_text' => config('params.news.status')[$this->status],
-            'read_time' => $this->read_time,
+            'read_time' => $this->read_time .' Min read',
             'expiry_date' => dateFormat($this->expiry_date),
             'show_in_detail_page' => $this->show_in_detail_page,
             'media_logo' => asset('images/medialogo.png'),
