@@ -36,6 +36,6 @@ class CarResource extends JsonResource
     private function formatDate($createdAt)
     {
       $date = Carbon::parse($createdAt); 
-        return $formattedDate = $date->format('M d');
+        return $formattedDate =  $date->format('M Y');
     }
 }
