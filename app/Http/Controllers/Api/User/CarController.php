@@ -893,7 +893,7 @@ class CarController extends ApiBaseController
     {
         foreach (json_decode($car->transmission_type) as $type) {
             if (isset(config('params.car.transmission_type')[$type])) {
-                $count[config('params.car.transmission_type')[$type] ]= CarVersion::where('car_id',$car->id)->where('transmission_type',$type)->count();
+                $count[config('params.car.transmission_type')[$type] ]= CarVersion::active()->where('car_id',$car->id)->where('transmission_type',$type)->count();
             }
         }
         return $count;
