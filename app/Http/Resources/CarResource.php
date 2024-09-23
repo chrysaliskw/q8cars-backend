@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Car;
 use App\Models\Review;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class CarResource extends JsonResource
 {
@@ -29,6 +30,12 @@ class CarResource extends JsonResource
         'image' => file_asset('files-car', $this->image),
         'is_favourite' => $this->is_favourite,
         'image_2' => $this->image_2 ? file_asset('files-car', $this->image_2):null,
+        'added_date' => $this->formatDate($this->created_at),
     ];
   }
+    private function formatDate($createdAt)
+    {
+      $date = Carbon::parse($createdAt); 
+        return $formattedDate =  $date->format('M Y');
+    }
 }
