@@ -17,8 +17,9 @@
                 </div> 
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Fuel Type</label>
-                    <div class="col-sm-6">
-                    @php 
+                    @if($carVarient->is_car_spec == 1) 
+                     <div class="col-sm-6">
+                        @php 
                                         $i = 0;
                                     @endphp
                                     @foreach($fuelTypes as $c)
@@ -33,6 +34,11 @@
                                     @endforeach
                                     
                     </div>
+                    @else
+                    <div class="col-sm-8">
+                                {{ config('params.car.fuel_type') [$carVarient->fuel_type]}} 
+                    </div>
+                    @endif
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Mileage</label>

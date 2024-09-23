@@ -45,7 +45,8 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Transmission Type</label>
-                    <div class="col-sm-8">
+                   @if($carVarient->is_car_spec == 1) 
+                   <div class="col-sm-8">
                     @php 
                                         $i = 0;
                                     @endphp
@@ -60,6 +61,11 @@
                                         @endphp
                                     @endforeach
                     </div>
+                    @else
+                    <div class="col-sm-8">
+                                {{ config('params.car.transmission_type') [$carVarient->transmission_type]}} 
+                    </div>
+                    @endif
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Engine Capacity</label>
