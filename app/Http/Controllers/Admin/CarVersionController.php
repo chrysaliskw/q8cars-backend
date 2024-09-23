@@ -14,6 +14,7 @@ use App\DataGrids\Admin\CarVersionDataGrid;
 use App\Http\Requests\Admin\CarVersionRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use App\Models\BrandColorMapping;
 
 class CarVersionController extends Controller
 {
@@ -52,13 +53,12 @@ class CarVersionController extends Controller
         $car = $carVersion->car;
         $carVarient = $carVersion;
 
-        $color = json_decode($carVersion->colours, true);
+        $color = json_decode($car->colours, true);   
         $colorArray = array_combine(range(1, count($color)), array_values($color));
         $colors = [];
         foreach($colorArray as $c) {
-            $colors[] = config('params.colors')[$c];
+            $colors[] = BrandColorMapping::find($c)->name;
         }
-
         return view('admin.car.car-version.show', compact('car','carVersion', 'colors', 'carVarient'));
     }
 
