@@ -136,6 +136,7 @@ class CarController extends ApiBaseController
             ->additional([
                 'main_image' => file_asset('files-car', $car->image),
                 'detail_page_image' => file_asset('files-car', $car->image_2),
+                'photos' => $car->carPhoto()->count(),
                 'message' => 'Cars Images',
                 'status' => Response::HTTP_OK
             ]);
@@ -149,7 +150,7 @@ class CarController extends ApiBaseController
             'brand_name' => $car->brand->name,
             'brand_id' => $car->brand_id,
             'colours' => count(json_decode($car->colours)),
-            'photos' => $car->carPhotos->count() ,
+            'photos' => $car->carPhoto()->count() ,
             'videos' => $car->carVideos->count(),
             'main_image' =>  file_asset('files-car', $car->image_2),
             'showroom_price' => 'KWD '.$car->ex_showroom_price,

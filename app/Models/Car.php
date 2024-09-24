@@ -74,6 +74,10 @@ class Car extends Model
     {
         return $this->hasMany(CarImage::class)->where('type', CarImage::TYPE_IMAGE);
     }
+    public function carPhoto()
+    {
+        return $this->hasMany(CarImage::class)->where('type', CarImage::TYPE_IMAGE)->whereNull('color');
+    }
     public function carVideos()
     {
         return $this->hasMany(CarImage::class)->where('type', CarImage::TYPE_VIDEO);
