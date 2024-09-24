@@ -27,11 +27,11 @@ class OfferRequestController extends ApiBaseController
             'offer_id' => [
                 'nullable',  //1-get offer request ,2-get on road price, 3-emi offer
                 'integer',
-                function ($attribute, $value, $fail) use ($request) {
-                    if ($request->input('type') == 1 && is_null($value)) {
-                        $fail('The offer_id field is required when type is 1.');
-                    }
-                }
+                // function ($attribute, $value, $fail) use ($request) {
+                //     if ($request->input('type') == 1 && is_null($value)) {
+                //         $fail('The offer_id field is required when type is 1.');
+                //     }
+                // }
             ],
         ], 
         [   'mobile.min' => 'The mobile must be at least 7 digits.',
