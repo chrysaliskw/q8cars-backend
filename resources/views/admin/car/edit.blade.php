@@ -116,6 +116,7 @@
     
     <x-slot name="scripts">
         <script type="text/javascript">
+            
 
             $("#date_1").datepicker({
                 format: 'dd-mm-yyyy',
@@ -145,11 +146,11 @@
             }
         }
         // Initialize visibility based on the existing input types on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            @for($i = 0; $i < 10; $i++)
-                toggleFields({{ $i }});
-            @endfor
-        });
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     @for($i = 0; $i < 10; $i++)
+        //         toggleFields({{ $i }});
+        //     @endfor
+        // });
      
             
             function clearRow(button) {
@@ -165,6 +166,8 @@
                 row.querySelectorAll('input[type="hidden"]').forEach(hiddenInput => {
                     hiddenInput.value = '';
                 });
+                rowCount--;
+                document.getElementById('row_count').value = rowCount;
             }
     
 

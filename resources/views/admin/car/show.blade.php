@@ -197,70 +197,24 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Air Condition</label>
-                            <div class="col-sm-8">
-                                {{ ($car->air_condition == 1) ? 'YES' : 'NO' }}
-                            </div>
-                        </div>
+                @if($carVarient->keyFeature)
+                @foreach($carVarient->keyFeature as $spec)
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">{{ $spec->specification }}</label>
+                    <div class="col-sm-8">
+                         @if($spec->input_type == 1)
+                         {{ $spec->value}} {{$spec->unit}}
+                         @else
+                            @if($spec->value == 1)
+                                <i class="fa fa-check" style="color:green;"></i>
+                            @else
+                                <i class="fa fa-times" style="color:red;"></i>
+                            @endif
+                         @endif      
                     </div>
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Length</label>
-                            <div class="col-sm-8">
-                                {{ $car->length }} mm
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Width</label>
-                            <div class="col-sm-8">
-                                {{ $car->width }} mm
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Height</label>
-                            <div class="col-sm-8">
-                                {{ $car->height }} mm
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Boot Space</label>
-                            <div class="col-sm-8">
-                                {{ $car->boot_space }} L
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Power Windows</label>
-                            <div class="col-sm-8">
-                                {{ $car->power_windows }} 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Fuel Tank Capacity</label>
-                            <div class="col-sm-8">
-                                {{ $car->fuel_tank_capacity }} L
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Seat Upholstery</label>
-                            <div class="col-sm-8">
-                                {{ $car->seat_upholstery }} 
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                @endforeach
+                @endif
                 </div>
             </div>
         </div>
@@ -272,87 +226,24 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Fuel Types</label>
-                            <div class="col-sm-8">
-                               
-                                    @php 
-                                        $i = 0;
-                                    @endphp
-                                    @foreach($fuelTypes as $c)
-                                        @if($i == count($fuelTypes)-1)
-                                            {{$c}}
-                                        @else
-                                            {{$c}}, 
-                                        @endif
-                                        @php 
-                                            $i++;
-                                        @endphp
-                                    @endforeach
-                                
-                            </div>
-                        </div>
-              
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Transmission Types</label>
-                            <div class="col-sm-8">
-                               
-                                    @php 
-                                        $i = 0;
-                                    @endphp
-                                    @foreach($transmissionTypes as $c)
-                                        @if($i == count($transmissionTypes)-1)
-                                            {{$c}}
-                                        @else
-                                            {{$c}}, 
-                                        @endif
-                                        @php 
-                                            $i++;
-                                        @endphp
-                                    @endforeach
-                                
-                            </div>
-                        </div>
-                       
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Engine Capacity</label>
-                            <div class="col-sm-8">
-                                {{ $car->engine_capacity}} cc
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Power & Torque</label>
-                            <div class="col-sm-8">
-                                {{ $car->power}} Bhp  {{ $car->torque}} rpm
-                            </div>
-                        </div>
-                      
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Drive Train</label>
-                            <div class="col-sm-8">
-                                {{ $car->drive_train}} 
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Acceleration</label>
-                            <div class="col-sm-8">
-                                {{ $car->acceleration}} sec
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Top Speed</label>
-                            <div class="col-sm-8">
-                                {{ $car->top_speed}} kmph
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Avg. Mileage</label>
-                            <div class="col-sm-8">
-                                {{ $car->mileage}} klmp
-                            </div>
-                        </div>
+                @if($carVarient->keySpec)
+                @foreach($carVarient->keySpec as $spec)
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">{{ $spec->specification }}</label>
+                    <div class="col-sm-8">
+                         @if($spec->input_type == 1)
+                         {{ $spec->value}} {{$spec->unit}}
+                         @else
+                            @if($spec->value == 1)
+                                <i class="fa fa-check" style="color:green;"></i>
+                            @else
+                                <i class="fa fa-times" style="color:red;"></i>
+                            @endif
+                         @endif      
                     </div>
+                </div>
+                @endforeach
+                @endif
                 </div>
             </div>
         </div>

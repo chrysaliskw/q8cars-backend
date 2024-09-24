@@ -84,6 +84,8 @@ return [
             7 => 'Exterior',
             8 => 'Safety',
             9 => 'Entertainment and Comminication',
+            10=>  'Key Specification' ,
+            11=> 'Key Features',   
         ],
     ],
 

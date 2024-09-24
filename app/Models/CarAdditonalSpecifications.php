@@ -21,4 +21,6 @@ class CarAdditonalSpecifications extends Model
     const CATEGORY_EXTERIOR = 7;
     const CATEGORY_SAFETY = 8;
     const CATEGORY_ENTERTAINMENT = 9;
+    const CATEGORY_KEY_SPEC = 10;
+    CONST CATEGORY_KEY_FEATURE = 11;
 }

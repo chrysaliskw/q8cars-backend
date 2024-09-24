@@ -2,7 +2,7 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
+               {{-- <div class="form-group row">
                     <label class="col-sm-4 control-label">Boot Space</label>
                     <div class="col-sm-6">
                                {{ $car->boot_space}}
@@ -46,7 +46,7 @@
                         @endif
                               
                     </div>
-                </div>
+                </div>--}}
                 @if($carVarient->interior)
                 @foreach($carVarient->interior as $spec)
                 <div class="form-group row">

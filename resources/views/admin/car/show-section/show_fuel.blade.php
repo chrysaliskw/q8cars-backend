@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="form-horizontal">
                 
-                <div class="form-group row">
+              {{--  <div class="form-group row">
                     <label class="col-sm-4 control-label">Acceleration</label>
                     <div class="col-sm-8">
                                 {{ $carVarient->acceleration}} sec
@@ -57,7 +57,7 @@
                     <div class="col-sm-8">
                                 {{ $carVarient->fuel_tank_capacity}}
                     </div>
-                </div>
+                </div>--}}
                 @if($carVarient->fuel)
                 @foreach($carVarient->fuel as $spec)
                 <div class="form-group row">

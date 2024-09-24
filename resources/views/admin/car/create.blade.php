@@ -122,16 +122,18 @@
                 const inputType = document.getElementById(`input_type_${index}`).value;
                 const textField = document.getElementById(`text_value_${index}`);
                 const booleanField = document.getElementById(`bool_value_${index}`);
+                const unitField = document.getElementById(`units_${index}`);
+                if (inputType == 1) { // Text
+                    textField.disabled = false;
+                    booleanField.disabled = true;
+                    unitField.disabled = false;
 
-  
-            if (inputType == 1) { // Text
-                textField.disabled = false;
-                booleanField.disabled = true;
-            } else if (inputType == 2) { // Boolean
-                textField.disabled = true;
-                booleanField.disabled = false;
+                } else if (inputType == 2) { // Boolean
+                    textField.disabled = true;
+                    booleanField.disabled = false;
+                    unitField.disabled = true;
+                }
             }
-        }
 
 // Initialize visibility based on the existing input types on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -155,12 +157,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             });
 
-            function clearRow(that) 
-            {
-                var i= $(that).data().id;
-                document.getElementById("attribute_"+i).value="";
-                document.getElementById("input_type_"+i).value="";
-                document.getElementById("attr_sort_order_"+i).value="";
+            function clearRow(button) {
+            const rowId = button.getAttribute('data-id');
+            document.getElementById(`row_${rowId}`).remove();
+    
+            // Optional: Decrease the row count after deletion
+            rowCount--;
+            document.getElementById('row_count').value = rowCount;
             }
 
             /**

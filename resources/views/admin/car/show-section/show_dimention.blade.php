@@ -2,7 +2,7 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
+                {{--<div class="form-group row">
                     <label class="col-sm-4 control-label">Body Type</label>
                     <div class="col-sm-6">
                             {{ $carVarient->bodyType->name}}
@@ -25,7 +25,7 @@
                     <div class="col-sm-8">
                                 {{ $car->height }} mm
                     </div>
-                </div>
+                </div>--}}
                 @if($carVarient->dimension)
                 @foreach($carVarient->dimension as $spec)
                 <div class="form-group row">

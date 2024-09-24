@@ -91,7 +91,12 @@ class CarService
         if(!$this->car) {
             $this->car = new Car();
         }else {
-            $this->oldAttributeIds = CarAdditonalSpecifications::where('car_id', $this->car->id)->pluck('id')->toArray();
+            if($this->version) {
+                $versionId = $this->version->id;
+            }else{
+                $versionId = $this->car->carSpec->id;
+            }    
+            $this->oldAttributeIds = CarAdditonalSpecifications::where('car_id', $this->car->id)->where('car_version_id',$versionId)->pluck('id')->toArray();
         }
        
         // $oldImageName = $this->car->image;
@@ -106,24 +111,24 @@ class CarService
         $this->car->finance_available = $this->data['finance_available'];
         $this->car->insurance = $this->data['insurance'];
         $this->car->service_charge = $this->data['service_charge'];
-        $this->car->air_condition = $this->data['air_condition'];
-        $this->car->width = $this->data['width'];
-        $this->car->length = $this->data['length'];
-        $this->car->height = $this->data['height'];
-        $this->car->boot_space = $this->data['boot_space'];
-        $this->car->power_windows = $this->data['power_windows'];
-        $this->car->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
-        $this->car->seat_upholstery = $this->data['seat_upholstery'];
-        $this->car->seat_capacity = $this->data['seat_capacity'];
-        $this->car->safety_ratings = $this->data['safety_ratings'];
+        // $this->car->air_condition = $this->data['air_condition'];
+        // $this->car->width = $this->data['width'];
+        // $this->car->length = $this->data['length'];
+        // $this->car->height = $this->data['height'];
+        // $this->car->boot_space = $this->data['boot_space'];
+        // $this->car->power_windows = $this->data['power_windows'];
+        // $this->car->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
+        // $this->car->seat_upholstery = $this->data['seat_upholstery'];
+        // $this->car->seat_capacity = $this->data['seat_capacity'];
+        // $this->car->safety_ratings = $this->data['safety_ratings'];
         $this->car->engine_capacity = $this->data['engine_capacity'];
         $this->car->power = $this->data['power'];
         $this->car->torque = $this->data['torque'];
-        $this->car->drive_train = $this->data['drive_train'];
-        $this->car->acceleration = $this->data['acceleration'];
-        $this->car->top_speed = $this->data['top_speed'];
+        // $this->car->drive_train = $this->data['drive_train'];
+        // $this->car->acceleration = $this->data['acceleration'];
+        // $this->car->top_speed = $this->data['top_speed'];
         $this->car->mileage = $this->data['mileage'];
-        $this->car->gear_box = $this->data['gear_box'];
+        // $this->car->gear_box = $this->data['gear_box'];
        
         $this->car->image = isset($this->data['image']) ? $this->moveUploadedProfileImage() : $this->car->image;
         $this->car->image_2 = isset($this->data['image_detail']) ? $this->moveUploadedProfileImage2() : $this->car->image_2;
@@ -168,74 +173,74 @@ class CarService
         $this->version->insurance = $this->data['insurance'];
         $this->version->service_charge = $this->data['service_charge'];
         
-        $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
-        $this->version->engine_type = $this->data['engine_type'];
-        $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
-        $this->version->valves_per_cylinder = $this->data['valves_per_cylinder'];
-        $this->version->bore_stroke = $this->data['bore_stroke'];
-        $this->version->compression_ratio = $this->data['compression_ratio'];
-        $this->version->super_charge = $this->data['super_charge'];  
-        $this->version->gear_box = $this->data['gear_box'];
+        // $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
+        // $this->version->engine_type = $this->data['engine_type'];
+        // $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
+        // $this->version->valves_per_cylinder = $this->data['valves_per_cylinder'];
+        // $this->version->bore_stroke = $this->data['bore_stroke'];
+        // $this->version->compression_ratio = $this->data['compression_ratio'];
+        // $this->version->super_charge = $this->data['super_charge'];  
+        // $this->version->gear_box = $this->data['gear_box'];
         $this->version->engine_capacity = $this->data['engine_capacity'];
         $this->version->power = $this->data['power'];
         $this->version->torque = $this->data['torque'];
         $this->version->transmission_type = 1;
-        $this->version->drive_train = $this->data['drive_train'];
-        $this->version->acceleration = $this->data['acceleration'];
-        $this->version->top_speed = $this->data['top_speed'];
+        //$this->version->drive_train = $this->data['drive_train'];
+       // $this->version->acceleration = $this->data['acceleration'];
+        // $this->version->top_speed = $this->data['top_speed'];
         $this->version->mileage = $this->data['mileage'];
-        $this->version->emission_norm_complains = $this->data['emission_norm_complains'];
-        $this->version->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
+        // $this->version->emission_norm_complains = $this->data['emission_norm_complains'];
+        // $this->version->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
         $this->version->fuel_type = 1;
-        $this->version->front_suspension = $this->data['front_suspension'];
-        $this->version->rear_suspension = $this->data['rear_suspension'];
-        $this->version->steering_type = $this->data['steering_type'];
-        $this->version->steering_column = $this->data['steering_column'];
-        $this->version->tuning_radius = $this->data['tuning_radius'];
-        $this->version->front_brake_type = $this->data['front_brake_type'];
-        $this->version->rear_brake_type = $this->data['rear_brake_type'];
-        $this->version->alloy_wheel_front = $this->data['alloy_wheel_front'];
-        $this->version->alloy_wheel_rear = $this->data['alloy_wheel_rear'];
-        $this->version->power_steering = $this->data['power_steering'];
+        // $this->version->front_suspension = $this->data['front_suspension'];
+        // $this->version->rear_suspension = $this->data['rear_suspension'];
+        // $this->version->steering_type = $this->data['steering_type'];
+        // $this->version->steering_column = $this->data['steering_column'];
+        // $this->version->tuning_radius = $this->data['tuning_radius'];
+        // $this->version->front_brake_type = $this->data['front_brake_type'];
+        // $this->version->rear_brake_type = $this->data['rear_brake_type'];
+        // $this->version->alloy_wheel_front = $this->data['alloy_wheel_front'];
+        // $this->version->alloy_wheel_rear = $this->data['alloy_wheel_rear'];
+        // $this->version->power_steering = $this->data['power_steering'];
         $this->version->body_type = $this->data['body_type_id'];
-        $this->version->width = $this->data['width'];
-        $this->version->length = $this->data['length'];
-        $this->version->height = $this->data['height'];
-        $this->version->seat_upholstery = $this->data['seat_upholstery'];
-        $this->version->seat_capacity = $this->data['seat_capacity'];
-        $this->version->air_conditioner = $this->data['air_condition'];
-        $this->version->wheel_covers = $this->data['wheel_covers'];
+        // $this->version->width = $this->data['width'];
+        // $this->version->length = $this->data['length'];
+        // $this->version->height = $this->data['height'];
+        // $this->version->seat_upholstery = $this->data['seat_upholstery'];
+        // $this->version->seat_capacity = $this->data['seat_capacity'];
+        // $this->version->air_conditioner = $this->data['air_condition'];
+        // $this->version->wheel_covers = $this->data['wheel_covers'];
         // $this->version->alloy_wheels = $this->data['alloy_wheels'];
-        $this->version->view_camera = $this->data['360_view_camera'];
-        $this->version->boot_space = $this->data['boot_space'];
-        $this->version->power_windows = $this->data['power_windows'];
-        $this->version->tachometer = $this->data['tachometer'];
-        $this->version->electronic_multi_tripmeter = $this->data['electronic_multi_tripmeter'];
-        $this->version->digital_odometer = $this->data['digital_odometer'];
-        $this->version->LED_Taillights = $this->data['LED_Taillights'];
-        $this->version->automatic_headlamps = $this->data['automatic_headlamps'];
-        $this->version->adjustable_headlamps = $this->data['adjustable_headlamps'];
-        $this->version->LED_DRLs = $this->data['LED_DRLs'];
-        $this->version->Halogen_Headlamps = $this->data['Halogen_Headlamps'];
-        $this->version->LED_Headlights = $this->data['LED_Headlights'];
-        $this->version->sun_roof = $this->data['sun_roof'];
-        $this->version->safety_ratings = $this->data['safety_ratings'];
-        $this->version->anti_theft_alarm = $this->data['anti_theft_alarm'];
-        $this->version->anti_brake_system = $this->data['anti_brake_system'];
-        $this->version->no_of_airbags = $this->data['no_of_airbags'];
-        $this->version->passenger_airbags = $this->data['passenger_airbags'];
-        $this->version->driver_airbags = $this->data['driver_airbags'];
-        $this->version->child_safety_locks = $this->data['child_safety_locks'];
-        $this->version->integrated_antenna = $this->data['integrated_antenna'];
-        $this->version->apple_car_play = $this->data['apple_car_play'];
-        $this->version->touch_screen = $this->data['touch_screen'];
-        $this->version->speakers_rear = $this->data['speakers_rear'];
-        $this->version->speakers_front = $this->data['speakers_front'];
-        $this->version->radio = $this->data['radio'];
-        $this->version->android_auto = $this->data['android_auto'];
-        $this->version->digital_clock = $this->data['digital_clock'];
-        $this->version->usb_charger = $this->data['usb_charger'];
-        $this->version->bluetooth = $this->data['bluetooth'];
+        // $this->version->view_camera = $this->data['360_view_camera'];
+        // $this->version->boot_space = $this->data['boot_space'];
+        // $this->version->power_windows = $this->data['power_windows'];
+        // $this->version->tachometer = $this->data['tachometer'];
+        // $this->version->electronic_multi_tripmeter = $this->data['electronic_multi_tripmeter'];
+        // $this->version->digital_odometer = $this->data['digital_odometer'];
+        // $this->version->LED_Taillights = $this->data['LED_Taillights'];
+        // $this->version->automatic_headlamps = $this->data['automatic_headlamps'];
+        // $this->version->adjustable_headlamps = $this->data['adjustable_headlamps'];
+        // $this->version->LED_DRLs = $this->data['LED_DRLs'];
+        // $this->version->Halogen_Headlamps = $this->data['Halogen_Headlamps'];
+        // $this->version->LED_Headlights = $this->data['LED_Headlights'];
+        // $this->version->sun_roof = $this->data['sun_roof'];
+        // $this->version->safety_ratings = $this->data['safety_ratings'];
+        // $this->version->anti_theft_alarm = $this->data['anti_theft_alarm'];
+        // $this->version->anti_brake_system = $this->data['anti_brake_system'];
+        // $this->version->no_of_airbags = $this->data['no_of_airbags'];
+        // $this->version->passenger_airbags = $this->data['passenger_airbags'];
+        // $this->version->driver_airbags = $this->data['driver_airbags'];
+        // $this->version->child_safety_locks = $this->data['child_safety_locks'];
+        // $this->version->integrated_antenna = $this->data['integrated_antenna'];
+        // $this->version->apple_car_play = $this->data['apple_car_play'];
+        // $this->version->touch_screen = $this->data['touch_screen'];
+        // $this->version->speakers_rear = $this->data['speakers_rear'];
+        // $this->version->speakers_front = $this->data['speakers_front'];
+        // $this->version->radio = $this->data['radio'];
+        // $this->version->android_auto = $this->data['android_auto'];
+        // $this->version->digital_clock = $this->data['digital_clock'];
+        // $this->version->usb_charger = $this->data['usb_charger'];
+        // $this->version->bluetooth = $this->data['bluetooth'];
        
         if(isset($this->data['varient_name'])) {
             $this->version->transmission_type = $this->data['transmission_type'];
@@ -561,9 +566,9 @@ class CarService
     {
         $attributes = [];
 
-        foreach ($this->data['attribute'] as $index => $name)
+       foreach ($this->data['attribute'] as $index => $name)
         {
-            if ($index == 10) {
+            if ($index == $this->data['row_count']) {
                 break;
             }
 

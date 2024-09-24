@@ -2,7 +2,7 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
+               {{-- <div class="form-group row">
                     <label class="col-sm-4 control-label">Safety Ratings</label>
                     <div class="col-sm-8">
                         @for($i = 1; $i <= $car->safety_ratings ; $i++)
@@ -60,7 +60,7 @@
                         @endif
                                 
                     </div>
-                </div>
+                </div>--}}
                 @if($carVarient->safety)
                 @foreach($carVarient->safety as $spec)
                 <div class="form-group row">

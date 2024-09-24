@@ -53,7 +53,7 @@ class CarController extends ApiBaseController
         $car = Car::find($id);
 
         $data['counts'] = $this->getCounts($car);
-        $data['key_features'] = $this->getKeyFeatures($car);
+        $data['key_features'] = $this->getKeyFeatures($car,$request);
         $data['key_specifications'] = $this->getKeySpecifications($car);
         $data['specification_and_features'] = $this->getAllSpecificationAndFeatures($car, $request);
         $data['version_price_mileage'] = $this->getCarVersionAndPrice($car);
@@ -170,18 +170,34 @@ class CarController extends ApiBaseController
         return $result;
     }
 
-    private function getKeyFeatures(Car $car)
+    private function getKeyFeatures(Car $car,Request $request)
     {
-        return [
-            'Air Condition' => $car->air_condition,
-            'Length' => $car->length. ' mm',
-            'Width' => $car->width. ' mm',
-            'Height' => $car->height. ' mm',
-            'Boot Space' => $car->boot_space. ' L',
-            'Power Windows' => $car->power_windows,
-            'Fuel Tank Capacity' => $car->fuel_tank_capacity. 'L',
-            'Seat Upholstery' => $car->seat_upholstery,
-        ];
+        $res = [];
+      
+        if($request->car_version_id)
+        {
+            $carVersion = CarVersion::find($request->car_version_id);
+        }else{
+            $carVersion = $car->carSpec;
+        }
+        if($carVersion->keyFeature){
+            foreach($carVersion->keyFeature as $feature)
+            {
+                $res[$feature->specification] = $feature->value .' '.$feature->unit;
+            }
+        }
+      
+        return $res;
+        // return [
+        //     'Air Condition' => $car->air_condition,
+        //     'Length' => $car->length. ' mm',
+        //     'Width' => $car->width. ' mm',
+        //     'Height' => $car->height. ' mm',
+        //     'Boot Space' => $car->boot_space. ' L',
+        //     'Power Windows' => $car->power_windows,
+        //     'Fuel Tank Capacity' => $car->fuel_tank_capacity. 'L',
+        //     'Seat Upholstery' => $car->seat_upholstery,
+        // ];
     }
 
     private function getKeySpecifications(Car $car)
@@ -793,14 +809,14 @@ class CarController extends ApiBaseController
         }else{
             // $cars = Car::where('brand_id', '!=', $car->brand_id)->where('version_id')->active()->limit(2)->get();
             $carBaseVariantBodyType = CarVersion::where('car_id', $car->id)
-                ->where('is_base_varient', 1)
+                ->where('is_car_spec', 1)
                 ->value('body_type');
 
             $cars = Car::where('brand_id', '!=', $car->brand_id)
                 ->whereIn('id', function ($query) use ($carBaseVariantBodyType) {
                     $query->select('car_id')
                         ->from('car_versions')
-                        ->where('is_base_varient', 1)
+                        ->where('is_car_spec', 1)
                         ->where('body_type', $carBaseVariantBodyType);
                     })
                 ->whereBetween('on_road_price', [$car->on_road_price * 0.95, $car->on_road_price * 1.05])
