@@ -2,11 +2,7 @@
     $star = '<i class="fa fa-star"></i>';
 @endphp
 <div class="card card-border card-primary">
-    <div class="card-header"> 
-        <div class="m-b-30">
-            <h5>Engine and Transmission</h5>
-        </div>
-    </div>
+   
     <div class="card-body">
         <div class="row">
             {{--<div class="col-md-4">
@@ -88,14 +84,17 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
-        <div class="m-b-30">
-            <h5>Fuel and Performance</h5>
-        </div>
-    </div>
+   
     <div class="card-body">
         <div class="row">  
-       
+            <div class="col-md-4">
+                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ old('seat_capacity') }}">
+                </x-form-input>
+            </div>
+            <div class="col-md-4">
+                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ old('no_of_airbags') }}">
+                </x-form-input>
+            </div>
            
          {{--   <div class="col-md-4">
                 <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)*" value="{{ old('acceleration') }}">

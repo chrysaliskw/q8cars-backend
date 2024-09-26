@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\User\SubmitReviewController;
 use App\Http\Controllers\Api\User\AccountDeleteController;
 use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\PopularCarFilterController;
+use App\Http\Controllers\Api\User\CarSearchController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -48,6 +49,7 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('cars/colors',[CarController::class,'colors']);
     Route::get('cars/compare-similar', [CarController::class, 'compareSimilar']);
     Route::get('cars/images', [CarController::class, 'carImages']);
+    Route::get('cars/search',CarSearchController::class);
     Route::apiResource('cars', CarController::class)->only(['index', 'show']);
     // Home
     Route::get('homes', HomeController::class);

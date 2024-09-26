@@ -119,7 +119,7 @@ class CarService
         // $this->car->power_windows = $this->data['power_windows'];
         // $this->car->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
         // $this->car->seat_upholstery = $this->data['seat_upholstery'];
-        // $this->car->seat_capacity = $this->data['seat_capacity'];
+        $this->car->seat_capacity = $this->data['seat_capacity'];
         // $this->car->safety_ratings = $this->data['safety_ratings'];
         $this->car->engine_capacity = $this->data['engine_capacity'];
         $this->car->power = $this->data['power'];
@@ -207,7 +207,7 @@ class CarService
         // $this->version->length = $this->data['length'];
         // $this->version->height = $this->data['height'];
         // $this->version->seat_upholstery = $this->data['seat_upholstery'];
-        // $this->version->seat_capacity = $this->data['seat_capacity'];
+        $this->version->seat_capacity = $this->data['seat_capacity'];
         // $this->version->air_conditioner = $this->data['air_condition'];
         // $this->version->wheel_covers = $this->data['wheel_covers'];
         // $this->version->alloy_wheels = $this->data['alloy_wheels'];
@@ -227,7 +227,7 @@ class CarService
         // $this->version->safety_ratings = $this->data['safety_ratings'];
         // $this->version->anti_theft_alarm = $this->data['anti_theft_alarm'];
         // $this->version->anti_brake_system = $this->data['anti_brake_system'];
-        // $this->version->no_of_airbags = $this->data['no_of_airbags'];
+        $this->version->no_of_airbags = $this->data['no_of_airbags'];
         // $this->version->passenger_airbags = $this->data['passenger_airbags'];
         // $this->version->driver_airbags = $this->data['driver_airbags'];
         // $this->version->child_safety_locks = $this->data['child_safety_locks'];

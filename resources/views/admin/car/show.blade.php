@@ -226,6 +226,48 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Fuel Types</label>
+                        <div class="col-sm-6">
+                            @php 
+                                $i = 0;
+                            @endphp
+                            @foreach($fuelTypes as $c)
+                                @if($i == count($fuelTypes)-1)
+                                    {{$c}}
+                                @else
+                                    {{$c}}, 
+                                @endif
+                                @php 
+                                    $i++;
+                                @endphp
+                            @endforeach   
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Engine Capacity</label>
+                        <div class="col-sm-8">
+                            {{ $car->engine_capacity .' cc' }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Power & Torque</label>
+                        <div class="col-sm-8">
+                            {{ $car->power .' Bhp  -'.$car->torque.' rpm' }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Seat Capacity</label>
+                        <div class="col-sm-8">
+                            {{ $car->seat_capacity }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Mileage</label>
+                        <div class="col-sm-8">
+                            {{ $car->mileage.' kmpl' }}
+                        </div>
+                    </div>
                 @if($carVarient->keySpec)
                 @foreach($carVarient->keySpec as $spec)
                 <div class="form-group row">

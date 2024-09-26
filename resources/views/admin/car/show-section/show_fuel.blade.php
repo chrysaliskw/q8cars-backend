@@ -2,7 +2,14 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Fuel Type</label>
+                   
+                    <div class="col-sm-8">
+                                {{ config('params.car.fuel_type') [$carVarient->fuel_type]}} 
+                    </div>
+                 
+                </div>
               {{--  <div class="form-group row">
                     <label class="col-sm-4 control-label">Acceleration</label>
                     <div class="col-sm-8">
