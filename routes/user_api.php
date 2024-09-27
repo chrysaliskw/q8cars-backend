@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\User\AccountDeleteController;
 use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
+use App\Http\Controllers\Api\User\OfferController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -62,6 +63,7 @@ Route::middleware('auth:user_api')->group(function () {
     //popular car listing
     Route::get('popular-cars',PopularCarController::class);
     Route::get('popular-cars/filter',PopularCarFilterController::class);
+    Route::get('offers',OfferController::class);
     
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
