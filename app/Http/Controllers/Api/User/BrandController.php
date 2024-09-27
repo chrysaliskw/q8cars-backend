@@ -14,6 +14,7 @@ class BrandController extends ApiBaseController
     
 public function __invoke(Request $request)
     {
+       
         $brands = Brand::active()
             ->when($request->has('search') && !empty($request->input('search')), function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->input('search') . '%');
@@ -29,6 +30,11 @@ public function __invoke(Request $request)
             ->when($request->is_top_brand, function($query, $value) {
                 $query->where('brands.is_top_brand', Brand::TOP_BRAND);
             })
+            ->when($request->popular_brand, function($query, $value) {
+                $popularBrandIds =Car::active()->select('view_count','brand_id')->orderBy('view_count','Desc')->distinct()->pluck('brand_id');
+                $query->whereIn('id', $popularBrandIds);
+            })
+         
             ->paginate(50);
         BrandResource::collection($brands);
         return $this->success(['data' => $brands], 'Brand listing!', Response::HTTP_OK);
