@@ -51,6 +51,9 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('cars/images', [CarController::class, 'carImages']);
     Route::get('cars/search',CarSearchController::class);
     Route::apiResource('cars', CarController::class)->only(['index', 'show']);
+
+    //car versions according to car
+    Route::get('car-versions',[CarSearchController::class,'getCarVersion']);
     // Home
     Route::get('homes', HomeController::class);
     Route::get('just-launch/cars', [JustLaunchController::class, 'getJustLaunchCars']);
