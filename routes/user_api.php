@@ -65,6 +65,8 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('popular-cars/filter',PopularCarFilterController::class);
     Route::get('offers',OfferController::class);
     
+    //popular brand
+    Route::get('popular-brands',[BrandController::class,'popularBrands']);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
     

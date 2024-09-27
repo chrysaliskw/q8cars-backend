@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Resources\BrandResource;
 use App\Models\Car;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends ApiBaseController
 {
@@ -30,13 +31,21 @@ public function __invoke(Request $request)
             ->when($request->is_top_brand, function($query, $value) {
                 $query->where('brands.is_top_brand', Brand::TOP_BRAND);
             })
-            ->when($request->popular_brand, function($query, $value) {
-                $popularBrandIds =Car::active()->select('view_count','brand_id')->orderBy('view_count','Desc')->distinct()->pluck('brand_id');
-                $query->whereIn('id', $popularBrandIds);
-            })
+            
          
             ->paginate(50);
         BrandResource::collection($brands);
         return $this->success(['data' => $brands], 'Brand listing!', Response::HTTP_OK);
     }
+
+    public function popularBrands()
+    {
+        $popularBrands = Brand::withCount(['cars as total_views' => function($query) {
+            $query->select(DB::raw('SUM(view_count)'));
+        }])
+        ->orderBy('total_views', 'desc') // Order brands by total views in descending order
+        ->paginate(50); // Paginate results 
+        return $this->success(['data' => BrandResource::collection($popularBrands)], 'Popular Brand listing!', Response::HTTP_OK);
+    }
+    
 }
