@@ -8,6 +8,8 @@ use App\Http\Resources\CarResource;
 use App\Services\Api\User\Car\SearchService;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Models\Car;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\CarVersionResource;
 
 class CarSearchController extends ApiBaseController
 {
@@ -17,19 +19,6 @@ class CarSearchController extends ApiBaseController
     public function __invoke(Request $request)
     {
         $result = null;
-// $query = Car::active();
-// if($request->brand_id){
-//     $query = $query->where('brand_id',$request->brand_id);
-// }
-// // if($request->body_type_id){
-// //     $query = $query->where('brand_id',$request->brand_id);
-// // }
-// // if($request->brand_id){
-// //     $query = $query->where('brand_id',$request->brand_id);
-// // }
-// $result = $query->get();
-// dd($result);
-
         $result = (new SearchService($request))->handle();
 
         return CarResource::collection($result)
@@ -37,5 +26,24 @@ class CarSearchController extends ApiBaseController
                 'message' => 'Cars search listing',
                 'status' => Response::HTTP_OK
             ]);
+    }
+
+    public function getCarVersion(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'car_id' => 'required|exists:cars,id',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $car = Car::find($request->car_id);
+
+        $carVersions = $car->carVersions;
+        return CarVersionResource::collection($carVersions)
+        ->additional([
+            'message' => 'Car Versions listing',
+            'status' => Response::HTTP_OK
+        ]);
     }
 }

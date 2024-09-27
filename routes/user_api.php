@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\User\AccountDeleteController;
 use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
+use App\Http\Controllers\Api\User\OfferController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -51,6 +52,9 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('cars/images', [CarController::class, 'carImages']);
     Route::get('cars/search',CarSearchController::class);
     Route::apiResource('cars', CarController::class)->only(['index', 'show']);
+
+    //car versions according to car
+    Route::get('car-versions',[CarSearchController::class,'getCarVersion']);
     // Home
     Route::get('homes', HomeController::class);
     Route::get('just-launch/cars', [JustLaunchController::class, 'getJustLaunchCars']);
@@ -59,7 +63,10 @@ Route::middleware('auth:user_api')->group(function () {
     //popular car listing
     Route::get('popular-cars',PopularCarController::class);
     Route::get('popular-cars/filter',PopularCarFilterController::class);
+    Route::get('offers',OfferController::class);
     
+    //popular brand
+    Route::get('popular-brands',[BrandController::class,'popularBrands']);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
     
