@@ -83,6 +83,11 @@ Route::middleware('auth:admin')->group(function () {
     // Review
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
     Route::resource('reviews', ReviewController::class)->only(['index','show']);
+
+    //News
+    Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
+
+    //Car Comparison
  
 
     //Trash 
