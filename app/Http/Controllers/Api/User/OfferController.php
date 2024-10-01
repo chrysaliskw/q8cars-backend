@@ -9,17 +9,40 @@ use Illuminate\Http\Response;
 use App\Http\Resources\OfferResource;
 use App\Models\Car;
 use App\Models\Offer;
+use App\Http\Resources\OfferDetailsResource;
 
 class OfferController extends ApiBaseController
 {
     
-public function __invoke(Request $request)
+    public function index(Request $request)
     {
         $data['popular_offers']= $this->getPopularOffers($request);
         $data['popular_brands'] = $this->getPopularBrandOffers($request);
         $data['recent_offers'] = $this->getRecentOffers($request);
         $data['suggested_offers'] = $this->getSuggestedOffers($request);
         return $this->success(['data' => $data], 'Offer listing!', Response::HTTP_OK);
+    }
+
+    public function show($id,Request $request)
+    {
+        $offer = Offer::find($id); 
+        if($request->car_version_id)
+        {
+           
+            $offer = Offer::where('car_version_id',$request->car_version_id)
+                ->where('car_id',$offer->car_id)
+                ->active()
+                ->where('start_date', '<=', today()) 
+                ->where('end_date', '>=',today())
+                ->orderBy('view_count','Desc')
+                ->first();
+        }
+        if($offer){
+            $data = OfferDetailsResource::make($offer);
+        }else{
+            $data =[];
+        }
+        return $this->success(['data' =>  $data], 'Offer Details!', Response::HTTP_OK);
     }
 
     private function getPopularOffers(Request $request)

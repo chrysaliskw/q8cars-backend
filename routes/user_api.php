@@ -63,7 +63,7 @@ Route::middleware('auth:user_api')->group(function () {
     //popular car listing
     Route::get('popular-cars',PopularCarController::class);
     Route::get('popular-cars/filter',PopularCarFilterController::class);
-    Route::get('offers',OfferController::class);
+    Route::apiResource('offers', OfferController::class)->only(['index', 'show']);
     
     //popular brand
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
