@@ -12,6 +12,7 @@ class Offer extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
     const STATUS_EXPIRED = 3;
+    CONST SHOW_IN_SUGGESTIONS = 1;
 
     public function car()
     {
