@@ -17,7 +17,6 @@ class OfferController extends ApiBaseController
     public function index(Request $request)
     {
         $data['popular_offers']= $this->getPopularOffers($request);
-        $data['popular_brands'] = $this->getPopularBrandOffers($request);
         $data['recent_offers'] = $this->getRecentOffers($request);
         $data['suggested_offers'] = $this->getSuggestedOffers($request);
         return $this->success(['data' => $data], 'Offer listing!', Response::HTTP_OK);
@@ -45,7 +44,7 @@ class OfferController extends ApiBaseController
         return $this->success(['data' =>  $data], 'Offer Details!', Response::HTTP_OK);
     }
 
-    private function getPopularOffers(Request $request)
+    public function getPopularOffers(Request $request)
     {
             $offers = Offer::active()
                 ->where('start_date', '<=', today()) 
@@ -58,7 +57,7 @@ class OfferController extends ApiBaseController
                 })
                 ->orderBy('view_count','Desc')
                 ->paginate(10);
-        return OfferResource::collection($offers);
+            return $this->success(['data' =>  OfferResource::collection($offers)], 'Popular Offers!', Response::HTTP_OK);
     }
 
     private function getPopularBrandOffers(Request $request)
