@@ -117,6 +117,8 @@ class OfferController extends Controller
     {
         $data = $request->all();
 
+        $data['show_in_suggestions'] = $request->has('show_in_suggestions') ? 1 : 0;
+
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             if ($offer->image) {
                 Storage::disk('public')->delete($offer->image);
