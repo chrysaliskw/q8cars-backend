@@ -384,11 +384,11 @@ final class FilterService
                     break;
 
             case self::SORT_BY_PRICE_LOW_TO_HIGH:
-                $this->query = $this->query->orderBy('cars.ex_show_room_price', 'asc');
+                $this->query = $this->query->orderBy('cars.ex_showroom_price', 'asc');
                 break;
 
             case self::SORT_BY_PRICE_HIGH_TO_LOW:
-                $this->query = $this->query->orderBy('cars.ex_show_room_price', 'desc');
+                $this->query = $this->query->orderBy('cars.ex_showroom_price', 'desc');
                 break;
 
             case self::SORT_BY_MILEAGE_LOW_TO_HIGH:
