@@ -24,12 +24,12 @@ class OfferRequestDataGrid extends Grid
     public function columns()
     {
         return [
-           
+
             'user_mobile' => [
                 'label' => 'User Mobile',
                 'value' => function ($model) {
                     return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_phone_code $model->user_mobile</a>";
-                  
+
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -48,7 +48,7 @@ class OfferRequestDataGrid extends Grid
                     'attribute' => 'c.model_name',
                 ]
             ],
-            
+
             'full_name' => [
                 'label' => 'Requested Name',
                 'value' => function ($model) {

@@ -45,7 +45,8 @@ class NewsPostController extends Controller
     public function store(NewsPostRequest $request)
     {
         $data = $request->validated();
-        try {
+        try
+        {
             $service = new NewsPostService($data);
             $post = $service->handleCreate();
         } catch (Exception $ex) {
@@ -126,7 +127,7 @@ class NewsPostController extends Controller
      */
     public function update(NewsPostRequest $request, News $news)
     {
-        try {
+        try{
             $service = new NewsPostService($request->validated());
             $service->post = $news;
             $news = $service->handleUpdate();

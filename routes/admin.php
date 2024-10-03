@@ -19,7 +19,7 @@ use App\Http\Controllers\Admin\Trash\UserTrashController;
 use App\Http\Controllers\Admin\Trash\BrandTrashController;
 use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
-use App\Models\Car;
+use App\Models\Car;use App\Http\Controllers\Admin\OfferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,16 +72,20 @@ Route::middleware('auth:admin')->group(function () {
         'faq' => FaqController::class,                  // FAQ
         'news' => NewsPostController::class,            // News
         'comparison' => CarComparisonListsController::class, // Car Comparison
-    ]);                 
-   
+        'offers' => OfferController::class              // Offers
+    ]);
+
     // Test ride requests
     Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
     Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index','show']);
 
+    // Offers
+    // Route::resource('offers', OfferController::class);
+
     // Offer request
     Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
     Route::resource('offer-requests', OfferRequestController::class)->only(['index','show']);
-    
+
     // Review
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
     Route::resource('reviews', ReviewController::class)->only(['index','show']);
@@ -91,9 +95,9 @@ Route::middleware('auth:admin')->group(function () {
 
     //Car Comparison
     // Route::resource('car/comparison', CarComparisonController::class)->only(['index','store','destroy']);
- 
 
-    //Trash 
+
+    //Trash
     Route::resource('trash-user',UserTrashController::class)->only('index','show','edit');
     Route::resource('trash-brand',BrandTrashController::class)->only('index','show','edit');
     Route::resource('trash-body-type',BodyTypeTrashController::class)->only('index','show','edit');

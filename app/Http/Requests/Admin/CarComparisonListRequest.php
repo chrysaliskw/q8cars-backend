@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\admin;
 
+use App\Models\Brand;
 use App\Models\Car;
 use App\Models\CarVersion;
 use Illuminate\Foundation\Http\FormRequest;
@@ -34,8 +35,9 @@ class CarComparisonListRequest extends FormRequest
     }
     private function createRules()
     {
-     
+    //  dd($this->all());
         return [
+            
             'car_id' => [
                 'nullable',
                 Rule::exists(Car::class, 'id')->where(function ($query) {
@@ -71,6 +73,26 @@ class CarComparisonListRequest extends FormRequest
                 Rule::exists(CarVersion::class, 'id')->where(function ($query) {
                     return $query->where('status', Car::STATUS_ACTIVE);
                     
+                })
+            ],
+            'brand_id' => [
+                'nullable',
+                Rule::exists(Brand::class, 'id')->where(function ($query) {
+                    return $query->where('status', Brand::STATUS_ACTIVE);
+                })
+            ],
+
+            'brand_1_id' => [
+                'required',
+                Rule::exists(Brand::class, 'id')->where(function ($query) {
+                    return $query->where('status', Brand::STATUS_ACTIVE);
+                })
+            ],
+
+            'brand_2_id' => [
+                'required',
+                Rule::exists(Brand::class, 'id')->where(function ($query) {
+                    return $query->where('status', Brand::STATUS_ACTIVE);
                 })
             ],
 
@@ -125,6 +147,26 @@ class CarComparisonListRequest extends FormRequest
                 Rule::exists(CarVersion::class, 'id')->where(function ($query) {
                     return $query->where('status', Car::STATUS_ACTIVE);
                     
+                })
+            ],
+            'brand_id' => [
+                'nullable',
+                Rule::exists(Brand::class, 'id')->where(function ($query) {
+                    return $query->where('status', Brand::STATUS_ACTIVE);
+                })
+            ],
+
+            'brand_1_id' => [
+                'required',
+                Rule::exists(Brand::class, 'id')->where(function ($query) {
+                    return $query->where('status', Brand::STATUS_ACTIVE);
+                })
+            ],
+
+            'brand_2_id' => [
+                'required',
+                Rule::exists(Brand::class, 'id')->where(function ($query) {
+                    return $query->where('status', Brand::STATUS_ACTIVE);
                 })
             ],
 

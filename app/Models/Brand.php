@@ -46,6 +46,11 @@ class Brand extends Model
     {
         return $this->hasMany(News::class);  
     }
+
+    public function carComparisonList()
+    {
+        return $this->hasMany(CarComparisonList::class);  
+    }
      /*
     |--------------------------------------------------------------------------
     | Local Scopes

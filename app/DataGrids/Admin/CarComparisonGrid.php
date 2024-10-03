@@ -15,6 +15,11 @@ class CarComparisonGrid extends Grid
             ->leftJoin('cars as c', 'c.id', 'car_comparison_lists.car_id')
             ->leftJoin('cars as c1', 'c1.id', 'car_comparison_lists.car_1_id')
             ->leftJoin('cars as c2', 'c2.id', 'car_comparison_lists.car_2_id')
+
+            ->leftJoin('brands as b', 'b.id', 'car_comparison_lists.brand_id')
+            ->leftJoin('brands as b1', 'b1.id', 'car_comparison_lists.brand_1_id')
+            ->leftJoin('brands as b2', 'b2.id', 'car_comparison_lists.brand_2_id')
+
             ->leftJoin('car_versions as v1', 'v1.id', 'car_comparison_lists.car_version_1_id')
             ->leftJoin('car_versions as v2', 'v2.id', 'car_comparison_lists.car_version_2_id')
             ->select([
@@ -28,6 +33,16 @@ class CarComparisonGrid extends Grid
                 'v1.varient_name as version_1_name',
                 'v2.id as version_2_id',
                 'v2.varient_name as version_2_name',
+
+                'b.id as brand_id',
+                'b.name as brand_name',
+                
+                'b1.id as brand_1_id',
+                'b1.name as brand_1_name',
+
+                'b2.id as brand_2_id',
+                'b2.name as brand_2_name',
+
                 'car_comparison_lists.*'
             ])
             ->orderByDesc('car_comparison_lists.id');
@@ -52,6 +67,19 @@ class CarComparisonGrid extends Grid
                 }
             }
         ],
+
+            'brand_id' => [
+                'label' => 'Brand',
+                'value' => function ($model) {
+                    return $model->brand_name;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'b.name',
+
+                ]
+            ],
            
             'car_id' => [
                 'label' => 'Car Model',
@@ -65,6 +93,18 @@ class CarComparisonGrid extends Grid
                 },
             ],
 
+            'brand_1_id' => [
+                'label' => 'Brand 1',
+                'value' => function ($model) {
+                    return $model->brand_1_name;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'b1.name',
+                ]
+            ],
+
             'car_1_id' => [
                 'label' => 'Car Model 1',
                 'filter' => true,
@@ -76,17 +116,29 @@ class CarComparisonGrid extends Grid
                     return $model->car_1_model_name;
                 },
             ],
-            'car_version_1_id ' => [
-                'label' => 'Car Version 1',
+            // 'car_version_1_id ' => [
+            //     'label' => 'Car Version 1',
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'type' => 'text',
+            //         'attribute' => 'v1.id',
+            //     ],
+            //     'value' => function ($model) {
+            //         return $model->version_1_name ;
+            //     },
+            // ],
+            'brand_2_id' => [
+                'label' => 'Brand 2',
+                'value' => function ($model) {
+                    return $model->brand_2_name;
+                },
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'v1.id',
-                ],
-                'value' => function ($model) {
-                    return $model->version_1_name ;
-                },
+                    'attribute' => 'b2.name',
+                ]
             ],
+
             'car_2_id' => [
                 'label' => 'Car Model 2',
                 'filter' => true,
@@ -98,17 +150,17 @@ class CarComparisonGrid extends Grid
                     return $model->car_2_model_name;
                 },
             ],
-            'car_version_2_id ' => [
-                'label' => 'Car Version 2',
-                'filter' => true,
-                'filterOptions' => [
-                    'type' => 'text',
-                    'attribute' => 'v2.id',
-                ],
-                'value' => function ($model) {
-                    return $model->version_2_name;
-                },
-            ],
+            // 'car_version_2_id ' => [
+            //     'label' => 'Car Version 2',
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'type' => 'text',
+            //         'attribute' => 'v2.id',
+            //     ],
+            //     'value' => function ($model) {
+            //         return $model->version_2_name;
+            //     },
+            // ],
             'action' => [
                 'routePrefix' => 'admin.comparison',
                 'contentCssClass' => 'grid-action-col',

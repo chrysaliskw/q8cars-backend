@@ -33,6 +33,7 @@ class CarComparisonListsController extends Controller
      */
     public function store(CarComparisonListRequest $request)
     {
+        // dd($request->all());
 
         try {
             CarComparisonList::create(
@@ -43,6 +44,9 @@ class CarComparisonListsController extends Controller
                     'car_version_1_id' => $request->car_version_1_id,
                     'car_2_id' => $request->car_id_2,
                     'car_version_2_id' => $request->car_2_version_id,
+                    'brand_id' => $request->brand_id,
+                    'brand_1_id' => $request->brand_1_id,
+                    'brand_2_id' => $request->brand_2_id,
                 ]
 
             );
@@ -63,10 +67,16 @@ class CarComparisonListsController extends Controller
         $id = $carComparisonList->id;
 
         $viewData = [
+
             'page' => $carComparisonList->page == 1 ? 'Home Page' : 'Detailed Page',
+            'Main Brand' => $carComparisonList->brand->name ?? 'N/A',
             'Car Model' => $carComparisonList->car->model_name ?? 'N/A',
+
+            'Brand 1' => $carComparisonList->brand1->name ?? 'N/A',
             'Car 1 Model' => $carComparisonList->car1->model_name ?? 'N/A',
             'Car version 1' => $carComparisonList->version1 ? $carComparisonList->version1->varient_name : 'N/A',
+
+            'Brand 2' => $carComparisonList->brand2->name ?? 'N/A',
             'Car 2 Model' => $carComparisonList->car2->model_name ?? 'N/A',
             'Car version 2' => $carComparisonList->version2 ? $carComparisonList->version2->varient_name : 'N/A',
         ];
@@ -76,14 +86,11 @@ class CarComparisonListsController extends Controller
     public function edit(string $id)
     {
         $carComparisonList = CarComparisonList::find($id);
-
-        // Ensure the object exists before accessing its properties
         if (!$carComparisonList) {
             return redirect()->route('admin.comparison.index')->with('error', 'Car comparison not found.');
         }
 
 
-        // Prepare current car and versions if they exist
         $currentCarModel = $carComparisonList->car ? json_encode([
             'id' => $carComparisonList->car_id,
             'text' => $carComparisonList->car->model_name
@@ -97,6 +104,11 @@ class CarComparisonListsController extends Controller
         $currentCarModel2 = $carComparisonList->car2 ? json_encode([
             'id' => $carComparisonList->car_2_id,
             'text' => $carComparisonList->car2->model_name
+        ]) : null;
+
+        $currentbrand1 = $carComparisonList->brand1 ? json_encode([
+            'id' => $carComparisonList->brand_1_id,
+            'text' => $carComparisonList->brand1->name
         ]) : null;
 
         $currentCarVersion1 = $carComparisonList->version1 ? json_encode([
@@ -114,6 +126,16 @@ class CarComparisonListsController extends Controller
             'text' => $carComparisonList->page == 1 ? 'Home Page' : 'Detailed Page'
         ]) : null;
 
+        $currentbrand = $carComparisonList->brand ? json_encode([
+            'id' => $carComparisonList->brand_id,
+            'text' => $carComparisonList->brand->name
+        ]) : null;
+        $currentbrand2 = $carComparisonList->brand2 ? json_encode([
+            'id' => $carComparisonList->brand_2_id,
+            'text' => $carComparisonList->brand2->name
+        ]) : null;
+
+
         return view('admin.comparison.edit', compact(
             'carComparisonList',
             'currentCarModel',
@@ -121,7 +143,10 @@ class CarComparisonListsController extends Controller
             'currentCarModel2',
             'currentCarVersion1',
             'currentCarVersion2',
-            'currentPage'
+            'currentPage',
+            'currentbrand',
+            'currentbrand1',
+            'currentbrand2',
         ));
     }
     /**
@@ -140,6 +165,9 @@ class CarComparisonListsController extends Controller
                     'car_version_1_id' => $request->car_version_1_id,
                     'car_2_id' => $request->car_id_2,
                     'car_version_2_id' => $request->car_2_version_id,
+                    'brand_id' => $request->brand_id,
+                    'brand_1_id' => $request->brand_1_id,
+                    'brand_2_id' => $request->brand_2_id,
                 ]
             );
 

@@ -1,24 +1,24 @@
-<x-admin-layout title="Car Comparison">
+<x-admin-layout title="Offers">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ route('admin.comparison.index') }}">Car Comparison</a></li>
+        <li><a href="{{ route('admin.offers.index') }}">Offers</a></li>
         <li class="active">View</li>
     </x-slot>
-    
+
     <x-card title="">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-12">
                 <div class="card card-border card-primary">
                     <div class="card-header">
                         <div class="m-b-30">
-                            <a href="{{ route('admin.comparison.edit', $id) }}"
+                            <a href="{{ route('admin.offers.edit', $offer) }}"
                             class="btn btn-primary waves-effect waves-light"><i class="fa fa-pencil"></i> Edit</a>
                             <a href="#"
                                 onclick="(function(){if(confirm('Are you sure?')){$('form#delete-form').submit()}})()"
                                 class="btn btn-danger btn-custom waves-effect waves-light"><i class="fa fa-trash"></i>
                                 Delete</a>
                                 <form id="delete-form"
-                                action="{{ route('admin.comparison.destroy', $id) }}"
+                                action="{{ route('admin.offers.destroy', $offer) }}"
                                 method="POST" style="display: none;">
                                 @csrf
                                 @method('delete')
@@ -26,16 +26,14 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="form-horizontal">
                             @foreach($viewData as $key => $value)
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                        <label class="col-sm-4 control-label">{{ $key }}</label>
-                                        <div class="col-sm-8">
-                                           
-                                            {!! $value !!}
-                                
-                                        </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 control-label">{{ $key }}</label>
+                                    <div class="col-sm-8">
+
+                                        {!! $value !!}
+
                                     </div>
                                 </div>
                             @endforeach
