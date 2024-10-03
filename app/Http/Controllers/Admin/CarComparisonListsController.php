@@ -36,20 +36,26 @@ class CarComparisonListsController extends Controller
         // dd($request->all());
 
         try {
-            CarComparisonList::create(
-                [
-                    'page' => $request->page,
-                    'car_id' => $request->car_id,
-                    'car_1_id' => $request->car_id_1,
-                    'car_version_1_id' => $request->car_version_1_id,
-                    'car_2_id' => $request->car_id_2,
-                    'car_version_2_id' => $request->car_2_version_id,
-                    'brand_id' => $request->brand_id,
-                    'brand_1_id' => $request->brand_1_id,
-                    'brand_2_id' => $request->brand_2_id,
-                ]
-
-            );
+           if (CarComparisonList::where('car_id', $request->car_id)->exists()) {
+        return back()->withErrors(['car_id' => 'Main car comparison list already exists!'])->with('error',  'Main car comparison list already exists!')
+                     ->withInput();
+            }
+            else{
+                CarComparisonList::create(
+                    [
+                        'page' => $request->page,
+                        'car_id' => $request->car_id,
+                        'car_1_id' => $request->car_id_1,
+                        'car_version_1_id' => $request->car_version_1_id,
+                        'car_2_id' => $request->car_id_2,
+                        'car_version_2_id' => $request->car_2_version_id,
+                        'brand_id' => $request->brand_id,
+                        'brand_1_id' => $request->brand_1_id,
+                        'brand_2_id' => $request->brand_2_id,
+                    ]
+    
+                );
+            }
             return redirect()->route('admin.comparison.index')->with('success', 'New car comparison list created!');
         } catch (\Exception $ex) {
             return back()->with('error', __('app.error')  . ' ')->withInput();

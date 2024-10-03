@@ -182,6 +182,8 @@ class CarComparisonListRequest extends FormRequest
     {
         return [
             'required' => 'This field is required.',
+            'car_id.exists' => 'Main car comparison list already exists!',
+
         ];
     }
 }
