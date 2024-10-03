@@ -173,13 +173,14 @@ class CarController extends ApiBaseController
     private function getKeyFeatures(Car $car,Request $request)
     {
         $res = [];
-      
+       
         if($request->car_version_id)
         {
             $carVersion = CarVersion::find($request->car_version_id);
         }else{
             $carVersion = $car->carSpec;
         }
+        $res['Fuel Tank Capacity'] = $carVersion->fuel_tank_capacity.' L';
         if($carVersion->keyFeature){
             foreach($carVersion->keyFeature as $feature)
             {

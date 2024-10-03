@@ -95,7 +95,10 @@
                 <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ old('no_of_airbags') }}">
                 </x-form-input>
             </div>
-           
+            <div class="col-md-4">
+                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity(L)*" value="{{ old('fuel_tank_capacity') }}">
+                </x-form-input>
+            </div>
          {{--   <div class="col-md-4">
                 <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)*" value="{{ old('acceleration') }}">
                 </x-form-input>

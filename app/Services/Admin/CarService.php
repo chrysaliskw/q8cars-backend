@@ -117,7 +117,7 @@ class CarService
         // $this->car->height = $this->data['height'];
         // $this->car->boot_space = $this->data['boot_space'];
         // $this->car->power_windows = $this->data['power_windows'];
-        // $this->car->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
+         $this->car->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
         // $this->car->seat_upholstery = $this->data['seat_upholstery'];
         $this->car->seat_capacity = $this->data['seat_capacity'];
         // $this->car->safety_ratings = $this->data['safety_ratings'];
@@ -190,7 +190,7 @@ class CarService
         // $this->version->top_speed = $this->data['top_speed'];
         $this->version->mileage = $this->data['mileage'];
         // $this->version->emission_norm_complains = $this->data['emission_norm_complains'];
-        // $this->version->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
+        $this->version->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
         $this->version->fuel_type = 1;
         // $this->version->front_suspension = $this->data['front_suspension'];
         // $this->version->rear_suspension = $this->data['rear_suspension'];
