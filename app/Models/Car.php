@@ -82,6 +82,12 @@ class Car extends Model
     {
         return $this->hasMany(CarImage::class)->where('type', CarImage::TYPE_VIDEO);
     }
+
+    public function carComparisonLists()
+    {
+        return $this->hasMany(CarComparisonList::class);
+    }
+    
     /*
     |--------------------------------------------------------------------------
     | Local Scopes

@@ -172,7 +172,7 @@ class NewsPostController extends Controller
                 News::where('id', $id)->update(['show_in_detail_page' => News::DISPLAY_BANNER]);
             } else {
                 $news->update($request->all());
-                return redirect()->route('admin.news.index')->with('error', 'You cant select the banner which are are inactive!');
+                return redirect()->route('admin.news.index')->with('error', 'Inactive news cannot be set as a banner news');
             }
 
             return redirect()->route('admin.news.index')->with('success', 'News updated successfully!');
