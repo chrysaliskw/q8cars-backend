@@ -36,11 +36,11 @@ class CarComparisonListsController extends Controller
         // dd($request->all());
 
         try {
-           if (CarComparisonList::where('car_id', $request->car_id)->exists()) {
-        return back()->withErrors(['car_id' => 'Main car comparison list already exists!'])->with('error',  'Main car comparison list already exists!')
-                     ->withInput();
-            }
-            else{
+            if (CarComparisonList::where('car_id', $request->car_id)->exists()) {
+                return back()->withErrors(['car_id' => 'Main car comparison list already exists!'])
+                    ->with('error',  'Main car comparison list already exists!')
+                    ->withInput();
+            } else {
                 CarComparisonList::create(
                     [
                         'page' => $request->page,
@@ -53,7 +53,7 @@ class CarComparisonListsController extends Controller
                         'brand_1_id' => $request->brand_1_id,
                         'brand_2_id' => $request->brand_2_id,
                     ]
-    
+
                 );
             }
             return redirect()->route('admin.comparison.index')->with('success', 'New car comparison list created!');

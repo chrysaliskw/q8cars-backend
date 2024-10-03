@@ -27,18 +27,31 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach($viewData as $key => $value)
-                                <div class="col-md-4">
-                                    <div class="form-group row">
-                                        <label class="col-sm-4 control-label">{{ $key }}</label>
-                                        <div class="col-sm-8">
-                                           
-                                            {!! $value !!}
-                                
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                            <table class="table table-bordered table-striped table-hover ">
+                                <thead style="color: #bc1d1d; font-weight: bold;">
+                                    <tr style="color: #bc1d1d; font-weight: bold;">
+                                        <th>MAIN CAR</th>
+                                        <th>CAR 1</th>
+                                        <th>CAR 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($viewData as $key => $value)
+                                        @if ($loop->index % 3 == 0) 
+                                            <tr>
+                                        @endif
+                                            <td>
+                                                <strong>{{ $key }}</strong>: {!! $value !!}
+                                            </td>
+                                        @if ($loop->index % 3 == 2 || $loop->last) 
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            
+                            
+
                         </div>
                     </div>
                 </div>
