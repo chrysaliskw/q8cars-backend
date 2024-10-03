@@ -53,7 +53,7 @@ class HomeController extends ApiBaseController
             if($list->car_version_2_id) {
                 $car2 = new CarVersionResource(CarVersion::find($list->car_version_2_id));
             }
-
+            $result[$i]['id'] = $list->id;
             $result[$i]['car_1'] = $car1;
             $result[$i]['car_2'] = $car2;
             $i++;
