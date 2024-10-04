@@ -36,7 +36,8 @@ class CarComparisonListsController extends Controller
         // dd($request->all());
 
         try {
-            if (CarComparisonList::where('car_id', $request->car_id)->exists()) {
+            
+            if (CarComparisonList::where('car_id', $request->car_id)->exists() && CarComparisonList::where('page', $request->page == CarComparisonList::CAR_DETAIL_PAGE )->exists()) {
                 return back()->withErrors(['car_id' => 'Main car comparison list already exists!'])
                     ->with('error',  'Main car comparison list already exists!')
                     ->withInput();
