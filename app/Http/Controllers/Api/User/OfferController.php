@@ -10,6 +10,8 @@ use App\Http\Resources\OfferResource;
 use App\Models\Car;
 use App\Models\Offer;
 use App\Http\Resources\OfferDetailsResource;
+use App\Models\News;
+use App\Http\Resources\NewsResource;
 
 class OfferController extends ApiBaseController
 {
@@ -19,6 +21,7 @@ class OfferController extends ApiBaseController
         $data['popular_offers']= $this->getPopularOffers($request);
         $data['recent_offers'] = $this->getRecentOffers($request);
         $data['suggested_offers'] = $this->getSuggestedOffers($request);
+        $data['latest_news'] = $this->getLatestdNews();
         return $this->success(['data' => $data], 'Offer listing!', Response::HTTP_OK);
     }
 
@@ -37,10 +40,12 @@ class OfferController extends ApiBaseController
                 ->first();
         }
         if($offer){
-            $data = OfferDetailsResource::make($offer);
+            $data['offer'] = OfferDetailsResource::make($offer);
+            $data['latest_news'] = $this->getLatestdNews($offer);
         }else{
             $data =[];
         }
+
         return $this->success(['data' =>  $data], 'Offer Details!', Response::HTTP_OK);
     }
 
@@ -112,5 +117,25 @@ class OfferController extends ApiBaseController
             ->orderBy('id','Desc')
             ->paginate(10);
         return OfferResource::collection($offers); 
+    }
+    private function getLatestdNews(Offer $offer = null)
+    {
+        if($offer)
+        {
+            $result = News::active()->published()->where('car_id', $offer->car_id)->limit(4)->orderBy('posted_time', 'desc')->get();
+        }else{
+            $carIds = Offer::active()
+            ->where('start_date', '<=', today()) 
+            ->where('end_date', '>=',today())
+            ->orderBy('view_count','Desc')
+            ->pluck('car_id');
+            $result = News::active()->published()->whereIn('car_id', $carIds)->limit(4)->orderBy('posted_time', 'desc')->get();
+        }
+      
+        if($result){
+            return NewsResource::collection($result);
+        }else{
+            return [];
+        }
     }
 }
