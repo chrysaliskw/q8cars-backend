@@ -61,6 +61,9 @@ class CarController extends Controller
             $rules["text_value_$i"] = 'nullable|string';
             $rules["bool_value_$i"] = 'nullable|integer';
             $rules["units_$i"] = 'nullable|string';
+            $rules["key_feature_$i"] = 'nullable|integer';
+            $rules["key_spec_$i"] = 'nullable|integer';
+            $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';
         }
         
         // Apply the validator with dynamic rules
@@ -71,6 +74,9 @@ class CarController extends Controller
             'text_value_.*' => 'value',
             'bool_value_.*' => 'value',
             'units_.*' => 'units',
+            'key_feature.*' => 'key feature',
+            'key_spec.*' => 'key spec',
+            'icon.*' => 'icon',
         ]);
         
         if ($validator->fails()) {
@@ -102,6 +108,7 @@ class CarController extends Controller
         $validatedData = $request->validate($rules);
         $data = array_merge($data, $validatedData);
         $data['row_count'] = $rows;
+        // dd($data);
         try 
         {
             $service = new CarService($data);
@@ -190,7 +197,7 @@ class CarController extends Controller
         for ($i = $carVarient->carAdditionalSpecifications->count() + 1; $i <= 10; $i++) {
             $additionals->push(new CarAdditonalSpecifications());
         }
-
+// dd($additionals[0]);
         $currentProfessions = [];
         $selectedProfessionCount = 0;
         if($car->professions) {
@@ -244,15 +251,19 @@ class CarController extends Controller
     {
         $rows = $request->row_count;
       
-
         $rules = [];
         for ($i = 0; $i < $rows; $i++) {
+            $rules["attribute_id_$i"] = 'nullable|integer';
             $rules["attribute_$i"] = 'nullable|string|max:255';
             $rules["input_type_$i"] = ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])];
             $rules["section_$i"] = 'nullable|integer';
             $rules["text_value_$i"] = 'nullable|string';
             $rules["bool_value_$i"] = 'nullable|integer';
             $rules["units_$i"] = 'nullable|string';
+            $rules["key_feature_$i"] = 'nullable|integer';
+            $rules["key_spec_$i"] = 'nullable|integer';
+            $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';
+
         }
         
         // Apply the validator with dynamic rules
@@ -263,6 +274,9 @@ class CarController extends Controller
             'text_value_.*' => 'value',
             'bool_value_.*' => 'value',
             'units_.*' => 'units',
+            'key_feature.*' => 'key feature',
+            'key_spec.*' => 'key spec',
+            'icon.*' => 'icon',
         ]);
         
         if($validator->fails()) {
@@ -292,7 +306,7 @@ class CarController extends Controller
         $data['update'] = 1;
         $carVarient = $car->carSpec;
         $data['row_count'] = $rows;
-        
+       // dd($data);
         try 
         {
             $service = new CarService($data, $car,$carVarient);
@@ -384,16 +398,20 @@ class CarController extends Controller
 
     public function setAttributes($array,$rows)
     {
-        // dd($array);
+    //    dd($array);
         $data['section'] = [];
         $data['attribute'] = [];
         $data['input_type'] = [];
         $data['text_value'] = [];
         $data['units'] = [];
         $data['attribute_id'] = [];
+        $data['key_feature'] = [];
+        $data['key_spec'] = [];
+        $data['icon'] = [];
         $j = 0;
-
+     
         for($i = 0 ; $i < $rows; $i++) {
+            // dd($array['key_feature_'.$i]);
             $data['section'][$j] = $array['section_'. $i] ??'';
             $data['attribute'][$j] = $array['attribute_'. $i];
             $data['input_type'][$j] = isset($array['input_type_'. $i])&&($array['input_type_'. $i] == 1) ? 1: 2;
@@ -401,6 +419,9 @@ class CarController extends Controller
             $data['bool_value'][$j] =  isset($array['input_type_'. $i])&&($array['input_type_'. $i] == 2) ? $array['bool_value_'.$i]: null;
             $data['units'][$j] = $array['units_'. $i] ??'';
             $data['attribute_id'][$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;
+            $data['key_feature'][$j] = isset($array['key_feature_'. $i]) ? $array['key_feature_'. $i]: 0;
+            $data['key_spec'][$j] = isset($array['key_spec_'. $i]) ? $array['key_spec_'. $i]: 0;
+            $data['icon'][$j] = isset($array['icon_'. $i]) ? $array['icon_'. $i]: null;
             $j++;
         }
 

@@ -148,6 +148,10 @@ class CarVersionController extends Controller
             $rules["text_value_$i"] = 'nullable|string';
             $rules["bool_value_$i"] = 'nullable|integer';
             $rules["units_$i"] = 'nullable|string';
+            $rules["key_feature_$i"] = 'nullable|integer';
+            $rules["key_spec_$i"] = 'nullable|integer';
+            $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';
+
         }
         
         // Apply the validator with dynamic rules
@@ -158,6 +162,9 @@ class CarVersionController extends Controller
             'text_value_.*' => 'value',
             'bool_value_.*' => 'value',
             'units_.*' => 'units',
+            'key_feature.*' => 'key feature',
+            'key_spec.*' => 'key spec',
+            'icon.*' => 'icon',
         ]);
         
         if($validator->fails()) {
@@ -178,6 +185,7 @@ class CarVersionController extends Controller
 
         $data = array_merge($request->validated(), $attributeData);  
         $data['row_count']= $rows; 
+        $data['update']= 1; 
         $car = $carVersion->car;
         if($carVersion->is_car_spec == CarVersion::CAR_SPECIFICATION) {
             $carVersion = null;
@@ -189,7 +197,7 @@ class CarVersionController extends Controller
            
             if(isset($data['attribute']))
             {
-                CarAdditonalSpecifications::where('car_id',$car->id)->where('car_version_id',$carVersion->id)->delete();
+                // CarAdditonalSpecifications::where('car_id',$car->id)->where('car_version_id',$carVersion->id)->delete();
                 $service->saveCategoryAttributes();
             }
           
@@ -247,6 +255,9 @@ class CarVersionController extends Controller
         $data['text_value'] = [];
         $data['units'] = [];
         $data['attribute_id'] = [];
+        $data['key_feature'] = [];
+        $data['key_spec'] = [];
+        $data['icon'] = [];
         $j = 0;
 
         for($i = 0 ; $i < $rows; $i++) {
@@ -257,6 +268,9 @@ class CarVersionController extends Controller
             $data['bool_value'][$j] =  isset($array['input_type_'. $i])&&($array['input_type_'. $i] == 2) ? $array['bool_value_'.$i]: null;
             $data['units'][$j] = $array['units_'. $i] ??'';
             $data['attribute_id'][$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;
+            $data['key_feature'][$j] = isset($array['key_feature_'. $i]) ? $array['key_feature_'. $i]: 0;
+            $data['key_spec'][$j] = isset($array['key_spec_'. $i]) ? $array['key_spec_'. $i]: 0;
+            $data['icon'][$j] = isset($array['icon_'. $i]) ? $array['icon_'. $i]: null;
             $j++;
         }
 

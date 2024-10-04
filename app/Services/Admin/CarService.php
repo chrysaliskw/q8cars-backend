@@ -593,6 +593,17 @@ class CarService
             $categoryAttribute->specification = $this->data['attribute'][$index];
             $categoryAttribute->category_id = $this->data['section'][$index];
             $categoryAttribute->unit = $this->data['units'][$index];
+            $categoryAttribute->is_key_feature = $this->data['key_feature'][$index];
+            $categoryAttribute->is_key_spec = $this->data['key_spec'][$index];
+            if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index])) 
+            {
+                $categoryAttribute->key_icon = $this->data['icon'][$index] !== null ? $this->uploadKeyIcon($this->data['icon'][$index]) : $categoryAttribute->key_icon ;
+            }
+            else
+            {
+                $categoryAttribute->key_icon = $this->data['icon'][$index] !== null ? $this->uploadKeyIcon($this->data['icon'][$index]) :'';
+            }
+          
             if($this->data['input_type'][$index] == CarAdditonalSpecifications::TYPE_TEXT) {
                 $categoryAttribute->value = $this->data['text_value'][$index];
             }else {
@@ -627,5 +638,14 @@ class CarService
         //     $ids = array_diff($ids, $idsNotTodelete);
        
         CarAdditonalSpecifications::destroy($ids);
+    }
+    private function uploadKeyIcon($image)
+    {
+        Log::info($image->path());
+        compressAndResizeImage($image->path(), $image->path());
+        $image->store(Car::FILE_DIR);
+        $hashedFileName = $image->hashName();
+      
+        return $hashedFileName;                                    
     }
 }

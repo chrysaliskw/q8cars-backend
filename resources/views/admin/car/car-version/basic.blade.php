@@ -244,6 +244,18 @@
                         <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ $carVarient->no_of_airbags }}">
                         </x-form-input>
                     </div>
+                    <div class="col-md-4">
+                        <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity*" value="{{ $carVarient->fuel_tank_capacity }}">
+                        </x-form-input>
+                    </div>
+                    <div class="col-md-4">
+                        <x-form-select field="fuel_type" field-name="Fuel Type*" defaultPrompt="Select fuel type">
+                            @foreach ($selectedFuelTypes as $value => $label)
+                                <option {{ $carVarient->fuel_type == $value ? 'Selected' : '' }} value="{{ $value }}">
+                                    {{ $label }}</option>
+                            @endforeach
+                        </x-form-select>
+                    </div>
                    {{-- <div class="col-md-4">
                         <x-form-input type="text" field="drive_train" field-name="Drive train*" value="{{ $carVarient->drive_train }}">
                         </x-form-input>
@@ -308,14 +320,7 @@
                     </div> 
                     --}}
 
-                    <div class="col-md-4">
-                        <x-form-select field="fuel_type" field-name="Fuel Type*" defaultPrompt="Select fuel type">
-                            @foreach ($selectedFuelTypes as $value => $label)
-                                <option {{ $carVarient->fuel_type == $value ? 'Selected' : '' }} value="{{ $value }}">
-                                    {{ $label }}</option>
-                            @endforeach
-                        </x-form-select>
-                    </div>
+                   
                 </div>
             </div>
         </div>

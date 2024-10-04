@@ -180,11 +180,13 @@ class CarController extends ApiBaseController
         }else{
             $carVersion = $car->carSpec;
         }
-        $res['Fuel Tank Capacity'] = $carVersion->fuel_tank_capacity.' L';
+        $res['Fuel Tank Capacity']['value'] = $carVersion->fuel_tank_capacity.' L';
+        $res['Fuel Tank Capacity']['icon'] = asset('images/fuel_tank_capacity.png');
         if($carVersion->keyFeature){
             foreach($carVersion->keyFeature as $feature)
             {
-                $res[$feature->specification] = $feature->value .' '.$feature->unit;
+                $res[$feature->specification]['value'] = $feature->value .' '.$feature->unit;
+                $res[$feature->specification]['icon'] = $feature->key_icon ? file_asset('files-car',$feature->key_icon):'';
             }
         }
       

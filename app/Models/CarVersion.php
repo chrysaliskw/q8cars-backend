@@ -76,11 +76,11 @@ class CarVersion extends Model
     }
     public function keySpec()
     {
-        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_KEY_SPEC);
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('is_key_spec', CarAdditonalSpecifications::IS_KEY_SPEC);
     }
     public function keyFeature()
     {
-        return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_KEY_FEATURE);
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('is_key_feature', CarAdditonalSpecifications::IS_KEY_FEATUER);
     }
     /*
     |--------------------------------------------------------------------------

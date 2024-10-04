@@ -16,6 +16,9 @@
                                     <th>Value(Text)</th>
                                     <th>Value(Boolean)</th>
                                     <th>Units</th>
+                                    <th>Key Feature</th>
+                                <th>Key Spec</th>
+                                <th>Upload Icon</th>
                                 </tr>
                             </thead>
                             <tbody id="specification-rows">
@@ -56,6 +59,38 @@
                                         <td>
                                             <x-form-input type="text" field="units_{{$i}}" id="units_{{$i}}" class="validate" value="{{$additionals[$i]->unit}}"></x-form-input>
                                         </td>
+                                        <td>
+                                        <div class="form-check form-check-inline col-md-2">
+                                        <input class="form-check-input" type="checkbox" name="key_feature_{{$i}}"
+                                        id="key_feature_{{ $i }}" value="{{ $additionals[$i]->is_key_feature }}" {{ $additionals[$i]->is_key_feature == 1 ? 'checked' : '' }} onclick="toggleKeySpec({{$i}})">
+                                        &nbsp;<label class="form-check-label" for="key_feature_{{ $i }}"
+                                        style="color: black;"> 
+                                        </label></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-check-inline col-md-2">
+                                                    <input class="form-check-input" type="checkbox" name="key_spec_{{$i}}"
+                                                        id="key_spec_{{ $i }}" value="{{ $additionals[$i]->is_key_spec }}" {{ $additionals[$i]->is_key_spec  == 1 ? 'checked' : '' }} onclick="toggleKeySpec({{$i}})>
+                                                    &nbsp;<label class="form-check-label" for="key_spec__{{ $i }}"
+                                                        style="color: black;">
+                                                        
+                                                    </label>
+                                        </div> 
+                                    </td>
+                                    <td>
+                                    <div class="form-group">
+                    @php 
+                        $imageName = $additionals[$i]->key_icon;
+                    @endphp
+                    @if ($imageName)
+                    <div class="col-mod-4">
+                        <img src="{{ file_asset('files-car', $imageName) }}"
+                             alt="car-image" id="image-preview_{{ $i }}" class="img-thumbnail" width="50" height="50">
+                    </div>
+                    @endif
+                </div>
+                                        <input type="file" id="icon_{{$i}}" name="icon_{{$i}}" class="d-none" onchange="previewIcon({{$i}})">
+                                    </td>
                                         <td>
                                             <button type="button" class="btn btn-md btn-danger mt-4" title="Clear"
                                                 id="delete_btn_{{$i}}" data-id="{{$i}}" onclick="clearRow(this)">
@@ -119,6 +154,16 @@
              <td>
                 <x-form-input type="text" field="units_${rowCount}" id="units_${rowCount}" class="validate" ></x-form-input>
             </td>
+              <td>
+                 <x-form-checkbox field="key_feature_${rowCount}" id="key_feature_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
+                           
+            </td>
+            <td>
+               <x-form-checkbox field="key_spec_${rowCount}" id="key_spec_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
+                           
+            <td>
+                <input type="file" id="icon_${rowCount}" name="icon_${rowCount}" class="d-none" onchange="previewIcon(${rowCount})">
+            </td>
             <td>
                 <button type="button" class="btn btn-md btn-danger mt-4" title="Clear"
                     id="delete_btn_${rowCount}" data-id="${rowCount}" onclick="clearRow(this)">
@@ -130,5 +175,26 @@
         tableBody.appendChild(newRow); 
         rowCount++;
         document.getElementById('row_count').value = rowCount;
+    }
+    function toggleKeySpec(row) {
+        const keyFeatureCheckbox = document.getElementById(`key_feature_${row}`);
+        const keySpecCheckbox = document.getElementById(`key_spec_${row}`);
+        const iconUpload = document.getElementById(`icon_${row}`);
+
+        if (keyFeatureCheckbox.checked) {
+            keySpecCheckbox.checked = false;
+            keyFeatureCheckbox.value = 1;
+            keySpecCheckbox.value = 0;
+            iconUpload.classList.remove('d-none');
+        } else if (keySpecCheckbox.checked) {
+            keyFeatureCheckbox.checked = false;
+            keySpecCheckbox.value = 1;
+            keyFeatureCheckbox.value = 0;
+            iconUpload.classList.remove('d-none');
+        } else {
+            iconUpload.classList.add('d-none');
+            keyFeatureCheckbox.value = 0;
+            keySpecCheckbox.value = 0;
+        }
     }
 </script>

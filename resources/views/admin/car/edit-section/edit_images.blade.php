@@ -151,11 +151,7 @@
             preview.src = "";
             preview.style.display = "none";
             document.getElementById("image_" + index).value = "";
-            button.style.display = "none";
-
-
-
-           
+            button.style.display = "none";     
 
         });
     });

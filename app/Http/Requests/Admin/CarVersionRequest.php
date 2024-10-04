@@ -74,7 +74,7 @@ class CarVersionRequest extends FormRequest
             // 'top_speed' => 'required|string',
             'mileage' => 'required|numeric',
             // 'emission_norm_complains' => 'nullable|string',
-            // 'fuel_tank_capacity' => 'required|numeric|min:1|max:999999',
+            'fuel_tank_capacity' => 'required|numeric|min:1|max:999999',
             'fuel_type' => ['required', Rule::in(array_keys(config('params.car.fuel_type')))],
             // 'front_suspension' => 'nullable|string',
             // 'rear_suspension' => 'nullable|string',
