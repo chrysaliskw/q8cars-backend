@@ -9,22 +9,6 @@
         <div class="row">
         <x-form method="POST" action="{{ route('admin.offers.store') }}" class="form" enctype="multipart/form-data">
             @csrf
-            <div class="col-md-4">
-                <x-form-textarea field="title" field-name="Title" value="{{ old('title') }}"></x-form-textarea>
-            </div>
-            <div class="col-md-4">
-                <label for="image">Image</label>
-                <div class="col-md-9">
-                    <input id="image" type="file" name="image" class="form-control">
-                    <span class="error" role="alert">
-                        @error('image')
-                            {{ $message }}</br>
-                        @enderror
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-4" id="image-preview">
-            </div>
             <div class="row">
                 <div class="col-md-4">
                     <x-form-select field="brand_id" field-name="Brand" id="brand_id">
@@ -42,55 +26,113 @@
                     <input type="hidden" id="car_version_id_text" name="car_version_id_text" />
                 </div>
             </div>
+            <br>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <x-form-textarea field="key_feature_1" field-name="Key Feature 1" value="{{ old('key_feature_1') }}"></x-form-textarea>
+            <div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card text-center">
+                                            <label for="key_feature_1">Key Feature 1</label>
+                                            <div class="card-body">
+                                                <textarea class="summernote form-control" rows="9" name="key_feature_1">{{ old('key_feature_1') }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 text-center">
                         <x-form-input type="file" field="key_icon_1" field-name="Key Icon 1" value="{{ old('key_icon_1') }}">
                         </x-form-input>
                         <span class="text-muted">
                             {{'Max size : 2MB'}}
+                            <br>
+                            {{'Dimensions : 34x35'}}
                         </span>
                     </div>
-                    <div class="col-md-4">
-                        <x-form-textarea field="key_feature_2" field-name="Key Feature 2" value="{{ old('key_feature_2') }}"></x-form-textarea>
+                    <div class="row">
+                        <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="card text-center">
+                                            <label for="key_feature_2">Key Feature 2</label>
+                                            <div class="card-body">
+                                                <textarea class="summernote form-control" rows="9" name="key_feature_2">{{ old('key_feature_2') }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 text-center">
                         <x-form-input type="file" field="key_icon_2" field-name="Key Icon 2" value="{{ old('key_icon_2') }}">
                         </x-form-input>
                         <span class="text-muted">
                             {{'Max size : 2MB'}}
+                            <br>
+                            {{'Dimensions : 34x35'}}
                         </span>
                     </div>
+            </div>
+                <div class="row">
                     <div class="col-md-4">
-                        <x-form-textarea field="description" field-name="Description" value="{{ old('description') }}"></x-form-textarea>
+                        <x-form-textarea field="title" field-name="Title" field-value="{{ old('title') }}"></x-form-textarea>
                     </div>
                     <div class="col-md-4">
-                        <x-form-textarea field="html_description" field-name="HTML Description" value="{{ old('html_description') }}"></x-form-textarea>
+                        <div class="card text-center">
+                            <label for="description">Description</label>
+                            <div class="card-body">
+                                <textarea class="summernote form-control" rows="9" name="description">{{ old('description') }}</textarea>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <x-form-textarea field="offer" field-name="Offer" value="{{ old('offer') }}"></x-form-textarea>
+                        <x-form-input type="text" field="offer" field-name="Offer" field-value="{{ old('offer') }}"></x-form-input>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <x-form-input type="date" field="start_date" field-name="Start Date" value="{{ old('start_date') }}"></x-form-input>
+                        <div class="form-group">
+                            <label for="start_date" class="control-label">Start Date</label>
+                            <div class="input-group">
+                                <input type="text" name="start_date" id="start_date" class="form-control"
+                                    value="{{ old('start_date') }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="md md-event"></i></span>
+                                </div>
+                            </div>
+                            @error('start_date')
+                                <span class="error" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                     <div class="col-md-4">
-                        <x-form-input type="date" field="end_date" field-name="End Date" value="{{ old('end_date') }}"></x-form-input>
+                        <div class="form-group">
+                            <label for="end_date" class="control-label">End Date</label>
+                            <div class="input-group">
+                                <input type="text" name="end_date" id="end_date" class="form-control"
+                                    value="{{ old('end_date') }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="md md-event"></i></span>
+                                </div>
+                            </div>
+                            @error('end_date')
+                                <span class="error" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4">
-                    <x-form-select field="status" field-name="Status" defaultPrompt="Select status">
-                        @foreach (config('params.offers.status') as $value => $label)
-                            <option {{ old('status') == $value ? 'Selected' : '' }} value="{{ $value }}">
-                                {{ $label }}</option>
-                        @endforeach
-                    </x-form-select>
+                    <div class="col-md-4">
+                        <x-form-select field="status" field-name="Status" defaultPrompt="Select status">
+                            @foreach (config('params.offers.status') as $value => $label)
+                                <option {{ old('status') == $value ? 'Selected' : '' }} value="{{ $value }}">
+                                    {{ $label }}</option>
+                            @endforeach
+                        </x-form-select>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -112,6 +154,16 @@
     <script>
 
         jQuery(document).ready(function(){
+
+            $('#start_date').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
+
+            $('#end_date').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
 
             $('.summernote').summernote({
                 height: 200,                 // set editor height
@@ -136,6 +188,7 @@
 
         });
     </script>
+
         <script type="application/javascript">
 
             $('#brand_id').select2({

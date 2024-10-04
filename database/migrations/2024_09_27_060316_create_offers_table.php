@@ -29,7 +29,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->tinyInteger('status')->default(1);
             $table->integer('view_count')->default(0);
-            $table->integer('show_in_suggestions')->default(0);
+            $table->integer('show_in_suggestions')->default(2);
             $table->timestamps();
         });
     }

@@ -24,16 +24,14 @@ class OfferRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'image' => 'nullable|image|max:2048',
             'brand_id' => 'required|exists:brands,id',
             'car_id' => 'required|exists:cars,id',
             'car_version_id' => 'nullable|exists:car_versions,id',
             'key_feature_1' => 'nullable|string',
             'key_feature_2' => 'nullable|string',
-            'key_icon_1' => 'nullable|image|max:2048',
-            'key_icon_2' => 'nullable|image|max:2048',
+            'key_icon_1' => 'nullable|image|max:2048|dimensions:width=34,height=35',
+            'key_icon_2' => 'nullable|image|max:2048|dimensions:width=34,height=35',
             'description' => 'nullable|string',
-            'html_description' => 'nullable|string',
             'offer' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',

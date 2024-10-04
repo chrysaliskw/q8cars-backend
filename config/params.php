@@ -168,7 +168,7 @@ return [
         ],
         'show_in_suggestions' => [
             1 => 'Yes',
-            0 => 'No',
+            2 => 'No',
         ],
     ],
 ];

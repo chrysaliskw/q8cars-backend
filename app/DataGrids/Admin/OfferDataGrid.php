@@ -27,8 +27,8 @@ class OfferDataGrid extends Grid
                 'filter' => false,
                 'sort' => false,
                 'value' => function ($model) {
-                    if ($model->image) {
-                        $url = asset('storage/'. $model->image);
+                    if ($model->car->image) {
+                        $url = file_asset( 'files-car', $model->car->image);
                         return "<img src='{$url}' alt='car-img' class='img-thumbnail img-list'>";
                     }
                 }
