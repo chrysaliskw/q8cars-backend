@@ -74,7 +74,7 @@ class CarComparisonListsController extends Controller
 
         $viewData = [
 
-            'page' => $carComparisonList->page == 1 ? 'Home Page' : 'Detailed Page',
+            'Page' => $carComparisonList->page == 1 ? 'Home Page' : 'Detailed Page',
             'Main Brand' => $carComparisonList->brand->name ?? 'N/A',
             'Car Model' => $carComparisonList->car->model_name ?? 'N/A',
 

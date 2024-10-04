@@ -27,29 +27,36 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <table class="table table-bordered table-striped table-hover ">
+                            <table class="table table-bordered table-striped table-hover">
                                 <thead style="color: #bc1d1d; font-weight: bold;">
-                                    <tr style="color: #bc1d1d; font-weight: bold;">
+                                    <tr>
                                         <th>MAIN CAR</th>
                                         <th>CAR 1</th>
                                         <th>CAR 2</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($viewData as $key => $value)
-                                        @if ($loop->index % 3 == 0) 
-                                            <tr>
-                                        @endif
-                                            <td>
-                                                <strong>{{ $key }}</strong>: {!! $value !!}
-                                            </td>
-                                        @if ($loop->index % 3 == 2 || $loop->last) 
-                                            </tr>
-                                        @endif
-                                    @endforeach
+                                    <tr>
+                                        <td style="padding: 15px;">
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Brand</strong>: <span style="padding-left: 10px;">{!! $viewData['Main Brand'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Car</strong>: <span style="padding-left: 10px;">{!! $viewData['Car Model'] !!}</span>
+                                        </td>
+                                        <td style="padding: 15px;">
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 1</strong>: <span style="padding-left: 10px;">{!! $viewData['Brand 1'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 1 Model</strong>: <span style="padding-left: 10px;">{!! $viewData['Car 1 Model'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 1</strong>: <span style="padding-left: 10px;">{!! $viewData['Car version 1'] !!}</span>
+                                        </td>
+                                        <td style="padding: 15px;">
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 2</strong>: <span style="padding-left: 10px;">{!! $viewData['Brand 2'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 2 Model</strong>: <span style="padding-left: 10px;">{!! $viewData['Car 2 Model'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 2</strong>: <span style="padding-left: 10px;">{!! $viewData['Car version 2'] !!}</span>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                             
+                        
+
                             
 
                         </div>
