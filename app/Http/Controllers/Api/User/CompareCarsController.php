@@ -82,24 +82,24 @@ class CompareCarsController extends ApiBaseController
                 ],
             ];
     }
-    private function engineInfo($carVersion1,$carversion2)
+    private function engineInfo($carVersion1,$carVersion2)
     {
         $engineData = [
             'Engine Capacity' => [
                 'car_1' => $carVersion1->engine_capacity ,
-                'car_2' => $carversion2->engine_capacity ,
+                'car_2' => $carVersion2->engine_capacity ,
             ],
             'Tranmissioin Type' => [
                 'car_1' => config('params.car.transmission_type')[$carVersion1->transmission_type] ,
-                'car_2' => config('params.car.transmission_type')[$carversion2->transmission_type] ,
+                'car_2' => config('params.car.transmission_type')[$carVersion2->transmission_type] ,
             ],
             'Power' => [
                 'car_1' => $carVersion1->power ,
-                'car_2' => $carversion2->power , 
+                'car_2' => $carVersion2->power , 
             ],
             'Torque' => [
                 'car_1' => $carVersion1->torque ,
-                'car_2' => $carversion2->torque , 
+                'car_2' => $carVersion2->torque , 
             ],
         ];
         $engineDetailsCar1 = $carVersion1->engine ?? [];
@@ -115,16 +115,16 @@ class CompareCarsController extends ApiBaseController
         }
         return $engineData;
     }
-    private function fuelInfo($carVersion1,$carversion2)
+    private function fuelInfo($carVersion1,$carVersion2)
     {
         $fuelData = [
             'Fuel Type' => [
                 'car_1' => config('params.car.fuel_type')[$carVersion1->fuel_type] ,
-                'car_2' => config('params.car.fuel_type')[$carversion2->fuel_type] ,
+                'car_2' => config('params.car.fuel_type')[$carVersion2->fuel_type] ,
             ],
             'Mileage' => [
                'car_1' => $carVersion1->mileage.' kmpl',
-               'car_2' => $carversion2->mileage.' kmpl',
+               'car_2' => $carVersion2->mileage.' kmpl',
             ]
         ];
         $fuelDetailsCar1 = $carVersion1->fuel ?? [];
@@ -140,7 +140,7 @@ class CompareCarsController extends ApiBaseController
         }
         return $fuelData;
     }
-    private function suspensionInfo($carVersion1,$carversion2)
+    private function suspensionInfo($carVersion1,$carVersion2)
     {
         $suspensionData = [];
         $suspensionDetailsCar1 = $carVersion1->suspension ?? [];
@@ -172,7 +172,7 @@ class CompareCarsController extends ApiBaseController
         }
         return $dimensionData;
     }
-    private function comfortInfo($carVersion1,$carversion2)
+    private function comfortInfo($carVersion1,$carVersion2)
     {
         $comfortData = [];
         $comfortDetailsCar1 = $carVersion1->comfort ?? [];
@@ -188,7 +188,7 @@ class CompareCarsController extends ApiBaseController
         }
         return $comfortData;
     }
-    private function interiorInfo($carVersion1,$carversion2)
+    private function interiorInfo($carVersion1,$carVersion2)
     {
         $interiorData = [];
         $interiorDetailsCar1 = $carVersion1->interior ?? [];
@@ -204,7 +204,7 @@ class CompareCarsController extends ApiBaseController
         }
         return $interiorData;
     }
-    private function exteriorInfo($carVersion1,$carversion2)
+    private function exteriorInfo($carVersion1,$carVersion2)
     {
         $exteriorData = [];
         $exteriorDetailsCar1 = $carVersion1->exterior ?? [];
@@ -220,7 +220,7 @@ class CompareCarsController extends ApiBaseController
         }
         return $exteriorData;
     }
-    private function safetyInfo($carVersion1,$carversion2)
+    private function safetyInfo($carVersion1,$carVersion2)
     {
         $safetyData = [];
         $safetyDetailsCar1 = $carVersion1->safety ?? [];
@@ -236,7 +236,7 @@ class CompareCarsController extends ApiBaseController
         }
         return $safetyData;
     }
-    private function entertainmentInfo($carVersion1,$carversion2)
+    private function entertainmentInfo($carVersion1,$carVersion2)
     {
         $entertainmentData = [];
         $entertainmentDetailsCar1 = $carVersion1->entertainment ?? [];

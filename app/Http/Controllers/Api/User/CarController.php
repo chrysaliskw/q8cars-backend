@@ -205,75 +205,60 @@ class CarController extends ApiBaseController
 
     private function getKeySpecifications(Car $car)
     {
-        $data['Fuel Types'] = $this->getFuelTypes($car->fuel_types);
-        $data['Engine Capacity'] = $car->engine_capacity. ' cc';
-        $data['Power & Torque'] = $car->power. '-'. $car->torque. ' Bph';
-        $data['Seat Capacity'] = $car->seat_capacity.' Persons';
-        $data['Mileage'] = $car->mileage. ' klmp';
+        // $data['Fuel Types'] = $this->getFuelTypes($car->fuel_types);
+        // $data['Engine Capacity'] = $car->engine_capacity. ' cc';
+        // $data['Power & Torque'] = $car->power. '-'. $car->torque. ' Bph';
+        // $data['Seat Capacity'] = $car->seat_capacity.' Persons';
+        // $data['Mileage'] = $car->mileage. ' klmp';
+    
+        // Check if additional key specifications exist
         if($car->carSpec->keySpec)
         {
             foreach($car->carSpec->keySpec as $spec){
-            $data[$spec->specification] = $spec->value .' '. $spec->unit;
+                $data[$spec->specification] = $spec->value .' '. $spec->unit;
             }
         }
-        // $data['Torque'] = $car->torque. 'Bph';
-        // $data['Drivetrain'] = $car->drive_train;
-        // $data['Acceleration'] = $car->acceleration.' sec';
-        // $data['Top Speed'] = $car->top_speed.' kmph';
-      
-
+    
+        // Build the list with title, value, and icon
         $list = [];
-        $i=0;
+        $i = 0;
         foreach($data as $key => $value) {
+            $spec = isset($car->carSpec->keySpec[$i]) ? $car->carSpec->keySpec[$i] : null;
+          
             $list[$i]['title'] = $key;
             $list[$i]['value'] = $value;
-            $list[$i]['icon'] = $this->findImage($key);
+            $list[$i]['icon'] = $this->findImage($key, $spec);
             $i++;
         }
-
+    
         return $list;
-
-        // return [
-        //     'Fuel Types' => $this->getFuelTypes($car->fuel_types),
-        //     'Engine Capacity' => $car->engine_capacity. ' cc',
-        //     'Power' => $car->power. 'Bph',
-        //     'Torque' => $car->torque. 'Bph',
-        //     'Drive Train' => $car->drive_train,
-        //     'Acceleration' => $car->acceleration.' sec',
-        //     'Top Speed' => $car->top_speed.' kmph',
-        //     'Seat Capacity' => $car->seat_capacity,
-        //     'Mileage' => $car->mileage. ' klmp',
-        // ];
     }
-    private function findImage($key)
+    private function findImage($key, $spec = null)
     {
+     
+        if ($spec && isset($spec->key_icon)) {
+
+            $url = file_asset('files-car', $spec->key_icon);
+        }else{
+            $url = asset('images/Car.png');
+        }
+    
         switch ($key) {
             case 'Fuel Types':
-            return  asset('images/fuel_type.png');
-                break;
+                return asset('images/fuel_type.png');
             case 'Engine Capacity':
-                return  asset('images/engine.png');
-                break;
+                return asset('images/engine.png');
             case 'Power & Torque':
-                return  asset('images/power_torque.png');
-                break;
-            case 'Drive Train':
-                return  asset('images/drive_train.png');
-                break;
-            case 'Acceleration':
-                return  asset('images/acceleration.png');
-                break;
-            case 'Top Speed':
-                return  asset('images/top_speed.png');
-                break; 
+                return asset('images/power_torque.png');
             case 'Seat Capacity':
-                return  asset('images/seat_capacity.png');
-                break;     
+                return asset('images/seat_capacity.png');
+            case 'Mileage':
+                    return asset('images/mileage.png');
             default:
-                return  asset('images/avg_milage.png');
-                break;
+                return $url;
         }
     }
+        
 
     private function getSummary(Car $car)
     {
@@ -572,111 +557,27 @@ class CarController extends ApiBaseController
             ['key' => 7,
             'id' => 'exterior',
             'section' => 'Exterior',
-            'features' => [
-                // [
-                //     'title' => 'LED Taillights' ,                 
-                //     'value' =>   $varient->LED_Taillights ==1 ?'Yes':'No',
-                // ],
-                // [
-                //     'title' => 'Automatic Headlamps',
-                //     'value' => $varient->automatic_headlamps ==1 ?'Yes':'No',
-                // ],
-                // [
-                //    'title' => 'Adjustable Headlamps',
-                //    'value' => $varient->adjustable_headlamps ==1 ?'Yes':'No',
-                // ],
-                // [
-                //      'title' =>'LED DRLs',
-                //      'value'  => $varient->LED_DRLs ==1 ?'Yes':'No',
-                // ],
-                // [
-                //      'title' =>'Halogen Headlamps',
-                //      'value'  => $varient->Halogen_Headlamps ==1 ?'Yes':'No',
-                // ],
-                // [
-                //      'title' =>'LED Headlights',
-                //     'value'  => $varient->LED_Headlights ==1 ?'Yes':'No',
-                // ]
-            ],],
+            'features' => [],],
             ['key' => 8,
             'id' => 'safety',
             'section' => 'Safety',            
             'features' => [
-                // [
-                //     'title' => 'Engine Type', 
-                //     'value' => $varient->engine_type,               
-                // ],
+               
                 [
                     'title' => 'Safety Ratings',
                     'value' => $varient->safety_ratings,
                 ],
-                // [
-                //      'title' =>'Anti Theft Alarm',
-                //      'value' => $varient->anti_theft_alarm ==1 ?'Yes':'No',
-                // ],
+              
                 [
                    'title' => 'No of Airbags' ,
                    'value' => $varient->no_of_airbags,
                 ],
-                [
-                //     'title' => 'Passenger Airbags',
-                //     'value' => $varient->passenger_airbags,
-                // ],
-                // [
-                //     'title' =>'Driver Airbags',
-                //     'value' => $varient->driver_airbags,
-                // ],
-                // [
-                //     'title' =>'Child Safety Locks',
-                //     'value' => $varient->child_safety_locks ==1 ?'Yes':'No',
-                // ]
-            ],],
+                ],],
             ['key' => 9,
             'id' => 'entertainment',
             'section' => 'Entertainment & Communication',       
-            'features' => [
-                // [
-                //     'title' => 'Integrated Antenna', 
-                //     'value'=> $varient->integrated_antenna ==1 ?'Yes':'No',               
-                // ],
-                // [
-                //     'title' =>'Apple CarPlay',
-                //     'value' => $varient->apple_car_play ==1 ?'Yes':'No',
-                // ],
-                // [
-                //     'title'=> 'Touch Screen',
-                //     'value' => $varient->touch_screen ==1 ?'Yes':'No',
-                // ],
-                // [
-                //     'title'=> 'Speakers Rear' ,
-                //     'value'=> $varient->speakers_rear ==1 ?'Yes':'No',
-                // ],
-                // [
-                //     'title'=>'Speakers Front' ,
-                //     'value'=> $varient->speakers_front ==1 ?'Yes':'No',
-                // ],
-                // [
-                //      'title'=>'Radio',
-                //      'value' => $varient->radio ==1 ?'Yes':'No',
-                // ],
-                // [
-                //    'title'=> 'Android Auto',
-                //    'value' => $varient->android_auto ==1 ?'Yes':'No',
-                // ],
-                // [
-                //     'title'=> 'Digital Clock',
-                //     'value' => $varient->digital_clock ==1 ?'Yes':'No',
-                // ],
-                // [
-                //     'title' =>'USB & Auxiliary input',
-                //     'value' => $varient->usb_charger ==1 ?'Yes':'No',
-                // ],
-                // [                   
-                // 'title'=>'Bluetooth Connectivity',
-                // 'value' => $varient->bluetooth ==1 ?'Yes':'No',     
-                ]
-                ],]
-        ];
+            'features' => []],
+            ];
         $additionalSpecsMapping = [
             'engine-type' => $varient->engine,
             'fuel-type' => $varient->fuel,
@@ -706,94 +607,7 @@ class CarController extends ApiBaseController
         return $sections;
         
 
-        // $result['engine_and_transmission'] = [
-        //     'Engine Type' => $varient->engine_type,
-        //     'Valves Per Cylinder' => $varient->valves_per_cylinder,
-        //     'No of Cylinders' => $varient->no_of_cylinders,
-        //     'Bore x Stroke' => $varient->bore_stroke,
-        //     'Compression Ratio' => $varient->compression_ratio,
-        //     'Super Charge' => $varient->super_charge==1 ? 'Yes' : 'No',
-        //     'Transmission Type' => config('params.car.transmission_type')[$varient->transmission_type],
-        //     'Engine Capacity' => $varient->engine_capacity,
-        // ];
-
-        // $result['fuel_and_performance'] = [
-        //     'Fuel Type' => config('params.car.fuel_type')[$varient->fuel_type],
-        //     'Mileage' => $varient->mileage,
-        //     'Power' => $varient->power,
-        //     'Torque' => $varient->torque,
-        //     'Emission Norm Complains' => $varient->emission_norm_complains,
-        //     'Fuel Tank Capacity' => $varient->fuel_tank_capacity,
-        // ];
-
-        // $result['suspension_steering_brake'] = [
-            // 'Front Suspension' => $varient->front_suspension,
-            // 'Rear Suspension' => $varient->rear_suspension,
-            // 'Steering Type' => $varient->steering_type,
-            // 'Steering Column' => $varient->steering_column,
-            // 'Tuning Radius' => $varient->tuning_radius,
-            // 'Front Brake Type' => $varient->front_brake_type,
-            // 'Rear Brake Type' => $varient->rear_brake_type,
-            // 'Alloy Wheel Front' => $varient->alloy_wheel_front,
-            // 'Alloy Wheel Rear' => $varient->alloy_wheel_rear,
-            // 'Power Steering' => $varient->power_steering,
-        // ];
-
-        // $result['dimension_capacity'] = [
-        //     'Body Type' => $varient->bodyType->name,
-        //     'Length' => $varient->length,
-        //     'Width' => $varient->width,
-        //     'Height' => $varient->height,
-        // ];
-
-        // $result['comfort_convinience'] = [
-        //     'Seat Upholstery' => $varient->seat_upholstery,
-        //     'Seat Capacity' => $varient->seat_capacity,
-        //     'Air Conditioner' => $varient->air_conditioner,
-        //     'Wheel Covers' => $varient->wheel_covers,
-        //     '360 VieW Camera' => $varient->view_camera,
-        // ];
-
-        // $result['interior'] = [
-        //     'Boot Space' => $varient->boot_space,
-        //     'Tachometer' => $varient->tachometer,
-        //     'Electronic Multi Tripmeter' => $varient->electronic_multi_tripmeter,
-        //     'Digital Odometer' => $varient->digital_odometer,
-        // ];
-
-        // $result['exterior'] = [
-        //     'LED Taillights' => $varient->LED_Taillights,
-        //     'Automatic Headlamps' => $varient->automatic_headlamps,
-        //     'Adjustable Headlamps' => $varient->adjustable_headlamps,
-        //     'LED DRLs' => $varient->LED_DRLs,
-        //     'Halogen Headlamps' => $varient->Halogen_Headlamps,
-        //     'LED Headlights' => $varient->LED_Headlights,
-        // ];
-
-        // $result['safety'] = [
-        //     'Engine Type' => $varient->engine_type,
-        //     'Safety Ratings' => $varient->safety_ratings,
-        //     'Anti Theft Alarm' => $varient->anti_theft_alarm,
-        //     'No of Airbags' => $varient->no_of_airbags,
-        //     'Passenger Airbags' => $varient->passenger_airbags,
-        //     'Driver Airbags' => $varient->driver_airbags,
-        //     'Child Safety Locks' => $varient->child_safety_locks,
-        // ];
-
-        // $result['entertainment_and_comminication'] = [
-        //     'Integrated Antenna' => $varient->integrated_antenna,
-        //     'Apple CarPlay' => $varient->apple_car_play,
-        //     'Touch Screen' => $varient->touch_screen,
-        //     'Speakers Rear' => $varient->speakers_rear,
-        //     'Speakers Front' => $varient->speakers_front,
-        //     'Radio' => $varient->radio,
-        //     'Android Auto' => $varient->android_auto,
-        //     'Digital Clock' => $varient->digital_clock,
-        //     'USB & Auxiliary input' => $varient->usb_charger,
-        //     'Bluetooth Connectivity' => $varient->bluetooth,
-        // ];
-        
-        // return $result;
+       
     }
 
     private function getRelatedNews(Car $car)
