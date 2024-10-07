@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\NewsResource;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
-use App\Services\Api\User\SubmitReviewService;
+use App\Models\Car;
 use App\Http\Resources\ReviewResource;
 use App\Models\News;
+use App\Models\RecentSearch;
 use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
    
 class ReviewsAndNewsController extends ApiBaseController
 {
@@ -50,5 +50,12 @@ class ReviewsAndNewsController extends ApiBaseController
             ->limit(20)
             ->get();
         return  NewsResource::collection($result);
+    }
+
+    public function getSuggestions()
+    {
+        $data['recent-searches'] = RecentSearch::where('user_id',Auth::id())->orderBy('id','Desc')->limit(2)->pluck('key_word');
+        $data['trending-searches'] = Car::active()->orderBy('search_view_count','Desc')->limit(5)->pluck('model_name');
+        return $this->success(['data' => $data], 'Recent And Trending Seraches', Response::HTTP_OK);
     }
 }
