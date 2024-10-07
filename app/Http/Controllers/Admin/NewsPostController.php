@@ -45,7 +45,8 @@ class NewsPostController extends Controller
     public function store(NewsPostRequest $request)
     {
         $data = $request->validated();
-        try {
+        try
+        {
             $service = new NewsPostService($data);
             $post = $service->handleCreate();
         } catch (Exception $ex) {
@@ -126,7 +127,7 @@ class NewsPostController extends Controller
      */
     public function update(NewsPostRequest $request, News $news)
     {
-        try {
+        try{
             $service = new NewsPostService($request->validated());
             $service->post = $news;
             $news = $service->handleUpdate();
@@ -172,7 +173,7 @@ class NewsPostController extends Controller
                 News::where('id', $id)->update(['show_in_detail_page' => News::DISPLAY_BANNER]);
             } else {
                 $news->update($request->all());
-                return redirect()->route('admin.news.index')->with('error', 'You cant select the banner which are are inactive!');
+                return redirect()->route('admin.news.index')->with('error', 'Inactive news cannot be set as a banner news');
             }
 
             return redirect()->route('admin.news.index')->with('success', 'News updated successfully!');
