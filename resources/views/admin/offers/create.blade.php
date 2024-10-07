@@ -78,7 +78,7 @@
                         </span>
                     </div>
                     <div class="col-md-4">
-                        <x-form-input type="text" field="offer" field-name="Offer" field-value="{{ old('offer') }}"></x-form-input>
+                        <x-form-input type="text" field="offer" field-name="Offer" value="{{ old('offer') }}"></x-form-input>
                     </div>
                 </div>
                 <br>
