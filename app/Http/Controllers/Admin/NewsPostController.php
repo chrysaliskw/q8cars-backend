@@ -45,14 +45,12 @@ class NewsPostController extends Controller
     public function store(NewsPostRequest $request)
     {
         $data = $request->validated();
-        try
-        {
+        try {
             $service = new NewsPostService($data);
             $post = $service->handleCreate();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
-            throw($ex);
+            throw ($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
 
@@ -75,14 +73,14 @@ class NewsPostController extends Controller
             'Car Version' => empty($news->carVersion) ? 'NIL' : $news->carVersion->varient_name,
             'Image' => url(file_asset('files-news', $news->image)),
             'Content' => $news->html_content,
-            'Media Name' => $news->media_name ,
+            'Media Name' => $news->media_name,
             'Media Logo' => url(file_asset('files-news', $news->media_logo)),
             // 'Scheduled Date' => $news->scheduled_date ? dateTimeFormat($news->scheduled_date) : null,
             'Published Date' => dateTimeFormat($news->posted_time),
 
             'Expire On' => dateTimeFormat($news->expiry_date),
-        //   'Sort Order' => $news->sort_order,
-            'Read Time' => $news->read_time .' Min read',
+            //   'Sort Order' => $news->sort_order,
+            'Read Time' => $news->read_time . ' Min read',
             'Status' => config('params.news.status')[$news->status],
             'Created At' => dateTimeFormat($news->created_at),
             'Updated At' => dateTimeFormat($news->updated_at),
@@ -128,19 +126,17 @@ class NewsPostController extends Controller
      */
     public function update(NewsPostRequest $request, News $news)
     {
-         try
-         {
-             $service = new NewsPostService($request->validated());
-             $service->post = $news;
-             $news = $service->handleUpdate();
-         }
-         catch (Exception $ex) {
-             logger($ex);
-             throw($ex);
-             return back()->with('error', __('app.error'));
-         }
+        try {
+            $service = new NewsPostService($request->validated());
+            $service->post = $news;
+            $news = $service->handleUpdate();
+        } catch (Exception $ex) {
+            logger($ex);
+            throw ($ex);
+            return back()->with('error', __('app.error'));
+        }
 
-         return redirect()->route('admin.news.show', $news)->with('success', 'News updated successfully!');
+        return redirect()->route('admin.news.show', $news)->with('success', 'News updated successfully!');
     }
 
     /**
@@ -160,9 +156,28 @@ class NewsPostController extends Controller
         return redirect()->route('admin.news.index')->with('success', 'News deleted successfully!');
     }
 
+    public function updatebanner(Request $request, News $news)
+    {
 
 
+        try {
+            $id = $request->id;
+            $carId = News::find($id)->car_id;
+            $status = News::find($id)->status;
 
+            if ($status == News::STATUS_ACTIVE) {
+                News::where('car_id', $carId)
+                    ->update(['show_in_detail_page' => News::NOT_DISPLAY_BANNER]);
 
+                News::where('id', $id)->update(['show_in_detail_page' => News::DISPLAY_BANNER]);
+            } else {
+                $news->update($request->all());
+                return redirect()->route('admin.news.index')->with('error', 'You cant select the banner which are are inactive!');
+            }
 
+            return redirect()->route('admin.news.index')->with('success', 'News updated successfully!');
+        } catch (Exception $ex) {
+            return back()->with('error', __('app.error') . ' ')->withInput();
+        }
+    }
 }

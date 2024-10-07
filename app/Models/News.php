@@ -21,6 +21,12 @@ class News extends Model
 
     const TRENDING = 1;
     const NOT_TRENDING = 2;
+    
+    const SELECTED_BANNER = 1;
+    const NOT_SELECTED_BANNER = 2;
+
+    const DISPLAY_BANNER = 1;
+    const NOT_DISPLAY_BANNER = 2;
 
     const FILE_DIR = 'news';
 
