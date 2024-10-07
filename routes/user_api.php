@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
 use App\Http\Controllers\Api\User\OfferController;
 use App\Http\Controllers\Api\User\CompareCarsController;
+use App\Http\Controllers\Api\User\ReviewsAndNewsController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -68,6 +69,7 @@ Route::middleware('auth:user_api')->group(function () {
     Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','show']);
     //popular brand
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
+    Route::get('reviews-and-news',ReviewsAndNewsController::class);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
     
