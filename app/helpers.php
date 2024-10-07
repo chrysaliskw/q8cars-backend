@@ -310,6 +310,16 @@ if (! function_exists('get_time_ago'))
 	}
 }
 
+/**
+ * Function to format numbers as currency
+ */
+if (! function_exists('currency_formatter'))
+{
+    function currency_formatter($number) {
+		return 'KWD ' . number_format($number, 2);
+	}  
+}
+
 
 
 
