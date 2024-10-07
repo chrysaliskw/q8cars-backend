@@ -20,9 +20,9 @@ class NewsPostController extends Controller
      */
     public function index()
     {
-       
+
         $grid = new NewsPostDataGrid(request()->query());
-        
+
         return view('admin.news.post.index', compact('grid'));
     }
 
@@ -45,7 +45,7 @@ class NewsPostController extends Controller
     public function store(NewsPostRequest $request)
     {
         $data = $request->validated();
-        try 
+        try
         {
             $service = new NewsPostService($data);
             $post = $service->handleCreate();
@@ -79,7 +79,7 @@ class NewsPostController extends Controller
             'Media Logo' => url(file_asset('files-news', $news->media_logo)),
             // 'Scheduled Date' => $news->scheduled_date ? dateTimeFormat($news->scheduled_date) : null,
             'Published Date' => dateTimeFormat($news->posted_time),
-            
+
             'Expire On' => dateTimeFormat($news->expiry_date),
         //   'Sort Order' => $news->sort_order,
             'Read Time' => $news->read_time .' Min read',
@@ -87,7 +87,7 @@ class NewsPostController extends Controller
             'Created At' => dateTimeFormat($news->created_at),
             'Updated At' => dateTimeFormat($news->updated_at),
         ];
-        
+
         return view('admin.news.post.show', compact('news', 'viewData'));
     }
 
@@ -99,7 +99,7 @@ class NewsPostController extends Controller
      */
     public function edit(News $news)
     {
-        
+
         $currentBrand = null;
         $currentBrand = json_encode([
             'id' => $news->brand_id,
@@ -128,7 +128,7 @@ class NewsPostController extends Controller
      */
     public function update(NewsPostRequest $request, News $news)
     {
-         try 
+         try
          {
              $service = new NewsPostService($request->validated());
              $service->post = $news;
@@ -151,18 +151,18 @@ class NewsPostController extends Controller
      */
     public function destroy(News $news)
     {
-        try {  
+        try {
             $news->delete();
         } catch (Exception $ex) {
             return back()->with('error', __('app.error'))->withInput();
         }
- 
+
         return redirect()->route('admin.news.index')->with('success', 'News deleted successfully!');
     }
 
-   
 
- 
-   
-    
+
+
+
+
 }
