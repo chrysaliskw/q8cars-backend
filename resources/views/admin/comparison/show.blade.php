@@ -24,7 +24,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="card-body">
+                    {{-- <div class="card-body">
                         <div class="row">
                             <table class="table table-bordered table-striped table-hover">
                                 <thead style="color: #bc1d1d; font-weight: bold;">
@@ -66,7 +66,62 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div> --}}
+
+                    <div class="card-body">
+                        <div class="row">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead style="color: #bc1d1d; font-weight: bold;">
+                                    <td colspan="3" style="padding: 15px; font-size: 16px;">
+                                        <strong style="color: #bc1d1d; font-weight: bold;">Page </strong>: <span style="padding-left: 10px; color: #000;">{!! $viewData['Page'] !!}</span><br>
+                                    </td>
+                                    <tr>
+                                        <th>MAIN CAR</th>
+                                        <th>CAR 1</th>
+                                        <th>CAR 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 15px;">
+                                            <img src="{{ file_asset('files-car',$viewData['Car Image'])}}" alt="noimage.webp"  style="margin: 10px"><br>
+                                        </td>
+                                        <td style="padding: 15px;">
+                                            <img src="{{ file_asset('files-car',$viewData['Car 1 Image'])}}" alt="noimage.webp"  style="margin: 10px"><br>
+                                        </td>
+                                        <td style="padding: 15px;">
+                                            <img src="{{ file_asset('files-car',$viewData['Car 2 Image'])}}" alt="noimage.webp"  style="margin: 10px"><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 15px;">
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Brand</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Main Brand'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Car</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Car Model'] !!}</span><br>
+                                        </td>
+                                        <td style="padding: 15px;">
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 1</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Brand 1'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 1 Model</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Car 1 Model'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 1</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Car version 1'] !!}</span><br>
+                                        </td>
+                                        <td style="padding: 15px;">
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 2</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Brand 2'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 2 Model</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Car 2 Model'] !!}</span><br>
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 2</strong>: 
+                                            <span style="padding-left: 10px;">{!! $viewData['Car version 2'] !!}</span><br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
     </x-card>
