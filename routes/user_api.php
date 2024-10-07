@@ -70,7 +70,7 @@ Route::middleware('auth:user_api')->group(function () {
     //popular brand
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
     Route::get('reviews-and-news',ReviewsAndNewsController::class);
-    Route::get('search-suggessions',[ReviewsAndNewsController::class,'getSuggestions']);
+    Route::get('search-suggestions',[ReviewsAndNewsController::class,'getSuggestions']);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
     
