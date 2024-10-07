@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('car_id')->constrained()->onDelete('cascade');
             $table->foreignId('car_version_id')->nullable()->constrained()->onDelete('set null');
             $table->string('title');
-            $table->string('image')->nullable();
             $table->string('key_feature_1')->nullable();
             $table->string('key_icon_1')->nullable();
             $table->string('key_feature_2')->nullable();
