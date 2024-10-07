@@ -65,11 +65,13 @@ class OfferController extends Controller
             'Key Feature 2' => empty($offer->key_feature_2) ? 'NIL' : $offer->key_feature_2,
             'Key Icon 2' => empty($offer->key_icon_2) ? 'NIL' :'<img src="' . asset('storage/' . $offer->key_icon_2) . '" alt="Offer Image" style="max-width: 200px;"/>',
             'Description' => empty($offer->description) ? 'NIL' : $offer->description,
-            'Start date' => empty($offer->start_date) ? 'NIL' : $offer->start_date,
-            'End date' => empty($offer->end_date) ? 'NIL' : $offer->end_date,
-            'Status' => config('params.offers.status')[$offer->status],
+            'Start date' => empty($offer->start_date) ? 'NIL' : dateTimeFormat($offer->start_date),
+            'End date' => empty($offer->end_date) ? 'NIL' : dateTimeFormat($offer->end_date),
             'View Count' => $offer->view_count,
             'Show in suggestions' => config('params.offers.show_in_suggestions')[$offer->show_in_suggestions],
+            'Status' => config('params.offers.status')[$offer->status],
+            'Created At' => dateTimeFormat($offer->created_at),
+            'Updated At' => dateTimeFormat($offer->updated_at),
         ];
 
         return view('admin.offers.show', compact('offer', 'viewData'));

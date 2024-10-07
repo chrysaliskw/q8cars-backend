@@ -6,9 +6,9 @@
         <li class="active">Create</li>
     </x-slot>
     <x-crud-create title="Offers">
-        <div class="row">
         <x-form method="POST" action="{{ route('admin.offers.store') }}" class="form" enctype="multipart/form-data">
             @csrf
+
             <div class="row">
                 <div class="col-md-4">
                     <x-form-select field="brand_id" field-name="Brand" id="brand_id">
@@ -29,69 +29,78 @@
             <br>
 
             <div class="row">
-                    <div class="row">
-                        <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card text-center">
-                                            <label for="key_feature_1">Key Feature 1</label>
-                                            <div class="card-body">
-                                                <textarea class="summernote form-control" rows="9" name="key_feature_1">{{ old('key_feature_1') }}</textarea>
-                                            </div>
+                <div class="col-md-6">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <label for="key_feature_1">Key Feature 1</label>
+                                    <div class="card-body">
+                                        <textarea class="summernote form-control" rows="9" name="key_feature_1">{{ old('key_feature_1') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+
+                    <div class="col-md-6">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <label for="key_feature_2">Key Feature 2</label>
+                                        <div class="card-body">
+                                            <textarea class="summernote form-control" rows="9" name="key_feature_2">{{ old('key_feature_2') }}</textarea>
                                         </div>
                                     </div>
                                 </div>
-                        </div>
                     </div>
-                    <div class="col-md-3 text-center">
-                        <x-form-input type="file" field="key_icon_1" field-name="Key Icon 1" value="{{ old('key_icon_1') }}">
-                        </x-form-input>
-                        <span class="text-muted">
+            </div>
+            <br>
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <x-form-input type="file" field="key_icon_1" field-name="Key Icon 1" value="{{ old('key_icon_1') }}">
+                    </x-form-input>
+                    <span class="text-muted">
                             {{'Max size : 2MB'}}
                             <br>
                             {{'Dimensions : 34x35'}}
+                            <br>
+                            {{'Format : PNG'}}
                         </span>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card text-center">
-                                            <label for="key_feature_2">Key Feature 2</label>
-                                            <div class="card-body">
-                                                <textarea class="summernote form-control" rows="9" name="key_feature_2">{{ old('key_feature_2') }}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 text-center">
+                    <div class="col-md-4">
                         <x-form-input type="file" field="key_icon_2" field-name="Key Icon 2" value="{{ old('key_icon_2') }}">
                         </x-form-input>
                         <span class="text-muted">
                             {{'Max size : 2MB'}}
                             <br>
                             {{'Dimensions : 34x35'}}
+                            <br>
+                            {{'Format : PNG'}}
                         </span>
                     </div>
-            </div>
-                <div class="row">
                     <div class="col-md-4">
+                        <x-form-input type="text" field="offer" field-name="Offer" field-value="{{ old('offer') }}"></x-form-input>
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
                         <x-form-textarea field="title" field-name="Title" field-value="{{ old('title') }}"></x-form-textarea>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card text-center">
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
                             <label for="description">Description</label>
                             <div class="card-body">
                                 <textarea class="summernote form-control" rows="9" name="description">{{ old('description') }}</textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <x-form-input type="text" field="offer" field-name="Offer" field-value="{{ old('offer') }}"></x-form-input>
-                    </div>
                 </div>
+                <br>
 
                 <div class="row">
                     <div class="col-md-4">
@@ -141,8 +150,7 @@
                         <input type="checkbox" name="show_in_suggestions" id="show_in_suggestions" value="1" {{ old('show_in_suggestions') ? 'checked' : '' }}>
                     </div>
                 </div>
-
-            </div>
+                <br>
             <x-form-submit>Save</x-form-submit>
         </x-form>
     </x-crud-create>
@@ -158,12 +166,16 @@
             $('#start_date').datepicker({
                 format: 'yyyy-mm-dd',
                 autoclose: true
+            }).on('changeDate', function(e) {
+                $('#end_date').datepicker('setStartDate', e.date);
+                $('#end_date').val('');
             });
 
             $('#end_date').datepicker({
                 format: 'yyyy-mm-dd',
                 autoclose: true
             });
+            $('#end_date').datepicker('setStartDate', new Date());
 
             $('.summernote').summernote({
                 height: 200,                 // set editor height

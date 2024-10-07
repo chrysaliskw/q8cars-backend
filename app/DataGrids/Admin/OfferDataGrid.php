@@ -77,7 +77,7 @@ class OfferDataGrid extends Grid
             'start_date' => [
                 'label' => 'Start Date',
                 'value' => function ($model) {
-                    return $model->start_date;
+                    return dateFormat($model->start_date);
                 },
                 'filter' => true,
             ],
@@ -85,7 +85,7 @@ class OfferDataGrid extends Grid
             'end_date' => [
                 'label' => 'End Date',
                 'value' => function ($model) {
-                    return $model->end_date;
+                    return dateFormat($model->end_date);
                 },
                 'filter' => true,
             ],
@@ -93,6 +93,11 @@ class OfferDataGrid extends Grid
             'status' => [
                 'label' => 'Status',
                 'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'data' => config('params.offers.status'),
+                    'attribute' => 'offers.status',
+                ],
                 'value' => function ($model) {
                     return config('params.offers.status')[$model->status];
                 },
