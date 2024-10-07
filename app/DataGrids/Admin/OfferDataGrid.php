@@ -39,7 +39,10 @@ class OfferDataGrid extends Grid
                 'value' => function($model){
                     return $model->brand_name;
                 },
-                'filter' => true
+                'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'b.name',
+                ]
             ],
 
             'car_model' => [
@@ -47,7 +50,10 @@ class OfferDataGrid extends Grid
                 'value' => function($model){
                     return $model->car_model;
                 },
-                'filter' => true
+                'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'c.model_name',
+                ]
             ],
 
             'car_variant' => [
@@ -56,6 +62,9 @@ class OfferDataGrid extends Grid
                     return $model->car_varient;
                 },
                 'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'cv.varient_name',
+                ]
             ],
 
             'title' => [
@@ -63,7 +72,10 @@ class OfferDataGrid extends Grid
                 'value' => function($model){
                     return $model->title;
                 },
-                'filter' => true
+                'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'offers.title',
+                ]
             ],
 
             'offer' => [
@@ -72,6 +84,9 @@ class OfferDataGrid extends Grid
                     return $model->offer;
                 },
                 'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'offers.offer',
+                ]
             ],
 
             'start_date' => [
@@ -80,6 +95,9 @@ class OfferDataGrid extends Grid
                     return dateFormat($model->start_date);
                 },
                 'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'offers.start_date',
+                ]
             ],
 
             'end_date' => [
@@ -88,6 +106,9 @@ class OfferDataGrid extends Grid
                     return dateFormat($model->end_date);
                 },
                 'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'offers.end_date',
+                ]
             ],
 
             'status' => [
