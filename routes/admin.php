@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\Trash\UserTrashController;
 use App\Http\Controllers\Admin\Trash\BrandTrashController;
 use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
-
+use App\Http\Controllers\Admin\EmiCalculatorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +70,7 @@ Route::middleware('auth:admin')->group(function () {
         'color' =>ColorController::class  ,             //color
         'faq' => FaqController::class,                  // FAQ
         'news' => NewsPostController::class,            // News
+        'emi-info' => EmiCalculatorController::class,   // Emi Calculator
     ]);                 
    
     // Test ride requests

@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
 use App\Http\Controllers\Api\User\OfferController;
 use App\Http\Controllers\Api\User\CompareCarsController;
+use App\Http\Controllers\Api\User\EmiCalculatorController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -70,6 +71,8 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
+    // EMI Calculator
+    Route::get('/emi-calculator', EmiCalculatorController::class);
     
    
 });
