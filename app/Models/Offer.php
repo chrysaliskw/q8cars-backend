@@ -12,6 +12,7 @@ class Offer extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
     const STATUS_EXPIRED = 3;
+    const FILE_DIR = 'offers';
 
     public function car()
     {

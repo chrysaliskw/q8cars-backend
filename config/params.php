@@ -165,6 +165,7 @@ return [
         'status' => [
             1 => 'Active',
             2 => 'Inactive',
+            3 => 'Expired',
         ],
         'show_in_suggestions' => [
             1 => 'Yes',

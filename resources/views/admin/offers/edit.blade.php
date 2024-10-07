@@ -69,7 +69,7 @@
                         <br>
                         {{'Format : PNG'}}
                     </span>
-                    <img src="{{ asset('storage/'. $offer->key_icon_1) }}"
+                    <img src="{{ $offer->key_icon_1 ? url(file_asset('files-offers', $offer->key_icon_1)) : '' }}"
                     alt="key_icon_1" class="img-thumbnail" width="100" height="150">
                 </div>
                 <div class="col-md-4">
@@ -82,7 +82,7 @@
                         <br>
                         {{'Format : PNG'}}
                     </span>
-                    <img src="{{ asset('storage/'. $offer->key_icon_2) }}"
+                    <img src="{{ $offer->key_icon_2 ? url(file_asset('files-offers', $offer->key_icon_2)) : '' }}"
                     alt="key_icon_2" class="img-thumbnail" width="100" height="150">
                 </div>
                 <div class="col-md-4">
