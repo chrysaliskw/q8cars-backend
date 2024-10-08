@@ -72,7 +72,7 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('/account-delete', AccountDeleteController::class);
 
     //notifications
-    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications', NotificationController::class);
 });
 
 /**
