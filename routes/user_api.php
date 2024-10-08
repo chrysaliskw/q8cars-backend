@@ -71,6 +71,7 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
     Route::get('reviews-and-news',ReviewsAndNewsController::class);
     Route::get('search-suggestions',[ReviewsAndNewsController::class,'getSuggestions']);
+    Route::get('compare-suggestions',[CompareCarsController::class,'getSuggestions']);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
     
