@@ -19,7 +19,9 @@ use App\Http\Controllers\Admin\Trash\UserTrashController;
 use App\Http\Controllers\Admin\Trash\BrandTrashController;
 use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
-use App\Http\Controllers\Admin\EmiCalculatorController;use App\Models\Car;use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\EmiCalculatorController;
+use App\Models\Car
+;use App\Http\Controllers\Admin\OfferController;
 
 /*
 |--------------------------------------------------------------------------

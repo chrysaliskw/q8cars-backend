@@ -50,6 +50,11 @@
                     <i class="fa fa-car"></i><span> Cars </span>
                     </a>
                 </li>
+                {{--    <li>
+                    <a href="{{ route('admin.emi-info.index') }}" class="waves-effect">
+                    <i class="fa fa-calculator"></i><span> EMI Calculator </span>
+                    </a>
+                </li>--}}
 
                 <li>
                     <a href="{{ route('admin.comparison.index') }}" class="waves-effect">
