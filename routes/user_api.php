@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
 use App\Http\Controllers\Api\User\OfferController;
+use App\Http\Controllers\Api\User\NotificationController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -31,10 +32,10 @@ Route::post('/otp-verifications', OtpVerificationController::class);
 Route::post('/otps', OtpController::class);
 
 /**
- * User Routes which can be accessed by guest user also 
- */ 
+ * User Routes which can be accessed by guest user also
+ */
 Route::middleware('auth:user_api')->group(function () {
-    // User Profile 
+    // User Profile
     Route::post('profile-image-updates', [ProfileController::class, 'picture']);
     Route::apiResource('profiles', ProfileController::class)->only(['index', 'store']);
     //test drive request
@@ -64,20 +65,20 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('popular-cars',PopularCarController::class);
     Route::get('popular-cars/filter',PopularCarFilterController::class);
     Route::get('offers',OfferController::class);
-    
+
     //popular brand
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
-    
-   
+
+    //notifications
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });
 
 /**
  * Routes which can be accessed by authenticated user only
- */ 
+ */
 Route::middleware(['auth:user_api', 'userIsNotGuest'])->group(function () {
-  
-   
+
 });
 
