@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('car_comparison_lists', function (Blueprint $table) {
            $table->bigInteger('body_type_id')->after('brand_id')->nullable();
+           $table->bigInteger('view_count')->after('car_version_2_id')->default(0);
         });
     }
 
