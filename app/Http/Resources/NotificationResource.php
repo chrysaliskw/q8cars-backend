@@ -14,8 +14,8 @@ class NotificationResource extends JsonResource
         return [
             'title' => $this->title,
             'description' => $this->description,
-            'image' => file_asset('files-notif', $this->image),
-            'logo' => file_asset('files-notif', $this->logo),
+            'image' => file_asset('files-notifications', $this->image),
+            'logo' => file_asset('files-notifications', $this->logo),
             'business_name' => $this->business_name,
             'status' => $this->status,
             'read_status' => $readStatus,

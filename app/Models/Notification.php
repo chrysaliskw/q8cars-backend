@@ -10,7 +10,8 @@ class Notification extends Model
     use HasFactory;
 
     const STATUS_ACTIVE = 1;
-    const STATUS_INACTIVE = 0;
+    const STATUS_INACTIVE = 2;
+    const STATUS_EXPIRED = 3;
 
     protected $fillable = [
         'user_id',
@@ -34,5 +35,10 @@ class Notification extends Model
         return $this->belongsToMany(User::class, 'user_notification_mappings')
                     ->withPivot('read_status')
                     ->withTimestamps();
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
     }
 }
