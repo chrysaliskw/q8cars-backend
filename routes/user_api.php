@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\User\OfferController;
 use App\Http\Controllers\Api\User\CompareCarsController;
 use App\Http\Controllers\Api\User\ReviewsAndNewsController;
 use App\Http\Controllers\Api\User\EmiCalculatorController;
+use App\Http\Controllers\Api\User\NotificationController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -34,10 +35,10 @@ Route::post('/otp-verifications', OtpVerificationController::class);
 Route::post('/otps', OtpController::class);
 
 /**
- * User Routes which can be accessed by guest user also 
- */ 
+ * User Routes which can be accessed by guest user also
+ */
 Route::middleware('auth:user_api')->group(function () {
-    // User Profile 
+    // User Profile
     Route::post('profile-image-updates', [ProfileController::class, 'picture']);
     Route::apiResource('profiles', ProfileController::class)->only(['index', 'store']);
     //test drive request
@@ -67,25 +68,26 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('popular-cars',PopularCarController::class);
     Route::get('popular-cars/filter',PopularCarFilterController::class);
     Route::apiResource('offers', OfferController::class)->only(['index', 'show']);
-    Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','show']);
+Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','show']);
     //popular brand
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
     Route::get('reviews-and-news',ReviewsAndNewsController::class);
     Route::get('search-suggestions',[ReviewsAndNewsController::class,'getSuggestions']);
     Route::get('compare-suggestions',[CompareCarsController::class,'getSuggestions']);
+    Route::post('add-suggestions',[ReviewsAndNewsController::class,'addSuggestions']);
     //delete account
     Route::get('/account-delete', AccountDeleteController::class);
     // EMI Calculator
     Route::get('/emi-calculator', EmiCalculatorController::class);
-    
-   
+
+    //notifications
+    Route::get('/notifications', NotificationController::class);
 });
 
 /**
  * Routes which can be accessed by authenticated user only
- */ 
+ */
 Route::middleware(['auth:user_api', 'userIsNotGuest'])->group(function () {
-  
-   
+
 });
 
