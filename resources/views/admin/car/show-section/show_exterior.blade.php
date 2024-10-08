@@ -2,7 +2,7 @@
     <div class="card card-border card-primary">
         <div class="card-body car-add-image">
             <div class="form-horizontal">
-                <div class="form-group row">
+              {{--  <div class="form-group row">
                     <label class="col-sm-4 control-label">LED Taillights</label>
                     <div class="col-sm-6">
                                
@@ -70,6 +70,17 @@
                         @endif
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 control-label">Sun Roof</label>
+                    <div class="col-sm-8">
+                               
+                        @if($carVarient->sun_roof == 1)
+                        <i class="fa fa-check" style="color:green;"></i>
+                        @else
+                        <i class="fa fa-times" style="color:red;"></i>
+                        @endif
+                    </div>
+                </div>--}}
                 @if($carVarient->exterior)
                 @foreach($carVarient->exterior as $spec)
                 <div class="form-group row">
@@ -88,17 +99,7 @@
                 </div>
                 @endforeach
                 @endif
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Sun Roof</label>
-                    <div class="col-sm-8">
-                               
-                        @if($carVarient->sun_roof == 1)
-                        <i class="fa fa-check" style="color:green;"></i>
-                        @else
-                        <i class="fa fa-times" style="color:red;"></i>
-                        @endif
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

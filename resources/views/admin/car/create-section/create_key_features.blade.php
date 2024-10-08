@@ -2,14 +2,10 @@
     $star = '<i class="fa fa-star"></i>';
 @endphp
 <div class="card card-border card-primary">
-    <div class="card-header"> 
-        <div class="m-b-30">
-            <h5>Engine and Transmission</h5>
-        </div>
-    </div>
+   
     <div class="card-body">
         <div class="row">
-            <div class="col-md-4">
+            {{--<div class="col-md-4">
             <!-- <span class="badge bg-primary ms-2">key</span> -->
                 <x-form-input type="text" field="engine_type" field-name="Engine Type*" value="{{ old('engine_type') }}">
                 </x-form-input>
@@ -39,7 +35,7 @@
             <div class="col-md-4">
                 <x-form-input type="text" field="gear_box" field-name="Gear Box" value="{{ old('gear_box') }}">
                 </x-form-input>
-            </div>
+            </div>--}}
             <div class="col-md-4">
                 <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)*" value="{{ old('engine_capacity') }}">
                 </x-form-input>
@@ -52,10 +48,10 @@
                 <x-form-input type="text" field="torque" field-name="Torque(rpm)*" value="{{ old('torque') }}">
                 </x-form-input>
             </div>
-            <div class="col-md-4">
+       {{--     <div class="col-md-4">
                 <x-form-input type="text" field="drive_train" field-name="Drivetrain*" value="{{ old('drive_train') }}">
                 </x-form-input>
-            </div>
+            </div>--}}
             <div class="col-md-12">
                 <label class="control-label" for="transmission_types">Transmission Types*</label>
                 <div class="row">
@@ -88,35 +84,41 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
-        <div class="m-b-30">
-            <h5>Fuel and Performance</h5>
-        </div>
-    </div>
+   
     <div class="card-body">
         <div class="row">  
-       
-           
             <div class="col-md-4">
-                <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)*" value="{{ old('acceleration') }}">
+                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ old('seat_capacity') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="top_speed" field-name="Top speed(kmph)*" value="{{ old('top_speed') }}">
-                </x-form-input>
-            </div>
-            <div class="col-md-4">
-                <x-form-input type="text" field="mileage" field-name="Mileage(Kmpl)*" value="{{ old('mileage') }}">
-                </x-form-input>
-            </div>
-            <div class="col-md-4">
-                <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Compliance" value="{{ old('emission_norm_complains') }}">
+                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ old('no_of_airbags') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
                 <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity(L)*" value="{{ old('fuel_tank_capacity') }}">
                 </x-form-input>
             </div>
+         {{--   <div class="col-md-4">
+                <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)*" value="{{ old('acceleration') }}">
+                </x-form-input>
+            </div>
+            <div class="col-md-4">
+                <x-form-input type="text" field="top_speed" field-name="Top speed(kmph)*" value="{{ old('top_speed') }}">
+                </x-form-input>
+            </div>--}}
+            <div class="col-md-4">
+                <x-form-input type="text" field="mileage" field-name="Mileage(Kmpl)*" value="{{ old('mileage') }}">
+                </x-form-input>
+            </div>
+           {{-- <div class="col-md-4">
+                <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Compliance" value="{{ old('emission_norm_complains') }}">
+                </x-form-input>
+            </div>
+            <div class="col-md-4">
+                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity(L)*" value="{{ old('fuel_tank_capacity') }}">
+                </x-form-input>
+            </div>--}}
             <div class="col-md-12">
                 <label class="control-label" for="fuel_types">Fuel Types*</label>
                 <div class="row">
@@ -148,7 +150,7 @@
         </div>
     </div>
 </div>
-<div class="card card-border card-primary">
+{{--<div class="card card-border card-primary">
     <div class="card-header"> 
         <div class="m-b-30">
             <h5>Suspension, Steering and Brake</h5>
@@ -482,7 +484,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>--}}
    
   
  

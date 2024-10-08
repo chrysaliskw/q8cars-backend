@@ -2,18 +2,19 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Seat Upholstery</label>
-                    <div class="col-sm-6">
-                               {{ $carVarient->seat_upholstery}}
-                    </div>
-                </div>
-                <div class="form-group row">
+             <div class="form-group row">
                     <label class="col-sm-4 control-label">Seat Capacity</label>
                     <div class="col-sm-8">
                                 {{ $carVarient->seat_capacity}}
                     </div>
                 </div>  
+              {{-- <div class="form-group row">
+                    <label class="col-sm-4 control-label">Seat Upholstery</label>
+                    <div class="col-sm-6">
+                               {{ $carVarient->seat_upholstery}}
+                    </div>
+                </div>
+                
                 <div class="form-group row">
                     <label class="col-sm-4 control-label">Air Conditioning</label>
                     <div class="col-sm-8">
@@ -46,7 +47,7 @@
                         @endif
                                 
                     </div>
-                </div>
+                </div>--}}
 
                 @if($carVarient->comfort)
                 @foreach($carVarient->comfort as $spec)

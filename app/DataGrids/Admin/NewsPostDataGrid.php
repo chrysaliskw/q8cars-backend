@@ -9,18 +9,23 @@ use Rufaidulk\DataGrid\Grid;
 class NewsPostDataGrid extends Grid
 {
     public $wrapperClass = 'table-responsive';
-    
+
     public function gridQuery()
     {
         $query = News::query()
-                    ->where('posted_by', News::POSTED_BY_Q8CARS)
-                    // ->where('type', News::NOT_VIDEO_STORY)
-                    ->leftJoin('cars AS c', 'c.id', '=', 'car_id')
-                    ->leftJoin('brands AS b', 'b.id', '=', 'news.brand_id')
-                    ->orderByDesc('news.posted_time')
-                    ->select(['b.name as brand_name', 'c.model_name as model_name', 'news.status AS news_status', 
-                        'news.is_trending as is_trending','news.*']);
-      
+            ->where('posted_by', News::POSTED_BY_Q8CARS)
+            // ->where('type', News::NOT_VIDEO_STORY)
+            ->leftJoin('cars AS c', 'c.id', '=', 'car_id')
+            ->leftJoin('brands AS b', 'b.id', '=', 'news.brand_id')
+            ->orderByDesc('news.posted_time')
+            ->select([
+                'b.name as brand_name',
+                'c.model_name as model_name',
+                'news.status AS news_status',
+                'news.is_trending as is_trending',
+                'news.*'
+            ]);
+
         return $query;
     }
 
@@ -68,7 +73,7 @@ class NewsPostDataGrid extends Grid
                 'label' => 'Title',
                 'filter' => true,
             ],
-           
+
             'posted_time' => [
                 'label' => 'Published Date',
                 'filter' => false,
@@ -90,7 +95,7 @@ class NewsPostDataGrid extends Grid
                     'type' => 'select',
                     'data' => config('params.news.is_trending'),
                     'attribute' => 'news.is_trending',
-                
+
                 ],
                 'value' => function ($model) {
                     return config('params.news.is_trending')[$model->is_trending];
@@ -103,17 +108,35 @@ class NewsPostDataGrid extends Grid
                     'type' => 'select',
                     'data' => config('params.news.status'),
                     'attribute' => 'news.status',
-                
+
                 ],
                 'value' => function ($model) {
                     return config('params.news.status')[$model->news_status];
                 }
             ],
-            'action' => [
-                'routePrefix' => 'admin.news',
-                'contentCssClass' => 'grid-action-col',
-                
-            ]
+                'action' => [
+                    'routePrefix' => 'admin.news',
+                    'contentCssClass' => 'grid-action-col',
+                    'buttons' => ['view', 'update', 'newstoggle', 'delete'],
+                    'newstoggle' => function ($model) {
+                        if($model->show_in_detail_page !== News::SELECTED_BANNER){
+                            
+                            $btn = "<a onclick='toggleNews(this)' 
+                        data-id='{$model->id}' 
+                        data-car-id='{$model->car_id}' 
+                        data-show_in_detail_page = '{$model->show_in_detail_page}'
+                        data-is_trending = '{$model->is_trending}'
+                        data-status = '{$model->status}'
+                        class='btn btn-warning btn-icon waves-effect waves-light m-b-5 mr-1' 
+                        title='update banner'>";
+                            $btn .= "<span class='ion-flash'></span></a>";
+
+                            return $btn;
+                        }
+                        
+                    },
+
+                ]
         ];
     }
 }

@@ -34,7 +34,7 @@
                         <i class="fa fa-car"></i><span> Brands </span>
                     </a>
                 </li>
-              
+
                 <li>
                     <a href="{{ route('admin.body-type.index') }}" class="waves-effect">
                     <i class="fa fa-truck"></i><span> Body Types </span>
@@ -51,15 +51,20 @@
                     </a>
                 </li>
 
-            {{--    <li>
-                    <a href="{{ route('admin.emi-info.index') }}" class="waves-effect">
-                    <i class="fa fa-calculator"></i><span> EMI Calculator </span>
+                <li>
+                    <a href="{{ route('admin.comparison.index') }}" class="waves-effect">
+                    <i class="fa fa-car"></i><span> Car Comparision </span>
                     </a>
-                </li>--}}
+                </li>
                
                 <li>
                     <a href="{{ route('admin.test-ride-requests.index') }}" class="waves-effect">
                     <i class="fa fa-taxi"></i><span> Test Ride Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.offers.index') }}" class="waves-effect">
+                    <i class="fa fa-gift"></i><span> Offers</span>
                     </a>
                 </li>
                 <li>
@@ -82,10 +87,10 @@
                     <i class="fa fa-newspaper-o"></i><span> News</span>
                     </a>
                 </li>
-              
+
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-trash"></i> <span> Trash </span> <span class="pull-right"><i class="md md-add"></i></span></a>
-                    <ul class="list-unstyled"> 
+                    <ul class="list-unstyled">
                         <li>
                             <a href="{{ route('admin.trash-user.index') }}">User</a>
                         </li>

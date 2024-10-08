@@ -74,6 +74,18 @@ class CarVersion extends Model
     {
         return $this->hasMany(CarAdditonalSpecifications::class)->where('category_id', CarAdditonalSpecifications::CATEGORY_COMFORT);
     }
+    public function keySpec()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('is_key_spec', CarAdditonalSpecifications::IS_KEY_SPEC);
+    }
+    public function keyFeature()
+    {
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('is_key_feature', CarAdditonalSpecifications::IS_KEY_FEATUER);
+    }
+    public function carComparisonLists()
+    {
+        return $this->hasMany(CarComparisonList::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | Local Scopes

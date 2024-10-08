@@ -2,7 +2,7 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
+{{--  <div class="form-group row">
                     <label class="col-sm-4 control-label">Front Suspension</label>
                     <div class="col-sm-6">
                                {{ $carVarient->front_suspension}}
@@ -77,7 +77,7 @@
                         <i class="fa fa-times" style="color:red;"></i>
                         @endif
                     </div>
-                </div>
+                </div>--}}
                 @if($carVarient->suspension)
                 @foreach($carVarient->suspension as $spec)
                 <div class="form-group row">

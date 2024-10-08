@@ -3,11 +3,13 @@
 namespace App\Http\Resources;
 
 use App\Models\Car;
+use App\Models\CarFavourite;
 use App\Models\CarVersion;
 use App\Models\Review;
 use Faker\Core\Version;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class OfferDetailsResource extends JsonResource
 {
@@ -38,7 +40,8 @@ class OfferDetailsResource extends JsonResource
             'ex_showroom_price' => 'KWD ' . $this->carVersion->ex_showroom_price,
             'offer_price' => 'KWD ' .  ($this->carVersion->ex_showroom_price -$this->offer ),
             'time_span' => $this->TimeSpan($this->start_date ,$this->end_date),
-            'image' => file_asset('files-car', $this->car->image) 
+            'image' => file_asset('files-car', $this->car->image),
+            'is_favourite' => CarFavourite::where('user_id', Auth::id())->where('car_id',$this->car_id)->exists() ? 1: 0,
         ];
     }
     private function TimeSpan($startDate, $endDate)

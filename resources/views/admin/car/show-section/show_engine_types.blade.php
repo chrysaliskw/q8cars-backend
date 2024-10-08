@@ -2,7 +2,15 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
+            <div class="form-group row">
+                    <label class="col-sm-4 control-label">Transmission Type</label>
+                 
+                    <div class="col-sm-8">
+                                {{ config('params.car.transmission_type') [$carVarient->transmission_type]}} 
+                    </div>
+                 
+                </div>
+              {{--  <div class="form-group row">
                     <label class="col-sm-4 control-label">Engine Type</label>
                     <div class="col-sm-6">
                                {{ $carVarient->engine_type}}
@@ -96,7 +104,7 @@
                     <div class="col-sm-8">
                                 {{ $carVarient->drive_train}}
                     </div>
-                </div> 
+                </div> --}}
                 @if($carVarient->engine)
                 @foreach($carVarient->engine as $spec)
                 <div class="form-group row">

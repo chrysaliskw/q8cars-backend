@@ -2,7 +2,7 @@
     <div class="card card-border card-primary">
         <div class="card-body">
             <div class="form-horizontal">
-                <div class="form-group row">
+             {{--   <div class="form-group row">
                     <label class="col-sm-4 control-label">Integrated Antenna</label>
                     <div class="col-sm-6">
                     @if($carVarient->integrated_antenna == 1)
@@ -112,7 +112,7 @@
                         <i class="fa fa-times" style="color:red;"></i>
                         @endif 
                     </div>
-                </div>
+                </div>--}}
                 @if($carVarient->entertainment)
                 @foreach($carVarient->entertainment as $spec)
                 <div class="form-group row">

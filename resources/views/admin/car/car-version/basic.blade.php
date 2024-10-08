@@ -30,6 +30,12 @@
                         <x-form-input type="text" readonly field="model_name" field-name="Car Model Name*" value="{{ $carVarient->car->model_name }}">
                         </x-form-input>
                     </div>
+                    <div class="col-md-4">
+                        <x-form-select field="body_type_id" field-name="Body Type*" id="body_type_id">
+                        </x-form-select>
+                        <input type="hidden" id="body_type_id_text" name="body_type_id_text" />
+                        <span class="error" role="alert" id="body_type_id_error" ></span>
+                    </div>
                     <input type="hidden" name="car_id" value="{{ $carVarient->car_id }}" />
                     <div class="col-md-4">
                         <x-form-input type="text" field="varient_name" field-name="Name*" value="{{ $carVarientName }}">
@@ -129,14 +135,10 @@
         </div>
         --}}
         <div class="card card-border card-primary">
-            <div class="card-header"> 
-                <div class="m-b-30">
-                    <h5>Engine and Transmission</h5>
-                </div>
-            </div>
+            
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
+                  {{--  <div class="col-md-4">
                     <!-- <span class="badge bg-primary ms-2">key</span> -->
                         <x-form-input type="text" field="engine_type" field-name="Engine Type*" value="{{ $carVarient->engine_type }}">
                         </x-form-input>
@@ -166,7 +168,7 @@
                     <div class="col-md-4">
                         <x-form-input type="text" field="gear_box" field-name="Gear Box" value="{{ $carVarient->gear_box }}">
                         </x-form-input>
-                    </div>
+                    </div>--}}
                     <div class="col-md-4">
                         <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)*" value="{{ $carVarient->engine_capacity }}">
                         </x-form-input>
@@ -231,14 +233,30 @@
             </div>
         </div>
         <div class="card card-border card-primary">
-            <div class="card-header"> 
-                <div class="m-b-30">
-                    <h5>Fuel and Performance</h5>
-                </div>
-            </div>
+            
             <div class="card-body">
                 <div class="row">  
+                <div class="col-md-4">
+                        <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ $carVarient->seat_capacity }}">
+                        </x-form-input>
+                    </div>
                     <div class="col-md-4">
+                        <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ $carVarient->no_of_airbags }}">
+                        </x-form-input>
+                    </div>
+                    <div class="col-md-4">
+                        <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity*" value="{{ $carVarient->fuel_tank_capacity }}">
+                        </x-form-input>
+                    </div>
+                    <div class="col-md-4">
+                        <x-form-select field="fuel_type" field-name="Fuel Type*" defaultPrompt="Select fuel type">
+                            @foreach ($selectedFuelTypes as $value => $label)
+                                <option {{ $carVarient->fuel_type == $value ? 'Selected' : '' }} value="{{ $value }}">
+                                    {{ $label }}</option>
+                            @endforeach
+                        </x-form-select>
+                    </div>
+                   {{-- <div class="col-md-4">
                         <x-form-input type="text" field="drive_train" field-name="Drive train*" value="{{ $carVarient->drive_train }}">
                         </x-form-input>
                     </div>
@@ -249,19 +267,19 @@
                     <div class="col-md-4">
                         <x-form-input type="text" field="top_speed" field-name="Top speed(kmph)*" value="{{ $carVarient->top_speed }}">
                         </x-form-input>
-                    </div>
+                    </div>--}}
                     <div class="col-md-4">
                         <x-form-input type="text" field="mileage" field-name="Mileage*" value="{{ $carVarient->mileage }}">
                         </x-form-input>
                     </div>
-                    <div class="col-md-4">
+                 {{--   <div class="col-md-4">
                         <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Complains" value="{{ $carVarient->emission_norm_complains }}">
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
                         <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity*" value="{{ $carVarient->fuel_tank_capacity }}">
                         </x-form-input>
-                    </div>
+                    </div>--}}
                     {{--
                     <div class="col-md-12">
                         <label class="control-label" for="fuel_types">Fuel Types*</label>
@@ -302,18 +320,11 @@
                     </div> 
                     --}}
 
-                    <div class="col-md-4">
-                        <x-form-select field="fuel_type" field-name="Fuel Type*" defaultPrompt="Select fuel type">
-                            @foreach ($selectedFuelTypes as $value => $label)
-                                <option {{ $carVarient->fuel_type == $value ? 'Selected' : '' }} value="{{ $value }}">
-                                    {{ $label }}</option>
-                            @endforeach
-                        </x-form-select>
-                    </div>
+                   
                 </div>
             </div>
         </div>
-        <div class="card card-border card-primary">
+    {{--    <div class="card card-border card-primary">
             <div class="card-header"> 
                 <div class="m-b-30">
                     <h5>Suspension, Steering and Brake</h5>
@@ -647,7 +658,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
 
 
     <x-slot name="scripts">
