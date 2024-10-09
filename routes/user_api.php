@@ -82,6 +82,7 @@ Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','
 
     //notifications
     Route::get('/notifications', NotificationController::class);
+    Route::post('/notifications/toggle-mute', [NotificationController::class, 'toggleMute']);
 });
 
 /**

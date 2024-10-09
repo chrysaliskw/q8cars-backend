@@ -37,6 +37,7 @@ class User extends Authenticatable
         'email',
         'password',
         'address',
+        'is_mute',
     ];
 
     /**
