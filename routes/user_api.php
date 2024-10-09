@@ -73,6 +73,7 @@ Route::middleware('auth:user_api')->group(function () {
 
     //notifications
     Route::get('/notifications', NotificationController::class);
+    Route::post('/notifications/toggle-mute', [NotificationController::class, 'toggleMute']);
 });
 
 /**
