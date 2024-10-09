@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\DataGrids\Admin\CarComparisonGrid;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\CarComparisonListRequest;
+use App\Http\Requests\Admin\CarComparisonListRequest;
 use App\Models\Car;
 use App\Models\CarComparisonList;
 use Illuminate\Http\Request;
