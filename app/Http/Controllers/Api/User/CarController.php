@@ -212,6 +212,7 @@ class CarController extends ApiBaseController
         // $data['Mileage'] = $car->mileage. ' klmp';
     
         // Check if additional key specifications exist
+        $data =[];
         if($car->carSpec->keySpec)
         {
             foreach($car->carSpec->keySpec as $spec){
