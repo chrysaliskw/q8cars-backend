@@ -77,7 +77,8 @@ Route::middleware('auth:user_api')->group(function () {
     Route::post('/notifications/toggle-mute', [NotificationController::class, 'toggleMute']);
 
     //favourite comparison
-    Route::get('/fav-comparison', FavouriteComparisonController::class);
+    Route::get('/fav-comparisons', FavouriteComparisonController::class);
+    Route::delete('/fav-comparisons/{id}', [FavouriteComparisonController::class, 'destroy']);
 });
 
 /**

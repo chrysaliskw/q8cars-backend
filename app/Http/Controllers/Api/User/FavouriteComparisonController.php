@@ -26,4 +26,20 @@ class FavouriteComparisonController extends ApiBaseController
         return $this->success(['data' => $data], 'Favourite Comparison Listing', Response::HTTP_OK);
     }
 
+    public function destroy(string $id)
+    {
+        $comparison = FavouriteComparison::where('id', $id)->where('user_id', Auth::id())->first();
+
+        if (!$comparison) {
+            return response()->json(['message' => 'Comparison not found'], 404);
+        }
+
+        $comparison->delete();
+
+        $comparisons = FavouriteComparison::where('user_id', Auth::id())->get();
+        $data = FavouriteComparisonResource::collection($comparisons);
+
+        return $this->success(['data' => $data], 'Favourite comparison deleted successfully.', Response::HTTP_OK);
+    }
+
 }
