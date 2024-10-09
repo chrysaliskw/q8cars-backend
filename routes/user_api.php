@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\User\AccountDeleteController;
 use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
+use App\Http\Controllers\Api\User\FavouriteComparisonController;
 use App\Http\Controllers\Api\User\OfferController;
 use App\Http\Controllers\Api\User\CompareCarsController;
 use App\Http\Controllers\Api\User\ReviewsAndNewsController;
@@ -83,6 +84,10 @@ Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','
     //notifications
     Route::get('/notifications', NotificationController::class);
     Route::post('/notifications/toggle-mute', [NotificationController::class, 'toggleMute']);
+
+    //favourite comparison
+    Route::get('/fav-comparisons', FavouriteComparisonController::class);
+    Route::delete('/fav-comparisons/{id}', [FavouriteComparisonController::class, 'destroy']);
 });
 
 /**
