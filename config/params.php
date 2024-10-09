@@ -5,6 +5,7 @@ use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Car;
 use App\Models\News;
+use App\Models\Notification;
 use App\Models\User;
 
 return [
@@ -16,6 +17,7 @@ return [
         'body_type' => BodyType::FILE_DIR,
         'car' => Car::FILE_DIR,
         'news' => News::FILE_DIR,
+        'notifications' => Notification::FILE_DIR,
     ],
 
     'user' => [

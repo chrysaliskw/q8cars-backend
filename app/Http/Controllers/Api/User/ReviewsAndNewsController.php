@@ -12,6 +12,7 @@ use App\Models\News;
 use App\Models\RecentSearch;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
    
 class ReviewsAndNewsController extends ApiBaseController
 {
@@ -56,6 +57,23 @@ class ReviewsAndNewsController extends ApiBaseController
     {
         $data['recent-searches'] = RecentSearch::where('user_id',Auth::id())->orderBy('id','Desc')->limit(2)->pluck('key_word');
         $data['trending-searches'] = Car::active()->orderBy('search_view_count','Desc')->limit(5)->pluck('model_name');
-        return $this->success(['data' => $data], 'Recent And Trending Seraches', Response::HTTP_OK);
+        return $this->success(['data' => $data], 'Recent And Trending Searches', Response::HTTP_OK);
+    }
+
+    public function addSuggestions(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'search' => ['required', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+       
+        $search = new RecentSearch();
+        $search->user_id = Auth::id();
+        $search->key_word = $request->search;
+        $search->save(); 
+        return $this->success(['data' => []], 'Added to Recent Searches', Response::HTTP_OK);
     }
 }

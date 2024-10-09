@@ -19,7 +19,7 @@ class User extends Authenticatable
 
     const ROLE_GUEST = 1;
     const ROLE_DEFAULT = 2;
-    
+
     const FILE_DIR = 'users';
 
     const DEVICE_ANDROID = 1;
@@ -37,6 +37,7 @@ class User extends Authenticatable
         'email',
         'password',
         'address',
+        'is_mute',
     ];
 
     /**
@@ -102,7 +103,7 @@ class User extends Authenticatable
      * @return array
      */
     public function loginResponseToApi($deviceName)
-    {   
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -119,7 +120,7 @@ class User extends Authenticatable
      */
     public function profileResponseToApi()
     {
-       
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -128,7 +129,7 @@ class User extends Authenticatable
             'phone_code' => $this->phone_code,
             'mobile' => $this->mobile,
             'address' => !empty($this->address)?$this->address :null,
-            'picture' => $this->picture ? file_asset('files-user', $this->picture) : null, 
+            'picture' => $this->picture ? file_asset('files-user', $this->picture) : null,
             'role' => $this->role,
             'status' => $this->status,
             'is_guest' => false,
@@ -137,7 +138,7 @@ class User extends Authenticatable
 
      /**
      * Clear the session to limit the mobile sesison to the value of SESSION_LIMIT.
-     * 
+     *
      * @return void
      */
     public function clearMobileSessions()
@@ -147,5 +148,12 @@ class User extends Authenticatable
         if ($tokensCount >= (self::SESSION_LIMIT)) {
             $this->tokens()->limit($tokensCount - (self::SESSION_LIMIT - 1))->delete();
         }
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'user_notification_mappings')
+                    ->withPivot('read_status')
+                    ->withTimestamps();
     }
 }
