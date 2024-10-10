@@ -37,7 +37,7 @@ class CarVersionRequest extends FormRequest
             // 'date_3' => date('Y-m-d', strtotime($this->date_3)),
         ]);
     }
-    
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -45,19 +45,19 @@ class CarVersionRequest extends FormRequest
      * @return array<string, mixed>
      */
     public function rules()
-    { 
+    {
         return [
             // Basic Info
-       
+
             'varient_name' => 'required|string|max:100',
             'status' => ['required', Rule::in(array_keys(config('params.car.status')))],
-           
+
             'ex_showroom_price' => 'required|numeric|min:0|max:99999999',
             'on_road_price' => 'required|numeric|min:0|max:99999999',
             'finance_available' => 'required|numeric|min:0|max:99999999',
             'insurance' => 'required|numeric|min:0|max:99999999',
             'service_charge' => 'required|numeric|min:0|max:99999999',
-           
+
             // 'engine_type' => 'required|string',
             // 'no_of_cylinders' => 'nullable|integer',
             // 'valves_per_cylinder' => 'nullable|integer',
@@ -103,7 +103,7 @@ class CarVersionRequest extends FormRequest
             // '360_view_camera' => 'nullable|integer',
             // 'boot_space' => 'required|numeric|min:1|max:999999',
             // 'power_windows' => 'required|string',
-            
+
             // 'tachometer' => 'nullable|integer',
             // 'electronic_multi_tripmeter' => 'nullable|integer',
             // 'digital_odometer' => 'nullable|integer',
@@ -114,7 +114,7 @@ class CarVersionRequest extends FormRequest
             // 'Halogen_Headlamps' => 'nullable|integer',
             // 'LED_Headlights' => 'nullable|integer',
             // 'sun_roof' => 'nullable|integer',
-            // 'safety_ratings' => ['required', Rule::in([1,2,3,4,5])],
+            'safety_ratings' => ['required', Rule::in([1,2,3,4,5])],
             // 'anti_theft_alarm' => 'nullable|integer',
             // 'anti_brake_system' => 'nullable|integer',
             'no_of_airbags' => 'required|integer',
@@ -131,10 +131,10 @@ class CarVersionRequest extends FormRequest
             // 'digital_clock' => 'nullable|integer',
             // 'usb_charger' => 'nullable|integer',
             // 'bluetooth' => 'nullable|integer',
-           
+
         ];
     }
-   
+
     public function messages()
     {
         return [
@@ -143,5 +143,5 @@ class CarVersionRequest extends FormRequest
     }
 
 
-    
+
 }

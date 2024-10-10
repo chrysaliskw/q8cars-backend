@@ -53,7 +53,7 @@ class CarVersionController extends Controller
         $car = $carVersion->car;
         $carVarient = $carVersion;
 
-        $color = json_decode($car->colours, true);   
+        $color = json_decode($car->colours, true);
         $colorArray = array_combine(range(1, count($color)), array_values($color));
         $colors = [];
         foreach($colorArray as $c) {
@@ -73,7 +73,7 @@ class CarVersionController extends Controller
         }
         $car = $carVersion->car;
         $carVarient = $carVersion;
-     
+
         $currentBrand = json_encode([
             'id' => $car->brand_id,
             'text' => $car->brand->name
@@ -125,8 +125,8 @@ class CarVersionController extends Controller
             },
             ARRAY_FILTER_USE_KEY
         );
-      
-        return view('admin.car.car-version.edit', compact('car','carVersion', 'carVarient', 
+
+        return view('admin.car.car-version.edit', compact('car','carVersion', 'carVarient',
             'currentFuel', 'currentTransmission', 'currentBodyType', 'currentBrand', 'currentCar','selectedFuelTypes',
             'currentColors', 'selectedColorsCount', 'ccount', 'carVarientName','additionals','selectedTransmissionTypes'
         ));
@@ -138,7 +138,7 @@ class CarVersionController extends Controller
     public function update(CarVersionRequest $request, CarVersion $carVersion)
     {
         $rows = $request->row_count;
-      
+
 
         $rules = [];
         for ($i = 0; $i < $rows; $i++) {
@@ -153,7 +153,7 @@ class CarVersionController extends Controller
             $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';
 
         }
-        
+
         // Apply the validator with dynamic rules
         $validator = Validator::make($request->all(), $rules, [], [
             'attribute_.*' => 'attribute',
@@ -166,11 +166,11 @@ class CarVersionController extends Controller
             'key_spec.*' => 'key spec',
             'icon.*' => 'icon',
         ]);
-        
+
         if($validator->fails()) {
             return back()->with('error',$validator->errors()->first())->withInput();
         }
-       
+
         if ($msg = $this->categoryAttributeHasError('attribute', $validator->errors()->toArray())) {
             return back()->with('error', $msg)->withInput();
         }
@@ -183,24 +183,25 @@ class CarVersionController extends Controller
 
         $attributeData = $this->setAttributes($validator->validated(),$rows);
 
-        $data = array_merge($request->validated(), $attributeData);  
-        $data['row_count']= $rows; 
-        $data['update']= 1; 
+        $data = array_merge($request->validated(), $attributeData);
+        $data['row_count']= $rows;
+        $data['update']= 1;
         $car = $carVersion->car;
         if($carVersion->is_car_spec == CarVersion::CAR_SPECIFICATION) {
             $carVersion = null;
         }
-        try 
+        // dd($data);
+        try
         {
             $service = new CarService($data, $car, $carVersion);
-            $carVersion = $service->saveToCarVersion(); 
-           
+            $carVersion = $service->saveToCarVersion();
+
             if(isset($data['attribute']))
             {
                 // CarAdditonalSpecifications::where('car_id',$car->id)->where('car_version_id',$carVersion->id)->delete();
                 $service->saveCategoryAttributes();
             }
-          
+
         }
         catch (Exception $ex) {
             logger($ex);
@@ -280,7 +281,7 @@ class CarVersionController extends Controller
 
     /**
      * Search endpoint for select2 dropdown
-     * 
+     *
      * @param Request $request
      * @return array
      */
@@ -297,10 +298,10 @@ class CarVersionController extends Controller
             $query->where('car_id', $carId);
         }
         $cars = $query->select(['id', 'varient_name AS text'])->offset($offset)->limit($limit)->get()->toArray();
-       
+
         $response['results'] = $cars;
         $response['pagination'] = ['more' => !empty($cars) ?? false];
-        
+
         return $response;
     }
 

@@ -24,6 +24,6 @@ class CarAdditonalSpecifications extends Model
     // const CATEGORY_KEY_SPEC = 10;
     // CONST CATEGORY_KEY_FEATURE = 11;
 
-    const IS_KEY_FEATUER = 1;
+    const IS_KEY_FEATURE = 1;
     const IS_KEY_SPEC= 1;
 }

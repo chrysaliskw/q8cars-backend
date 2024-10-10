@@ -37,7 +37,7 @@ class CarRequest extends FormRequest
             'date_3' => date('Y-m-d', strtotime($this->date_3)),
         ]);
     }
-    
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -45,16 +45,15 @@ class CarRequest extends FormRequest
      * @return array<string, mixed>
      */
     public function rules()
-    { 
+    {
         if ($this->isMethod('post')) {
             return $this->createRules();
         }
-    
+
         return $this->updateRules();
     }
     private function createRules()
     {
-       
         return [
             // Basic Info
            'brand_id' => [
@@ -66,22 +65,22 @@ class CarRequest extends FormRequest
             'all_fuels' => 'nullable',
             'all_transmissions' => 'nullable',
             'all_profession' => 'nullable',
-     
+
             'model_name' => 'required|string|max:100',
             'sort_order' => 'required|integer',
             'is_just_launched' => ['required', Rule::in([Car::JUST_LAUNCHED, Car::NOT_JUST_LAUNCHED])],
             'just_launch_sort_order' => [
                 'required_if:is_just_launched,' . Car::JUST_LAUNCHED,
-                'nullable', 
+                'nullable',
             ],
             'status' => ['required', Rule::in(array_keys(config('params.car.status')))],
-           
+
             'ex_showroom_price' => 'required|numeric|min:0|max:99999999',
             'on_road_price' => 'required|numeric|min:0|max:99999999',
             'finance_available' => 'required|numeric|min:0|max:99999999',
             'insurance' => 'required|numeric|min:0|max:99999999',
             'service_charge' => 'required|numeric|min:0|max:99999999',
-           
+
             // 'engine_type' => 'required|string',
             // 'no_of_cylinders' => 'nullable|integer',
             // 'valves_per_cylinder' => 'nullable|integer',
@@ -127,7 +126,7 @@ class CarRequest extends FormRequest
             // '360_view_camera' => 'nullable|integer',
             // 'boot_space' => 'required|numeric|min:1|max:999999',
             // 'power_windows' => 'required|string',
-            
+
             // 'tachometer' => 'nullable|integer',
             // 'electronic_multi_tripmeter' => 'nullable|integer',
             // 'digital_odometer' => 'nullable|integer',
@@ -138,7 +137,7 @@ class CarRequest extends FormRequest
             // 'Halogen_Headlamps' => 'nullable|integer',
             // 'LED_Headlights' => 'nullable|integer',
             // 'sun_roof' => 'nullable|integer',
-            // 'safety_ratings' => ['required', Rule::in([1,2,3,4,5])],
+            'safety_ratings' => ['required', Rule::in([1,2,3,4,5])],
             // 'anti_theft_alarm' => 'nullable|integer',
             // 'anti_brake_system' => 'nullable|integer',
             'no_of_airbags' => 'required|integer',
@@ -155,7 +154,7 @@ class CarRequest extends FormRequest
             // 'digital_clock' => 'nullable|integer',
             // 'usb_charger' => 'nullable|integer',
             // 'bluetooth' => 'nullable|integer',
-           
+
             'image' => 'required|mimes:jpg,png,jpeg|max:2048',
             'image_detail' => 'required|mimes:jpg,png,jpeg|max:2048',
             'image_1' => 'mimes:jpg,png,jpeg|max:2048',
@@ -222,7 +221,7 @@ class CarRequest extends FormRequest
             'image_old_20' => 'nullable|string',
 
             'is_removed_image' => 'nullable|string',
-         
+
             'image_removed_1' => 'nullable|string',
             'image_removed_2' => 'nullable|string',
             'image_removed_3' => 'nullable|string',
@@ -260,12 +259,12 @@ class CarRequest extends FormRequest
             'deleted_image_id_13' => 'nullable|string',
             'deleted_image_id_14' => 'nullable|string',
             'deleted_image_id_15' => 'nullable|string',
-            'deleted_image_id_16' => 'nullable|string',  
+            'deleted_image_id_16' => 'nullable|string',
             'deleted_image_id_17' => 'nullable|string',
             'deleted_image_id_18' => 'nullable|string',
             'deleted_image_id_19' => 'nullable|string',
             'deleted_image_id_20' => 'nullable|string',
-        
+
             'why_choose' => 'required|string',
             'market_introduction' => 'required|string',
             'engine_transmission' => 'required|string',
@@ -317,7 +316,7 @@ class CarRequest extends FormRequest
             'date_3' => 'nullable|date',
             'thumbnail_3' => 'mimes:jpg,png,jpeg|max:2048',
             'video_3' => 'nullable|mimes:mp4|max:2048',
-        
+
         ];
     }
      /**
@@ -336,21 +335,21 @@ class CarRequest extends FormRequest
         'all_fuels' => 'nullable',
         'all_transmissions' => 'nullable',
         'all_profession' => 'nullable',
- 
+
         'model_name' => 'required|string|max:100',
         'sort_order' => 'required|integer',
         'is_just_launched' => ['required', Rule::in([Car::JUST_LAUNCHED, Car::NOT_JUST_LAUNCHED])],
         'status' => ['required', Rule::in(array_keys(config('params.car.status')))],
         'just_launch_sort_order' => [
             'required_if:is_just_launched,' . Car::JUST_LAUNCHED,
-            'nullable', 
+            'nullable',
         ],
         'ex_showroom_price' => 'required|numeric|min:0|max:99999999',
         'on_road_price' => 'required|numeric|min:0|max:99999999',
         'finance_available' => 'required|numeric|min:0|max:99999999',
         'insurance' => 'required|numeric|min:0|max:99999999',
         'service_charge' => 'required|numeric|min:0|max:99999999',
-       
+
         // 'engine_type' => 'required|string',
         // 'no_of_cylinders' => 'nullable|integer',
         // 'valves_per_cylinder' => 'nullable|integer',
@@ -396,7 +395,7 @@ class CarRequest extends FormRequest
         // '360_view_camera' => 'nullable|integer',
         // 'boot_space' => 'required|numeric|min:1|max:999999',
         // 'power_windows' => 'required|string',
-        
+
         // 'tachometer' => 'nullable|integer',
         // 'electronic_multi_tripmeter' => 'nullable|integer',
         // 'digital_odometer' => 'nullable|integer',
@@ -407,7 +406,7 @@ class CarRequest extends FormRequest
         // 'Halogen_Headlamps' => 'nullable|integer',
         // 'LED_Headlights' => 'nullable|integer',
         // 'sun_roof' => 'nullable|integer',
-        // 'safety_ratings' => ['required', Rule::in([1,2,3,4,5])],
+        'safety_ratings' => ['required', Rule::in([1,2,3,4,5])],
         // 'anti_theft_alarm' => 'nullable|integer',
         // 'anti_brake_system' => 'nullable|integer',
         'no_of_airbags' => 'required|integer',
@@ -424,7 +423,7 @@ class CarRequest extends FormRequest
         // 'digital_clock' => 'nullable|integer',
         // 'usb_charger' => 'nullable|integer',
         // 'bluetooth' => 'nullable|integer',
-       
+
         'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
         'image_detail' => 'nullable|mimes:jpg,png,jpeg|max:2048',
         'image_0' => 'mimes:jpg,png,jpeg|max:2048',
@@ -494,7 +493,7 @@ class CarRequest extends FormRequest
         'image_old_20' => 'nullable|string',
 
         'is_removed_image' => 'nullable|string',
-     
+
         'image_removed_1' => 'nullable|string',
         'image_removed_2' => 'nullable|string',
         'image_removed_3' => 'nullable|string',
@@ -532,12 +531,12 @@ class CarRequest extends FormRequest
         'deleted_image_id_13' => 'nullable|string',
         'deleted_image_id_14' => 'nullable|string',
         'deleted_image_id_15' => 'nullable|string',
-        'deleted_image_id_16' => 'nullable|string',  
+        'deleted_image_id_16' => 'nullable|string',
         'deleted_image_id_17' => 'nullable|string',
         'deleted_image_id_18' => 'nullable|string',
         'deleted_image_id_19' => 'nullable|string',
         'deleted_image_id_20' => 'nullable|string',
-    
+
         'why_choose' => 'required|string',
         'market_introduction' => 'required|string',
         'engine_transmission' => 'required|string',
@@ -545,7 +544,7 @@ class CarRequest extends FormRequest
         'interior' => 'required|string',
         'safety_features' => 'required|string',
         'rivals' => 'nullable|string',
-        'mileage_summary' => 'required|string', 
+        'mileage_summary' => 'required|string',
 
         'professions.*' => ['nullable', Rule::in(array_keys(config('params.professions')))],
         'colors.*' => ['required',Rule::exists('brand_color_mappings', 'id')],
@@ -621,7 +620,7 @@ class CarRequest extends FormRequest
             if (!$this->all_transmissions && !isset($this->transmission_types)) {
                 $validator->errors()->add('transmission_types', 'Please choose a transmission type.');
             }
-           
+
         });
     }
 }

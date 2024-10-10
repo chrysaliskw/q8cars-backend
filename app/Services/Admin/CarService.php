@@ -30,7 +30,7 @@ class CarService
         $this->car = $car;
         $this->version = $version;
         $this->data = $data;
-       
+
     }
 
     public function handle()
@@ -57,7 +57,7 @@ class CarService
                 $this->saveCategoryAttributes();
             }
             $this->deleteCategoryAttributes();
-          
+
             DB::commit();
 
             return $this->car;
@@ -76,7 +76,7 @@ class CarService
     {
         try {
 
-          
+
             DB::commit();
 
             return $this->car;
@@ -95,10 +95,10 @@ class CarService
                 $versionId = $this->version->id;
             }else{
                 $versionId = $this->car->carSpec->id;
-            }    
+            }
             $this->oldAttributeIds = CarAdditonalSpecifications::where('car_id', $this->car->id)->where('car_version_id',$versionId)->pluck('id')->toArray();
         }
-       
+
         // $oldImageName = $this->car->image;
         $this->car->brand_id = $this->data['brand_id'];
         $this->car->model_name = $this->data['model_name'];
@@ -120,7 +120,7 @@ class CarService
          $this->car->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
         // $this->car->seat_upholstery = $this->data['seat_upholstery'];
         $this->car->seat_capacity = $this->data['seat_capacity'];
-        // $this->car->safety_ratings = $this->data['safety_ratings'];
+        $this->car->safety_ratings = $this->data['safety_ratings'];
         $this->car->engine_capacity = $this->data['engine_capacity'];
         $this->car->power = $this->data['power'];
         $this->car->torque = $this->data['torque'];
@@ -129,14 +129,14 @@ class CarService
         // $this->car->top_speed = $this->data['top_speed'];
         $this->car->mileage = $this->data['mileage'];
         // $this->car->gear_box = $this->data['gear_box'];
-       
+
         $this->car->image = isset($this->data['image']) ? $this->moveUploadedProfileImage() : $this->car->image;
         $this->car->image_2 = isset($this->data['image_detail']) ? $this->moveUploadedProfileImage2() : $this->car->image_2;
         $this->car->fuel_types = $this->getIntValueFuel();
         $this->car->transmission_type = $this->getIntValueTransmission();
         $this->car->professions = $this->getIntValueProfession();
         $this->car->colours = $this->getIntValueColor();
-        
+
         $this->car->why_choose = $this->data['why_choose'];
         $this->car->market_introduction = $this->data['market_introduction'];
         $this->car->engine_transmission = $this->data['engine_transmission'];
@@ -157,29 +157,29 @@ class CarService
             $this->version = new CarVersion();
             $carSpec = CarVersion::CAR_SPECIFICATION;
         }
-        
+
         if(isset($this->data['varient_name'])) {
             $name = $this->data['varient_name'];
             $carSpec = CarVersion::CAR_VARIENT_SPECIFICATION;
-        } 
+        }
 
         $this->version->car_id = $this->car->id;
         $this->version->is_car_spec =  $this->version->is_car_spec ?? $carSpec;
         $this->version->varient_name = $name;
-        
+
         $this->version->ex_showroom_price = $this->data['ex_showroom_price'];
         $this->version->on_road_price = $this->data['on_road_price'];
         $this->version->finance_available = $this->data['finance_available'];
         $this->version->insurance = $this->data['insurance'];
         $this->version->service_charge = $this->data['service_charge'];
-        
+
         // $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
         // $this->version->engine_type = $this->data['engine_type'];
         // $this->version->no_of_cylinders = $this->data['no_of_cylinders'];
         // $this->version->valves_per_cylinder = $this->data['valves_per_cylinder'];
         // $this->version->bore_stroke = $this->data['bore_stroke'];
         // $this->version->compression_ratio = $this->data['compression_ratio'];
-        // $this->version->super_charge = $this->data['super_charge'];  
+        // $this->version->super_charge = $this->data['super_charge'];
         // $this->version->gear_box = $this->data['gear_box'];
         $this->version->engine_capacity = $this->data['engine_capacity'];
         $this->version->power = $this->data['power'];
@@ -224,7 +224,7 @@ class CarService
         // $this->version->Halogen_Headlamps = $this->data['Halogen_Headlamps'];
         // $this->version->LED_Headlights = $this->data['LED_Headlights'];
         // $this->version->sun_roof = $this->data['sun_roof'];
-        // $this->version->safety_ratings = $this->data['safety_ratings'];
+        $this->version->safety_ratings = $this->data['safety_ratings'];
         // $this->version->anti_theft_alarm = $this->data['anti_theft_alarm'];
         // $this->version->anti_brake_system = $this->data['anti_brake_system'];
         $this->version->no_of_airbags = $this->data['no_of_airbags'];
@@ -241,15 +241,15 @@ class CarService
         // $this->version->digital_clock = $this->data['digital_clock'];
         // $this->version->usb_charger = $this->data['usb_charger'];
         // $this->version->bluetooth = $this->data['bluetooth'];
-       
+
         if(isset($this->data['varient_name'])) {
             $this->version->transmission_type = $this->data['transmission_type'];
             $this->version->fuel_type = $this->data['fuel_type'];
-        } else {         
+        } else {
             $this->version->transmission_type = ($this->getIntValueTransmission()[1]);
             $this->version->fuel_type = ($this->getIntValueFuel()[1]);
         }
-        
+
         //$this->version->colours = $this->getIntValueColor($this->data['colors']);
         $this->version->colours = $this->car->colours;
         $this->version->status = $this->data['status'];
@@ -260,14 +260,14 @@ class CarService
 
     private function moveUploadedProfileImage()
     {
-       
+
         Log::info($this->data['image']->path());
         compressAndResizeImage($this->data['image']->path(), $this->data['image']->path());
-        $this->data['image']->store(Car::FILE_DIR);    // Store original image 
+        $this->data['image']->store(Car::FILE_DIR);    // Store original image
         compressAndResizeImage($this->data['image']->path(), $this->data['image']->path(), 'large_x');  // REsixe to 950x550 for images pages
         $this->data['image']->store(Car::FILE_DIR. DIRECTORY_SEPARATOR . 'large_x');  // Store resized image in car/large_x folder with same name.
         $hashedFileName = $this->data['image']->hashName();
-      
+
         return $hashedFileName;                                                                                                                                                                                                                                                                                     nm       ;
     }
 
@@ -275,11 +275,11 @@ class CarService
     {
         Log::info($this->data['image_detail']->path());
         compressAndResizeImage($this->data['image_detail']->path(), $this->data['image_detail']->path());
-        $this->data['image_detail']->store(Car::FILE_DIR);    // Store original image 
+        $this->data['image_detail']->store(Car::FILE_DIR);    // Store original image
         compressAndResizeImage($this->data['image_detail']->path(), $this->data['image_detail']->path(), 'large_x');  // REsixe to 950x550 for images pages
         $this->data['image_detail']->store(Car::FILE_DIR. DIRECTORY_SEPARATOR . 'large_x');  // Store resized image in car/large_x folder with same name.
         $hashedFileName = $this->data['image_detail']->hashName();
-      
+
         return $hashedFileName;                                                                                                                                                                                                                                                                                     nm       ;
     }
 
@@ -287,9 +287,9 @@ class CarService
     private function saveCarImages()
     {
         $oldImages = $this->getOldAdditionalImages($this->car->id);
-       
+
         CarImage::where('car_id', $this->car->id)->whereNull('color')->whereNotNull('section')->where('type', CarImage::TYPE_IMAGE)->delete();
-    
+
         $images = [];
         for ($i = 0; $i <= Car::MAX_NUM_IMAGES; $i++)
         {
@@ -297,13 +297,13 @@ class CarService
             $oldName = 'image_old_' . $i;
             $removedName = 'image_removed_' . $i;
             $section = 'img_section_' . $i;
-    
+
             if(isset($this->data[$oldName]) && !isset($this->data[$name]) && in_array($this->data[$oldName], $oldImages)){
                 if (($key = array_search($this->data[$oldName], $oldImages)) !== false) {
                     unset($oldImages[$key]);
                 }
             }
-    
+
             if (isset($this->data[$name]) && $this->data[$name]->get()) {
                 Log::info("file uploaded ");
                 compressAndResizeImage($this->data[$name]->path(), $this->data[$name]->path());
@@ -319,7 +319,7 @@ class CarService
                     Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x' . DIRECTORY_SEPARATOR . $image->file_name);
                     $car = Car::where('id', $image->id);
                     $car->delete();
-                }     
+                }
                 continue;
             }
             else {
@@ -328,7 +328,7 @@ class CarService
             if (! $fileName) {
                 continue;
             }
-    
+
             $images[] = [
                 'car_id' => $this->car->id,
                 'file_name' => $fileName,
@@ -336,7 +336,7 @@ class CarService
                 'section' => $this->data[$section],
             ];
         }
-    
+
         DB::table((new CarImage())->getTable())->insert($images);
         $imagesToDelete = $this->getJunkImages($images, $oldImages);
         JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
@@ -345,7 +345,7 @@ class CarService
             Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . $name);
             Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x' . DIRECTORY_SEPARATOR . $name);
         }
-    
+
     }
 
     private function saveCarColorsAndImages()
@@ -362,7 +362,7 @@ class CarService
                 ->whereIn('color', $uncheckedColors)
                 ->where('type', CarImage::TYPE_IMAGE)
                 ->delete();
-    
+
         foreach ($imagesToDelete as $name) {
             Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . $name);
             Storage::delete(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x' . DIRECTORY_SEPARATOR . $name);
@@ -370,7 +370,7 @@ class CarService
         $images = [];
         foreach ($submittedColors as $color) {
             $imageData = $this->handleImageUpload($color);
-            
+
             if ($imageData) {
                 $images[] = array_merge([
                     'car_id' => $this->car->id,
@@ -382,7 +382,7 @@ class CarService
         DB::table((new CarImage())->getTable())->upsert($images, ['car_id', 'color'], ['file_name']);
         JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
     }
-    
+
     /**
      * Handle image upload and resizing
      *
@@ -393,7 +393,7 @@ class CarService
     {
         $name = 'colors_image_' . $color;
         $oldName = 'colors_image_old_' . $color;
-    
+
         if (isset($this->data[$name]) && $this->data[$name]->get()) {
             $file = $this->data[$name];
             compressAndResizeImage($file->path(), $file->path());
@@ -402,9 +402,9 @@ class CarService
         } else {
             $fileName = $this->data[$oldName] ?? null;
         }
-    
+
         return $fileName ? ['file_name' => $fileName] : null;
-    }    
+    }
 
     private function getOldAdditionalImages($carId)
     {
@@ -440,7 +440,7 @@ class CarService
             $image[] = $img['file_name'];
         }
         $imagesToDelete = array_diff($oldAdditionalImages, $image);
-       
+
         return $imagesToDelete;
     }
 
@@ -495,7 +495,7 @@ class CarService
                     $result[$i] = intval($p);
                     $i++;
                 }
-            }   
+            }
         }
         return json_encode($result);
     }
@@ -508,7 +508,7 @@ class CarService
             $result[$i] = intval($p);
             $i++;
         }
-        
+
         return json_encode($result);
     }
 
@@ -516,12 +516,12 @@ class CarService
     {
         $videos = [];
         $idstobedeleted = [];
-      
+
         if(isset($this->data['update']))
         {
             $videosArr = $this->car->carVideos()->pluck('thumbnail')->toArray();
             $carVediosiIds = $this->car->carVideos()->pluck('id')->toArray();
-        }  
+        }
         for($i =1; $i <3 ; $i++)
         {
             $title = 'title_'.$i;
@@ -531,7 +531,7 @@ class CarService
                 $date = 'date_'.$i;
                 $thumbnail = 'thumbnail_'.$i;
                 $postedMedia = 'posted_media_'.$i;
-               
+
                 $this->data[$video]->store(Car::FILE_DIR);
                 $fileNameVideo = $this->data[$video]->hashName();
                 if(isset($this->data[$thumbnail])){
@@ -540,7 +540,7 @@ class CarService
                 }else{
                     $fileNameThumbnail = $videosArr[$i-1] ?? '';
                 }
-               
+
                 if(isset($videosArr[$i-1])) {
                     $idstobedeleted[] = $carVediosiIds[$i-1];
                 }
@@ -556,8 +556,8 @@ class CarService
                 ];
                 // dd($idstobedeleted);
             }
-           
-        } 
+
+        }
         DB::table((new CarImage())->getTable())->insert($videos);
         CarImage::whereIn('id',$idstobedeleted)->delete();
     }
@@ -575,10 +575,10 @@ class CarService
             if (empty($name)) {
                 continue;
             }
-         
-            if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index])) 
+
+            if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index]))
             {
-             
+
                 $categoryAttribute = CarAdditonalSpecifications::find($this->data['attribute_id'][$index]);
                 $categoryAttribute->specification = $name;
             }
@@ -595,7 +595,7 @@ class CarService
             $categoryAttribute->unit = $this->data['units'][$index];
             $categoryAttribute->is_key_feature = $this->data['key_feature'][$index];
             $categoryAttribute->is_key_spec = $this->data['key_spec'][$index];
-            if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index])) 
+            if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index]))
             {
                 $categoryAttribute->key_icon = $this->data['icon'][$index] !== null ? $this->uploadKeyIcon($this->data['icon'][$index]) : $categoryAttribute->key_icon ;
             }
@@ -603,15 +603,15 @@ class CarService
             {
                 $categoryAttribute->key_icon = $this->data['icon'][$index] !== null ? $this->uploadKeyIcon($this->data['icon'][$index]) :'';
             }
-          
+
             if($this->data['input_type'][$index] == CarAdditonalSpecifications::TYPE_TEXT) {
                 $categoryAttribute->value = $this->data['text_value'][$index];
             }else {
                 $categoryAttribute->value = $this->data['bool_value'][$index];
             }
-         
+
             $categoryAttribute->saveOrFail();
-      
+
         }
     }
 
@@ -628,15 +628,15 @@ class CarService
         if (!is_array($this->data['attribute_id'])) {
             $this->data['attribute_id'] = array($this->data['attribute_id']);
         }
-        
+
         $ids = array_diff($this->oldAttributeIds, $this->data['attribute_id']);
         if (empty($ids)) {
             return;
         }
-       
+
         // $idsNotTodelete = CarAdditonalSpecifications::where('car_id',$this->car->id)->where('car_version_id',$this->version->id)->pluck('id')->toArray();
         //     $ids = array_diff($ids, $idsNotTodelete);
-       
+
         CarAdditonalSpecifications::destroy($ids);
     }
     private function uploadKeyIcon($image)
@@ -645,7 +645,7 @@ class CarService
         compressAndResizeImage($image->path(), $image->path());
         $image->store(Car::FILE_DIR);
         $hashedFileName = $image->hashName();
-      
-        return $hashedFileName;                                    
+
+        return $hashedFileName;
     }
 }

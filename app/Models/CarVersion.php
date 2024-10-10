@@ -24,11 +24,11 @@ class CarVersion extends Model
     */
     public function news()
     {
-        return $this->hasMany(News::class);  
+        return $this->hasMany(News::class);
     }
     public function bodyType()
     {
-        return $this->belongsTo(BodyType::class, 'body_type');  
+        return $this->belongsTo(BodyType::class, 'body_type');
     }
     public function car()
     {
@@ -80,7 +80,7 @@ class CarVersion extends Model
     }
     public function keyFeature()
     {
-        return $this->hasMany(CarAdditonalSpecifications::class)->where('is_key_feature', CarAdditonalSpecifications::IS_KEY_FEATUER);
+        return $this->hasMany(CarAdditonalSpecifications::class)->where('is_key_feature', CarAdditonalSpecifications::IS_KEY_FEATURE);
     }
     public function carComparisonLists()
     {
@@ -100,5 +100,5 @@ class CarVersion extends Model
         return $query->where('status', self::STATUS_ACTIVE);
     }
 
-    
+
 }

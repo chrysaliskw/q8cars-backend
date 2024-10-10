@@ -1,11 +1,11 @@
-@php 
+@php
     $star = '<i class="fa fa-star"></i>';
 @endphp
 <div class="card card-border card-primary">
-   
+
     <div class="card-body">
         <div class="row">
-      
+
           {{--  <div class="col-md-4">
             <!-- <span class="badge bg-primary ms-2">key</span> -->
                 <x-form-input type="text" field="engine_type" field-name="Engine Type*" value="{{ $carVarient->engine_type }}">
@@ -49,7 +49,7 @@
                 <x-form-input type="text" field="torque" field-name="Torque(rpm)*" value="{{ $carVarient->torque }}">
                 </x-form-input>
             </div>
-          
+
           {{--  <div class="col-md-4">
                 <x-form-input type="text" field="drive_train" field-name="Drivetrain*" value="{{ $carVarient->drive_train }}">
                 </x-form-input>
@@ -67,7 +67,7 @@
                             <input class="form-check-input" type="checkbox" name="all_transmissions" id="all_transmissions"
                                 value="-1" onclick="selectAllTransmissions()" {{ $allTransmissionCheck }}>
                             &nbsp;<label class="form-check-label" for="all_transmissions" style="color: black;">
-                                All 
+                                All
                             </label>
                     </div>
                     @foreach (config('params.car.transmission_type') as $key => $value)
@@ -81,7 +81,7 @@
                                     style="color: black;">
                                     {{ $value }}
                                 </label>
-                    </div>  
+                    </div>
                     @endforeach
                 </div>
                 <span class="error" role="alert">
@@ -90,15 +90,15 @@
                         @enderror
                 </span>
             </div>
-           
+
         </div>
     </div>
 </div>
 <div class="card card-border card-primary">
-   
+
     <div class="card-body">
-        <div class="row">  
-       
+        <div class="row">
+
         <div class="col-md-4">
                 <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ $carVarient->seat_capacity }}">
                 </x-form-input>
@@ -123,6 +123,25 @@
                 <x-form-input type="text" field="mileage" field-name="Mileage*" value="{{ $carVarient->mileage }}">
                 </x-form-input>
             </div>
+            {{-- <div class="col-md-4">
+                <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
+                    <option selected value="1" <?php if(1 == $car->safety_ratings){ echo "selected";}?>>1</option>
+                    <option value="2" <?php if(2 == $car->safety_ratings){ echo "selected";}?>>2</option>
+                    <option value="3" <?php if(3 == $car->safety_ratings){ echo "selected";}?>>3</option>
+                    <option value="4" <?php if(4== $car->safety_ratings){ echo "selected";}?>>4</option>
+                    <option value="5" <?php if(5 == $car->safety_ratings){ echo "selected";}?>>5</option>
+                </x-form-select>
+            </div> --}}
+            <div class="col-md-4">
+                <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
+                    <option value="1" {{ $car->safety_ratings == 1 ? 'selected' : '' }}>1</option>
+                    <option value="2" {{ $car->safety_ratings == 2 ? 'selected' : '' }}>2</option>
+                    <option value="3" {{ $car->safety_ratings == 3 ? 'selected' : '' }}>3</option>
+                    <option value="4" {{ $car->safety_ratings == 4 ? 'selected' : '' }}>4</option>
+                    <option value="5" {{ $car->safety_ratings == 5 ? 'selected' : '' }}>5</option>
+                </x-form-select>
+            </div>
+
           {{--  <div class="col-md-4">
                 <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Compliance" value="{{ $carVarient->emission_norm_complains }}">
                 </x-form-input>
@@ -144,7 +163,7 @@
                             <input class="form-check-input" type="checkbox" name="all_fuels" id="all_fuels"
                                 value="-1" onclick="selectAllFuels()" {{$allFuelCheck}}>
                             &nbsp;<label class="form-check-label" for="all_fuels" style="color: black;">
-                                All 
+                                All
                             </label>
                     </div>
                     @foreach (config('params.car.fuel_type') as $key => $value)
@@ -158,7 +177,7 @@
                                     style="color: black;">
                                     {{ $value }}
                                 </label>
-                    </div>  
+                    </div>
                     @endforeach
                 </div>
                 <span class="error" role="alert">
@@ -166,19 +185,19 @@
                             {{ $message }}</br>
                         @enderror
                 </span>
-            
+
             </div>
         </div>
     </div>
 </div>
 {{--<div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Suspension, Steering and Brake</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-input type="text" field="front_suspension" field-name="Front Suspension" value="{{ $carVarient->front_suspension }}">
                 </x-form-input>
@@ -229,13 +248,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Dimension Capacity</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-select field="body_type_id" field-name="Body Type*" id="body_type_id">
                 </x-form-select>
@@ -258,13 +277,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Comfort Convinience</h5>
         </div>
     </div>
     <div class="card-body">
-      <div class="row"> 
+      <div class="row">
             <div class="col-md-4">
                 <x-form-input type="text" field="seat_upholstery" field-name="Seat Upholstery*" value="{{ $carVarient->seat_upholstery }}">
                 </x-form-input>
@@ -295,13 +314,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Interior</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-input type="text" field="boot_space" field-name="Boot Space*" value="{{ $carVarient->boot_space }}">
                 </x-form-input>
@@ -332,13 +351,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Exterior</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-select field="LED_Taillights" field-name="LED Taillights">
                     <option selected value="1" <?php if(1 == $carVarient->LED_Taillights){ echo "selected";}?>>Yes</option>
@@ -383,26 +402,9 @@
             </div>
         </div>
     </div>
-</div>
-<div class="card card-border card-primary">
-    <div class="card-header"> 
-        <div class="m-b-30">
-            <h5>Safety</h5>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="row"> 
-            <div class="col-md-4">
-                <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
-                    <option selected value="1" <?php if(1 == $car->safety_ratings){ echo "selected";}?>>1</option>
-                    <option value="2" <?php if(2 == $car->safety_ratings){ echo "selected";}?>>2</option>
-                    <option value="3" <?php if(3 == $car->safety_ratings){ echo "selected";}?>>3</option>
-                    <option value="4" <?php if(4== $car->safety_ratings){ echo "selected";}?>>4</option>
-                    <option value="5" <?php if(5 == $car->safety_ratings){ echo "selected";}?>>5</option>
-                </x-form-select>
-            </div>
-            
-            <div class="col-md-4">
+</div> --}}
+
+            {{-- <div class="col-md-4">
                 <x-form-select field="anti_theft_alarm" field-name="Anti Theft Alarm">
                     <option selected value="1" <?php if(1 == $carVarient->anti_theft_alarm){ echo "selected";}?>>Yes</option>
                     <option value="2" <?php if(2 == $carVarient->anti_theft_alarm){ echo "selected";}?>>No</option>
@@ -436,13 +438,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Entertainment and Comminication</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-select field="integrated_antenna" field-name="Integrated Antenna">
                     <option selected value="1" <?php if(1 == $carVarient->integrated_antenna){ echo "selected";}?>>Yes</option>
@@ -506,9 +508,9 @@
         </div>
     </div>
 </div>--}}
-   
-  
- 
+
+
+
 
 
 

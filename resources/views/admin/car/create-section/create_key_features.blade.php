@@ -1,8 +1,8 @@
-@php 
+@php
     $star = '<i class="fa fa-star"></i>';
 @endphp
 <div class="card card-border card-primary">
-   
+
     <div class="card-body">
         <div class="row">
             {{--<div class="col-md-4">
@@ -59,18 +59,18 @@
                         <input class="form-check-input" type="checkbox" name="all_transmissions" id="all_transmissions"
                             value="-1" onclick="selectAllTransmissions()" {{ old('all_transmissions') == '-1' ? 'checked' : '' }}>
                         &nbsp;<label class="form-check-label" for="all_transmissions" style="color: black;">
-                            All 
+                            All
                         </label>
                     </div>
                     @foreach (config('params.car.transmission_type') as $key => $value)
                     <div class="form-check form-check-inline col-md-2">
                         <input class="form-check-input" type="checkbox" name="transmission_types[]"
-                            id="transmission_types{{ $key }}" value="{{ $key }}" 
+                            id="transmission_types{{ $key }}" value="{{ $key }}"
                             {{ in_array($key, old('transmission_types', [])) ? 'checked' : '' }}>
                         &nbsp;<label class="form-check-label" for="transmission_types{{ $key }}" style="color: black;">
                             {{ $value }}
                         </label>
-                    </div>  
+                    </div>
                     @endforeach
                 </div>
                 <span class="error" role="alert">
@@ -79,14 +79,14 @@
                         @enderror
                 </span>
             </div>
-           
+
         </div>
     </div>
 </div>
 <div class="card card-border card-primary">
-   
+
     <div class="card-body">
-        <div class="row">  
+        <div class="row">
             <div class="col-md-4">
                 <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ old('seat_capacity') }}">
                 </x-form-input>
@@ -111,6 +111,15 @@
                 <x-form-input type="text" field="mileage" field-name="Mileage(Kmpl)*" value="{{ old('mileage') }}">
                 </x-form-input>
             </div>
+            <div class="col-md-4">
+                <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
+                    <option selected value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </x-form-select>
+            </div>
            {{-- <div class="col-md-4">
                 <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Compliance" value="{{ old('emission_norm_complains') }}">
                 </x-form-input>
@@ -132,12 +141,12 @@
                     @foreach (config('params.car.fuel_type') as $key => $value)
                     <div class="form-check form-check-inline col-md-2">
                         <input class="form-check-input" type="checkbox" name="fuel_types[]"
-                            id="fuel_types{{ $key }}" value="{{ $key }}" 
+                            id="fuel_types{{ $key }}" value="{{ $key }}"
                             {{ in_array($key, old('fuel_types', [])) ? 'checked' : '' }}>
                         &nbsp;<label class="form-check-label" for="fuel_types{{ $key }}" style="color: black;">
                             {{ $value }}
                         </label>
-                    </div>  
+                    </div>
                     @endforeach
                 </div>
                 <span class="error" role="alert">
@@ -145,19 +154,19 @@
                         {{ $message }}</br>
                     @enderror
                 </span>
-            
+
             </div>
         </div>
     </div>
 </div>
 {{--<div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Suspension, Steering and Brake</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-input type="text" field="front_suspension" field-name="Front Suspension" value="{{ old('front_suspension') }}">
                 </x-form-input>
@@ -208,13 +217,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Dimension Capacity</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-select field="body_type_id" field-name="Body Type*" id="body_type_id">
                 </x-form-select>
@@ -237,13 +246,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Comfort Convinience</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-input type="text" field="seat_upholstery" field-name="Seat Upholstery*" value="{{ old('seat_upholstery') }}">
                 </x-form-input>
@@ -274,13 +283,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Interior</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-input type="text" field="boot_space" field-name="Boot Space(cubic feet)*" value="{{ old('boot_space') }}">
                 </x-form-input>
@@ -311,13 +320,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Exterior</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-select field="LED_Taillights" field-name="LED Taillights">
                     <option selected value="1">Yes</option>
@@ -362,26 +371,9 @@
             </div>
         </div>
     </div>
-</div>
-<div class="card card-border card-primary">
-    <div class="card-header"> 
-        <div class="m-b-30">
-            <h5>Safety</h5>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="row"> 
-            <div class="col-md-4">
-                <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
-                    <option selected value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </x-form-select>
-            </div>
-            
-            <div class="col-md-4">
+</div> --}}
+
+            {{-- <div class="col-md-4">
                 <x-form-select field="anti_theft_alarm" field-name="Anti Theft Alarm">
                     <option selected value="1">Yes</option>
                     <option value="2">No</option>
@@ -415,13 +407,13 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Entertainment and Comminication</h5>
         </div>
     </div>
     <div class="card-body">
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-4">
                 <x-form-select field="integrated_antenna" field-name="Integrated Antenna">
                     <option selected value="1">Yes</option>
@@ -485,9 +477,9 @@
         </div>
     </div>
 </div>--}}
-   
-  
- 
+
+
+
 
 
 
