@@ -37,6 +37,9 @@ class CarComparisonListRequest extends FormRequest
     {
     //  dd($this->all());
         return [
+            'body_type_id' => 'required',
+            
+
             
             'car_id' => [
                 'nullable',
@@ -112,6 +115,8 @@ class CarComparisonListRequest extends FormRequest
         // dd($this->all());
         
         return [
+            'body_type_id' => 'required',
+            
             'car_id' => [
                 'nullable',
                 Rule::exists(Car::class, 'id')->where(function ($query) {

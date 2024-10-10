@@ -83,6 +83,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        {{-- {{dd($viewData)}} --}}
                                         <td style="padding: 15px;">
                                             <img src="{{ file_asset('files-car',$viewData['Car Image'])}}" alt="noimage.webp"  style="margin: 10px"><br>
                                         </td>
