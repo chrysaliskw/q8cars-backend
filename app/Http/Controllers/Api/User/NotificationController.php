@@ -18,15 +18,18 @@ class NotificationController extends ApiBaseController
     public function __invoke()
     {
         $userId = Auth::id();
+        $user = Auth::user();
         $currentDate = now()->toDateString();
 
         $notifications = Notification::whereHas('users', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->active()->where('start_date', '<=', $currentDate)->where('end_date', '>=', $currentDate)->latest()->paginate(20);
 
-        $data = NotificationResource::collection($notifications);
+        // $data = NotificationResource::collection($notifications)->additional(['is_mute' =>$user->is_mute]);
 
-        return $this->success(['data' => $data], 'Notification Listing', Response::HTTP_OK);
+        // return $this->success(['data' => $data], 'Notification Listing', Response::HTTP_OK);
+
+        return NotificationResource::collection($notifications)->additional(['is_mute' => (bool) $user->is_mute]);
 
     }
 
