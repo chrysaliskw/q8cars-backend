@@ -32,12 +32,12 @@ class OfferRequestController extends Controller
     public function show(OfferRequest $offerRequest)
     {
         $viewData = [
-           
+
             'User Mobile' =>  $offerRequest->user ? "<a href='" . route('admin.user.show', $offerRequest->user->id) . "'>{$offerRequest->user->phone_code} {$offerRequest->user->mobile}</a>": 'NA',
             'Car Model' => $offerRequest->car->model_name,
             'Requested Name' => $offerRequest->full_name ,
-            'Requeted Mobile' => $offerRequest->mobile,
-            'Requeted Email' => $offerRequest->email,
+            'Requested Mobile' => $offerRequest->mobile,
+            'Requested Email' => $offerRequest->email,
             'Offer' => $offerRequest->type == OfferRequest::TYPE_OFFER ? $offerRequest->offer_id : '',
             'Status' =>config('params.offer_request.status')[$offerRequest->status],
             'Type' => config('params.offer_request.type')[$offerRequest->type],
