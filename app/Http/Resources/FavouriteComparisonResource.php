@@ -15,7 +15,7 @@ class FavouriteComparisonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            // 'id' => $this->id,
             'car_1' => $this->car1 ? [
                 'car_id' => $this->car1->id,
                 'image' => file_asset('files-favourite', $this->car1->image),

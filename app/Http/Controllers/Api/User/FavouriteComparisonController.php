@@ -21,7 +21,12 @@ class FavouriteComparisonController extends ApiBaseController
 
         $comparisons = FavouriteComparison::where('user_id', $userId)->with(['car1', 'car2', 'car3', 'car4'])->get();
 
-        $data = FavouriteComparisonResource::collection($comparisons);
+        // $data = FavouriteComparisonResource::collection($comparisons);
+        $data = [];
+
+        foreach ($comparisons as $comparison) {
+            $data[(string)$comparison->id] = new FavouriteComparisonResource($comparison);
+        }
 
         return $this->success(['data' => $data], 'Favourite Comparison Listing', Response::HTTP_OK);
     }
