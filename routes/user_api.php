@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\User\JustLaunchController;
 use App\Http\Controllers\Api\User\OfferRequestController;
 use App\Http\Controllers\Api\User\SubmitReviewController;
 use App\Http\Controllers\Api\User\AccountDeleteController;
+use App\Http\Controllers\Api\User\BankController;
 use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
@@ -88,6 +89,9 @@ Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','
     //favourite comparison
     Route::get('/fav-comparisons', FavouriteComparisonController::class);
     Route::delete('/fav-comparisons/{id}', [FavouriteComparisonController::class, 'destroy']);
+
+    //bank
+    Route::get('/banks', BankController::class);
 });
 
 /**
