@@ -34,7 +34,7 @@ class OfferDataGrid extends Grid
                 }
             ],
 
-            'brand' => [
+            'brand_id' => [
                 'label' => 'Brand',
                 'value' => function($model){
                     return $model->brand_name;
@@ -56,7 +56,7 @@ class OfferDataGrid extends Grid
                 ]
             ],
 
-            'car_variant' => [
+            'car_varient' => [
                 'label' => 'Car Variant',
                 'value' => function ($model) {
                     return $model->car_varient;
