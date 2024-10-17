@@ -1,5 +1,5 @@
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5></h5>
         </div>
@@ -22,7 +22,7 @@
                 <input type="hidden" id="body_type_id_text" name="body_type_id_text" />
                 <span class="error" role="alert" id="body_type_id_error" ></span>
             </div>
-          
+
             <div class="col-md-4">
                 <x-form-input type="text" field="sort_order" field-name="Sort Order*" value="{{ $car->sort_order }}">
                 </x-form-input>
@@ -34,10 +34,10 @@
                 </x-form-select>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="just_launch_sort_order" field-name="Just Lauch Sort Order" value="{{ $car->just_launch_sort_order }}" id="just_launch_sort_order">
+                <x-form-input type="text" field="just_launch_sort_order" field-name="Just Launch Sort Order" value="{{ $car->just_launch_sort_order }}" id="just_launch_sort_order">
                 </x-form-input>
             </div>
-            
+
             <div class="col-md-4">
                 <x-form-select field="status" field-name="Status*" defaultPrompt="Select status">
                     @foreach (config('params.car.status') as $value => $label)
@@ -50,7 +50,7 @@
     </div>
 </div>
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             <h5>Pricing Details (KWD)</h5>
         </div>
@@ -82,15 +82,15 @@
 </div>
 
 <div class="card card-border card-primary">
-    <div class="card-header"> 
+    <div class="card-header">
         <div class="m-b-30">
             Professions
         </div>
     </div>
     <div class="card-body">
- 
+
             <div class="col-md-12">
-             
+
                 <div class="row">
                         @php
                             $allProfeessionCheck = '';
@@ -102,10 +102,10 @@
                             <input class="form-check-input" type="checkbox" name="all_profession" id="all_profession"
                                 value="-1" onclick="selectAllProfession()" {{ $allProfeessionCheck }}>
                             &nbsp;<label class="form-check-label" for="all_profession" style="color: black;">
-                                All 
+                                All
                             </label>
                     </div>
-                 
+
                     @foreach (config('params.professions') as $key => $value)
                         @php
                             $attrPCheck = in_array($key, $currentProfessions) ? 'checked' : '';
@@ -117,7 +117,7 @@
                                     style="color: black;">
                                     {{ $value }}
                                 </label>
-                    </div>  
+                    </div>
                     @endforeach
                 </div>
                 <span class="error" role="alert">
@@ -127,7 +127,7 @@
                 </span>
             </div>
         </div>
-      
+
 
 </div>
 <script>
@@ -135,10 +135,10 @@
         $('#just_launch_sort_order').prop('disabled', false);
     }else{
         $('#just_launch_sort_order').prop('disabled', true);
-       
+
     }
     function toggleJustLaunch(that){
-   
+
    console.log(that.value);
    if ((that).value == 1) { // If "Yes" is selected
        $('#just_launch_sort_order').prop('disabled', false); // Enable the input field

@@ -5006,3 +5006,7 @@ display: none;
   height: 100px;
   width: 150px;
 }
+.other-specs td{
+    vertical-align: middle;
+}
+    

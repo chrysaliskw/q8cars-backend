@@ -17,11 +17,11 @@
     <input type="hidden" name="fcount" id="fcount" value="{{ $fcount }}" />
     <input type="hidden" name="tcount" id="tcount" value="{{ $tcount }}" />
     <input type="hidden" name="ccount" id="ccount" value="{{ $ccount }}" />
-    
+
     <div id="loading-spinner" style=font-size:10px>
         <!-- Loading spinner -->
     </div>
-    
+
     <div id="edit-page" class="row" style="display: none;">
         <div class="col-xl-12">
             <div class="card ">
@@ -35,35 +35,35 @@
             </div>
             <ul class="nav nav-tabs tabs" role="tablist" id="business-user-profile-tab">
                 <li class="nav-item tab">
-                    <a class="nav-link active" id="about-tab-2" data-toggle="tab" href="#about-2" role="tab" 
+                    <a class="nav-link active" id="about-tab-2" data-toggle="tab" href="#about-2" role="tab"
                         onclick="onTab('about')" aria-controls="about-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
                         <span class="d-none d-sm-block">Basic Info</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab" 
+                    <a class="nav-link" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab"
                         onclick="onTab('contact')" aria-controls="contact-2" aria-selected="true">
                         <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
                         <span class="d-none d-sm-block">Summary</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
+                    <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab"
                         onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Images</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="videos-tab-2" data-toggle="tab" href="#videos-2" role="tab" 
+                    <a class="nav-link" id="videos-tab-2" data-toggle="tab" href="#videos-2" role="tab"
                         onclick="onTab('videos')" aria-controls="videos-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Videos</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab" 
+                    <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab"
                         onclick="onTab('colors')" aria-controls="colors-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Colors</span>
@@ -71,15 +71,15 @@
                 </li>
 
                 <li class="nav-item tab">
-                    <a class="nav-link" id="additional-tab-2" data-toggle="tab" href="#additional-2" role="tab" 
+                    <a class="nav-link" id="additional-tab-2" data-toggle="tab" href="#additional-2" role="tab"
                         onclick="onTab('additional')" aria-controls="additional-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Other Specifications</span>
                     </a>
                 </li>
-              
 
-             
+
+
 
             </ul>
 
@@ -104,7 +104,7 @@
                     <div class="tab-pane" id="colors-2" role="tabpanel" aria-labelledby="colors-tab-2">
                         @include('admin.car.edit-section.edit_colors')
                     </div>
-               
+
                     <div class="tab-pane" id="additional-2" role="tabpanel" aria-labelledby="additional-tab-2">
                         @include('admin.car.edit-section.additional')
                     </div>
@@ -113,30 +113,30 @@
             </div>
         </div>
     </div>
-    
+
     <x-slot name="scripts">
         <script type="text/javascript">
-            
+
 
             $("#date_1").datepicker({
                 format: 'dd-mm-yyyy',
-                
+
             });
             $("#date_2").datepicker({
                 format: 'dd-mm-yyyy',
-                
+
             });
              $("#date_0").datepicker({
                 format: 'dd-mm-yyyy',
-                
+
             });
-            function toggleFields(index) 
+            function toggleFields(index)
            {
                 const inputType = document.getElementById(`input_type_${index}`).value;
                 const textField = document.getElementById(`text_value_${index}`);
                 const booleanField = document.getElementById(`bool_value_${index}`);
 
-  
+
             if (inputType == 1) { // Text
                 textField.disabled = false;
                 booleanField.disabled = true;
@@ -151,25 +151,46 @@
         //         toggleFields({{ $i }});
         //     @endfor
         // });
-     
-            
+
+
+            // function clearRow(button) {
+            //     const row = button.closest('tr');
+            //     row.querySelectorAll('input[type="text"]').forEach(input => {
+            //         input.value = '';
+            //     });
+
+            //     row.querySelectorAll('select').forEach(select => {
+            //         select.selectedIndex = 0;
+            //     });
+
+            //     row.querySelectorAll('input[type="hidden"]').forEach(hiddenInput => {
+            //         hiddenInput.value = '';
+            //     });
+            //     rowCount--;
+            //     document.getElementById('row_count').value = rowCount;
+            // }
+
             function clearRow(button) {
-                const row = button.closest('tr');
-                row.querySelectorAll('input[type="text"]').forEach(input => {
-                    input.value = '';
-                });
-        
-                row.querySelectorAll('select').forEach(select => {
-                    select.selectedIndex = 0; 
-                });
-        
-                row.querySelectorAll('input[type="hidden"]').forEach(hiddenInput => {
-                    hiddenInput.value = '';
-                });
-                rowCount--;
-                document.getElementById('row_count').value = rowCount;
+                const rowId = button.getAttribute('data-id');
+                const row = document.getElementById(`row_${rowId}`);
+                if (row) {
+                    row.remove();
+                    rowCount--;
+                    document.getElementById('row_count').value = rowCount;
+
+                    updateSerialNumbers();
+                }
             }
-    
+
+            function updateSerialNumbers() {
+                const rows = document.querySelectorAll('#specification-rows tr');
+                rows.forEach((row, index) => {
+                    if (serialCell) {
+                        serialCell.textContent = index + 1;
+                    }
+                });
+            }
+
 
             /**
              * Loading spinner
@@ -194,21 +215,21 @@
                 show('loading-spinner', false);
             });
 
-         
+
 
             function onSubmit()
             {
                 document.getElementById("business-user-form").submit();
             }
 
-          
+
             function deleteImage(id)
             {
                 $("#image_preview_" + id).remove();
                 $("#image_old_" + id).val('');
             }
 
-  
+
             function selectAllProfession()
             {
                 if ($("#all_profession").prop("checked")) {
@@ -264,7 +285,7 @@
             }
 
             $('#body_type_id').select2({
-                
+
                 placeholder: "Search body type",
                 minimumInputLength: 1,
                 ajax: {
@@ -274,7 +295,7 @@
                         var query = {
                             search: params.term,
                             page: params.page || 1,
-                          
+
                         }
 
                         // Query parameters will be ?search=[term]&page=[page]
@@ -293,9 +314,9 @@
                 const bOption = new Option(currentBodyType.text, currentBodyType.id, true, true);
                 $('#body_type_id').append(bOption).trigger('change');
             }
-        
+
             $('#brand_id').select2({
-                
+
                 placeholder: "Search brand",
                 minimumInputLength: 1,
                 ajax: {
@@ -345,7 +366,7 @@
                                 <div class="card border-primary" style="background-color: #f0f8ff;">
                                     <div class="card-body">
                                         <div class="form-check form-check-inline col-md-12">
-                                            <input class="form-check-input" type="checkbox" name="colors[]" 
+                                            <input class="form-check-input" type="checkbox" name="colors[]"
                                                 id="colors_${key}" value="${key}">
                                             <label class="form-check-label" for="colors_${key}" style="color: black;">
                                                 ${value}
@@ -357,7 +378,7 @@
                                     </div>
                                 </div>
                             </div>`;
-                        
+
                         // Append the color checkbox and file input to the color-options div
                         $('#color-options').append(colorCheckbox);
                     });
@@ -368,7 +389,7 @@
             $('#color-options').empty();
         }
     });
-    </script> 
+    </script>
     </x-slot>
-    
+
 </x-admin-layout>
