@@ -1,12 +1,12 @@
 <div class="card">
         <div class="card-header">
-           
+
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table other-specs">
                             <thead>
                                 <tr>
                                     <th>SI No</th>
@@ -22,16 +22,16 @@
                                 </tr>
                             </thead>
                             <tbody id="specification-rows">
-                              
-                          
+
+
                             @for($i = 0; $i < $carVarient->carAdditionalSpecifications->count(); $i++)
-                                    
+
                                     <tr>
                                         <td>{{$i+1}}</td>
                                         <td>
                                             <x-form-select field="section_{{$i}}" id="section_{{$i}}" >
                                                 @foreach(config('params.car.specification-section') as $value => $label)
-                                                    <option value="{{ $value }}"  
+                                                    <option value="{{ $value }}"
                                                         <?php if($value == $additionals[$i]->category_id){ echo "selected";}?>>
                                                     {{ $label }}</option>
                                                 @endforeach
@@ -46,7 +46,7 @@
                                                 <option value="2" <?php if(2 == $additionals[$i]->input_type){ echo "selected";}?>>Boolean</option>
                                             </x-form-select>
                                         </td>
-                                       
+
                                         <td>
                                             <x-form-input type="text" field="text_value_{{$i}}" id="text_value_{{$i}}" class="validate" value="{{(1 == $additionals[$i]->input_type) ?$additionals[$i]->value : ''}}"></x-form-input>
                                         </td>
@@ -64,7 +64,7 @@
                                         <input class="form-check-input" type="checkbox" name="key_feature_{{$i}}"
                                         id="key_feature_{{ $i }}" value="{{ $additionals[$i]->is_key_feature }}" {{ $additionals[$i]->is_key_feature == 1 ? 'checked' : '' }} onclick="toggleKeySpec({{$i}})">
                                         &nbsp;<label class="form-check-label" for="key_feature_{{ $i }}"
-                                        style="color: black;"> 
+                                        style="color: black;">
                                         </label></div>
                                     </td>
                                     <td>
@@ -73,13 +73,13 @@
                                                         id="key_spec_{{ $i }}" value="{{ $additionals[$i]->is_key_spec }}" {{ $additionals[$i]->is_key_spec  == 1 ? 'checked' : '' }} onclick="toggleKeySpec({{$i}})>
                                                     &nbsp;<label class="form-check-label" for="key_spec__{{ $i }}"
                                                         style="color: black;">
-                                                        
+
                                                     </label>
-                                        </div> 
+                                        </div>
                                     </td>
                                     <td>
                                     <div class="form-group">
-                    @php 
+                    @php
                         $imageName = $additionals[$i]->key_icon;
                     @endphp
                     @if ($imageName)
@@ -92,15 +92,15 @@
                                         <input type="file" id="icon_{{$i}}" name="icon_{{$i}}" class="d-none" onchange="previewIcon({{$i}})">
                                     </td>
                                         <td>
-                                            <button type="button" class="btn btn-md btn-danger mt-4" title="Clear"
+                                            <button type="button" class="btn btn-md btn-danger" title="Clear"
                                                 id="delete_btn_{{$i}}" data-id="{{$i}}" onclick="clearRow(this)">
                                                 <span class="ion-trash-a" data-attribute></span>
-                                            </button>  
-                                        </td>         
+                                            </button>
+                                        </td>
                                         <input type="hidden" name="attribute_id_{{$i}}" id="attribute_id_{{$i}}" value="{{ $additionals[$i]->id ?? '' }}" />
                                     </tr>
-                               
-                                
+
+
                                 @endfor
                             </tbody>
                         </table>
@@ -113,7 +113,7 @@
             </div>
         </div>
 </div>
-   
+
     <script>
    let rowCount = document.getElementById('row_count').value;
    console.log(rowCount);
@@ -122,7 +122,7 @@
         //let rowCount = document.getElementById('row_count').value;
         const newRow = document.createElement('tr');
         newRow.id = `row_${rowCount}`;
-        
+
         newRow.innerHTML = `
             <td>${rowCount + 1}</td>
             <td>
@@ -137,7 +137,7 @@
                 <x-form-input type="text" field="attribute_${rowCount}" id="attribute_${rowCount}" class="validate"></x-form-input>
             </td>
             <td>
-                <x-form-select field="input_type_${rowCount}" id="input_type_${rowCount}" onchange="toggleFields(${rowCount})">   
+                <x-form-select field="input_type_${rowCount}" id="input_type_${rowCount}" onchange="toggleFields(${rowCount})">
                 <option value="1">Text</option>
                     <option value="2">Boolean</option>
                 </x-form-select>
@@ -156,23 +156,23 @@
             </td>
               <td>
                  <x-form-checkbox field="key_feature_${rowCount}" id="key_feature_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
-                           
+
             </td>
             <td>
                <x-form-checkbox field="key_spec_${rowCount}" id="key_spec_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
-                           
+
             <td>
                 <input type="file" id="icon_${rowCount}" name="icon_${rowCount}" class="d-none" onchange="previewIcon(${rowCount})">
             </td>
             <td>
-                <button type="button" class="btn btn-md btn-danger mt-4" title="Clear"
+                <button type="button" class="btn btn-md btn-danger" title="Clear"
                     id="delete_btn_${rowCount}" data-id="${rowCount}" onclick="clearRow(this)">
                     <span class="ion-trash-a" data-attribute></span>
                 </button>
             </td>
         `;
-        
-        tableBody.appendChild(newRow); 
+
+        tableBody.appendChild(newRow);
         rowCount++;
         document.getElementById('row_count').value = rowCount;
     }

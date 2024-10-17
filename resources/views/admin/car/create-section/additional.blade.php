@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table other-specs">
                         <thead>
                             <tr>
                                 <th>SI No</th>
@@ -38,7 +38,7 @@
                                     <x-form-input type="text" field="attribute_0" id="attribute_0" class="validate"></x-form-input>
                                 </td>
                                 <td>
-                                    <x-form-select field="input_type_0" id="input_type_0" onchange="toggleFields(0)">   
+                                    <x-form-select field="input_type_0" id="input_type_0" onchange="toggleFields(0)">
                                         <option value="1">Text</option>
                                         <option value="2">Boolean</option>
                                     </x-form-select>
@@ -47,7 +47,7 @@
                                     <x-form-input type="text" field="text_value_0" id="text_value_0" class="validate"></x-form-input>
                                 </td>
                                 <td>
-                                    <x-form-select field="bool_value_0" id="bool_value_0" disabled> 
+                                    <x-form-select field="bool_value_0" id="bool_value_0" disabled>
                                         <option value="1" >Yes</option>
                                         <option value="2">No</option>
                                     </x-form-select>
@@ -57,18 +57,18 @@
                                 </td>
                                 <td>
                                 <x-form-checkbox field="key_feature_0" id="key_feature_0" value="0" fieldName="" onclick="toggleKeySpec(0)" />
-                           
+
                                 </td>
                                 <td>
                                 <x-form-checkbox field="key_spec_0" id="key_spec_0" value="0" fieldName="" onclick="toggleKeySpec(0)" />
-                           
+
                                 </td>
                                 <td>
                                     <input type="file" id="icon_0" name="icon_0" class="d-none">
                                 </td>
-                               
+
                                 <td>
-                                    <button type="button" class="btn btn-md btn-danger mt-4" title="Clear"
+                                    <button type="button" class="btn btn-md btn-danger" title="Clear"
                                         id="delete_btn_0" data-id="0" onclick="clearRow(this)">
                                         <span class="ion-trash-a" data-attribute></span>
                                     </button>
@@ -125,16 +125,16 @@
             </td>
             <td>
                  <x-form-checkbox field="key_feature_${rowCount}" id="key_feature_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
-                           
+
             </td>
             <td>
                <x-form-checkbox field="key_spec_${rowCount}" id="key_spec_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
-                           
+
             <td>
                 <input type="file" id="icon_${rowCount}" name="icon_${rowCount}" class="d-none" onchange="previewIcon(${rowCount})">
             </td>
             <td>
-                <button type="button" class="btn btn-md btn-danger mt-4" title="Clear" id="delete_btn_${rowCount}" data-id="${rowCount}" onclick="clearRow(this)">
+                <button type="button" class="btn btn-md btn-danger" title="Clear" id="delete_btn_${rowCount}" data-id="${rowCount}" onclick="clearRow(this)">
                     <span class="ion-trash-a" data-attribute></span>
                 </button>
             </td>
@@ -144,7 +144,7 @@
         rowCount++;
         document.getElementById('row_count').value = rowCount;
     }
-    
+
 
     function toggleKeySpec(row) {
         const keyFeatureCheckbox = document.getElementById(`key_feature_${row}`);

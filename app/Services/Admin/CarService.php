@@ -268,7 +268,7 @@ class CarService
         $this->data['image']->store(Car::FILE_DIR. DIRECTORY_SEPARATOR . 'large_x');  // Store resized image in car/large_x folder with same name.
         $hashedFileName = $this->data['image']->hashName();
 
-        return $hashedFileName;                                                                                                                                                                                                                                                                                     nm       ;
+        return $hashedFileName;
     }
 
     private function moveUploadedProfileImage2()
@@ -280,7 +280,7 @@ class CarService
         $this->data['image_detail']->store(Car::FILE_DIR. DIRECTORY_SEPARATOR . 'large_x');  // Store resized image in car/large_x folder with same name.
         $hashedFileName = $this->data['image_detail']->hashName();
 
-        return $hashedFileName;                                                                                                                                                                                                                                                                                     nm       ;
+        return $hashedFileName;
     }
 
 
@@ -350,14 +350,14 @@ class CarService
 
     private function saveCarColorsAndImages()
     {
-        $existingColors = BrandColorMapping::where('brand_id',$this->car->brand_id)->pluck('id')->toArray();
+        $existingColors = BrandColorMapping::where('brand_id', $this->car->brand_id)->pluck('id')->toArray();
         $submittedColors = $this->data['colors'] ?? [];
         $uncheckedColors = array_diff($existingColors, $submittedColors);
         $imagesToDelete = CarImage::where('car_id', $this->car->id)
-                                  ->whereIn('color', $uncheckedColors)
-                                  ->where('type', CarImage::TYPE_IMAGE)
-                                  ->pluck('file_name')
-                                  ->toArray();
+                                ->whereIn('color', $uncheckedColors)
+                                ->where('type', CarImage::TYPE_IMAGE)
+                                ->pluck('file_name')
+                                ->toArray();
         CarImage::where('car_id', $this->car->id)
                 ->whereIn('color', $uncheckedColors)
                 ->where('type', CarImage::TYPE_IMAGE)
@@ -372,14 +372,32 @@ class CarService
             $imageData = $this->handleImageUpload($color);
 
             if ($imageData) {
-                $images[] = array_merge([
+                $images[] = [
                     'car_id' => $this->car->id,
                     'type' => CarImage::TYPE_IMAGE,
                     'color' => $color,
-                ], $imageData);
+                    'file_name' => $imageData['file_name'],
+                ];
             }
         }
-        DB::table((new CarImage())->getTable())->upsert($images, ['car_id', 'color'], ['file_name']);
+
+        if (!empty($images)) {
+            foreach ($images as &$image) {
+
+                $existingImage = CarImage::where('car_id', $this->car->id)
+                    ->where('color', $image['color'])
+                    ->where('type', CarImage::TYPE_IMAGE)
+                    ->first();
+
+                if ($existingImage) {
+
+                    $image['id'] = $existingImage->id;
+                }
+            }
+
+            DB::table((new CarImage())->getTable())->upsert($images, ['car_id', 'color'], ['file_name']);
+        }
+
         JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
     }
 
