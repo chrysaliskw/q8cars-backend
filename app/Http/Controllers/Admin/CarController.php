@@ -55,27 +55,41 @@ class CarController extends Controller
 
         $rules = [];
         for ($i = 0; $i < $rows; $i++) {
-            $rules["attribute_$i"] = 'nullable|string|max:255';
-            $rules["input_type_$i"] = ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])];
-            $rules["section_$i"] = 'nullable|integer';
+            $rules["attribute_id_$i"] = 'nullable|integer';
+            $rules["attribute_$i"] = 'required|string|max:255';
+            $rules["input_type_$i"] = ['required', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])];
+            $rules["section_$i"] = 'required|integer';
             $rules["text_value_$i"] = 'nullable|string';
             $rules["bool_value_$i"] = 'nullable|integer';
             $rules["units_$i"] = 'nullable|string';
             $rules["key_feature_$i"] = 'nullable|integer';
             $rules["key_spec_$i"] = 'nullable|integer';
             $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';
+
+            $inputType = $request->input("input_type_$i");
+            if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
+                $rules["text_value_$i"] = 'required|string';
+                $rules["bool_value_$i"] = 'nullable|integer';
+            } elseif ($inputType == CarAdditonalSpecifications::TYPE_BOOLEAN) {
+                $rules["bool_value_$i"] = 'required|integer';
+                $rules["text_value_$i"] = 'nullable|string';
+            } else {
+                $rules["text_value_$i"] = 'nullable|string';
+                $rules["bool_value_$i"] = 'nullable|integer';
+            }
+
         }
 
         // Apply the validator with dynamic rules
         $validator = Validator::make($request->all(), $rules, [], [
-            'attribute_.*' => 'attribute',
-            'input_type_.*' => 'input type',
-            'section_.*' => 'category',
-            'text_value_.*' => 'value',
-            'bool_value_.*' => 'value',
-            'units_.*' => 'units',
-            'key_feature.*' => 'key feature',
-            'key_spec.*' => 'key spec',
+            'attribute_*' => 'Specification Title',
+            'input_type_*' => 'input type',
+            'section_*' => 'Category',
+            'text_value_*' => 'Value(Text)',
+            'bool_value_*' => 'Value(Boolean)',
+            'units_*' => 'units',
+            'key_feature*' => 'key feature',
+            'key_spec*' => 'key spec',
             'icon.*' => 'icon',
         ]);
 
@@ -254,9 +268,9 @@ class CarController extends Controller
         $rules = [];
         for ($i = 0; $i < $rows; $i++) {
             $rules["attribute_id_$i"] = 'nullable|integer';
-            $rules["attribute_$i"] = 'nullable|string|max:255';
-            $rules["input_type_$i"] = ['nullable', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])];
-            $rules["section_$i"] = 'nullable|integer';
+            $rules["attribute_$i"] = 'required|string|max:255';
+            $rules["input_type_$i"] = ['required', Rule::in([CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])];
+            $rules["section_$i"] = 'required|integer';
             $rules["text_value_$i"] = 'nullable|string';
             $rules["bool_value_$i"] = 'nullable|integer';
             $rules["units_$i"] = 'nullable|string';
@@ -264,18 +278,30 @@ class CarController extends Controller
             $rules["key_spec_$i"] = 'nullable|integer';
             $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';
 
+            $inputType = $request->input("input_type_$i");
+            if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
+                $rules["text_value_$i"] = 'required|string';
+                $rules["bool_value_$i"] = 'nullable|integer';
+            } elseif ($inputType == CarAdditonalSpecifications::TYPE_BOOLEAN) {
+                $rules["bool_value_$i"] = 'required|integer';
+                $rules["text_value_$i"] = 'nullable|string';
+            } else {
+                $rules["text_value_$i"] = 'nullable|string';
+                $rules["bool_value_$i"] = 'nullable|integer';
+            }
+
         }
 
         // Apply the validator with dynamic rules
         $validator = Validator::make($request->all(), $rules, [], [
-            'attribute_.*' => 'attribute',
-            'input_type_.*' => 'input type',
-            'section_.*' => 'category',
-            'text_value_.*' => 'value',
-            'bool_value_.*' => 'value',
-            'units_.*' => 'units',
-            'key_feature.*' => 'key feature',
-            'key_spec.*' => 'key spec',
+            'attribute_*' => 'Specification Title',
+            'input_type_*' => 'input type',
+            'section_*' => 'Category',
+            'text_value_*' => 'Value(Text)',
+            'bool_value_*' => 'Value(Boolean)',
+            'units_*' => 'units',
+            'key_feature*' => 'key feature',
+            'key_spec*' => 'key spec',
             'icon.*' => 'icon',
         ]);
 
