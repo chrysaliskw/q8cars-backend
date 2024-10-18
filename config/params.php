@@ -176,4 +176,11 @@ return [
             2 => 'No',
         ],
     ],
+    'car-comparison-list' =>[
+        'page' => [
+            1 => 'Home Page',
+            2 => 'Detailed Page',
+            3 => 'Car Comparison Page',
+        ]
+    ]
 ];

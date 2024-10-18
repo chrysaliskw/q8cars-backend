@@ -78,6 +78,7 @@ Route::middleware('auth:admin')->group(function () {
         'offers' => OfferController::class              // Offers
     ]);
 
+    Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Test ride requests
     Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
     Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index','show']);

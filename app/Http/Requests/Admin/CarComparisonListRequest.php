@@ -5,8 +5,12 @@ namespace App\Http\Requests\Admin;
 use App\Models\Brand;
 use App\Models\Car;
 use App\Models\CarVersion;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+// use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+// use Illuminate\Validation\Validator;
 
 class CarComparisonListRequest extends FormRequest
 {
@@ -37,7 +41,8 @@ class CarComparisonListRequest extends FormRequest
     {
     //  dd($this->all());
         return [
-            
+            'body_type_id' => 'required',
+            'body_type_id_text' => 'required',
             'car_id' => [
                 'nullable',
                 Rule::exists(Car::class, 'id')->where(function ($query) {
@@ -109,9 +114,14 @@ class CarComparisonListRequest extends FormRequest
 
     
     {
-        // dd($this->all());
+       
+        // dd('hello');
         
         return [
+            'body_type_id' => 'required',
+            
+
+            
             'car_id' => [
                 'nullable',
                 Rule::exists(Car::class, 'id')->where(function ($query) {
@@ -183,7 +193,17 @@ class CarComparisonListRequest extends FormRequest
         return [
             'required' => 'This field is required.',
             'car_id.exists' => 'Main car comparison list already exists!',
+            // 'required' => 'This field is required.',
+            // 'car_id.exists' => 'Main car comparison list already exists!',
+            // 'car_id_1.exists' => 'Car 1 must exist and be active.',
+            // 'car_id_2.exists' => 'Car 2 must exist and be active.',
 
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        // return back()->with('error', 'Validation failed')->withErrors($validator->errors());
+        return back()->with('error', 'Validation failed');
+
     }
 }
