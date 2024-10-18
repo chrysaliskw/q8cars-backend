@@ -17,11 +17,11 @@ class CarComparisonListsController extends Controller
      */
     public function index()
     {
-        $grid = new CarComparisonGrid();
+        $grid = new CarComparisonGrid(request()->query());
         return view('admin.comparison.index', compact('grid'));
     }
 
-    /**
+    /**P
      * Show the form for creating a new resource.
      */
     public function create()
@@ -34,7 +34,6 @@ class CarComparisonListsController extends Controller
      */
     public function store(CarComparisonListRequest $request)
     {
-        // dd($request->all());
         if ($request->car_id_1 == $request->car_id_2 || $request->car_id == $request->car_id_1 || $request->car_id == $request->car_id_2) {
             return back()->with('error', 'Compare Model 1 and Compare Model 2 cannot be same!')->withInput()->withErrors(['car_id_1' => 'Compare Model 1 and Compare Model 2 cannot be same!']);
         }
@@ -49,8 +48,6 @@ class CarComparisonListsController extends Controller
                 ->with('error',  'Main car comparison list already exists!')
                 ->withInput();
             }
-                      // dd($request->all());
-
 
 
             CarComparisonList::create(
@@ -59,7 +56,7 @@ class CarComparisonListsController extends Controller
                     'body_type' => $request->body_type_id,
                     'car_id' => $request->car_id,
                     'car_1_id' => $request->car_id_1,
-                    'car_version_1_id' => $request->car_version_1_id,
+                    'car_version_1_id' => $request->car_1_version_id,
                     'car_2_id' => $request->car_id_2,
                     'car_version_2_id' => $request->car_2_version_id,
                     'brand_id' => $request->brand_id,
@@ -85,11 +82,14 @@ class CarComparisonListsController extends Controller
         $carComparisonList = CarComparisonList::find($id);
         $id = $carComparisonList->id;
 
-        // dd($carComparisonList->car->model_name);
 
         $viewData = [
 
-            'Page' => $carComparisonList->page == 1 ? 'Home Page' : 'Detailed Page',
+            'Page' => [
+                1 => 'Home Page',
+                2 => 'Detailed Page',
+                3 => 'Car Comparison Page',
+            ][$carComparisonList->page] ?? 'N/A',
             'Car Body Type' => $carComparisonList->body_type ?? 'N/A',
             'Car Image' => $carComparisonList->car->image ?? 'N/A',
             'Main Brand' => $carComparisonList->brand->name ?? 'N/A',
@@ -150,7 +150,11 @@ class CarComparisonListsController extends Controller
 
         $currentPage = $carComparisonList->page ? json_encode([
             'id' => $carComparisonList->page,
-            'text' => $carComparisonList->page == 1 ? 'Home Page' : 'Detailed Page'
+            'text' => [
+                1 => 'Home Page',
+                2 => 'Detailed Page',
+                3 => 'Car Comparison Page'
+            ][$carComparisonList->page] ?? 'N/A'
         ]) : null;
 
         $currentbrand = $carComparisonList->brand ? json_encode([
@@ -189,13 +193,14 @@ class CarComparisonListsController extends Controller
     public function update(CarComparisonListRequest $request, string $id)
 
     {
-        
         if ($request->car_id_1 == $request->car_id_2 || $request->car_id == $request->car_id_1 || $request->car_id == $request->car_id_2) {
             return back()->with('error', 'Compare Models cannot be same!')->withInput()->withErrors(['car_id_1' => 'Compare Model 1 and Compare Model 2 cannot be same!']);
         }
+
         if (($request->car_version_1_id != null && $request->car_version_2_id != null) && $request->car_version_1_id == $request->car_version_2_id) {
             return back()->with('error', 'Car version 1 and Car version 2 cannot be same!')->withInput()->withErrors(['car_version_1_id' => 'Car version 1 and Car version 2 cannot be same!']);
         }
+      
         try {
             CarComparisonList::find($id)->update(
                 [

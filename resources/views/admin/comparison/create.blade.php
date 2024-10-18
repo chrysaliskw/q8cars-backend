@@ -15,6 +15,7 @@
                         <option disabled selected value="0">Select Page</option>
                         <option value="1">Home Page</option>
                         <option value="2">Detailed Page</option>
+                        <option value="3">Comparison Page</option>
                     </x-form-select>
                 </div>
 
@@ -52,7 +53,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <x-form-select field="car_version_1_id" field-name="Car Version 1"
+                    <x-form-select field="car_1_version_id" field-name="Car Version 1"
                         id="car_1_version_id"></x-form-select>
                     <input type="hidden" id="car_version_id_1_text" name="car_version_id_1_text" />
                 </div>
@@ -331,7 +332,7 @@
                     $("#brand_1_id_text").val('{{ old('brand_1_id_text') }}');
                 }
                 if ('{!! old('car_id_1') !!}' && '{!! old('car_id_1_text') !!}') {
-                    const cOption = new Option('{{ old('car_id_text') }}', '{{ old('car_id_1') }}', true, true);
+                    const cOption = new Option('{{ old('car_id_1_text') }}', '{{ old('car_id_1') }}', true, true);
                     $('#car_id_1').append(cOption).trigger('change');
                     $("#car_id_1_text").val('{{ old('car_id_1_text') }}');
                 }

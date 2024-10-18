@@ -32,7 +32,7 @@ class CompareCarsController extends ApiBaseController
 
     private function getPopularComparison( $request)
     {
-        $lists = CarComparisonList::where('page',CarComparisonList::HOME_PAGE)->when($request->body_type_id, function($query, $value) {
+        $lists = CarComparisonList::where('page',CarComparisonList::CAR_COMPARISON_PAGE)->when($request->body_type_id, function($query, $value) {
             $query->where('body_type', $value);
             })->orderBy('view_count','Desc')->get();
         return $this->getComaprisonResult($lists);

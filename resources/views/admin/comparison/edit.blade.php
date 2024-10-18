@@ -13,6 +13,7 @@
                     <option disabled selected value="0">Select Page</option>
                     <option value="1">Home Page</option>
                     <option value="2">Detailed Page</option>
+                    <option value="3">Comparison Page</option>
                 </x-form-select>
             </div>
 
@@ -527,7 +528,7 @@
                 const bodyTypeOption = new Option(currentBodyType.text, currentBodyType.id, true, true);
                 $('#body_type_id').append(bodyTypeOption).trigger('change');
             }
-
+            
 
 
 
