@@ -1,3 +1,6 @@
+@php
+    $showHidden = $viewData['Page'] == 'Detailed Page' ? true : false;
+@endphp
 <x-admin-layout title="Car Comparison">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
@@ -24,105 +27,80 @@
                             </form>
                         </div>
                     </div>
-                    {{-- <div class="card-body">
-                        <div class="row">
-                            <table class="table table-bordered table-striped table-hover">
-                                <thead style="color: #bc1d1d; font-weight: bold;">
-                                    <td colspan="3" style="padding: 15px; font-size: 16px; !important;">
-                                        <strong style="color: #bc1d1d; font-weight: bold;">Page </strong>: <span
-                                            style="padding-left: 10px; color: #000;">{!! $viewData['Page'] !!}</span><br>
-                                    </td>
-                                    <tr>
-                                        <th>MAIN CAR</th>
-                                        <th>CAR 1</th>
-                                        <th>CAR 2</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="padding: 15px;">
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Brand</strong>:
-                                            <span style="padding-left: 10px;">{!! $viewData['Main Brand'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Car</strong>: <span
-                                                style="padding-left: 10px;">{!! $viewData['Car Model'] !!}</span>
-                                        </td>
-                                        <td style="padding: 15px;">
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 1</strong>: <span
-                                                style="padding-left: 10px;">{!! $viewData['Brand 1'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 1 Model</strong>:
-                                            <span style="padding-left: 10px;">{!! $viewData['Car 1 Model'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 1</strong>:
-                                            <span style="padding-left: 10px;">{!! $viewData['Car version 1'] !!}</span>
-                                        </td>
-                                        <td style="padding: 15px;">
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 2</strong>: <span
-                                                style="padding-left: 10px;">{!! $viewData['Brand 2'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 2 Model</strong>:
-                                            <span style="padding-left: 10px;">{!! $viewData['Car 2 Model'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 2</strong>:
-                                            <span style="padding-left: 10px;">{!! $viewData['Car version 2'] !!}</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> --}}
-
                     <div class="card-body">
                         <div class="row">
                             <table class="table table-bordered table-striped table-hover">
                                 <thead style="color: #bc1d1d; font-weight: bold;">
                                     <td colspan="3" style="padding: 15px; font-size: 16px;">
-                                        <strong style="color: #bc1d1d; font-weight: bold;">Page </strong>: <span style="padding-left: 10px; color: #000;">{!! $viewData['Page'] !!}</span><br>
+                                        <strong style="color: #bc1d1d; font-weight: bold;">Page </strong>: <span
+                                            style="padding-left: 10px; color: #000;">{!! $viewData['Page'] !!}</span><br>
                                     </td>
                                     <tr>
-                                        <th>MAIN CAR</th>
+                                        
+                                        <th style=" @if(!$showHidden) display: none @endif" class="main-car-tabel">MAIN CAR</th>
                                         <th>CAR 1</th>
                                         <th>CAR 2</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style="padding: 15px;">
-                                            <img src="{{ file_asset('files-car',$viewData['Car Image'])}}" alt="noimage.webp"  style="margin: 10px"><br>
+                                        <td style="padding: 15px; @if(!$showHidden) display: none @endif; text-align: center; vertical-align: middle;" class="main-car-tabel">
+                                            <img src="{{ file_asset('files-car', $viewData['Car Image']) }}"
+                                                alt="noimage.webp" style="margin: 10px; width: 215px; height: 136px;"><br>
                                         </td>
-                                        <td style="padding: 15px;">
-                                            <img src="{{ file_asset('files-car',$viewData['Car 1 Image'])}}" alt="noimage.webp"  style="margin: 10px"><br>
+                                        <td style="padding: 15px; text-align: center; vertical-align: middle;">
+                                            <img src="{{ file_asset('files-car', $viewData['Car 1 Image']) }}"
+                                                alt="noimage.webp" style="margin: 10px; width: 215px; height: 136px;"><br>
                                         </td>
-                                        <td style="padding: 15px;">
-                                            <img src="{{ file_asset('files-car',$viewData['Car 2 Image'])}}" alt="noimage.webp"  style="margin: 10px"><br>
+                                        <td style="padding: 15px; text-align: center; vertical-align: middle;">
+                                            <img src="{{ file_asset('files-car', $viewData['Car 2 Image']) }}"
+                                                alt="noimage.webp" style="margin: 10px; width: 215px; height: 136px;"><br>
                                         </td>
                                     </tr>
+                                    
                                     <tr>
-                                        <td style="padding: 15px;">
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Brand</strong>: 
+                                        <td style="padding: 15px; @if(!$showHidden) display: none @endif" class="main-car-tabel">
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Brand</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Main Brand'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Car</strong>: 
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Main Car</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Car Model'] !!}</span><br>
                                         </td>
                                         <td style="padding: 15px;">
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 1</strong>: 
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 1</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Brand 1'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 1 Model</strong>: 
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 1 Model</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Car 1 Model'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 1</strong>: 
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 1</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Car version 1'] !!}</span><br>
                                         </td>
                                         <td style="padding: 15px;">
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 2</strong>: 
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Brand 2</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Brand 2'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 2 Model</strong>: 
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car 2 Model</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Car 2 Model'] !!}</span><br>
-                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 2</strong>: 
+                                            <strong style="color: #bc1d1d; font-weight: bold;">Car version 2</strong>:
                                             <span style="padding-left: 10px;">{!! $viewData['Car version 2'] !!}</span><br>
                                         </td>
                                     </tr>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
+
     </x-card>
-</x-admin-layout>
+    <x-slot name="scripts">
+    <script>
+
+        // $(document).ready(function() {
+        //     if ("{!! $viewData['Page'] !!}" == 'Detailed Page') {
+        //         $('.main-car-tabel').show();
+        //     } else {
+        //         $('.main-car-tabel').hide();
+        //     }
+        // });
+    </script>
+</x-slot></x-admin-layout>

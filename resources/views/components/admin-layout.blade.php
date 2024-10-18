@@ -43,6 +43,7 @@
                 @endif
                 
                 {{ $slot }}
+                
             
             </div>
             {{ $model ?? '' }}
