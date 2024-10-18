@@ -14,11 +14,11 @@
     <input type="hidden" name="fcount" id="fcount" value="{{ $fcount }}" />
     <input type="hidden" name="tcount" id="tcount" value="{{ $tcount }}" />
     <input type="hidden" name="ccount" id="ccount" value="{{ $ccount }}" />
-    
+
     <div id="loading-spinner" style=font-size:10px>
         <!-- Loading spinner -->
     </div>
-    
+
     <div id="edit-page" class="row" style="display: none;">
         <div class="col-xl-12">
             <div class="card ">
@@ -32,35 +32,35 @@
             </div>
             <ul class="nav nav-tabs tabs" role="tablist" id="business-user-profile-tab">
                 <li class="nav-item tab">
-                    <a class="nav-link active" id="about-tab-2" data-toggle="tab" href="#about-2" role="tab" 
+                    <a class="nav-link active" id="about-tab-2" data-toggle="tab" href="#about-2" role="tab"
                         onclick="onTab('about')" aria-controls="about-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
                         <span class="d-none d-sm-block">Basic Info</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab" 
+                    <a class="nav-link" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab"
                         onclick="onTab('contact')" aria-controls="contact-2" aria-selected="true">
                         <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
                         <span class="d-none d-sm-block">Summary</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
+                    <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab"
                         onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Images</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="videos-tab-2" data-toggle="tab" href="#videos-2" role="tab" 
+                    <a class="nav-link" id="videos-tab-2" data-toggle="tab" href="#videos-2" role="tab"
                         onclick="onTab('videos')" aria-controls="videos-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Videos</span>
                     </a>
                 </li>
                 <li class="nav-item tab">
-                    <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab" 
+                    <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab"
                         onclick="onTab('colors')" aria-controls="colors-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Colors</span>
@@ -68,21 +68,21 @@
                 </li>
 
                 <li class="nav-item tab">
-                    <a class="nav-link" id="additional-tab-2" data-toggle="tab" href="#additional-2" role="tab" 
+                    <a class="nav-link" id="additional-tab-2" data-toggle="tab" href="#additional-2" role="tab"
                         onclick="onTab('additional')" aria-controls="additional-2" aria-selected="false">
                         <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                         <span class="d-none d-sm-block">Other Specifications</span>
                     </a>
                 </li>
-               
 
-             
+
+
 
             </ul>
 
             <div class="tab-content">
-                <form method="POST" id="business-user-form" 
-                    action="{{ route('admin.car.store') }}" 
+                <form method="POST" id="business-user-form"
+                    action="{{ route('admin.car.store') }}"
                     class="form" enctype="multipart/form-data">
                         @csrf
 
@@ -104,20 +104,20 @@
                     <div class="tab-pane" id="additional-2" role="tabpanel" aria-labelledby="additional-tab-2">
                         @include('admin.car.create-section.additional')
                     </div>
-                  
 
-                 
+
+
 
                 </form>
             </div>
         </div>
     </div>
-    
-  
+
+
     <x-slot name="scripts">
-        
+
     <script>
-           function toggleFields(index) 
+           function toggleFields(index)
            {
                 const inputType = document.getElementById(`input_type_${index}`).value;
                 const textField = document.getElementById(`text_value_${index}`);
@@ -130,6 +130,7 @@
 
                 } else if (inputType == 2) { // Boolean
                     textField.disabled = true;
+                    textField.value = '';
                     booleanField.disabled = false;
                     unitField.disabled = true;
                 }
@@ -146,25 +147,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
             $("#date_1").datepicker({
                 format: 'dd-mm-yyyy',
-                
+
             });
             $("#date_2").datepicker({
                 format: 'dd-mm-yyyy',
-                
+
             });
              $("#date_3").datepicker({
                 format: 'dd-mm-yyyy',
-                
+
             });
 
+            // function clearRow(button) {
+            // const rowId = button.getAttribute('data-id');
+            // document.getElementById(`row_${rowId}`).remove();
+
+            // // Optional: Decrease the row count after deletion
+            // rowCount--;
+            // document.getElementById('row_count').value = rowCount;
+            // }
+
             function clearRow(button) {
-            const rowId = button.getAttribute('data-id');
-            document.getElementById(`row_${rowId}`).remove();
-    
-            // Optional: Decrease the row count after deletion
-            rowCount--;
-            document.getElementById('row_count').value = rowCount;
+                const rowId = button.getAttribute('data-id');
+                document.getElementById(`row_${rowId}`).remove();
+
+                rowCount--;
+                document.getElementById('row_count').value = rowCount;
+
+                const tableBody = document.getElementById('specification-rows');
+                const rows = tableBody.querySelectorAll('tr');
+
+                rows.forEach((row, index) => {
+                    const newRowId = index;
+                    row.id = `row_${newRowId}`;
+
+                    row.cells[0].innerText = newRowId + 1;
+
+                    row.querySelectorAll('input, select').forEach(input => {
+                        const fieldName = input.getAttribute('name').replace(/\d+/, newRowId);
+                        const fieldId = input.getAttribute('id').replace(/\d+/, newRowId);
+                        input.setAttribute('name', fieldName);
+                        input.setAttribute('id', fieldId);
+                    });
+                });
             }
+
 
             /**
              * Loading spinner
@@ -189,21 +216,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 show('loading-spinner', false);
             });
 
-         
+
 
             function onSubmit()
             {
                 document.getElementById("business-user-form").submit();
             }
 
-          
+
             function deleteImage(id)
             {
                 $("#image_preview_" + id).remove();
                 $("#image_old_" + id).val('');
             }
 
-  
+
             function selectAllProfession()
             {
                 if ($("#all_profession").prop("checked")) {
@@ -260,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             $('#brand_id').select2({
-                
+
                 placeholder: "Search brand",
                 minimumInputLength: 1,
                 ajax: {
@@ -270,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         var query = {
                             search: params.term,
                             page: params.page || 1,
-                          
+
                         }
 
                         // Query parameters will be ?search=[term]&page=[page]
@@ -290,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             $('#body_type_id').select2({
-                
+
                 placeholder: "Search body type",
                 minimumInputLength: 1,
                 ajax: {
@@ -300,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         var query = {
                             search: params.term,
                             page: params.page || 1,
-                          
+
                         }
 
                         // Query parameters will be ?search=[term]&page=[page]
@@ -319,12 +346,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 $('#body_type_id').append(cOption).trigger('change');
                 $("#body_type_id_text").val('{{ old("body_type_id_text") }}');
             }
-        
-     
 
-       
-            
-        
+
+
+
+
+
         </script>
 <script>
 $(document).ready(function() {
@@ -348,7 +375,7 @@ $(document).ready(function() {
                                 <div class="card border-primary" style="background-color: #f0f8ff;">
                                     <div class="card-body">
                                         <div class="form-check form-check-inline col-md-12">
-                                            <input class="form-check-input" type="checkbox" name="colors[]" 
+                                            <input class="form-check-input" type="checkbox" name="colors[]"
                                                 id="colors_${key}" value="${key}">
                                             <label class="form-check-label" for="colors_${key}" style="color: black;">
                                                 ${value}
@@ -360,7 +387,7 @@ $(document).ready(function() {
                                     </div>
                                 </div>
                             </div>`;
-                        
+
                         // Append the color checkbox and file input to the color-options div
                         $('#color-options').append(colorCheckbox);
                     });
@@ -390,7 +417,7 @@ $(document).ready(function() {
                                 <div class="card border-primary" style="background-color: #f0f8ff;">
                                     <div class="card-body">
                                         <div class="form-check form-check-inline col-md-12">
-                                            <input class="form-check-input" type="checkbox" name="colors[]" 
+                                            <input class="form-check-input" type="checkbox" name="colors[]"
                                                 id="colors_${key}" value="${key}">
                                             <label class="form-check-label" for="colors_${key}" style="color: black;">
                                                 ${value}
@@ -402,7 +429,7 @@ $(document).ready(function() {
                                     </div>
                                 </div>
                             </div>`;
-                        
+
                         // Append the color checkbox and file input to the color-options div
                         $('#color-options').append(colorCheckbox);
                     });

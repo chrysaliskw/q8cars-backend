@@ -130,21 +130,40 @@
                 format: 'dd-mm-yyyy',
 
             });
-            function toggleFields(index)
+        //     function toggleFields(index)
+        //    {
+        //         const inputType = document.getElementById(`input_type_${index}`).value;
+        //         const textField = document.getElementById(`text_value_${index}`);
+        //         const booleanField = document.getElementById(`bool_value_${index}`);
+
+
+        //     if (inputType == 1) { // Text
+        //         textField.disabled = false;
+        //         booleanField.disabled = true;
+        //     } else if (inputType == 2) { // Boolean
+        //         textField.disabled = true;
+        //         booleanField.disabled = false;
+        //     }
+        // }
+
+        function toggleFields(index)
            {
                 const inputType = document.getElementById(`input_type_${index}`).value;
                 const textField = document.getElementById(`text_value_${index}`);
                 const booleanField = document.getElementById(`bool_value_${index}`);
+                const unitField = document.getElementById(`units_${index}`);
+                if (inputType == 1) { // Text
+                    textField.disabled = false;
+                    booleanField.disabled = true;
+                    unitField.disabled = false;
 
-
-            if (inputType == 1) { // Text
-                textField.disabled = false;
-                booleanField.disabled = true;
-            } else if (inputType == 2) { // Boolean
-                textField.disabled = true;
-                booleanField.disabled = false;
+                } else if (inputType == 2) { // Boolean
+                    textField.disabled = true;
+                    textField.value = '';
+                    booleanField.disabled = false;
+                    unitField.disabled = true;
+                }
             }
-        }
         // Initialize visibility based on the existing input types on page load
         // document.addEventListener('DOMContentLoaded', function() {
         //     @for($i = 0; $i < 10; $i++)

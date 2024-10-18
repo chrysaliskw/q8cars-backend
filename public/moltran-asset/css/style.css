@@ -5009,4 +5009,17 @@ display: none;
 .other-specs td{
     vertical-align: middle;
 }
-    
+.checkbox td{
+    vertical-align: middle;
+}
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    min-height: 38px;
+    overflow: hidden;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #007bff;
+    padding: 0.2rem 0.6rem;
+    margin: 0 0.2rem;
+}

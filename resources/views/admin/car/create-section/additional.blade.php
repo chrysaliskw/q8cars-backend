@@ -56,11 +56,23 @@
                                     <x-form-input type="text" field="units_0" id="units_0" class="validate"></x-form-input>
                                 </td>
                                 <td>
-                                <x-form-checkbox field="key_feature_0" id="key_feature_0" value="0" fieldName="" onclick="toggleKeySpec(0)" />
+                                {{-- <x-form-checkbox field="key_feature_0" id="key_feature_0" value="0" fieldName="" onclick="toggleKeySpec(0)" /> --}}
+                                <div class="form-check form-check-inline col-md-2">
+                                    <input class="form-check-input" type="checkbox" name="key_feature_0"
+                                           id="key_feature_0" value="0"
+                                           onclick="toggleKeySpec(0)">
+                                    <label class="form-check-label" for="key_feature_0" style="color: black;"></label>
+                                </div>
 
                                 </td>
                                 <td>
-                                <x-form-checkbox field="key_spec_0" id="key_spec_0" value="0" fieldName="" onclick="toggleKeySpec(0)" />
+                                {{-- <x-form-checkbox field="key_spec_0" id="key_spec_0" value="0" fieldName="" onclick="toggleKeySpec(0)" /> --}}
+                                <div class="form-check form-check-inline col-md-2">
+                                    <input class="form-check-input" type="checkbox" name="key_spec_0"
+                                           id="key_spec_0" value="0"
+                                           onclick="toggleKeySpec(0)">
+                                    <label class="form-check-label" for="key_spec_0" style="color: black;"></label>
+                                </div>
 
                                 </td>
                                 <td>
@@ -124,12 +136,20 @@
                 <x-form-input type="text" field="units_${rowCount}" id="units_${rowCount}" class="validate"></x-form-input>
             </td>
             <td>
-                 <x-form-checkbox field="key_feature_${rowCount}" id="key_feature_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
-
+                <div class="form-check form-check-inline col-md-2">
+                    <input class="form-check-input" type="checkbox" name="key_feature_${rowCount}"
+                        id="key_feature_${rowCount}" value="0"
+                        onclick="toggleKeySpec(${rowCount})">
+                    <label class="form-check-label" for="key_feature_${rowCount}" style="color: black;"></label>
+                </div>
             </td>
             <td>
-               <x-form-checkbox field="key_spec_${rowCount}" id="key_spec_${rowCount}" value="0" fieldName="" onclick="toggleKeySpec(${rowCount})" />
-
+                <div class="form-check form-check-inline col-md-2">
+                    <input class="form-check-input" type="checkbox" name="key_spec_${rowCount}"
+                        id="key_spec_${rowCount}" value="0"
+                        onclick="toggleKeySpec(${rowCount})">
+                    <label class="form-check-label" for="key_spec_${rowCount}" style="color: black;"></label>
+                </div>
             <td>
                 <input type="file" id="icon_${rowCount}" name="icon_${rowCount}" class="d-none" onchange="previewIcon(${rowCount})">
             </td>
