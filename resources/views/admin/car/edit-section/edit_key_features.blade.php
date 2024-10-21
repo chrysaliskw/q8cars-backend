@@ -76,7 +76,7 @@
                         @endphp
                     <div class="form-check form-check-inline col-md-2">
                                 <input class="form-check-input" type="checkbox" name="transmission_types[]"
-                                    id="transmission_types{{ $key }}" value="{{ $key }}" {{$attrTCheck}}>
+                                    id="transmission_types{{ $key }}" onclick="updateAllTransmissions()" value="{{ $key }}" {{$attrTCheck}}>
                                 &nbsp;<label class="form-check-label" for="transmission_types{{ $key }}"
                                     style="color: black;">
                                     {{ $value }}
@@ -172,7 +172,7 @@
                         @endphp
                     <div class="form-check form-check-inline col-md-2">
                                 <input class="form-check-input" type="checkbox" name="fuel_types[]"
-                                    id="fuel_types{{ $key }}" value="{{ $key }}" {{$attrFCheck}}>
+                                    id="fuel_types{{ $key }}" onclick="updateAllfuels()" value="{{ $key }}" {{$attrFCheck}}>
                                 &nbsp;<label class="form-check-label" for="fuel_types{{ $key }}"
                                     style="color: black;">
                                     {{ $value }}

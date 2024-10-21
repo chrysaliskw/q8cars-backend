@@ -107,12 +107,13 @@
                     </div>
 
                     @foreach (config('params.professions') as $key => $value)
+                    
                         @php
                             $attrPCheck = in_array($key, $currentProfessions) ? 'checked' : '';
                         @endphp
                     <div class="form-check form-check-inline col-md-2">
                                 <input class="form-check-input" type="checkbox" name="professions[]"
-                                    id="professions{{ $key }}" value="{{ $key }}" {{ $attrPCheck }}>
+                                    id="professions{{ $key }}" onclick="updateAllProfession()" value="{{ $key }}" {{ $attrPCheck }}>
                                 &nbsp;<label class="form-check-label" for="professions{{ $key }}"
                                     style="color: black;">
                                     {{ $value }}

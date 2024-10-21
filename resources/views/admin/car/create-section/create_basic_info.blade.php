@@ -100,7 +100,7 @@
                 @foreach (config('params.professions') as $key => $value)
                 <div class="form-check form-check-inline col-md-2">
                     <input class="form-check-input" type="checkbox" name="professions[]"
-                        id="professions{{ $key }}" value="{{ $key }}"
+                        id="professions{{ $key }}" value="{{ $key }}" onclick="updateAllProfession()"
                         {{ in_array($key, old('professions', [])) ? 'checked' : '' }}>
                     &nbsp;<label class="form-check-label" for="professions{{ $key }}" style="color: black;">
                         {{ $value }}

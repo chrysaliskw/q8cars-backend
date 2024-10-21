@@ -258,6 +258,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
+            function updateAllProfession()
+            {
+                var count = document.getElementById("pcount").value;
+                var allChecked = true;
+
+                for (var i = 1; i <= count; i++) {
+                    if (!$("#professions" + i).prop("checked")) {
+                        allChecked = false;
+                        break;
+                    }
+                }
+
+                $("#all_profession").prop("checked", allChecked);
+
+                if (allChecked) {
+                    for (var i = 1; i <= count; i++) {
+                        $("#professions" + i).attr("disabled", true);
+                    }
+                }
+            }
+
+
             function selectAllFuels()
             {
                 if ($("#all_fuels").prop("checked")) {
@@ -276,6 +298,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
+            function updateAllfuels()
+            {
+                var count = document.getElementById("fcount").value;
+                var allChecked = true;
+
+                for (var i = 1; i <= count; i++) {
+                    if (!$("#fuel_types" + i).prop("checked")) {
+                        allChecked = false;
+                        break;
+                    }
+                }
+
+                $("#all_fuels").prop("checked", allChecked);
+
+                if (allChecked) {
+                    for (var i = 1; i <= count; i++) {
+                        $("#fuel_types" + i).attr("disabled", true);
+                    }
+                }
+            }
+
             function selectAllTransmissions()
             {
                 if ($("#all_transmissions").prop("checked")) {
@@ -290,6 +333,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     for(var i = 1; i <= count; i++) {
                         $("#transmission_types"+i).attr("disabled", false);
                         $("#transmission_types"+i).prop("checked", false);
+                    }
+                }
+            }
+
+            function updateAllTransmissions()
+            {
+                var count = document.getElementById("tcount").value;
+                var allChecked = true;
+
+                for (var i = 1; i <= count; i++) {
+                    if (!$("#transmission_types" + i).prop("checked")) {
+                        allChecked = false;
+                        break;
+                    }
+                }
+
+                $("#all_transmissions").prop("checked", allChecked);
+
+                if (allChecked) {
+                    for (var i = 1; i <= count; i++) {
+                        $("#transmission_types" + i).attr("disabled", true);
                     }
                 }
             }
