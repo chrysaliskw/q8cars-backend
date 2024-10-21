@@ -26,12 +26,14 @@
 
 
         <div class="row">
-            <div class="col-md-4" id="carSelectContainer" style="display: none;">
+            <div class="col-md-4" id="carSelectContainer"
+                style=" @if ($errors->has('brand_id') || $errors->has('car_id')) display: block; @else display: none; @endif;">
                 <x-form-select field="brand_id" field-name="Main Brand" id="brand_id"></x-form-select>
                 <input type="hidden" id="brand_id_text" name="brand_id_text" />
             </div>
 
-            <div class="col-md-4" id="carModelContainer" style="display: none;">
+            <div class="col-md-4" id="carModelContainer"
+                style="@if ($errors->has('car_id') || $errors->has('brand_id')) display: block; @else display: none; @endif">
                 <x-form-select field="car_id" field-name="Main Car Model" id="car_id"></x-form-select>
                 <input type="hidden" id="car_id_text" name="car_id_text" />
             </div>
@@ -58,6 +60,8 @@
         </div>
 
         <hr>
+        {{-- @dd($currentBodyType); --}}
+
 
         <div class="row">
             <!-- Car 2 Section -->
