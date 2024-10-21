@@ -28,12 +28,14 @@
 
 
             <div class="row">
-                <div class="col-md-4" id="carSelectContainer" style="display: none;">
+                <div class="col-md-4" id="carSelectContainer"
+                    style=" @if ($errors->has('brand_id') || $errors->has('car_id')) display: block; @else display: none; @endif;">
                     <x-form-select field="brand_id" field-name="Main Brand" id="brand_id"></x-form-select>
                     <input type="hidden" id="brand_id_text" name="brand_id_text" />
                 </div>
 
-                <div class="col-md-4" id="carModelContainer" style="display: none;">
+                <div class="col-md-4" id="carModelContainer"
+                    style="@if ($errors->has('car_id') || $errors->has('brand_id')) display: block; @else display: none; @endif">
                     <x-form-select field="car_id" field-name="Main Car Model" id="car_id"></x-form-select>
                     <input type="hidden" id="car_id_text" name="car_id_text" />
                 </div>
@@ -58,6 +60,19 @@
                     <input type="hidden" id="car_version_id_1_text" name="car_version_id_1_text" />
                 </div>
             </div>
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {!! session('error') !!}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        {!! $error !!}<br>
+                    @endforeach
+                </div>
+            @endif
 
             <hr>
 
@@ -304,7 +319,7 @@
                     $("#car_2_version_id_text").val(data.text);
                 });
 
-                
+
                 if ('{!! old('body_type_id') !!}' && '{!! old('body_type_id_text') !!}') {
                     const bOption = new Option('{{ old('body_type_id_text') }}', '{{ old('body_type_id') }}',
                         true, true);
@@ -343,7 +358,7 @@
                     $("#car_version_id_1_text").val('{{ old('car_version_id_1_text') }}');
                 }
 
-                
+
                 if ('{!! old('brand_2_id') !!}' && '{!! old('brand_2_id_text') !!}') {
                     const countryOption = new Option('{{ old('brand_2_id_text') }}', '{{ old('brand_2_id') }}', true,
                         true);
