@@ -65,7 +65,7 @@
                     @foreach (config('params.car.transmission_type') as $key => $value)
                     <div class="form-check form-check-inline col-md-2">
                         <input class="form-check-input" type="checkbox" name="transmission_types[]"
-                            id="transmission_types{{ $key }}" value="{{ $key }}"
+                            id="transmission_types{{ $key }}" value="{{ $key }}" onclick="updateAllTransmissions()"
                             {{ in_array($key, old('transmission_types', [])) ? 'checked' : '' }}>
                         &nbsp;<label class="form-check-label" for="transmission_types{{ $key }}" style="color: black;">
                             {{ $value }}
@@ -141,7 +141,7 @@
                     @foreach (config('params.car.fuel_type') as $key => $value)
                     <div class="form-check form-check-inline col-md-2">
                         <input class="form-check-input" type="checkbox" name="fuel_types[]"
-                            id="fuel_types{{ $key }}" value="{{ $key }}"
+                            id="fuel_types{{ $key }}" value="{{ $key }}" onclick="updateAllfuels()"
                             {{ in_array($key, old('fuel_types', [])) ? 'checked' : '' }}>
                         &nbsp;<label class="form-check-label" for="fuel_types{{ $key }}" style="color: black;">
                             {{ $value }}
