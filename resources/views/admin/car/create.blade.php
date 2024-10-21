@@ -169,26 +169,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
             function clearRow(button) {
                 const rowId = button.getAttribute('data-id');
-                document.getElementById(`row_${rowId}`).remove();
+                const row = document.getElementById(`row_${rowId}`);
+                if (row) {
+                    row.remove();
+                    rowCount--;
+                    document.getElementById('row_count').value = rowCount;
+                    updateRowNumbers();
+                }
+            }
 
-                rowCount--;
-                document.getElementById('row_count').value = rowCount;
-
-                const tableBody = document.getElementById('specification-rows');
-                const rows = tableBody.querySelectorAll('tr');
-
+            function updateRowNumbers() {
+                const rows = document.querySelectorAll('#specification-rows tr');
                 rows.forEach((row, index) => {
-                    const newRowId = index;
-                    row.id = `row_${newRowId}`;
-
-                    row.cells[0].innerText = newRowId + 1;
-
+                    row.firstElementChild.textContent = index + 1;
+                    row.id = `row_${index}`;
                     row.querySelectorAll('input, select').forEach(input => {
-                        const fieldName = input.getAttribute('name').replace(/\d+/, newRowId);
-                        const fieldId = input.getAttribute('id').replace(/\d+/, newRowId);
-                        input.setAttribute('name', fieldName);
-                        input.setAttribute('id', fieldId);
+                        const name = input.getAttribute('name');
+                        const id = input.getAttribute('id');
+                        if (name) {
+                            input.setAttribute('name', name.replace(/\d+/, index));
+                        }
+                        if (id) {
+                            input.setAttribute('id', id.replace(/\d+/, index));
+                        }
                     });
+
+                    const deleteBtn = row.querySelector('button');
+                    if (deleteBtn) {
+                        deleteBtn.setAttribute('data-id', index);
+                    }
                 });
             }
 

@@ -23,73 +23,11 @@
                             </tr>
                         </thead>
                         <tbody id="specification-rows">
-                            <!-- The first row -->
-                            <tr id="row_0">
-                                <td>1</td>
-                                <td>
-                                    <x-form-select field="section_0" id="section_0">
-                                        <option value="">Choose Section</option>
-                                        @foreach(config('params.car.specification-section') as $value => $label)
-                                            <option value="{{ $value }}">{{ $label }}</option>
-                                        @endforeach
-                                    </x-form-select>
-                                </td>
-                                <td>
-                                    <x-form-input type="text" field="attribute_0" id="attribute_0" class="validate"></x-form-input>
-                                </td>
-                                <td>
-                                    <x-form-select field="input_type_0" id="input_type_0" onchange="toggleFields(0)">
-                                        <option value="1">Text</option>
-                                        <option value="2">Boolean</option>
-                                    </x-form-select>
-                                </td>
-                                <td>
-                                    <x-form-input type="text" field="text_value_0" id="text_value_0" class="validate"></x-form-input>
-                                </td>
-                                <td>
-                                    <x-form-select field="bool_value_0" id="bool_value_0" disabled>
-                                        <option value="1" >Yes</option>
-                                        <option value="2">No</option>
-                                    </x-form-select>
-                                </td>
-                                <td>
-                                    <x-form-input type="text" field="units_0" id="units_0" class="validate"></x-form-input>
-                                </td>
-                                <td>
-                                {{-- <x-form-checkbox field="key_feature_0" id="key_feature_0" value="0" fieldName="" onclick="toggleKeySpec(0)" /> --}}
-                                <div class="form-check form-check-inline col-md-2">
-                                    <input class="form-check-input" type="checkbox" name="key_feature_0"
-                                           id="key_feature_0" value="0"
-                                           onclick="toggleKeySpec(0)">
-                                    <label class="form-check-label" for="key_feature_0" style="color: black;"></label>
-                                </div>
 
-                                </td>
-                                <td>
-                                {{-- <x-form-checkbox field="key_spec_0" id="key_spec_0" value="0" fieldName="" onclick="toggleKeySpec(0)" /> --}}
-                                <div class="form-check form-check-inline col-md-2">
-                                    <input class="form-check-input" type="checkbox" name="key_spec_0"
-                                           id="key_spec_0" value="0"
-                                           onclick="toggleKeySpec(0)">
-                                    <label class="form-check-label" for="key_spec_0" style="color: black;"></label>
-                                </div>
-
-                                </td>
-                                <td>
-                                    <input type="file" id="icon_0" name="icon_0" class="d-none">
-                                </td>
-
-                                <td>
-                                    <button type="button" class="btn btn-md btn-danger" title="Clear"
-                                        id="delete_btn_0" data-id="0" onclick="clearRow(this)">
-                                        <span class="ion-trash-a" data-attribute></span>
-                                    </button>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
-                <input type="hidden" id="row_count" name="row_count" value="1">
+                <input type="hidden" id="row_count" name="row_count" value="0">
                 <div class="text-right mt-3">
                     <button type="button" class="btn btn-md btn-primary" onclick="addRow()">Add Specifications</button>
                 </div>
@@ -97,8 +35,10 @@
         </div>
     </div>
 </div>
+
 <script>
-    let rowCount = 1;
+    let rowCount = 0;
+
     function addRow() {
         const tableBody = document.getElementById('specification-rows');
         const newRow = document.createElement('tr');
@@ -137,19 +77,16 @@
             </td>
             <td>
                 <div class="form-check form-check-inline col-md-2">
-                    <input class="form-check-input" type="checkbox" name="key_feature_${rowCount}"
-                        id="key_feature_${rowCount}" value="0"
-                        onclick="toggleKeySpec(${rowCount})">
+                    <input class="form-check-input" type="checkbox" name="key_feature_${rowCount}" id="key_feature_${rowCount}" value="0" onclick="toggleKeySpec(${rowCount})">
                     <label class="form-check-label" for="key_feature_${rowCount}" style="color: black;"></label>
                 </div>
             </td>
             <td>
                 <div class="form-check form-check-inline col-md-2">
-                    <input class="form-check-input" type="checkbox" name="key_spec_${rowCount}"
-                        id="key_spec_${rowCount}" value="0"
-                        onclick="toggleKeySpec(${rowCount})">
+                    <input class="form-check-input" type="checkbox" name="key_spec_${rowCount}" id="key_spec_${rowCount}" value="0" onclick="toggleKeySpec(${rowCount})">
                     <label class="form-check-label" for="key_spec_${rowCount}" style="color: black;"></label>
                 </div>
+            </td>
             <td>
                 <input type="file" id="icon_${rowCount}" name="icon_${rowCount}" class="d-none" onchange="previewIcon(${rowCount})">
             </td>
@@ -164,7 +101,6 @@
         rowCount++;
         document.getElementById('row_count').value = rowCount;
     }
-
 
     function toggleKeySpec(row) {
         const keyFeatureCheckbox = document.getElementById(`key_feature_${row}`);
@@ -188,3 +124,4 @@
         }
     }
 </script>
+
