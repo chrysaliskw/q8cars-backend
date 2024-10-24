@@ -29,6 +29,8 @@ class OfferDetailsResource extends JsonResource
             'car_versions'=> $this->getVariants($this->car_id),
             'title' => $this->title,
             'key_feature_1' => $this->key_feature_1,
+            'html_key_feature_1' => $this->html_key_feature_1,
+            'html_key_feature_2' => $this->html_key_feature_2,
             'key_feature_2' => $this->key_feature_2,
             'icon_1'=> $this->icon ? file_asset('files-offer', $this->key_icon_1) :'',
             'icon_2'=> $this->icon ? file_asset('files-offer', $this->key_icon_2) :'',
