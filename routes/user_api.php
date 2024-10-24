@@ -26,6 +26,8 @@ use App\Http\Controllers\Api\User\CompareCarsController;
 use App\Http\Controllers\Api\User\ReviewsAndNewsController;
 use App\Http\Controllers\Api\User\EmiCalculatorController;
 use App\Http\Controllers\Api\User\NotificationController;
+use App\Http\Controllers\Api\User\CompareCarsDetailsController;
+use App\Http\Controllers\Api\User\CuratedComparisonController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -70,7 +72,9 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('popular-cars',PopularCarController::class);
     Route::get('popular-cars/filter',PopularCarFilterController::class);
     Route::apiResource('offers', OfferController::class)->only(['index', 'show']);
-Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','show']);
+    Route::get('compare-cars',CompareCarsController::class);
+    Route::post('car-comparisons', CompareCarsDetailsController::class);
+    Route::get('curated-comparisons',CuratedComparisonController::class);
     //popular brand
     Route::get('popular-brands',[BrandController::class,'popularBrands']);
     Route::get('reviews-and-news',ReviewsAndNewsController::class);
