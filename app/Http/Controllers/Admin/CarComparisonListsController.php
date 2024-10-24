@@ -48,6 +48,7 @@ class CarComparisonListsController extends Controller
             if (CarComparisonList::where('car_id', $request->car_id)->where('page', CarComparisonList::CAR_DETAIL_PAGE)->exists()) {
                 return back()->withInput()->withErrors(['car_id' => 'Main car comparison list already exists!']);
             }
+          
 
 
             CarComparisonList::create(

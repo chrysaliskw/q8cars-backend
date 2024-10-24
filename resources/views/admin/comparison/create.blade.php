@@ -60,7 +60,7 @@
                     <input type="hidden" id="car_version_id_1_text" name="car_version_id_1_text" />
                 </div>
             </div>
-            @if (session('error'))
+            {{-- @if (session('error'))
                 <div class="alert alert-danger">
                     {!! session('error') !!}
                 </div>
@@ -72,7 +72,7 @@
                         {!! $error !!}<br>
                     @endforeach
                 </div>
-            @endif
+            @endif --}}
 
             <hr>
 

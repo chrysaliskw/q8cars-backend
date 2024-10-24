@@ -145,23 +145,14 @@ class CarComparisonListRequest extends FormRequest
         return [
             'required' => 'This field is required.',
             'car_id.exists' => 'The selected car ID is invalid.',
-            'car_id.prohibited' => 'The car ID field is prohibited in Home page and Comparison page.',
+            // 'car_id.prohibited' => 'The car ID field is prohibited in Home page and Comparison page.',
             'brand_id.exists' => 'The selected brand ID is invalid.',
-            'brand_id.prohibited' => 'The brand ID field is prohibited in Home page and Comparison page.',
+            // 'brand_id.prohibited' => 'The brand ID field is prohibited in Home page and Comparison page.',
         ];
     }
     
 
-//     protected function failedValidation(Validator $validator)
-  
-//    {
-      
-//         $firstError = $validator->errors()->first();
-//         $fieldName = array_key_first($validator->errors()->toArray());
-//         throw new HttpResponseException(
-//             back()->withInput()->with('error', "The $fieldName field is required. $firstError")
-//         );
-//     }   
+ 
 
     public function withValidator($validator)
     {
@@ -173,14 +164,14 @@ class CarComparisonListRequest extends FormRequest
         $validator->sometimes('brand_id', 'required', function ($input) {
             return $input->page == 2;
         });
-    
-        $validator->sometimes('car_id', 'prohibited', function ($input) {
-            return in_array($input->page, [1, 3]);
-        });
-    
-        $validator->sometimes('brand_id', 'prohibited', function ($input) {
-            return in_array($input->page, [1, 3]);
+
+        $validator->after(function ($validator) {
+            if ($this->page != 2) {
+                $this->merge([
+                    'car_id' => null,
+                    'brand_id' => null,
+                ]);
+            }
         });
     }
-    
 }

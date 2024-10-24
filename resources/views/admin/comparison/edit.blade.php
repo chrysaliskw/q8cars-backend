@@ -11,6 +11,7 @@
             <div class="col-md-4">
                 <x-form-select field="page" field-name="Page" id="page" onchange="toggleCarSelect()">
                     <option disabled selected value="0">Select Page</option>
+                    
                     <option value="1">Home Page</option>
                     <option value="2">Detailed Page</option>
                     <option value="3">Comparison Page</option>
@@ -90,171 +91,6 @@
     <x-slot name="scripts">
         <script src="{{ url('moltran-asset/plugins/summernote/summernote-bs4.js') }}"></script>
         <script>
-//             $(document).ready(function() {
-//                 // Initialize select2 for the main car
-//                 $('#car_id').select2({
-//                     placeholder: "Search car",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.car.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#car_id').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#car_id_text").val(data.text);
-//                 });
-// // Initialize select2 for Car 1
-//                 $('#car_id_1').select2({
-//                     placeholder: "Search Car 1",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.car.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#car_id_1').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#car_id_1_text").val(data.text);
-//                     // Reset Car Version 1 when Car 1 changes
-//                     $('#car_1_version_id').val(null).trigger('change');
-//                     $('#car_version_id_1_text').val(null);
-//                 });
-// // Initialize select2 for Car 2
-//                 $('#car_id_2').select2({
-//                     placeholder: "Search Car 2",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.car.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#car_id_2').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#car_id_2_text").val(data.text);
-//                     // Reset Car 2 Version when Car 2 changes
-//                     $('#car_2_version_id').val(null).trigger('change');
-//                     $('#car_2_version_id_text').val(null);
-//                 });
-// // Initialize select2 for Car Version 1
-//                 $('#car_1_version_id').select2({
-//                     placeholder: "Search Car version 1",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.car-version.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                                 car_id: $('#car_id_1').val(),
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#car_1_version_id').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#car_version_id_1_text").val(data.text);
-//                 });
-// // Initialize select2 for Car Version 2
-//                 $('#car_2_version_id').select2({
-//                     placeholder: "Search Car version 2",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.car-version.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                                 car_id: $('#car_id_2').val(),
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#car_2_version_id').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#car_2_version_id_text").val(data.text);
-//                 });
-// $('#brand_id').select2({
-//                     placeholder: "Search Brand",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.brand.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#brand_id').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#brand_1_id_text").val(data.text);
-//                 });
-
-
-
-//                 $('#brand_1_id').select2({
-//                     placeholder: "Search Brand",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.brand.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#brand_1_id').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#brand_1_id_text").val(data.text);
-//                 });
-
-//                 $('#brand_2_id').select2({
-//                     placeholder: "Search Brand",
-//                     minimumInputLength: 1,
-//                     ajax: {
-//                         url: "{{ route('admin.brand.select') }}",
-//                         dataType: 'json',
-//                         data: function(params) {
-//                             return {
-//                                 search: params.term,
-//                                 page: params.page || 1,
-//                             };
-//                         }
-//                     }
-//                 });
-//                 $('#brand_2_id').on('select2:select', function(e) {
-//                     const data = e.params.data;
-//                     $("#brand_2_id_text").val(data.text);
-//                 });
-
-            // });
-
             $(document).ready(function() {
                     $('#body_type_id').select2({
                         placeholder: "Search Body Type",
@@ -501,13 +337,11 @@
                 const carVersion2Option = new Option(currentCarVersion2.text, currentCarVersion2.id, true, true);
                 $('#car_2_version_id').append(carVersion2Option).trigger('change');
             }
-
             if ('{!! $currentPage !!}') {
-                const currentPage = JSON.parse('{!! $currentPage !!}');
-                const pageOption = new Option(currentPage.text, currentPage.id, true, true);
-                $('#page').append(pageOption).trigger('change');
-
-            }
+        const currentPage = JSON.parse('{!! $currentPage !!}');
+        // Set the selected option in the dropdown based on currentPage ID
+        $('#page').val(currentPage.id).trigger('change');
+    }
 
             if ('{!! $currentbrand !!}') {
                 const currentbrand = JSON.parse('{!! $currentbrand !!}');
@@ -532,12 +366,7 @@
                 const bodyTypeOption = new Option(currentBodyType.text, currentBodyType.id, true, true);
                 $('#body_type_id').append(bodyTypeOption).trigger('change');
             }
-            
-
-
-
-
-
+        
             function toggleCarSelect() {
                 const pageSelect = document.getElementById('page');
                 const carSelectContainer = document.getElementById('carSelectContainer');
