@@ -16,6 +16,7 @@ class EmiCalculatorService
     protected $totalInterestPayable;
     protected $totalAmountPayable;
     protected $request;
+    protected $onRoadPrice;
 
     public function __construct(Request $request)
     {
@@ -26,18 +27,19 @@ class EmiCalculatorService
         $this->loanTenureYears = $this->request->loanTenureYears;// Loan tenure in years
         $this->totalInterestPayable = 0;
         $this->totalAmountPayable = 0;
+        $this->onRoadPrice = $this->request->on_road_price;
     }
 
     public function handle()
     {
-    
+
         // Calculations
         $monthlyInterestRate = $this->annualInterestRate / (12 * 100); // Monthly interest rate in decimal
         $totalMonths = $this->loanTenureYears * 12; // Total number of monthly installments
 
         // EMI Calculation using the formula:
         // EMI = [P * r * (1 + r)^n] / [(1 + r)^n - 1]
-        $emi = ($this->principal * $monthlyInterestRate * pow(1 + $monthlyInterestRate, $totalMonths)) / 
+        $emi = ($this->principal * $monthlyInterestRate * pow(1 + $monthlyInterestRate, $totalMonths)) /
             (pow(1 + $monthlyInterestRate, $totalMonths) - 1);
         $emi = round($emi, 2); // Rounding off to 2 decimal places
 
@@ -51,20 +53,20 @@ class EmiCalculatorService
         for ($month = 1; $month <= $totalMonths; $month++) {
             // Calculate interest for the current month
             $interestPayment = round($outstandingBalance * $monthlyInterestRate, 2);
-            
+
             // Calculate principal payment for the current month
             $principalPayment = round($emi - $interestPayment, 2);
-            
+
             // Update outstanding balance
             $outstandingBalance = round($outstandingBalance - $principalPayment, 2);
             if ($outstandingBalance < 0) {
                 $principalPayment += $outstandingBalance;
                 $outstandingBalance = 0;
             }
-            
+
             // Aggregate yearly data
             $currentYear = ceil($month / 12);
-            
+
             if (!isset($yearlySchedule[$currentYear])) {
                 $yearlySchedule[$currentYear] = [
                     'year' => $currentYear,
@@ -76,12 +78,12 @@ class EmiCalculatorService
                     'interestInCash' => 0,
                 ];
             }
-            
+
             $yearlySchedule[$currentYear]['totalEmiThisYear'] += $emi;
             $yearlySchedule[$currentYear]['principal'] += $principalPayment;
             $yearlySchedule[$currentYear]['interestInCash'] += $interestPayment;
             $yearlySchedule[$currentYear]['interest'] = $this->calculateInterestPercentage($yearlySchedule[$currentYear]['interestInCash'], $yearlySchedule[$currentYear]['totalEmiThisYear']).'%';
-          
+
             // If it's the last month of the year or the last payment, record the ending balance
             if ($month % 12 == 0 || $month == $totalMonths) {
                 $this->totalInterestPayable += $yearlySchedule[$currentYear]['interestInCash'];
@@ -89,14 +91,15 @@ class EmiCalculatorService
                 $yearlySchedule[$currentYear]['totalEmiThisYear'] = currency_formatter($yearlySchedule[$currentYear]['totalEmiThisYear']);
                 $yearlySchedule[$currentYear]['principal'] = currency_formatter($yearlySchedule[$currentYear]['principal']);
                 $yearlySchedule[$currentYear]['interestInCash'] = currency_formatter($yearlySchedule[$currentYear]['interestInCash']);
-                
+
             }
-            
+
             // If loan is fully paid, exit the loop
             if ($outstandingBalance <= 0) {
                 break;
             }
         }
+        $carVersion = CarVersion::find($this->request->car_version_id);
 
         $result['car_id'] = $this->request->car_id;
         $result['car_model_name'] = (Car::find($this->request->car_id))->model_name;
@@ -108,11 +111,12 @@ class EmiCalculatorService
         $result['totalInterestPayable'] = currency_formatter($this->totalInterestPayable);
         $result['totalAmountPayable'] = currency_formatter($this->principal + $this->totalInterestPayable);
         $result['annualInterestRate'] = $this->annualInterestRate . '%';
-        
+        $result['onRoadPrice'] = $carVersion ? currency_formatter($carVersion->on_road_price) : null;
+
         foreach($yearlySchedule as $year => $value) {
             $result['schedule'][] = $value;
         }
-        
+
         return $result;
     }
 
