@@ -98,7 +98,7 @@ Route::middleware('auth:user_api')->group(function () {
     //bank
     Route::get('/banks', BankController::class);
     //upcoming cars
-    Route::get('/upocming-cars', UpcomingCarController::class);
+    Route::get('/upcoming-cars', UpcomingCarController::class);
 });
 
 /**
