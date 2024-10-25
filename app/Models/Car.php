@@ -23,6 +23,8 @@ class Car extends Model
     const FILE_DIR = 'cars';
 
     const MAX_NUM_IMAGES = 20;
+    const UPCOMING = 1;
+    CONST LAUNCHED = 2;
 
      /**
      * The attributes that are mass assignable.
@@ -97,5 +99,12 @@ class Car extends Model
     {
         return $query->where('status', self::STATUS_ACTIVE);
     }
-   
+    public function scopeLaunched($query)
+    {
+        return $query->where('is_upcoming', self::LAUNCHED);
+    }
+    public function scopeUpcoming($query)
+    {
+        return $query->where('is_upcoming', self::UPCOMING);
+    }
 }

@@ -394,7 +394,7 @@ class CarController extends Controller
         $limit = 100;
         $offset = ($page - 1) * $limit;
 
-        $query = Car::where('model_name', 'like', "%$term%")->active();
+        $query = Car::where('model_name', 'like', "%$term%")->active()->launched();
         if ($brandId) {
             $query->where('brand_id', $brandId);
         }

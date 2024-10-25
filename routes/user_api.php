@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\User\EmiCalculatorController;
 use App\Http\Controllers\Api\User\NotificationController;
 use App\Http\Controllers\Api\User\CompareCarsDetailsController;
 use App\Http\Controllers\Api\User\CuratedComparisonController;
+use App\Http\Controllers\Api\User\UpcomingCarController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -96,6 +97,8 @@ Route::middleware('auth:user_api')->group(function () {
 
     //bank
     Route::get('/banks', BankController::class);
+    //upcoming cars
+    Route::get('/upocming-cars', UpcomingCarController::class);
 });
 
 /**

@@ -97,6 +97,7 @@ final class SearchService
     private function setQuery()
     {
         $this->query = Car::where('cars.status',Car::STATUS_ACTIVE)
+         ->launched()
                         // ->with('brand','carVersions')
                         ->leftJoin('car_favourites AS cf', function ($join) {
                             $join->on('cf.car_id', '=', 'cars.id')

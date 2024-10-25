@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Models\Car;
+use App\Models\Bank;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Http\Resources\CarResource;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\BankResource;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Resources\CarResource;
+use App\Models\Car;
 
-class PopularCarFilterController extends ApiBaseController
+class UpcomingCarController extends ApiBaseController
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
-      
         $query = Car::leftJoin('car_versions', 'cars.id', '=', 'car_versions.car_id')
-                ->where('cars.status', Car::STATUS_ACTIVE)
-                ->launched()
-                ->orderBy('view_count', 'desc')
-                ->select('cars.*')
-                ->distinct();      
-                      
+        ->where('cars.status', Car::STATUS_ACTIVE)
+        ->upcoming()
+        ->orderBy('view_count', 'desc')
+        ->select('cars.*')
+        ->distinct();  
         if ($request->has('brand')) {   
             $query->where('cars.brand_id', $request->brand);
         }
@@ -39,6 +38,7 @@ class PopularCarFilterController extends ApiBaseController
         }
         $cars = $query->limit(10)->get();
         //CarResource::collection($cars);
-        return $this->success(['data' =>  CarResource::collection($cars)], 'Popular Cars', Response::HTTP_OK);
+        return $this->success(['data' =>  CarResource::collection($cars)], 'Upcoming Cars', Response::HTTP_OK);
+  
     }
 }

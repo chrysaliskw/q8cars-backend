@@ -130,6 +130,19 @@
                 format: 'dd-mm-yyyy',
 
             });
+            if(($('#is_upcoming').val()) == 1){
+        console.log($('#is_upcoming').val());
+        $('.justLaunch').hide();
+    }else{
+        $('.justLaunch').show();
+
+    }
+    if(($('#is_just_launched').val()) == 1){
+        $('#just_launch_sort_order').prop('disabled', false);
+    }else{
+        $('#just_launch_sort_order').prop('disabled', true);
+
+    }
         //     function toggleFields(index)
         //    {
         //         const inputType = document.getElementById(`input_type_${index}`).value;
