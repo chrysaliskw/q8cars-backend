@@ -4,6 +4,7 @@ use App\Models\Admin;
 use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Car;
+use App\Models\CuratedComparison;
 use App\Models\News;
 use App\Models\Notification;
 use App\Models\Offer;
@@ -20,6 +21,7 @@ return [
         'news' => News::FILE_DIR,
         'notifications' => Notification::FILE_DIR,
         'offer' => Offer::FILE_DIR,
+        'curated-comparison' => CuratedComparison::FILE_DIR,
     ],
 
     'user' => [
