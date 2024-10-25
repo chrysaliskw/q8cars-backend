@@ -21,7 +21,7 @@ return [
         'news' => News::FILE_DIR,
         'notifications' => Notification::FILE_DIR,
         'offer' => Offer::FILE_DIR,
-        'curated-comparison' => CuratedComparison::FILE_DIR,
+        'curated_comparison' => CuratedComparison::FILE_DIR,
     ],
 
     'user' => [
