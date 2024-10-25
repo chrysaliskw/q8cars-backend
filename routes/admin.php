@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Trash\BrandTrashController;
 use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\EmiCalculatorController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Car
 ;use App\Http\Controllers\Admin\OfferController;
 
@@ -75,7 +76,8 @@ Route::middleware('auth:admin')->group(function () {
         'news' => NewsPostController::class,            // News
         'emi-info' => EmiCalculatorController::class,   // Emi Calculator
         'comparison' => CarComparisonListsController::class, // Car Comparison
-        'offers' => OfferController::class              // Offers
+        'offers' => OfferController::class,              // Offers
+        'notifications' => NotificationController::class, //Notifications
     ]);
 
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
