@@ -21,7 +21,7 @@ public function __invoke(Request $request)
         $comarisons = $query->get();
        }
         return $this->success([
-             CuratedComparisonResource::collection($comarisons)
+           'data' =>  CuratedComparisonResource::collection($comarisons)
         ], 'Curated Comparisons listing', Response::HTTP_OK);
     }
 }
