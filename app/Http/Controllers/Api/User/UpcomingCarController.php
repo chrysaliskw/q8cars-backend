@@ -58,8 +58,8 @@ class UpcomingCarController extends ApiBaseController
             $query->when($request->has('brand'), function ($query) use ($request) {
                 $query->where('cars.brand_id', $request->brand);
             });
-
-            return $query->get();
+            $cars = $query->get();
+            return  CarResource::collection($cars);
         }
     private function relatedNews(Request $request)
     {
