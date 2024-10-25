@@ -30,7 +30,7 @@
                         {{'Max size : 2MB, Format : PNG'}}
                         <br>
                     </span>
-                    <img src="{{ $notification->image ? url(file_asset('notifications', $notification->image)) : '' }}"
+                    <img src="{{ $notification->image ? url(file_asset('files-notifications', $notification->image)) : '' }}"
                     alt="image" class="img-thumbnail" width="100" height="150">
                 </div>
                 <div class="col-md-4">
@@ -40,7 +40,7 @@
                         {{'Max size : 2MB, Format : PNG'}}
                         <br>
                     </span>
-                    <img src="{{ $notification->logo ? url(file_asset('notifications', $notification->logo)) : '' }}"
+                    <img src="{{ $notification->logo ? url(file_asset('files-notifications', $notification->logo)) : '' }}"
                     alt="logo" class="img-thumbnail" width="100" height="150">
                 </div>
                 <div class="col-md-4">
@@ -96,21 +96,31 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <x-slot name="scripts">
     <script>
-        jQuery(document).ready(function(){
+
+        jQuery(document).ready(function() {
+            const today = new Date();
+
             $('#start_date').datepicker({
                 format: 'yyyy-mm-dd',
-                autoclose: true
-            }).on('changeDate', function(e) {
+                autoclose: true,
+            }).datepicker('setDate', $('#start_date').val() || today);
+
+            $('#start_date').on('show.bs.datepicker', function() {
+                $(this).datepicker('setStartDate', today);
+            });
+
+            $('#start_date').on('changeDate', function(e) {
                 $('#end_date').datepicker('setStartDate', e.date);
                 $('#end_date').val('');
             });
 
             $('#end_date').datepicker({
                 format: 'yyyy-mm-dd',
-                autoclose: true
+                autoclose: true,
+                startDate: today
             });
-            $('#end_date').datepicker('setStartDate', new Date());
         });
+
     </script>
     </x-slot>
 </x-admin-layout>

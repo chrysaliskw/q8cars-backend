@@ -55,8 +55,8 @@ class NotificationController extends Controller
         $viewData = [
             'Title' => empty($notification->title) ? 'NIL' : $notification->title,
             'Description' => empty($notification->description) ? 'NIL' : $notification->description,
-            'Image' => empty($notification->image) ? 'NIL' : '<img src="' . url(file_asset('notifications', $notification->image)) . '" alt="Notification Image" style="max-width: 200px;"/>',
-            'Logo' => empty($notification->logo) ? 'NIL' : '<img src="' . url(file_asset('notifications', $notification->logo)) . '" alt="Notification Logo" style="max-width: 200px;"/>',
+            'Image' => empty($notification->image) ? 'NIL' : '<img src="' . url(file_asset('files-notifications', $notification->image)) . '" alt="Notification Image" style="max-width: 200px;"/>',
+            'Logo' => empty($notification->logo) ? 'NIL' : '<img src="' . url(file_asset('files-notifications', $notification->logo)) . '" alt="Notification Logo" style="max-width: 200px;"/>',
             'Start date' => empty($notification->start_date) ? 'NIL' : dateTimeFormat($notification->start_date),
             'End date' => empty($notification->end_date) ? 'NIL' : dateTimeFormat($notification->end_date),
             'Status' => $notification->status == Notification::STATUS_ACTIVE ? 'Active' :

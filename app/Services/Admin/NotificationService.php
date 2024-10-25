@@ -25,11 +25,13 @@ class NotificationService
 
         try{
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $data['image'] = $request->file('image')->store(Notification::FILE_DIR);
+                $request->file('image')->store(Notification::FILE_DIR);
+                $data['image'] = $request->file('image')->hashName();
             }
 
             if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
-                $data['logo'] = $request->file('logo')->store(Notification::FILE_DIR);
+                $request->file('logo')->store(Notification::FILE_DIR);
+                $data['logo'] = $request->file('logo')->hashName();
             }
 
             $notification = Notification::create($data);
@@ -58,14 +60,16 @@ class NotificationService
                 if ($notification->image) {
                     Storage::disk('public')->delete($notification->image);
                 }
-                $data['image'] = $request->file('image')->store(Notification::FILE_DIR);
+                $request->file('image')->store(Notification::FILE_DIR);
+                $data['image'] = $request->file('image')->hashName();
             }
 
             if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
                 if ($notification->logo) {
                     Storage::disk('public')->delete($notification->logo);
                 }
-                $data['logo'] = $request->file('logo')->store(Notification::FILE_DIR);
+                $request->file('logo')->store(Notification::FILE_DIR);
+                $data['logo'] = $request->file('logo')->hashName();
             }
 
             $notification->update($data);

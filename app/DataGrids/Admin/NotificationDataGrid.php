@@ -23,7 +23,7 @@ class NotificationDataGrid extends Grid
                 'sort' => false,
                 'value' => function ($model) {
                     if ($model->image) {
-                        $url = file_asset('notifications', $model->image);
+                        $url = file_asset('files-notifications', $model->image);
                         return "<img src='{$url}' alt='notification-img' class='img-thumbnail img-list'>";
                     }
                 }

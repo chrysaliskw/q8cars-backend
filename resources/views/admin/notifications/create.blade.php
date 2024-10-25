@@ -26,7 +26,7 @@
                     <x-form-input type="file" field="image" field-name="Image" value="{{ old('image') }}">
                     </x-form-input>
                     <span class="text-muted">
-                        {{'Max size : 2MB, Format : PNG'}}
+                        {{'Max size : 2MB, Formats : PNG,JPG,JPEG'}}
                         <br>
                         <br>
                     </span>
@@ -35,7 +35,7 @@
                     <x-form-input type="file" field="logo" field-name="Logo" value="{{ old('logo') }}">
                     </x-form-input>
                     <span class="text-muted">
-                        {{'Max size : 2MB, Format : PNG'}}
+                        {{'Max size : 2MB, Formats : PNG,JPG,JPEG'}}
                         <br>
                         <br>
                     </span>
@@ -50,7 +50,7 @@
                         <label for="start_date" class="control-label">Start Date</label>
                         <div class="input-group">
                             <input type="text" name="start_date" id="start_date" class="form-control"
-                                value="{{ old('start_date') }}">
+                                value="{{ old('start_date', \Carbon\Carbon::today()->format('Y-m-d')) }}">
                             <div class="input-group-append">
                                 <span class="input-group-text"><i class="md md-event"></i></span>
                             </div>
@@ -95,23 +95,27 @@
 
     <script>
 
-        jQuery(document).ready(function(){
+        jQuery(document).ready(function() {
+            const today = new Date();
 
             $('#start_date').datepicker({
                 format: 'yyyy-mm-dd',
-                autoclose: true
-            }).on('changeDate', function(e) {
+                autoclose: true,
+                startDate: today
+            }).datepicker('setDate', today);
+
+            $('#start_date').on('changeDate', function(e) {
                 $('#end_date').datepicker('setStartDate', e.date);
                 $('#end_date').val('');
             });
 
             $('#end_date').datepicker({
                 format: 'yyyy-mm-dd',
-                autoclose: true
+                autoclose: true,
+                startDate: today
             });
-            $('#end_date').datepicker('setStartDate', new Date());
-
         });
+
     </script>
     </x-slot>
 </x-admin-layout>
