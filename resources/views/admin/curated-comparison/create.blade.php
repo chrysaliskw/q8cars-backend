@@ -1,4 +1,5 @@
 <x-admin-layout title="Curated Comparison">
+    {{-- test --}}
     <link href="{{ url('moltran-asset/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
