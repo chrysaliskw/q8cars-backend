@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('content');
             $table->text('html_content');
             $table->string('source');
-            $table->string('image_1');
+            $table->string('image_1')->nullable();
             $table->string('image_2')->nullable();
             $table->string('image_3')->nullable();
             $table->date('published_date')->nullable();

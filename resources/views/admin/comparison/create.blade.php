@@ -60,20 +60,6 @@
                     <input type="hidden" id="car_version_id_1_text" name="car_version_id_1_text" />
                 </div>
             </div>
-            {{-- @if (session('error'))
-                <div class="alert alert-danger">
-                    {!! session('error') !!}
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    @foreach ($errors->all() as $error)
-                        {!! $error !!}<br>
-                    @endforeach
-                </div>
-            @endif --}}
-
             <hr>
 
             <div class="row">

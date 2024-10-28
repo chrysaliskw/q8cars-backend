@@ -63,6 +63,12 @@
                 </li>
 
                 <li>
+                    <a href="{{ route('admin.curated-comparison.index') }}" class="waves-effect">
+                    <i class="fa fa-car"></i><span> Curated Comparison </span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{{ route('admin.test-ride-requests.index') }}" class="waves-effect">
                     <i class="fa fa-taxi"></i><span> Test Ride Requests</span>
                     </a>

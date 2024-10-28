@@ -4,6 +4,7 @@ use App\Models\Admin;
 use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Car;
+use App\Models\CuratedComparison;
 use App\Models\News;
 use App\Models\Notification;
 use App\Models\User;
@@ -18,6 +19,7 @@ return [
         'car' => Car::FILE_DIR,
         'news' => News::FILE_DIR,
         'notifications' => Notification::FILE_DIR,
+        'curated-comparisons' => CuratedComparison::FILE_DIR,
     ],
 
     'user' => [
@@ -86,8 +88,8 @@ return [
             7 => 'Exterior',
             8 => 'Safety',
             9 => 'Entertainment and Comminication',
-            10=>  'Key Specification' ,
-            11=> 'Key Features',   
+            10 =>  'Key Specification',
+            11 => 'Key Features',
         ],
     ],
 
@@ -176,11 +178,18 @@ return [
             2 => 'No',
         ],
     ],
-    'car-comparison-list' =>[
+    'car-comparison-list' => [
         'page' => [
             1 => 'Home Page',
             2 => 'Detailed Page',
             3 => 'Car Comparison Page',
         ]
-    ]
+    ],
+    'curated-comparisons' => [
+        'status' => [
+            1 => 'Active',
+            2 => 'Inactive',
+        ]
+    ],
+
 ];
