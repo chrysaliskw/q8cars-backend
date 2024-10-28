@@ -30,11 +30,13 @@ class OfferService
             $data['html_key_feature_2'] = '<p style="text-align:left;">' . $request->input('key_feature_2') . '</p>';
 
             if ($request->hasFile('key_icon_1') && $request->file('key_icon_1')->isValid()) {
-                $data['key_icon_1'] = $request->file('key_icon_1')->store(Offer::FILE_DIR);
+                $request->file('key_icon_1')->store(Offer::FILE_DIR);
+                $data['key_icon_1'] = $request->file('key_icon_1')->hashName();
             }
 
             if ($request->hasFile('key_icon_2') && $request->file('key_icon_2')->isValid()) {
-                $data['key_icon_2'] = $request->file('key_icon_2')->store(Offer::FILE_DIR);
+                $request->file('key_icon_2')->store(Offer::FILE_DIR);
+                $data['key_icon_2'] = $request->file('key_icon_2')->hashName();
             }
 
             $offer = Offer::create($data);
@@ -66,14 +68,16 @@ class OfferService
                 if ($offer->key_icon_1) {
                     Storage::disk('public')->delete($offer->key_icon_1);
                 }
-                $data['key_icon_1'] = $request->file('key_icon_1')->store(Offer::FILE_DIR);
+                $request->file('key_icon_1')->store(Offer::FILE_DIR);
+                $data['key_icon_1'] = $request->file('key_icon_1')->hashName();
             }
 
             if ($request->hasFile('key_icon_2') && $request->file('key_icon_2')->isValid()) {
                 if ($offer->key_icon_2) {
                     Storage::disk('public')->delete($offer->key_icon_2);
                 }
-                $data['key_icon_2'] = $request->file('key_icon_2')->store(Offer::FILE_DIR);
+                $request->file('key_icon_2')->store(Offer::FILE_DIR);
+                $data['key_icon_2'] = $request->file('key_icon_2')->hashName();
             }
 
             $offer->update($data);

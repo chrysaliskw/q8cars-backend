@@ -12,8 +12,14 @@ class Notification extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
     const STATUS_EXPIRED = 3;
-    
     const FILE_DIR = 'notifications';
+
+    const STATUSES = [
+        self::STATUS_ACTIVE => 'Active',
+        self::STATUS_INACTIVE => 'Inactive',
+        self::STATUS_EXPIRED => 'Expired',
+    ];
+
 
     protected $fillable = [
         'user_id',

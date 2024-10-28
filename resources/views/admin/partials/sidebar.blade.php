@@ -78,6 +78,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.notifications.index') }}" class="waves-effect">
+                    <i class="fa fa-bell"></i><span> Notifications</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.reviews.index') }}" class="waves-effect">
                     <i class="fa fa-comment"></i><span> Reviews</span>
                     </a>
