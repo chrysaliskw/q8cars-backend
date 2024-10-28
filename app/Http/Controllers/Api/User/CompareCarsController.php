@@ -105,7 +105,7 @@ class CompareCarsController extends ApiBaseController
                     $version2 = CarVersion::find($list->car_version_2_id);
                 }
                 $car2 = $version2 ? new CarVersionResource($version2) : [];
-                $result[$list->id] = [
+                $result = [
                     'car_1' => $car1 ?? [],
                     'car_2' => $car2 ?? []
                 ];

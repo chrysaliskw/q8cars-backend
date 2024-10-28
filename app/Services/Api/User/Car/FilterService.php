@@ -106,6 +106,7 @@ final class FilterService
     private function setQuery()
     {
         $this->query = Car::active()
+                        ->launched()
                         ->with('brand')
                         ->leftJoin('car_favourites AS cf', function ($join) {
                             $join->on('cf.car_id', '=', 'cars.id')

@@ -28,12 +28,18 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
+                <x-form-select field="is_upcoming" field-name="Is Upcoming ?" defaultPrompt="Select" id="is_upcoming" onchange="toggleUpcoming(this)">
+                    <option value="1">Yes</option>
+                    <option selected value="2">No</option>
+                </x-form-select>
+            </div>
+            <div class="col-md-4 justLaunch" >
                 <x-form-select field="is_just_launched" field-name="Is Just Launched ?" defaultPrompt="Select" id="is_just_launched" onchange="toggleJustLaunch(this)">
                     <option value="1">Yes</option>
                     <option selected value="2">No</option>
                 </x-form-select>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 justLaunch">
                 <x-form-input type="text" id="just_launch_sort_order" field="just_launch_sort_order" field-name="Just Launch Sort Order" value="{{ old('just_launch_sort_order') }}" disabled>
                 </x-form-input>
             </div>
@@ -130,7 +136,16 @@ function toggleJustLaunch(that){
         $('#just_launch_sort_order').prop('disabled', true); // Disable the input field
     }
 };
-</script>
+function toggleUpcoming(that){
+
+    console.log(that.value);
+    if ((that).value == 1) { 
+        $('.justLaunch').css('display', 'none'); 
+    } else {
+        $('.justLaunch').css('display', 'flex');
+    }
+};
+
 </script>
 @include('admin.car.create-section.create_key_features')
 

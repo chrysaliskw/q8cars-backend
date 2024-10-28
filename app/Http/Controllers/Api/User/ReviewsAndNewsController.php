@@ -56,7 +56,7 @@ class ReviewsAndNewsController extends ApiBaseController
     public function getSuggestions()
     {
         $data['recent-searches'] = RecentSearch::where('user_id',Auth::id())->orderBy('id','Desc')->limit(2)->pluck('key_word');
-        $data['trending-searches'] = Car::active()->orderBy('search_view_count','Desc')->limit(5)->pluck('model_name');
+        $data['trending-searches'] = Car::active()->launched()->orderBy('search_view_count','Desc')->limit(5)->pluck('model_name');
         return $this->success(['data' => $data], 'Recent And Trending Searches', Response::HTTP_OK);
     }
 

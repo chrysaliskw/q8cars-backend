@@ -102,6 +102,7 @@ class CarService
         // $oldImageName = $this->car->image;
         $this->car->brand_id = $this->data['brand_id'];
         $this->car->model_name = $this->data['model_name'];
+        $this->car->is_upcoming = $this->data['is_upcoming'];
         $this->car->is_just_launched = $this->data['is_just_launched'];
         $this->car->just_launch_sort_order = $this->data['just_launch_sort_order'] ?? null;
         $this->car->sort_order = $this->data['sort_order'];

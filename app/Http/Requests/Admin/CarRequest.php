@@ -68,6 +68,7 @@ class CarRequest extends FormRequest
 
             'model_name' => 'required|string|max:100',
             'sort_order' => 'required|integer',
+            'is_upcoming' => ['required', Rule::in([Car::LAUNCHED, Car::UPCOMING])],
             'is_just_launched' => ['required', Rule::in([Car::JUST_LAUNCHED, Car::NOT_JUST_LAUNCHED])],
             'just_launch_sort_order' => [
                 'required_if:is_just_launched,' . Car::JUST_LAUNCHED,
@@ -338,6 +339,7 @@ class CarRequest extends FormRequest
 
         'model_name' => 'required|string|max:100',
         'sort_order' => 'required|integer',
+        'is_upcoming' => ['required', Rule::in([Car::LAUNCHED, Car::UPCOMING])],
         'is_just_launched' => ['required', Rule::in([Car::JUST_LAUNCHED, Car::NOT_JUST_LAUNCHED])],
         'status' => ['required', Rule::in(array_keys(config('params.car.status')))],
         'just_launch_sort_order' => [

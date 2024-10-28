@@ -32,7 +32,7 @@ class HomeController extends ApiBaseController
 
     private function getPopularCars()
     {
-        $result = Car::active()->orderBy('view_count', 'desc')->limit(10)->get();
+        $result = Car::active()->launched()->orderBy('view_count', 'desc')->limit(10)->get();
         return CarResource::collection($result);
     }
 

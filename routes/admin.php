@@ -21,8 +21,11 @@ use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\CuratedComparisonController;
 use App\Http\Controllers\Admin\EmiCalculatorController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Car
 ;use App\Http\Controllers\Admin\OfferController;
+use App\Models\Notification;
+use Mockery\Matcher\Not;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +80,7 @@ Route::middleware('auth:admin')->group(function () {
         'emi-info' => EmiCalculatorController::class,   // Emi Calculator
         'comparison' => CarComparisonListsController::class, // Car Comparison
         'offers' => OfferController::class,              // Offers
+        'notifications' => NotificationController::class, //Notifications
         'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
     ]);
 

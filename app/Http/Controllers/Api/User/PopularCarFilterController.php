@@ -18,6 +18,7 @@ class PopularCarFilterController extends ApiBaseController
       
         $query = Car::leftJoin('car_versions', 'cars.id', '=', 'car_versions.car_id')
                 ->where('cars.status', Car::STATUS_ACTIVE)
+                ->launched()
                 ->orderBy('view_count', 'desc')
                 ->select('cars.*')
                 ->distinct();      

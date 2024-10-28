@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\User\OfferRequestController;
 use App\Http\Controllers\Api\User\SubmitReviewController;
 use App\Http\Controllers\Api\User\AccountDeleteController;
 use App\Http\Controllers\Api\User\BankController;
+use App\Http\Controllers\Api\User\BankSuggestionRequestController;
 use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\PopularCarFilterController;
 use App\Http\Controllers\Api\User\CarSearchController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\Api\User\EmiCalculatorController;
 use App\Http\Controllers\Api\User\NotificationController;
 use App\Http\Controllers\Api\User\CompareCarsDetailsController;
 use App\Http\Controllers\Api\User\CuratedComparisonController;
+use App\Http\Controllers\Api\User\UpcomingCarController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -96,6 +98,7 @@ Route::middleware('auth:user_api')->group(function () {
 
     //bank
     Route::get('/banks', BankController::class);
+    Route::post('/bank-suggestions', BankSuggestionRequestController::class);
 });
 
 /**

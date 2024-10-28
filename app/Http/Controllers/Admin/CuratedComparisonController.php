@@ -80,6 +80,7 @@ class CuratedComparisonController extends Controller
             'image_1' => empty($curatedComparison->image_1) ? 'NIL' : $curatedComparison->image_1,
             'image_2' => empty($curatedComparison->image_2) ? 'NIL' : $curatedComparison->image_2,
             'image_3' => empty($curatedComparison->image_3) ? 'NIL' : $curatedComparison->image_3,
+            'status' => empty($curatedComparison->status) ? 'NIL' : ($curatedComparison->status == 1 ? 'Active' : 'Inactive')
         ];
         
 

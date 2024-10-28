@@ -24,7 +24,7 @@ class PopularCarController extends ApiBaseController
     }
     private function getPopularCars(Request $request)
     {
-        $result = Car::active()->
+        $result = Car::active()->launched()->
         when($request->brand_id, function ($query) use ($request) {
             $query->where('brand_id', $request->brand_id);
         })->orderBy('view_count', 'desc')->limit(10)->get();
@@ -32,7 +32,7 @@ class PopularCarController extends ApiBaseController
     }
     private function getSimilarCras(Request $request)
     {
-        $cars = Car::active()
+        $cars = Car::active() ->launched()
             ->when($request->brand_id, function ($query) use ($request) {
                 $query->where('brand_id', $request->brand_id);
             })
@@ -44,7 +44,7 @@ class PopularCarController extends ApiBaseController
     }
     private function relatedNews(Request $request)
     {
-        $carIds = Car::active()
+        $carIds = Car::active()->launched()
         ->when($request->brand_id, function ($query) use ($request) {
             $query->where('brand_id', $request->brand_id);
         })

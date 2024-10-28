@@ -121,6 +121,32 @@
                                         {!! $curatedComparison->html_content !!}
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Published Date</label>
+                                    <div class="col-sm-8">
+                                        {{ date('d-m-Y', strtotime($curatedComparison->published_date)) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Status</label>
+                                    <div class="col-sm-8">
+                                        {!! $viewData['status'] !!}
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Created Date</label>
+                                    <div class="col-sm-8">
+                                        {{ date('d-m-Y h:i A', strtotime($curatedComparison->created_at)) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Updated Date</label>
+                                    <div class="col-sm-8">
+                                        {{ date('d-m-Y h:i A', strtotime($curatedComparison->updated_at)) }}
+                                    </div>
+                                </div>
+                                
 
 
                             </div>

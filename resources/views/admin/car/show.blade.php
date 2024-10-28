@@ -69,6 +69,13 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-sm-4 control-label">Is Upcoming</label>
+                                <div class="col-sm-8">
+                                    {{$car->is_upcoming == 1 ? 'Yes' :'No' }}
+                                </div>
+                            </div>
+                            @if($car->is_upcoming == 2)
+                            <div class="form-group row">
                                 <label class="col-sm-4 control-label">Is Just Launched</label>
                                 <div class="col-sm-8">
                                     {{$car->is_just_launched == 1 ? 'Yes' :'No' }}
@@ -81,6 +88,7 @@
                                     {{$car->just_launch_sort_order }}
                                 </div>
                             </div>
+                            @endif
                             @endif
 
                         

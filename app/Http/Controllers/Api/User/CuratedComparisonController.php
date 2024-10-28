@@ -14,14 +14,15 @@ class CuratedComparisonController extends ApiBaseController
 public function __invoke(Request $request)
     {
        $query = CuratedComparison::active()->orderBy('id','Desc');
-       if($request->is_paginate)
+       $comarisons = $query->limit(3)->get();
+
+       if($request->is_paginate == 1)
        {
-        $comarisons = $query->limit(3)->get();
-       }else{
-        $comarisons = $query->get();
+        $comarisons = $query->paginate(10);
+      
        }
         return $this->success([
-             CuratedComparisonResource::collection($comarisons)
+           'data' =>  CuratedComparisonResource::collection($comarisons)
         ], 'Curated Comparisons listing', Response::HTTP_OK);
     }
 }

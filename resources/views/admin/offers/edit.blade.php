@@ -69,8 +69,10 @@
                         <br>
                         {{'Format : PNG'}}
                     </span>
-                    <img src="{{ $offer->key_icon_1 ? url(file_asset('files-offers', $offer->key_icon_1)) : '' }}"
-                    alt="key_icon_1" class="img-thumbnail" width="100" height="150">
+                    @if ($offer->key_icon_1)
+                        <img src="{{ $offer->key_icon_1 ? url(file_asset('files-offers', $offer->key_icon_1)) : '' }}"
+                        alt="key_icon_1" class="img-thumbnail" width="100" height="150">
+                    @endif
                 </div>
                 <div class="col-md-4">
                     <x-form-input type="file" field="key_icon_2" field-name="Key Icon 2">
@@ -82,8 +84,10 @@
                         <br>
                         {{'Format : PNG'}}
                     </span>
-                    <img src="{{ $offer->key_icon_2 ? url(file_asset('files-offers', $offer->key_icon_2)) : '' }}"
-                    alt="key_icon_2" class="img-thumbnail" width="100" height="150">
+                    @if ($offer->key_icon_2)
+                        <img src="{{ $offer->key_icon_2 ? url(file_asset('files-offers', $offer->key_icon_2)) : '' }}"
+                        alt="key_icon_2" class="img-thumbnail" width="100" height="150">
+                    @endif
                 </div>
                 <div class="col-md-4">
                     <x-form-input type="text" field="offer" field-name="Offer" value="{{ $offer->offer }}"></x-form-input>
