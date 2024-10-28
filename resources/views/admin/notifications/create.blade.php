@@ -41,7 +41,9 @@
                     </span>
                 </div>
                 <div class="col-md-4">
-                    <x-form-textarea field="business_name" field-name="Business name" field-value="{{ old('business_name') }}"></x-form-textarea>
+                    {{-- <x-form-textarea field="business_name" field-name="Business name" field-value="{{ old('business_name') }}"></x-form-textarea> --}}
+                    <x-form-input type="text" field="business_name" field-name="Business name" value="{{ old('business_name') }}">
+                    </x-form-input>
                 </div>
             </div>
             <div class="row">

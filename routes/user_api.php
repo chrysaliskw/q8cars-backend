@@ -93,7 +93,7 @@ Route::apiResource('compare-cars',CompareCarsController::class)->only(['index','
 
     //bank
     Route::get('/banks', BankController::class);
-    Route::get('/bank-suggestion', BankSuggestionRequestController::class);
+    Route::post('/bank-suggestions', BankSuggestionRequestController::class);
 });
 
 /**

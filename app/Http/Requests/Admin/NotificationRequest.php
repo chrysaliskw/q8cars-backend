@@ -24,9 +24,9 @@ class NotificationRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:255',
-            'image' => 'nullable|image|max:2048|mimes:png,jpg,jpeg',
-            'logo' => 'nullable|image|max:2048|mimes:png,jpg,jpeg',
+            'description' => 'required|string|max:255',
+            'image' => 'required|image|max:2048|mimes:png,jpg,jpeg',
+            'logo' => 'required|image|max:2048|mimes:png,jpg,jpeg',
             'business_name' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',

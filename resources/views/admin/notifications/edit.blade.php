@@ -27,24 +27,30 @@
                     <x-form-input type="file" field="image" field-name="Image" value="{{ old('image') }}">
                     </x-form-input>
                     <span class="text-muted">
-                        {{'Max size : 2MB, Format : PNG'}}
+                        {{'Max size : 2MB, Formats : PNG,JPG,JPEG'}}
                         <br>
                     </span>
-                    <img src="{{ $notification->image ? url(file_asset('files-notifications', $notification->image)) : '' }}"
-                    alt="image" class="img-thumbnail" width="100" height="150">
+                    @if ($notification->image)
+                        <img src="{{ $notification->image ? url(file_asset('files-notifications', $notification->image)) : '' }}"
+                        alt="image" class="img-thumbnail" width="100" height="150">
+                    @endif
                 </div>
                 <div class="col-md-4">
                     <x-form-input type="file" field="logo" field-name="Logo" value="{{ old('logo') }}">
                     </x-form-input>
                     <span class="text-muted">
-                        {{'Max size : 2MB, Format : PNG'}}
+                        {{'Max size : 2MB, Formats : PNG,JPG,JPEG'}}
                         <br>
                     </span>
-                    <img src="{{ $notification->logo ? url(file_asset('files-notifications', $notification->logo)) : '' }}"
-                    alt="logo" class="img-thumbnail" width="100" height="150">
+                    @if ($notification->logo)
+                        <img src="{{ $notification->logo ? url(file_asset('files-notifications', $notification->logo)) : '' }}"
+                        alt="logo" class="img-thumbnail" width="100" height="150">
+                    @endif
                 </div>
                 <div class="col-md-4">
-                    <x-form-textarea field="business_name" field-name="Business name" field-value="{{ old('business_name', $notification->business_name) }}"></x-form-textarea>
+                    {{-- <x-form-textarea field="business_name" field-name="Business name" field-value="{{ old('business_name', $notification->business_name) }}"></x-form-textarea> --}}
+                    <x-form-input type="text" field="business_name" field-name="Business name" value="{{ old('business_name', $notification->business_name) }}">
+                    </x-form-input>
                 </div>
             </div>
             <div class="row">
