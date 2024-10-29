@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Bank;
+
+use App\DataGrids\Admin\SuggestedBankDataGrid;
+use App\Http\Controllers\Controller;
+use App\Models\BankSuggestionRequest;
+use Illuminate\Http\Request;
+
+class SuggestedBankController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $grid = new SuggestedBankDataGrid(request()->query());
+        return view('admin.banks.suggested-banks.index', compact('grid'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(BankSuggestionRequest $suggested_bank)
+    {
+        $viewData = [
+            'First Name' => empty($suggested_bank->first_name) ? 'NIL' : $suggested_bank->first_name,
+            'Last Name' => empty($suggested_bank->last_name) ? 'NIL' : $suggested_bank->last_name,
+            'Civil ID' => empty($suggested_bank->civil_id) ? 'NIL' : $suggested_bank->civil_id,
+            'Email' => empty($suggested_bank->email) ? 'NIL' : $suggested_bank->email,
+            'Bank Name' => empty($suggested_bank->bank_name) ? 'NIL' : $suggested_bank->bank_name,
+            'Status' => $suggested_bank->status == BankSuggestionRequest::STATUS_SUBMITTED ? 'Submitted' :
+                       ($suggested_bank->status == BankSuggestionRequest::STATUS_ACCEPTED ? 'Accepted' :
+                       ($suggested_bank->status == BankSuggestionRequest::STATUS_REJECTED ? 'Rejected' : 'unknown')),
+            'Created At' => dateTimeFormat($suggested_bank->created_at),
+            'Updated At' => dateTimeFormat($suggested_bank->updated_at),
+        ];
+
+        return view('admin.banks.suggested-banks.show', compact('suggested_bank', 'viewData'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, BankSuggestionRequest $suggested_bank)
+    {
+        $suggested_bank = BankSuggestionRequest::find($request->id);
+        $suggested_bank->status = $request->status;
+        $suggested_bank->save();
+        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+    }
+}

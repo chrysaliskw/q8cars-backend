@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\Bank;
 use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Car;
@@ -22,6 +23,7 @@ return [
         'notifications' => Notification::FILE_DIR,
         'offer' => Offer::FILE_DIR,
         'curated_comparison' => CuratedComparison::FILE_DIR,
+        'banks' => Bank::FILE_DIR,
     ],
 
     'user' => [
@@ -79,6 +81,7 @@ return [
             2 => 'Interior',
             3 => 'Gears, Pedals and Stalks',
             4 => 'Seat & seat adjustments',
+            5 => '360 view',
         ],
         'specification-section' => [
             1 => 'Engine and Transmission',
@@ -91,6 +94,10 @@ return [
             8 => 'Safety',
             9 => 'Entertainment and Comminication',
         ],
+        'view-camera' => [
+            1 => 'Yes',
+            2 => 'No',
+        ]
     ],
 
     'news' => [

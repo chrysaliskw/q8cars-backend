@@ -5,18 +5,18 @@
         <li><a href="{{ route('admin.car.index') }}">Cars</a></li>
         <li class="active">View</li>
     </x-slot>
-    
+
     <style>
         .nav-tabs {
             display: flex;
             flex-direction: column;
             border-bottom: none;
-           
+
         }
 
         .nav-item {
             width: 100%;
-           
+
         }
 
         .nav-link {
@@ -24,7 +24,7 @@
             border-radius: 0;
             border: 1px solid #ddd;
             margin-bottom: 5px;
-            
+
         }
     </style>
 
@@ -47,7 +47,7 @@
                                 @csrf
                                 @method('delete')
                             </form>
-                            <a href="{{ route('admin.car-version.edit', $carVarient) }}" 
+                            <a href="{{ route('admin.car-version.edit', $carVarient) }}"
                                 class="btn btn-info waves-effect waves-light float-right" >
                                  + Add Car Version</a>
                         </div>
@@ -91,7 +91,7 @@
                             @endif
                             @endif
 
-                        
+
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Ex-Showroom Price</label>
                                 <div class="col-sm-8">
@@ -133,17 +133,17 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Colors</label>
                                 <div class="col-sm-8">
-                                   
-                                    @php 
+
+                                    @php
                                         $i = 0;
                                     @endphp
                                     @foreach($colors as $c)
                                         @if($i == count($colors)-1)
                                             {{$c}}
                                         @else
-                                            {{$c}}, 
+                                            {{$c}},
                                         @endif
-                                        @php 
+                                        @php
                                             $i++;
                                         @endphp
                                     @endforeach
@@ -152,16 +152,16 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Professions</label>
                                 <div class="col-sm-8">
-                                    @php 
+                                    @php
                                         $i = 0;
                                     @endphp
                                     @foreach($professions as $c)
                                         @if($i == count($professions)-1)
                                             {{$c}}
                                         @else
-                                            {{$c}}, 
+                                            {{$c}},
                                         @endif
-                                        @php 
+                                        @php
                                             $i++;
                                         @endphp
                                     @endforeach
@@ -199,7 +199,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card card-border card-primary">
-                <div class="card-header"> 
+                <div class="card-header">
                     <div class="m-b-30">
                         <h5>Key Features</h5>
                     </div>
@@ -218,7 +218,7 @@
                             @else
                                 <i class="fa fa-times" style="color:red;"></i>
                             @endif
-                         @endif      
+                         @endif
                     </div>
                 </div>
                 @endforeach
@@ -228,7 +228,7 @@
         </div>
         <div class="col-md-6">
             <div class="card card-border card-primary">
-                <div class="card-header"> 
+                <div class="card-header">
                     <div class="m-b-30">
                         <h5>Key Specifications</h5>
                     </div>
@@ -237,19 +237,19 @@
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Fuel Types</label>
                         <div class="col-sm-6">
-                            @php 
+                            @php
                                 $i = 0;
                             @endphp
                             @foreach($fuelTypes as $c)
                                 @if($i == count($fuelTypes)-1)
                                     {{$c}}
                                 @else
-                                    {{$c}}, 
+                                    {{$c}},
                                 @endif
-                                @php 
+                                @php
                                     $i++;
                                 @endphp
-                            @endforeach   
+                            @endforeach
                         </div>
                     </div>
                     <div class="form-group row">
@@ -289,7 +289,7 @@
                             @else
                                 <i class="fa fa-times" style="color:red;"></i>
                             @endif
-                         @endif      
+                         @endif
                     </div>
                 </div>
                 @endforeach
@@ -300,7 +300,7 @@
     </div>
 
     <div class="card card-border card-primary">
-        <div class="card-header"> 
+        <div class="card-header">
             <div class="m-b-30">
                 <h5>Other Specifications</h5>
             </div>
@@ -310,64 +310,64 @@
                 <div class="col-md-3">
                     <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
                         <li class="nav-item tab">
-                            <a class="nav-link active" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab" 
+                            <a class="nav-link active" id="contact-tab-2" data-toggle="tab" href="#contact-2" role="tab"
                                 onclick="onTab('contact')" aria-controls="contact-2" aria-selected="true">
                                 <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
                                 <span class="d-none d-sm-block">Engine and Transmission</span>
                             </a>
                         </li>
                         <li class="nav-item tab" >
-                            <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab" 
+                            <a class="nav-link" id="images-tab-2" data-toggle="tab" href="#images-2" role="tab"
                                 onclick="onTab('images')" aria-controls="images-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                                 <span class="d-none d-sm-block">Fuel & Performance</span>
                             </a>
                         </li>
                         <li class="nav-item tab" >
-                            <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab" 
+                            <a class="nav-link" id="colors-tab-2" data-toggle="tab" href="#colors-2" role="tab"
                                 onclick="onTab('colors')" aria-controls="colors-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                                 <span class="d-none d-sm-block">Suspension, Steering & Brakes</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link" id="product_service-tab-2" data-toggle="tab" href="#product_service-2" role="tab" 
+                            <a class="nav-link" id="product_service-tab-2" data-toggle="tab" href="#product_service-2" role="tab"
                                 onclick="onTab('product')" aria-controls="product_service-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Dimensions & Capacity</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link" id="comfort-tab-2" data-toggle="tab" href="#comfort-2" role="tab" 
+                            <a class="nav-link" id="comfort-tab-2" data-toggle="tab" href="#comfort-2" role="tab"
                                 onclick="onTab('comfort')" aria-controls="comfort-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Comfort & Convenience</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link" id="interior-tab-2" data-toggle="tab" href="#interior-2" role="tab" 
+                            <a class="nav-link" id="interior-tab-2" data-toggle="tab" href="#interior-2" role="tab"
                                 onclick="onTab('interior')" aria-controls="interior-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Interior</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link" id="exterior-tab-2" data-toggle="tab" href="#exterior-2" role="tab" 
+                            <a class="nav-link" id="exterior-tab-2" data-toggle="tab" href="#exterior-2" role="tab"
                                 onclick="onTab('exterior')" aria-controls="exterior-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Exterior</span>
                             </a>
                         </li>
-                    
+
                         <li class="nav-item tab">
-                            <a class="nav-link" id="safety-tab-2" data-toggle="tab" href="#safety-2" role="tab" 
+                            <a class="nav-link" id="safety-tab-2" data-toggle="tab" href="#safety-2" role="tab"
                                 onclick="onTab('safety')" aria-controls="safety-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Safety</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link" id="communication-tab-2" data-toggle="tab" href="#communication-2" role="tab" 
+                            <a class="nav-link" id="communication-tab-2" data-toggle="tab" href="#communication-2" role="tab"
                                 onclick="onTab('communication')" aria-controls="communication-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Entertainment & Communication</span>
@@ -412,7 +412,7 @@
     </div>
 
     <div class="card card-border card-primary">
-        <div class="card-header"> 
+        <div class="card-header">
             <div class="m-b-30">
                 <h5>Additional Images</h5>
             </div>
@@ -422,76 +422,83 @@
                 <div class="col-md-3">
                     <ul class="nav flex-column nav-tabs tabs" role="tablist" id="business-user-profile-tab" >
                         <li class="nav-item tab">
-                            <a class="nav-link active" id="section0-tab-2" data-toggle="tab" href="#section0-2" role="tab" 
+                            <a class="nav-link active" id="section0-tab-2" data-toggle="tab" href="#section0-2" role="tab"
                                 onclick="onTab('section0')" aria-controls="section0-2" aria-selected="true">
                                 <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
                                 <span class="d-none d-sm-block">Main Images</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link active" id="section1-tab-2" data-toggle="tab" href="#section1-2" role="tab" 
+                            <a class="nav-link active" id="section1-tab-2" data-toggle="tab" href="#section1-2" role="tab"
                                 onclick="onTab('section1')" aria-controls="section1-2" aria-selected="true">
                                 <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
                                 <span class="d-none d-sm-block">Exterior</span>
                             </a>
                         </li>
                         <li class="nav-item tab" >
-                            <a class="nav-link" id="section2-tab-2" data-toggle="tab" href="#section2-2" role="tab" 
+                            <a class="nav-link" id="section2-tab-2" data-toggle="tab" href="#section2-2" role="tab"
                                 onclick="onTab('section2')" aria-controls="section2-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                                 <span class="d-none d-sm-block">Interior</span>
                             </a>
                         </li>
                         <li class="nav-item tab" >
-                            <a class="nav-link" id="section3-tab-2" data-toggle="tab" href="#section3-2" role="tab" 
+                            <a class="nav-link" id="section3-tab-2" data-toggle="tab" href="#section3-2" role="tab"
                                 onclick="onTab('section3')" aria-controls="section3-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-envelope-o"></i></span>
                                 <span class="d-none d-sm-block">Gears, Pedals and Stalks</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link" id="section4-tab-2" data-toggle="tab" href="#section4-2" role="tab" 
+                            <a class="nav-link" id="section4-tab-2" data-toggle="tab" href="#section4-2" role="tab"
                                 onclick="onTab('section4')" aria-controls="section4-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Seat & seat adjustments</span>
                             </a>
                         </li>
                         <li class="nav-item tab">
-                            <a class="nav-link" id="section5-tab-2" data-toggle="tab" href="#section5-2" role="tab" 
+                            <a class="nav-link" id="section6-tab-2" data-toggle="tab" href="#section6-2" role="tab"
+                                onclick="onTab('section6')" aria-controls="section6-2" aria-selected="false">
+                                <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
+                                <span class="d-none d-sm-block">360 view</span>
+                            </a>
+                        </li>
+                        <li class="nav-item tab">
+                            <a class="nav-link" id="section5-tab-2" data-toggle="tab" href="#section5-2" role="tab"
                                 onclick="onTab('section5')" aria-controls="section5-2" aria-selected="false">
                                 <span class="d-block d-sm-none"><i class="fa fa-cog"></i></span>
                                 <span class="d-none d-sm-block">Colors</span>
                             </a>
                         </li>
-                        
-                       
+
+
                     </ul>
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content">
                         <div class="tab-pane active" id="section0-2" role="tabpanel" aria-labelledby="section0-tab-2">
-                            <img src="{{ file_asset('files-car', $car->image) }}" 
+                            <img src="{{ file_asset('files-car', $car->image) }}"
                                 alt='brand-img' class='img-thumbnail'  width='200' height='250'>
-                            <img src="{{ file_asset('files-car', $car->image_2) }}" 
+                            <img src="{{ file_asset('files-car', $car->image_2) }}"
                                 alt='brand-img' class='img-thumbnail'  width='200' height='250'>
 
-                              
+
                         </div>
                         <div class="tab-pane active" id="section1-2" role="tabpanel" aria-labelledby="section1-tab-2">
-                           
+
                                 @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 1)
-                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}"
                                         alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
-                            
-                           
+
+
                         </div>
                         <div class="tab-pane" id="section2-2" role="tabpanel" aria-labelledby="section2-tab-2">
                                 @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 2)
-                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}"
                                         alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
@@ -499,7 +506,7 @@
                         <div class="tab-pane" id="section3-2" role="tabpanel" aria-labelledby="section3-tab-2">
                             @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 3)
-                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}"
                                         alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
@@ -507,7 +514,15 @@
                         <div class="tab-pane" id="section4-2" role="tabpanel" aria-labelledby="section4-tab-2">
                             @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->section == 4)
-                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}"
+                                        alt='brand-img' class='img-thumbnail' width='200' height='250'>
+                                    @endif
+                                @endforeach
+                        </div>
+                        <div class="tab-pane" id="section6-2" role="tabpanel" aria-labelledby="section6-tab-2">
+                            @foreach($car->carImages as $image)
+                                    @if($image->type == 1 && $image->section == 5)
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}"
                                         alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                     @endif
                                 @endforeach
@@ -515,41 +530,41 @@
                         <div class="tab-pane" id="section5-2" role="tabpanel" aria-labelledby="section5-tab-2">
                             @foreach($car->carImages as $image)
                                     @if($image->type == 1 && $image->color != null)
-                              
-                                        <img src="{{ file_asset('files-car', $image->file_name) }}" 
+
+                                        <img src="{{ file_asset('files-car', $image->file_name) }}"
                                             alt='brand-img' class='img-thumbnail' width='200' height='250'>
                                         <button class="btn-primary" >{{$colorsAvailable[$image->color]}}</button>
-                                  
+
                                     @endif
-                                    
+
                             @endforeach
                         </div>
-                     
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
     <div class="card card-border card-primary">
-        <div class="card-header"> 
+        <div class="card-header">
             <div class="m-b-30">
                 <h5>Videos</h5>
             </div>
         </div>
-        @php 
+        @php
         $videoCount = \App\Models\CarImage::where('car_id',$car->id)->where('type',2)->count();
-        @endphp  
+        @endphp
         <div class="card-body">
         @if($videoCount == 0)
         <p> {{'No Records Found'}}</p>
         @else
-       
+
             @foreach($car->carImages as $image)
-            @if($image->type == 2)  
+            @if($image->type == 2)
             <div class="row">
-           
+
                 <div class="col-md-6">
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Title</label>
@@ -583,27 +598,27 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                  
+
                             <video width="500" height="400" controls style="margin-top: -53px;">
-                                <source src="{{ file_asset('files-car', 
+                                <source src="{{ file_asset('files-car',
                                         $image->file_name) }}">
                             </video>
-                      
-                    
+
+
                 </div>
             </div>
             <hr>
-            @endif  
-                           
+            @endif
+
             @endforeach
-            
+
         </div>
         @endif
     </div>
 
     @include('admin.car.car-version.index')
 
-   
+
 
 </x-admin-layout>
 

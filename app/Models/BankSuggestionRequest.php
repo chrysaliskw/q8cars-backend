@@ -13,6 +13,12 @@ class BankSuggestionRequest extends Model
     const STATUS_ACCEPTED = 2;
     const STATUS_REJECTED = 3;
 
+    const STATUSES = [
+        self::STATUS_SUBMITTED => 'Submitted',
+        self::STATUS_ACCEPTED => 'Accepted',
+        self::STATUS_REJECTED => 'Rejected'
+    ];
+
     protected $fillable = [
         'user_id',
         'first_name',

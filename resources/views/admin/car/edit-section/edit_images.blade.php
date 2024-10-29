@@ -69,18 +69,26 @@
                 $index = ($row * 3) + $col;
                 $carImage = $carImages[$index] ?? null;
             @endphp
-            
+
             @if($carImage)
                 <div class="col-md-4">
                     <div class="form-group">
-                        <select name="img_section_{{ $index }}" class="form-control">
+                        {{-- <select name="img_section_{{ $index }}" class="form-control">
                             @foreach (config('params.car.image-section') as $value => $label)
-                                <option value="{{ $value }}" 
+                                <option value="{{ $value }}"
                                     @if($value == $carImage->section) selected @endif>
                                     {{ $label }}
                                 </option>
                             @endforeach
-                        </select>
+                        </select> --}}
+                        <x-form-select field="img_section_{{$index}}" defaultPrompt="Select">
+                            @foreach (config('params.car.image-section') as $value => $label)
+                            <option value="{{ $value }}"
+                                @if($value == $carImage->section) selected @endif>
+                                {{ $label }}
+                            </option>
+                            @endforeach
+                        </x-form-select>
                         @error('img_section_' . $index)
                             <span class="error" role="alert">{{ $message }}</span>
                         @enderror
@@ -137,21 +145,21 @@
         reader.readAsDataURL(event.target.files[0]);
     }
 
- 
+
     document.querySelectorAll("button[id^='remove-image_']").forEach(function(button) {
         button.addEventListener("click", function() {
             let index = button.id.split("_")[1];
             let imgremove = document.getElementById("image_removed_" + index);
             if (imgremove) {
-                
+
                 document.getElementById("image_removed_" + index).value = 1;
-               
+
             }
             let preview = document.getElementById("image_preview_" + index);
             preview.src = "";
             preview.style.display = "none";
             document.getElementById("image_" + index).value = "";
-            button.style.display = "none";     
+            button.style.display = "none";
 
         });
     });
@@ -170,7 +178,7 @@
             img.classList.add('img-thumbnail');
             img.classList.add('img-list');
             img.src = event.target.result;
-           
+
             preview.innerHTML = '';
             preview.appendChild(img);
             removeBtn.style.display = 'block';
@@ -184,7 +192,7 @@
         input.value = '';
 
         document.getElementById("is_removed_image").value = 1;
-      
+
     });
 </script>
 

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Bank\PartnerBankController;
+use App\Http\Controllers\Admin\Bank\SuggestedBankController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\BrandController;
@@ -78,7 +80,12 @@ Route::middleware('auth:admin')->group(function () {
         'comparison' => CarComparisonListsController::class, // Car Comparison
         'offers' => OfferController::class,              // Offers
         'notifications' => NotificationController::class, //Notifications
+        'partner-banks' => PartnerBankController::class, //Partner Banks
+        'suggested-banks' => SuggestedBankController::class, //Suggested Banks
     ]);
+
+    //bank
+    Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
 
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Test ride requests
