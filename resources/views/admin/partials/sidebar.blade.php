@@ -58,7 +58,7 @@
 
                 <li>
                     <a href="{{ route('admin.comparison.index') }}" class="waves-effect">
-                    <i class="fa fa-car"></i><span> Car Comparison </span>
+                    <i class="fa fa-car"></i><span> Compare Cars </span>
                     </a>
                 </li>
 

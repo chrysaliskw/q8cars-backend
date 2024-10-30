@@ -1,10 +1,10 @@
 @php
     $showHidden = $viewData['Page'] == 'Detailed Page' ? true : false;
 @endphp
-<x-admin-layout title="Car Comparison">
+<x-admin-layout title="Compare Cars">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ route('admin.comparison.index') }}">Car Comparison</a></li>
+        <li><a href="{{ route('admin.comparison.index') }}">Compare Cars</a></li>
         <li class="active">View</li>
     </x-slot>
 

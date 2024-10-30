@@ -1,8 +1,8 @@
-<x-admin-layout title="Car Comparison">
+<x-admin-layout title="Compare Cars">
     <link href="{{ url('moltran-asset/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ route('admin.comparison.index') }}">Car Comparison</a></li>
+        <li><a href="{{ route('admin.comparison.index') }}">Compare Cars</a></li>
         <li class="active">Update</li>
     </x-slot>
     <x-form method="PUT" action="{{ route('admin.comparison.update', $carComparisonList->id) }}" class="form">
