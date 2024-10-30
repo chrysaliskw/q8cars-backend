@@ -98,7 +98,9 @@ Route::middleware('auth:user_api')->group(function () {
 
     //bank
     Route::get('/banks', BankController::class);
-    Route::post('/bank-suggestions', BankSuggestionRequestController::class);
+    //upcoming cars
+    Route::get('/upcoming-cars', UpcomingCarController::class);
+    Route::get('/bank-suggestion', BankSuggestionRequestController::class);
 });
 
 /**
