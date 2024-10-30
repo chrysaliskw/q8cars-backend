@@ -1,4 +1,5 @@
 <x-admin-layout title="Curated Comparison">
+    {{-- test --}}
     <link href="{{ url('moltran-asset/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
@@ -24,8 +25,8 @@
                     <x-form-input type="file" field="image_1" field-name="Image 1*" value="{{ old('image_1') }}"
                         id="image_1">
                     </x-form-input>
+                    <div class="col-mod-3" id="image_1-preview">
                 </div>
-                <div class="col-mod-3" id="image_1-preview">
 
                 </div>
             </div>
@@ -47,8 +48,8 @@
                         id="image_2">
                     </x-form-input>
                 
+                    <div class="col-mod-3" id="image_2-preview">
                 </div>
-                <div class="col-mod-3" id="image_2-preview">
                 </div>
                 <hr>
             </div>
@@ -70,8 +71,8 @@
                         id="image_3">
                     </x-form-input>
                  
+                    <div class="col-mod-3" id="image_3-preview">
                 </div>
-                <div class="col-mod-3" id="image_3-preview">
                 </div>
             </div>
             <hr>

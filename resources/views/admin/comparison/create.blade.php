@@ -1,12 +1,12 @@
 {{-- //working  --}}
-<x-admin-layout title="Car Comparison">
+<x-admin-layout title="Compare Cars">
     <link href="{{ url('moltran-asset/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ route('admin.comparison.index') }}">Comparison</a></li>
+        <li><a href="{{ route('admin.comparison.index') }}">Compare Cars</a></li>
         <li class="active">Create</li>
     </x-slot>
-    <x-crud-create title="Car Comparison">
+    <x-crud-create title="Compare Cars">
         <x-form method="POST" action="{{ route('admin.comparison.store') }}" class="form">
             <div class="row">
                 <!-- Main Car Section -->

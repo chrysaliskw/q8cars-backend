@@ -1,7 +1,7 @@
-<x-admin-layout title="Car Comparison">
+<x-admin-layout title="Compare Cars">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li class="active">Car Comparison</li>
+        <li class="active">Compare Cars</li>
     </x-slot>
     <x-crud-index title="" createUrl="{{ route('admin.comparison.create') }}" createButtonText="Add Compare Car">
         <div class="row">
