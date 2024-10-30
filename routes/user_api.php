@@ -100,7 +100,7 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('/banks', BankController::class);
     //upcoming cars
     Route::get('/upcoming-cars', UpcomingCarController::class);
-    Route::get('/bank-suggestion', BankSuggestionRequestController::class);
+    Route::get('/bank-suggestions', BankSuggestionRequestController::class);
 });
 
 /**
