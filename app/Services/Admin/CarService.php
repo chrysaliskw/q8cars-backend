@@ -213,6 +213,7 @@ class CarService
         // $this->version->wheel_covers = $this->data['wheel_covers'];
         // $this->version->alloy_wheels = $this->data['alloy_wheels'];
         // $this->version->view_camera = $this->data['360_view_camera'];
+        $this->version->view_camera = $this->data['view_camera'];
         // $this->version->boot_space = $this->data['boot_space'];
         // $this->version->power_windows = $this->data['power_windows'];
         // $this->version->tachometer = $this->data['tachometer'];

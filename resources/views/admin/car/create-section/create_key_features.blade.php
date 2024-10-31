@@ -120,6 +120,14 @@
                     <option value="5">5</option>
                 </x-form-select>
             </div>
+            <div class="col-md-4">
+                <x-form-select field="view_camera" field-name="360 View*" defaultPrompt="Select">
+                    @foreach (config('params.car.view-camera') as $value => $label)
+                        <option {{ old('view_camera') == $value ? 'Selected' : '' }} value="{{ $value }}">
+                            {{ $label }}</option>
+                    @endforeach
+                </x-form-select>
+            </div>
            {{-- <div class="col-md-4">
                 <x-form-input type="text" field="emission_norm_complains" field-name="Emission Norm Compliance" value="{{ old('emission_norm_complains') }}">
                 </x-form-input>
