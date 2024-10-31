@@ -24,8 +24,8 @@ class SuggestedBankController extends Controller
     public function show(BankSuggestionRequest $suggested_bank)
     {
         $viewData = [
-            'First Name' => empty($suggested_bank->first_name) ? 'NIL' : $suggested_bank->first_name,
-            'Last Name' => empty($suggested_bank->last_name) ? 'NIL' : $suggested_bank->last_name,
+            'Requested User' => empty($suggested_bank->user) ? 'NIL' : $suggested_bank->user->name,
+            'Full Name' => empty($suggested_bank->first_name) && empty($suggested_bank->last_name) ? 'NIL' : trim($suggested_bank->first_name . ' ' . $suggested_bank->last_name),
             'Civil ID' => empty($suggested_bank->civil_id) ? 'NIL' : $suggested_bank->civil_id,
             'Email' => empty($suggested_bank->email) ? 'NIL' : $suggested_bank->email,
             'Bank Name' => empty($suggested_bank->bank_name) ? 'NIL' : $suggested_bank->bank_name,

@@ -10,8 +10,9 @@ class LoanRequestDataGrid extends Grid
     public function gridQuery()
     {
         $query = BankSuggestionRequest::query()
+        ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
         ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
-        ->select(['bank_suggestion_requests.id', 'first_name', 'last_name', 'contact_number', 'email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name'])
+        ->select(['bank_suggestion_requests.id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.name as requested_user'])
         ->where('type', BankSuggestionRequest::TYPE_LOAN)
         ->orderBy('bank_suggestion_requests.id', 'Desc');
         return $query;
@@ -21,10 +22,21 @@ class LoanRequestDataGrid extends Grid
     {
         return[
 
-            'first_name' => [
-                'label' => 'First Name',
+            'requested_user' => [
+                'label' => 'Requested User',
                 'value' => function($model){
-                    return $model->first_name;
+                    return $model->requested_user;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'users.name',
+                ]
+            ],
+
+            'first_name' => [
+                'label' => 'Full Name',
+                'value' => function($model){
+                    return trim($model->first_name . ' ' . $model->last_name);
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -32,16 +44,27 @@ class LoanRequestDataGrid extends Grid
                     ]
                 ],
 
-            'last_name' => [
-                'label' => 'Last Name',
-                'value' => function($model){
-                    return $model->last_name;
-                },
-                'filter' => true,
-                'filterOptions' => [
-                    'attribute' => 'bank_suggestion_requests.last_name',
-                    ]
-                ],
+            // 'first_name' => [
+            //     'label' => 'First Name',
+            //     'value' => function($model){
+            //         return $model->first_name;
+            //     },
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'attribute' => 'bank_suggestion_requests.first_name',
+            //         ]
+            //     ],
+
+            // 'last_name' => [
+            //     'label' => 'Last Name',
+            //     'value' => function($model){
+            //         return $model->last_name;
+            //     },
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'attribute' => 'bank_suggestion_requests.last_name',
+            //         ]
+            //     ],
 
             'bank_name' => [
                 'label' => 'Bank Name',
@@ -50,7 +73,7 @@ class LoanRequestDataGrid extends Grid
                 },
                 'filter' => true,
                 'filterOptions' => [
-                    'attribute' => 'banks.name',
+                    'attribute' => 'banks.bank_name',
                 ]
             ],
 

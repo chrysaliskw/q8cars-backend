@@ -9,7 +9,9 @@ class SuggestedBankDataGrid extends Grid
 {
     public function gridQuery()
     {
-        $query = BankSuggestionRequest::query()->select(['id', 'user_id', 'first_name', 'last_name', 'civil_id', 'email', 'status', 'bank_name'])
+        $query = BankSuggestionRequest::query()
+        ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
+        ->select(['bank_suggestion_requests.id', 'user_id', 'first_name', 'last_name', 'civil_id', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'bank_name', 'users.name as requested_user'])
         ->where('type', BankSuggestionRequest::TYPE_BANK)
         ->orderBy('bank_suggestion_requests.id', 'Desc');
         return $query;
@@ -18,27 +20,50 @@ class SuggestedBankDataGrid extends Grid
     public function columns()
     {
         return[
-            'first_name' => [
-                'label' => 'First Name',
+
+            'requested_user' => [
+                'label' => 'Requested User',
                 'value' => function($model){
-                    return $model->first_name;
+                    return $model->requested_user;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'users.name',
+                ]
+            ],
+
+            'first_name' => [
+                'label' => 'Full Name',
+                'value' => function($model){
+                    return trim($model->first_name . ' ' . $model->last_name);
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'attribute' => 'bank_suggestion_requests.first_name',
-                ]
-            ],
+                    ]
+                ],
+                
+            // 'first_name' => [
+            //     'label' => 'First Name',
+            //     'value' => function($model){
+            //         return $model->first_name;
+            //     },
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'attribute' => 'bank_suggestion_requests.first_name',
+            //     ]
+            // ],
 
-            'last_name' => [
-                'label' => 'Last Name',
-                'value' => function($model){
-                    return $model->last_name;
-                },
-                'filter' => true,
-                'filterOptions' => [
-                    'attribute' => 'bank_suggestion_requests.last_name',
-                ]
-            ],
+            // 'last_name' => [
+            //     'label' => 'Last Name',
+            //     'value' => function($model){
+            //         return $model->last_name;
+            //     },
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'attribute' => 'bank_suggestion_requests.last_name',
+            //     ]
+            // ],
 
             'bank_name' => [
                 'label' => 'Bank Name',
