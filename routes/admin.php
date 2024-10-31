@@ -82,15 +82,15 @@ Route::middleware('auth:admin')->group(function () {
         'offers' => OfferController::class,              // Offers
         'notifications' => NotificationController::class, //Notifications
         'partner-banks' => PartnerBankController::class, //Partner Banks
-        'suggested-banks' => SuggestedBankController::class, //Suggested Banks
-        'loan-requests' => LoanRequestController::class, //Loan Requests
     ]);
 
     //bank
     Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
+    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index','show']);
 
     //loan
     Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
+    Route::resource('loan-requests', LoanRequestController::class)->only(['index','show']);
 
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Test ride requests

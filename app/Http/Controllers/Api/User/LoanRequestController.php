@@ -20,7 +20,7 @@ class LoanRequestController extends ApiBaseController
             'last_name' => 'required|string',
             'contact_number' => 'required|regex:/^[\d]*$/',
             'email' => 'required|email',
-            'bank_id' => 'nullable|exists:banks,id'
+            'bank_id' => 'required|exists:banks,id'
         ]);
 
         if ($validator->fails()) {
