@@ -91,6 +91,9 @@
                         <li>
                             <a href="{{ route('admin.suggested-banks.index') }}">Suggested Banks</a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.loan-requests.index') }}">Loan Requests</a>
+                        </li>
                     </ul>
                 </li>
                 <li>

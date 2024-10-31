@@ -1,35 +1,36 @@
 <?php
 
-use App\Http\Controllers\Api\User\AuthController;
-use App\Http\Controllers\Api\User\BodyTypeController;
-use App\Http\Controllers\Api\User\BrandController;
-use App\Http\Controllers\Api\User\CarController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\User\GuestController;
+use App\Http\Controllers\Api\User\CarController;
 use App\Http\Controllers\Api\User\OtpController;
-use App\Http\Controllers\Api\User\OtpVerificationController;
-use App\Http\Controllers\Api\User\ProfileController;
-use App\Http\Controllers\Api\User\TestDriveRequestController;
-use App\Http\Controllers\Api\User\FavouriteController;
+use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\User\BankController;
 use App\Http\Controllers\Api\User\HomeController;
+use App\Http\Controllers\Api\User\BrandController;
+use App\Http\Controllers\Api\User\GuestController;
+use App\Http\Controllers\Api\User\OfferController;
+use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\Api\User\BodyTypeController;
+use App\Http\Controllers\Api\User\CarSearchController;
+use App\Http\Controllers\Api\User\FavouriteController;
 use App\Http\Controllers\Api\User\JustLaunchController;
+use App\Http\Controllers\Api\User\PopularCarController;
+use App\Http\Controllers\Api\User\CompareCarsController;
+use App\Http\Controllers\Api\User\LoanRequestController;
+use App\Http\Controllers\Api\User\UpcomingCarController;
+use App\Http\Controllers\Api\User\NotificationController;
 use App\Http\Controllers\Api\User\OfferRequestController;
 use App\Http\Controllers\Api\User\SubmitReviewController;
 use App\Http\Controllers\Api\User\AccountDeleteController;
-use App\Http\Controllers\Api\User\BankController;
-use App\Http\Controllers\Api\User\BankSuggestionRequestController;
-use App\Http\Controllers\Api\User\PopularCarController;
-use App\Http\Controllers\Api\User\PopularCarFilterController;
-use App\Http\Controllers\Api\User\CarSearchController;
-use App\Http\Controllers\Api\User\FavouriteComparisonController;
-use App\Http\Controllers\Api\User\OfferController;
-use App\Http\Controllers\Api\User\CompareCarsController;
-use App\Http\Controllers\Api\User\ReviewsAndNewsController;
 use App\Http\Controllers\Api\User\EmiCalculatorController;
-use App\Http\Controllers\Api\User\NotificationController;
-use App\Http\Controllers\Api\User\CompareCarsDetailsController;
+use App\Http\Controllers\Api\User\ReviewsAndNewsController;
+use App\Http\Controllers\Api\User\OtpVerificationController;
+use App\Http\Controllers\Api\User\PopularCarFilterController;
+use App\Http\Controllers\Api\User\TestDriveRequestController;
 use App\Http\Controllers\Api\User\CuratedComparisonController;
-use App\Http\Controllers\Api\User\UpcomingCarController;
+use App\Http\Controllers\Api\User\CompareCarsDetailsController;
+use App\Http\Controllers\Api\User\FavouriteComparisonController;
+use App\Http\Controllers\Api\User\BankSuggestionRequestController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -99,6 +100,9 @@ Route::middleware('auth:user_api')->group(function () {
     //bank
     Route::get('/banks', BankController::class);
     Route::post('/bank-suggestions', BankSuggestionRequestController::class);
+
+    //loan
+    Route::post('/loan-requests', LoanRequestController::class);
 });
 
 /**

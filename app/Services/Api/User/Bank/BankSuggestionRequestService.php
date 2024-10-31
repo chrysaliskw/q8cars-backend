@@ -23,16 +23,19 @@ class BankSuggestionRequestService
         $this->request = $request;
     }
 
-    public function handle()
+    public function handle(int $type): BankSuggestionRequest
     {
-        BankSuggestionRequest::create([
+        return BankSuggestionRequest::create([
             'user_id' => Auth::id(),
             'first_name' => $this->request->first_name,
             'last_name' => $this->request->last_name,
+            'contact_number' => $this->request->contact_number,
             'civil_id' => $this->request->civil_id,
             'email' => $this->request->email,
             'bank_name' => $this->request->bank_name,
             'status' => BankSuggestionRequest::STATUS_SUBMITTED,
+            'bank_id' => $this->request->bank_id,
+            'type' => $type
         ]);
     }
 }

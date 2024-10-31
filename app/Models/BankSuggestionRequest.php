@@ -13,6 +13,9 @@ class BankSuggestionRequest extends Model
     const STATUS_ACCEPTED = 2;
     const STATUS_REJECTED = 3;
 
+    const TYPE_BANK = 1;
+    const TYPE_LOAN = 2;
+
     const STATUSES = [
         self::STATUS_SUBMITTED => 'Submitted',
         self::STATUS_ACCEPTED => 'Accepted',
@@ -23,13 +26,21 @@ class BankSuggestionRequest extends Model
         'user_id',
         'first_name',
         'last_name',
+        'contact_number',
         'civil_id',
         'email',
         'bank_name',
+        'type',
+        'bank_id'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class)->withTrashed();
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
     }
 }
