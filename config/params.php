@@ -198,5 +198,12 @@ return [
             2 => 'Inactive',
         ]
     ],
+    'banks' => [
+        'status' => [
+            1 => 'Submitted',
+            2 => 'Accepted',
+            3 => 'Rejected',
+        ]
+    ]
 
 ];

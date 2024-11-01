@@ -4,7 +4,7 @@
         <li class="active">Suggested Banks</li>
     </x-slot>
     @php
-        $statuses = \App\Models\BankSuggestionRequest::STATUSES;
+        $statuses = config('params.banks.status');
     @endphp
     <x-crud-index title="" createUrl="" createButtonText="">
         <div class="row">

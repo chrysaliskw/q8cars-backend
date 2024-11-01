@@ -99,24 +99,37 @@ class LoanRequestDataGrid extends Grid
                 ]
             ],
 
+            // 'status' => [
+            //     'label' => 'Status',
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'type' => 'select',
+            //         'data' => [
+            //             BankSuggestionRequest::STATUS_SUBMITTED => 'Submitted',
+            //             BankSuggestionRequest::STATUS_ACCEPTED => 'Accepted',
+            //             BankSuggestionRequest::STATUS_REJECTED => 'Rejected',
+            //         ],
+            //         'attribute' => 'bank_suggestion_requests.status',
+            //     ],
+            //     'value' => function ($model) {
+            //         return [
+            //             BankSuggestionRequest::STATUS_SUBMITTED => 'Submitted',
+            //             BankSuggestionRequest::STATUS_ACCEPTED => 'Accepted',
+            //             BankSuggestionRequest::STATUS_REJECTED => 'Rejected',
+            //         ][$model->status];
+            //     },
+            // ],
+
             'status' => [
                 'label' => 'Status',
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'select',
-                    'data' => [
-                        BankSuggestionRequest::STATUS_SUBMITTED => 'Submitted',
-                        BankSuggestionRequest::STATUS_ACCEPTED => 'Accepted',
-                        BankSuggestionRequest::STATUS_REJECTED => 'Rejected',
-                    ],
+                    'data' => config('params.banks.status'),
                     'attribute' => 'bank_suggestion_requests.status',
                 ],
                 'value' => function ($model) {
-                    return [
-                        BankSuggestionRequest::STATUS_SUBMITTED => 'Submitted',
-                        BankSuggestionRequest::STATUS_ACCEPTED => 'Accepted',
-                        BankSuggestionRequest::STATUS_REJECTED => 'Rejected',
-                    ][$model->status];
+                    return config('params.banks.status')[$model->status] ?? 'Unknown';
                 },
             ],
 

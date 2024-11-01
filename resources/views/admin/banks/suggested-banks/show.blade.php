@@ -5,7 +5,7 @@
         <li class="active">View</li>
     </x-slot>
     @php
-        $statuses = \App\Models\BankSuggestionRequest::STATUSES;
+        $statuses = config('params.banks.status');
     @endphp
     <x-card title="Suggested Banks">
         <div class="row">
