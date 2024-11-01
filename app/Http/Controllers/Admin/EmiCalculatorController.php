@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\EmiInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Car;
 use App\Services\Common\EmiCalculatorService;
 
 class EmiCalculatorController extends Controller
@@ -14,20 +16,12 @@ class EmiCalculatorController extends Controller
      */
     public function index(Request $request)
     {
-        $request->merge(['car_id' => 1, 'car_version_id' => 1]);
-        $request->merge($this->getCarBaseEmiCalcualtions(1, 1));
-        $service = new EmiCalculatorService($request);
-        $result = $service->handle();
+        // $request->merge(['car_id' => 1, 'car_version_id' => 1]);
+        // $request->merge($this->getCarBaseEmiCalcualtions(1, 1));
+        // $service = new EmiCalculatorService($request);
+        // $result = $service->handle();
 
-        return view('admin.emi-info.show', compact('result'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin.emi-info.show', compact('result'));
+        return view('admin.emi-info.show');
     }
 
     /**
@@ -35,7 +29,30 @@ class EmiCalculatorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'brand_id' => 'required',
+            'car_id' => 'required',
+            'car_version_id' => 'nullable',
+            'principal' => 'required|numeric',
+            'loanTenureYears' => 'required|integer|min:1|max:7',
+            'annualInterestRate' => 'required|numeric',
+        ]);
+
+        $car = Car::find($request->car_id);
+        $on_road_price = $car->on_road_price;
+
+        if ($validatedData['principal'] > $on_road_price) {
+            return redirect()->back()->withErrors(['principal' => 'The principal amount cannot be greater than the on road price of the car.'])->withInput();
+        }
+
+        $service = new EmiCalculatorService($request);
+        $result = $service->handle();
+
+        if (isset($result['error'])) {
+            return redirect()->back()->withErrors(['message' => $result['error']]);
+        }
+
+        return view('admin.emi-info.show', compact('result'));
     }
 
     /**
@@ -43,7 +60,7 @@ class EmiCalculatorController extends Controller
      */
     public function show(EmiInfo $emiInfo)
     {
-       
+
     }
 
     /**
@@ -73,22 +90,22 @@ class EmiCalculatorController extends Controller
      /**
      * @return array
      */
-    public function getCarBaseEmiCalcualtions($carId, $carVersionId)
-    {
-        $emiInfo = EmiInfo::where('car_id', $carId)->first();
-        if($carVersionId) {
-            $emiInfo = EmiInfo::where('car_version_id', $carVersionId)->first();
-        }
+    // public function getCarBaseEmiCalcualtions($carId)
+    // {
+    //     $emiInfo = EmiInfo::where('car_id', $carId)->first();
+    //     // if($carVersionId) {
+    //     //     $emiInfo = EmiInfo::where('car_version_id', $carVersionId)->first();
+    //     // }
 
-        if(!$emiInfo) {
-            return [];
-        }
+    //     if(!$emiInfo) {
+    //         return [];
+    //     }
 
-        $result['principal'] = $emiInfo->principal_loan_amount;
-        // $result['loan_amount'] = $emiInfo->loan_amount;
-        $result['loanTenureYears'] = $emiInfo->loan_tenure_year;
-        $result['annualInterestRate'] = $emiInfo->interest_rate;
+    //     $result['principal'] = $emiInfo->principal_loan_amount;
+    //     // $result['loan_amount'] = $emiInfo->loan_amount;
+    //     $result['loanTenureYears'] = $emiInfo->loan_tenure_year;
+    //     $result['annualInterestRate'] = $emiInfo->interest_rate;
 
-        return $result;
-    }
+    //     return $result;
+    // }
 }

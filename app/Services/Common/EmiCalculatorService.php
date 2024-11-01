@@ -33,15 +33,31 @@ class EmiCalculatorService
     public function handle()
     {
 
-        // Calculations
-        $monthlyInterestRate = $this->annualInterestRate / (12 * 100); // Monthly interest rate in decimal
-        $totalMonths = $this->loanTenureYears * 12; // Total number of monthly installments
+        // // Calculations
+        // $monthlyInterestRate = $this->annualInterestRate / (12 * 100); // Monthly interest rate in decimal
+        // $totalMonths = $this->loanTenureYears * 12; // Total number of monthly installments
 
-        // EMI Calculation using the formula:
-        // EMI = [P * r * (1 + r)^n] / [(1 + r)^n - 1]
-        $emi = ($this->principal * $monthlyInterestRate * pow(1 + $monthlyInterestRate, $totalMonths)) /
-            (pow(1 + $monthlyInterestRate, $totalMonths) - 1);
-        $emi = round($emi, 2); // Rounding off to 2 decimal places
+        // // EMI Calculation using the formula:
+        // // EMI = [P * r * (1 + r)^n] / [(1 + r)^n - 1]
+        // $emi = ($this->principal * $monthlyInterestRate * pow(1 + $monthlyInterestRate, $totalMonths)) /
+        //     (pow(1 + $monthlyInterestRate, $totalMonths) - 1);
+        // $emi = round($emi, 2); // Rounding off to 2 decimal places
+
+        if ($this->principal <= 0 || $this->loanTenureYears <= 0) {
+            return ['error' => 'Principal and loan tenure must be greater than zero.'];
+        }
+
+        $monthlyInterestRate = $this->annualInterestRate / (12 * 100);
+        $totalMonths = $this->loanTenureYears * 12;
+
+        // Check if monthly interest rate is zero
+        if ($monthlyInterestRate == 0) {
+            $emi = round($this->principal / $totalMonths, 2);
+        } else {
+            $emi = ($this->principal * $monthlyInterestRate * pow(1 + $monthlyInterestRate, $totalMonths)) /
+                   (pow(1 + $monthlyInterestRate, $totalMonths) - 1);
+            $emi = round($emi, 2);
+        }
 
         // Initialize Variables
         $outstandingBalance = $this->principal;
@@ -104,7 +120,9 @@ class EmiCalculatorService
         $result['car_id'] = $this->request->car_id;
         $result['car_model_name'] = (Car::find($this->request->car_id))->model_name;
         $result['car_version_id'] = $this->request->car_version_id;
-        $result['car_varient_name'] = (CarVersion::find($this->request->car_version_id))->varient_name;
+        if (isset($result['car_varient_name'])) {
+            $result['car_varient_name'] = (CarVersion::find($this->request->car_version_id))->varient_name;
+        }
         $result['emi'] = currency_formatter($emi);
         $result['year'] = $this->loanTenureYears;
         $result['principal'] = currency_formatter($this->principal);
