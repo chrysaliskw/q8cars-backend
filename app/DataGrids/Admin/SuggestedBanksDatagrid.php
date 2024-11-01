@@ -5,7 +5,7 @@ namespace App\DataGrids\Admin;
 use App\Models\BankSuggestionRequest;
 use Rufaidulk\DataGrid\Grid;
 
-class SuggestedBankDataGrid extends Grid
+class SuggestedBanksDataGrid extends Grid
 {
     public function gridQuery()
     {
