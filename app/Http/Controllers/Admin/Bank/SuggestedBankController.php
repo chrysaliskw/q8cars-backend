@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Bank;
 
-use App\DataGrids\Admin\SuggestedBanksDataGrid;
+use App\DataGrids\Admin\SuggestedBanksDataGridNew;
 use App\Http\Controllers\Controller;
 use App\Models\BankSuggestionRequest;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class SuggestedBankController extends Controller
      */
     public function index()
     {
-        $grid = new SuggestedBanksDataGrid(request()->query());
+        $grid = new SuggestedBanksDataGridNew(request()->query());
         return view('admin.banks.suggested-banks.index', compact('grid'));
     }
 
