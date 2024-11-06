@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\CuratedComparisonController;
 use App\Http\Controllers\Admin\EmiCalculatorController;
+use App\Http\Controllers\Admin\Image360Controller;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Car
 ;use App\Http\Controllers\Admin\OfferController;
@@ -86,6 +87,7 @@ Route::middleware('auth:admin')->group(function () {
         'notifications' => NotificationController::class, //Notifications
         'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
         'partner-banks' => PartnerBankController::class, //Partner Banks
+        'image-360' => Image360Controller::class,       //Image 360
     ]);
 
     //bank
@@ -115,8 +117,7 @@ Route::middleware('auth:admin')->group(function () {
     //News
     Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
 
-    //Car Comparison
-    // Route::resource('car/comparison', CarComparisonController::class)->only(['index','store','destroy']);
+
 
 
     //Trash

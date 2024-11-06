@@ -107,7 +107,7 @@ class CuratedComparisonGrid extends Grid
     'filterOptions' => [
         'type' => 'select',
         'data' => config('params.curated-comparisons.status'),
-        'attribute' => 'curated_comparisons.status', // Corrected table name
+        'attribute' => 'curated_comparisons.status', 
     ],
     'value' => function ($model) {
         return config('params.curated-comparisons.status')[$model->status];

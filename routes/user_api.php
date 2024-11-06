@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\User\NotificationController;
 use App\Http\Controllers\Api\User\OfferRequestController;
 use App\Http\Controllers\Api\User\SubmitReviewController;
 use App\Http\Controllers\Api\User\AccountDeleteController;
+use App\Http\Controllers\Api\User\BankPartnersController;
 use App\Http\Controllers\Api\User\EmiCalculatorController;
 use App\Http\Controllers\Api\User\ReviewsAndNewsController;
 use App\Http\Controllers\Api\User\OtpVerificationController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\Api\User\CuratedComparisonController;
 use App\Http\Controllers\Api\User\CompareCarsDetailsController;
 use App\Http\Controllers\Api\User\FavouriteComparisonController;
 use App\Http\Controllers\Api\User\BankSuggestionRequestController;
+use App\Http\Controllers\Api\User\RelatedNewsController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -99,6 +101,9 @@ Route::middleware('auth:user_api')->group(function () {
 
     //bank
     Route::get('/banks', BankController::class);
+    //bank logo and id
+    Route::get('/bank-partners', BankPartnersController::class);
+    Route::get('/related-news', RelatedNewsController::class);
     //upcoming cars
     Route::get('/upcoming-cars', UpcomingCarController::class);
     Route::post('/bank-suggestions', BankSuggestionRequestController::class);
