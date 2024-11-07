@@ -86,7 +86,7 @@
                                         <th>Months</th>
                                         <th>Principal</th>
                                         <th>Interest</th>
-                                        <th>Interest Percentage</th>
+                                      {{--  <th>Interest Percentage</th>--}}
                                         <th>EMI</th>
                                         <th>Balance</th>
                                     </tr>
@@ -98,7 +98,7 @@
                                                 <td>{{ $emi['months'] }}</td>
                                                 <td>{{ $emi['principal'] }}</td>
                                                 <td>{{ $emi['interestInCash'] }}</td>
-                                                <td>{{ $emi['interest'] }}</td>
+                                               {{-- <td>{{ $emi['interest'] }}</td>--}}
                                                 <td>{{ $emi['totalEmiThisYear'] }}</td>
                                                 <td>{{ $emi['balance'] }}</td>
                                             </tr>
