@@ -14,7 +14,7 @@ class UpcomingCarController extends ApiBaseController
 {
     public function __invoke(Request $request)
     {
-        $data['upcoming-cars-below_5000'] = $this->getBelow5000Cars($request);
+        $data['upcoming_cars_below_5000'] = $this->getBelow5000Cars($request);
         $data['upcoming_cars'] = $this->getUpcomingCars($request);
         $data['related_news'] = $this->relatedNews($request);
         return $this->success(['data' => $data], 'Popular Cars List with News and Similar cars', Response::HTTP_OK);

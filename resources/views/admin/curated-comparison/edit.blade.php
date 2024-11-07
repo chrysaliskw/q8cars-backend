@@ -7,7 +7,7 @@
     </x-slot>
     {{-- @dd('sddcdsvs'); --}}
     {{-- @dd($curatedComparison, $currentCarModel2,  $currentbrand2,); --}}
-    <x-crud-create title="Curated Comparison">
+    <x-crud-update title="Curated Comparison">
         <x-form method="POST" action="{{ route('admin.curated-comparison.update', $curatedComparison) }}" class="form" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -167,7 +167,7 @@
 
             <x-form-submit>Save</x-form-submit>
         </x-form>
-    </x-crud-create>
+    </x-crud-update>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <x-slot name="scripts">
 

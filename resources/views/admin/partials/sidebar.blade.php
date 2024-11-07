@@ -102,6 +102,20 @@
                     <i class="fa fa-bell"></i><span> Notifications</span>
                     </a>
                 </li>
+                <li class="has_sub">
+                    <a href="#" class="waves-effect"><i class="fa fa-bank"></i> <span> Banks </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ route('admin.partner-banks.index') }}">Partner Banks</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.suggested-banks.index') }}">Suggested Banks</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.loan-requests.index') }}">Loan Requests</a>
+                        </li>
+                    </ul>
+                </li>
                 <li>
                     <a href="{{ route('admin.reviews.index') }}" class="waves-effect">
                     <i class="fa fa-comment"></i><span> Reviews</span>

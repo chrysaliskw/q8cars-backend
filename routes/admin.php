@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\Bank\LoanRequestController;
+use App\Http\Controllers\Admin\Bank\PartnerBankController;
+use App\Http\Controllers\Admin\Bank\SuggestedBankController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\BrandController;
@@ -21,6 +24,7 @@ use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\CuratedComparisonController;
 use App\Http\Controllers\Admin\EmiCalculatorController;
+use App\Http\Controllers\Admin\Image360Controller;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Car
 ;use App\Http\Controllers\Admin\OfferController;
@@ -82,7 +86,17 @@ Route::middleware('auth:admin')->group(function () {
         'offers' => OfferController::class,              // Offers
         'notifications' => NotificationController::class, //Notifications
         'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
+        'partner-banks' => PartnerBankController::class, //Partner Banks
+        'image-360' => Image360Controller::class,       //Image 360
     ]);
+
+    //bank
+    Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
+    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index','show']);
+
+    //loan
+    Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
+    Route::resource('loan-requests', LoanRequestController::class)->only(['index','show']);
 
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Test ride requests
@@ -103,8 +117,7 @@ Route::middleware('auth:admin')->group(function () {
     //News
     Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
 
-    //Car Comparison
-    // Route::resource('car/comparison', CarComparisonController::class)->only(['index','store','destroy']);
+
 
 
     //Trash

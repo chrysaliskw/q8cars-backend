@@ -104,7 +104,7 @@ class CarController extends ApiBaseController
         $result['transmission_type'] = $version->transmission_type;
         $result['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
         $result['available_transmission_types'] =  $this->getversionTransmissionTypes($version->car);
-        
+
         return $this->success(['data' => $result], 'Car Details', Response::HTTP_OK);
 
     }
@@ -118,7 +118,7 @@ class CarController extends ApiBaseController
             return $this->error(null, 'Car Not Found', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-      
+
         $images = CarImage::where('car_id',$car->id)
             ->when($request->section, function($query, $value) {
                 $query->where('section', $value);
@@ -163,8 +163,8 @@ class CarController extends ApiBaseController
             'tranmission_version_count' => $this->getVersionTransmissionTypesCount($car),
             'transmission_type' => $car->carSpec->transmission_type,
             'transmission_type_text' => config('params.car.transmission_type')[$car->carSpec->transmission_type],
-            'available_transmission_types' =>$this->getversionTransmissionTypes($car)
-
+            'available_transmission_types' =>$this->getversionTransmissionTypes($car),
+            '360_view' => $car->carSpec->view_camera,
         ];
 
         return $result;
@@ -173,7 +173,7 @@ class CarController extends ApiBaseController
     private function getKeyFeatures(Car $car,Request $request)
     {
         $res = [];
-       
+
         if($request->car_version_id)
         {
             $carVersion = CarVersion::find($request->car_version_id);
@@ -189,7 +189,7 @@ class CarController extends ApiBaseController
                 $res[$feature->specification]['icon'] = $feature->key_icon ? file_asset('files-car',$feature->key_icon):'';
             }
         }
-      
+
         return $res;
         // return [
         //     'Air Condition' => $car->air_condition,
@@ -210,7 +210,7 @@ class CarController extends ApiBaseController
         // $data['Power & Torque'] = $car->power. '-'. $car->torque. ' Bph';
         // $data['Seat Capacity'] = $car->seat_capacity.' Persons';
         // $data['Mileage'] = $car->mileage. ' klmp';
-    
+
         // Check if additional key specifications exist
         $data =[];
         if($car->carSpec->keySpec)
@@ -219,31 +219,31 @@ class CarController extends ApiBaseController
                 $data[$spec->specification] = $spec->value .' '. $spec->unit;
             }
         }
-    
+
         // Build the list with title, value, and icon
         $list = [];
         $i = 0;
         foreach($data as $key => $value) {
             $spec = isset($car->carSpec->keySpec[$i]) ? $car->carSpec->keySpec[$i] : null;
-          
+
             $list[$i]['title'] = $key;
             $list[$i]['value'] = $value;
             $list[$i]['icon'] = $this->findImage($key, $spec);
             $i++;
         }
-    
+
         return $list;
     }
     private function findImage($key, $spec = null)
     {
-     
+
         if ($spec && isset($spec->key_icon)) {
 
             $url = file_asset('files-car', $spec->key_icon);
         }else{
             $url = asset('images/Car.png');
         }
-    
+
         switch ($key) {
             case 'Fuel Types':
                 return asset('images/fuel_type.png');
@@ -259,7 +259,7 @@ class CarController extends ApiBaseController
                 return $url;
         }
     }
-        
+
 
     private function getSummary(Car $car)
     {
@@ -303,7 +303,7 @@ class CarController extends ApiBaseController
             'rating_5_count' => $car->rating_5,
             'review' => ReviewResource::collection($result)
         ];
-        
+
     }
 
     private function getCarVersionAndPrice(Car $car)
@@ -319,7 +319,7 @@ class CarController extends ApiBaseController
                     // Use both fuel_type and transmission_type to ensure uniqueness
                     return $item->transmission_type . '-' . $item->fuel_type;
                 });
-                
+
             $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
         }
         return $versionsByTransmission;
@@ -334,7 +334,7 @@ class CarController extends ApiBaseController
         else{
             return [];
         }
-        
+
     }
 
     private function getFuelTypes($fuel_types)
@@ -358,7 +358,7 @@ class CarController extends ApiBaseController
         }
 
         $varient = CarVersion::find($version);
-       
+
         $sections = [
             ['key' => 1,
             'id' => 'engine-type',
@@ -387,7 +387,7 @@ class CarController extends ApiBaseController
                 // [
                 //     'title' => 'Valves Per Cylinder',
                 //     'value' => $varient->valves_per_cylinder,
-                // ],              
+                // ],
                 // [
                 //     'title' => 'Bore X Stroke',
                 //     'value' => $varient->bore_stroke.'mm',
@@ -486,7 +486,7 @@ class CarController extends ApiBaseController
                 //     'title' => 'Power Steering',
                 //     'value' => $varient->power_steering == 1 ? 'Yes':'No',
                 // ],
-               
+
             ],],
            [ 'key' => 4,
             'id' => 'dimension-capacity',
@@ -519,40 +519,40 @@ class CarController extends ApiBaseController
                 // ],
                 [
                     'title' =>  'Seat Capacity',
-                    'value' => $varient->seat_capacity.' Passengers', 
+                    'value' => $varient->seat_capacity.' Passengers',
                 ],
                 // [
-                //     'title' => 'Air Conditioner', 
+                //     'title' => 'Air Conditioner',
                 //     'value' => $varient->air_conditioner ==1 ?'Yes':'No',
                 // ],
                 // [
                 //    'title' => 'Wheel Covers',
                 //    'value' => $varient->wheel_covers ==1 ?'Yes':'No',
                 // ],
-                // [
-                //     'title' =>   '360 VieW Camera',
-                //     'value' => $varient->view_camera ==1 ?'Yes':'No',
-                // ],
+                [
+                    'title' =>   '360 VieW Camera',
+                    'value' => $varient->view_camera ==1 ?'Yes':'No',
+                ],
             ], ],
             ['key' => 6,
             'id' => 'interior',
             'section' => 'Interior',
             'features' => [
                 // [
-                //     'title' => 'Boot Space' ,                 
+                //     'title' => 'Boot Space' ,
                 //     'value' =>  $varient->boot_space.'cubic feet',
                 // ],
                 // [
                 //     'title' =>  'Tachometer',
-                //     'value' => $varient->tachometer  ==1 ?'Yes':'No', 
+                //     'value' => $varient->tachometer  ==1 ?'Yes':'No',
                 // ],
                 // [
-                //     'title' => 'Electronic Multi Tripmeter', 
+                //     'title' => 'Electronic Multi Tripmeter',
                 //     'value' =>  $varient->electronic_multi_tripmeter  ==1 ?'Yes':'No',
                 // ],
                 // [
                 //     'title' => 'Digital Odometer',
-                //     'value' => $varient->digital_odometer ==1 ?'Yes':'No',     
+                //     'value' => $varient->digital_odometer ==1 ?'Yes':'No',
                 // ],
             ] ,],
             ['key' => 7,
@@ -561,14 +561,14 @@ class CarController extends ApiBaseController
             'features' => [],],
             ['key' => 8,
             'id' => 'safety',
-            'section' => 'Safety',            
+            'section' => 'Safety',
             'features' => [
-               
+
                 [
                     'title' => 'Safety Ratings',
                     'value' => $varient->safety_ratings,
                 ],
-              
+
                 [
                    'title' => 'No of Airbags' ,
                    'value' => $varient->no_of_airbags,
@@ -576,7 +576,7 @@ class CarController extends ApiBaseController
                 ],],
             ['key' => 9,
             'id' => 'entertainment',
-            'section' => 'Entertainment & Communication',       
+            'section' => 'Entertainment & Communication',
             'features' => []],
             ];
         $additionalSpecsMapping = [
@@ -591,7 +591,7 @@ class CarController extends ApiBaseController
             'entertainment' => $varient->entertainment,
         ];
         foreach ($sections as &$section) {
-        
+
             $sectionId = $section['id'];
             if (isset($additionalSpecsMapping[$sectionId]) && !empty($additionalSpecsMapping[$sectionId])) {
                 foreach ($additionalSpecsMapping[$sectionId] as $spec) {
@@ -606,9 +606,9 @@ class CarController extends ApiBaseController
         }
         unset($section);
         return $sections;
-        
 
-       
+
+
     }
 
     private function getRelatedNews(Car $car)
@@ -619,7 +619,7 @@ class CarController extends ApiBaseController
         }else{
             return [];
         }
-       
+
     }
 
     public function getComparison(Car $car)
@@ -627,7 +627,7 @@ class CarController extends ApiBaseController
         $result[] = null;
         $compareCar = CarComparisonList::where('car_id',$car->id)->first();
         if($compareCar)
-        {     
+        {
             $carId1 = $compareCar->car_1_id;
             $carId2 = $compareCar->car_2_id;
             $cars = Car::whereIn('id',[$carId1,$carId2])->get();
@@ -677,7 +677,7 @@ class CarController extends ApiBaseController
 
     /**
      * @param int $id
-     * 
+     *
      * @throws \Exception
      */
     private function saveCarViewCount($id)
@@ -694,11 +694,11 @@ class CarController extends ApiBaseController
             if (! $model->id) {
                 $count = CarView::where('car_id', $id)->count();
                 Car::where('id', $id)->update(['view_count' => $count + 1]);
-                
+
             }
             $model->updated_at = Carbon::now();
             $model->save();
-            
+
             DB::commit();
         }
         catch (Exception $ex) {
@@ -717,7 +717,7 @@ class CarController extends ApiBaseController
         $versions = CarVersion::whereIn(DB::raw('(fuel_type, transmission_type)'), $subquery)
             ->where('car_id', $car->id)
             ->limit(2)->get();
-       
+
         return CarDetailResource::collection($versions);
 
     }
@@ -740,7 +740,7 @@ class CarController extends ApiBaseController
         }
         return $count;
 
-       
+
     }
     private function  getversionTransmissionTypes(Car $car)
     {
@@ -754,7 +754,7 @@ class CarController extends ApiBaseController
         }
         return $res;
     }
-    
+
     public function colors(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -776,9 +776,9 @@ class CarController extends ApiBaseController
             }
         }
         return $this->success(['data' => $colours], 'Color List!', Response::HTTP_OK);
-       
-        
+
+
 
     }
-    
+
 }
