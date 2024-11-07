@@ -45,28 +45,42 @@
                         <i class="fa fa-paint-brush"></i><span> Colors </span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('admin.car.index') }}" class="waves-effect">
                     <i class="fa fa-car"></i><span> Cars </span>
                     </a>
-                </li>
+                </li> --}}
                 {{--    <li>
                     <a href="{{ route('admin.emi-info.index') }}" class="waves-effect">
                     <i class="fa fa-calculator"></i><span> EMI Calculator </span>
                     </a>
                 </li>--}}
+                <li class="has_sub">
+                    <a href="#" class="waves-effect"><i class="fa fa-car"></i> <span> Car Management </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ route('admin.car.index') }}">Car</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.comparison.index') }}">Compare Cars</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.curated-comparison.index') }}">Curated Comparison</a>
+                        </li>
+                    </ul>
+                </li>
 
-                <li>
+                {{-- <li>
                     <a href="{{ route('admin.comparison.index') }}" class="waves-effect">
                     <i class="fa fa-car"></i><span> Compare Cars </span>
                     </a>
-                </li>
+                </li> --}}
 
-                <li>
+                {{-- <li>
                     <a href="{{ route('admin.curated-comparison.index') }}" class="waves-effect">
                     <i class="fa fa-car"></i><span> Curated Comparison </span>
                     </a>
-                </li>
+                </li> --}}
 
                 <li>
                     <a href="{{ route('admin.test-ride-requests.index') }}" class="waves-effect">

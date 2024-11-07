@@ -8,6 +8,8 @@ use App\Http\Requests\Admin\CuratedCompareRequest;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Stringable;
 
 class CuratedComparisonService
 {
@@ -24,17 +26,21 @@ class CuratedComparisonService
             $data['html_content'] = '<p style= "text-align:left;">' . $request->input('content') . '</p>';
 
             if ($request->hasFile('image_1') && $request->file('image_1')->isValid()) {
-                $data['image_1'] = $request->file('image_1')->store(CuratedComparison::FILE_DIR);
+                $request->file('image_1')->store(CuratedComparison::FILE_DIR);
+                $data['image_1'] = $request->file('image_1')->hashName();
+                // dd($data['image_1']);
             }
             if ($request->hasFile('image_2') && $request->file('image_2')->isValid()) {
-                $data['image_2'] = $request->file('image_2')->store(CuratedComparison::FILE_DIR);
+                $request->file('image_2')->store(CuratedComparison::FILE_DIR);
+                $data['image_2'] = $request->file('image_2')->hashName();
             }
             else
             {
                 $data['image_2'] = null;
             }
             if ($request->hasFile('image_3') && $request->file('image_3')->isValid()) {
-                $data['image_3'] = $request->file('image_3')->store(CuratedComparison::FILE_DIR);
+               $request->file('image_3')->store(CuratedComparison::FILE_DIR);
+               $data['image_3'] = $request->file('image_3')->hashName();
             } else {
                 $data['image_3'] = null; // Set to null if image_3 is not provided
             }
@@ -80,20 +86,33 @@ class CuratedComparisonService
 
       
             if ($request->hasFile('image_1') && $request->file('image_1')->isValid()) {
-                $data['image_1'] = $request->file('image_1')->store(CuratedComparison::FILE_DIR);
+                if ($curatedcomparison->image_1) {
+                    Storage::disk('public')->delete($curatedcomparison->image_1);
+                }
+                $request->file('image_1')->store(CuratedComparison::FILE_DIR);
+                $data['image_1'] = $request->file('image_1')->hashName();
             }
+
             if ($request->hasFile('image_2') && $request->file('image_2')->isValid()) {
-                $data['image_2'] = $request->file('image_2')->store(CuratedComparison::FILE_DIR);
-            }
-            else
-            {
+                if ($curatedcomparison->image_2) {
+                    Storage::disk('public')->delete($curatedcomparison->image_2);
+                }
+                $request->file('image_2')->store(CuratedComparison::FILE_DIR);
+                $data['image_2'] = $request->file('image_2')->hashName();
+            }else{
                 $data['image_2'] = null;
             }
+
             if ($request->hasFile('image_3') && $request->file('image_3')->isValid()) {
-                $data['image_3'] = $request->file('image_3')->store(CuratedComparison::FILE_DIR);
+                if ($curatedcomparison->image_3) {
+                    Storage::disk('public')->delete($curatedcomparison->image_3);
+                }
+                $request->file('image_3')->store(CuratedComparison::FILE_DIR);
+                $data['image_3'] = $request->file('image_3')->hashName();
             } else {
                 $data['image_3'] = null; // Set to null if image_3 is not provided
             }
+            // dd($data);
 
             $data['published_date'] = Carbon::createFromFormat('d-m-Y', $request->published_date)->format('Y-m-d');
 

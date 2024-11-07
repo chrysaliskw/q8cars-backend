@@ -11,7 +11,7 @@ class CuratedComparison extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
     
-    const FILE_DIR = 'curated-comparisons';
+    const FILE_DIR = 'curated_comparisons';
 
     protected $fillable = [
         'brand_id_1',

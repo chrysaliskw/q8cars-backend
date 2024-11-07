@@ -59,7 +59,7 @@ class CuratedComparisonGrid extends Grid
                 'sort' => false,
                 'value' => function ($model) {
                     if ($model->image_1) {
-                        $url = file_asset('files-curated-comparisons', $model->image_1);
+                        $url = file_asset('files-curated_comparisons', $model->image_1);
                         return "<img src='{$url}' alt='car-img' class='img-thumbnail img-list'>";
                     }
                 }

@@ -3,7 +3,7 @@
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
         <li class="active">Curated Comparison</li>
     </x-slot>
-    <x-crud-index title="" createUrl="{{ route('admin.curated-comparison.create') }}" createButtonText="Add Question">
+    <x-crud-index title="" createUrl="{{ route('admin.curated-comparison.create') }}" createButtonText="Add Curated Comparison">
         <div class="row">
             <div class="col-lg-12">
                 {!! $grid->render() !!}

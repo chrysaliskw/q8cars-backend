@@ -19,7 +19,7 @@ return [
         'car' => Car::FILE_DIR,
         'news' => News::FILE_DIR,
         'notifications' => Notification::FILE_DIR,
-        'curated-comparisons' => CuratedComparison::FILE_DIR,
+        'curated_comparisons' => CuratedComparison::FILE_DIR,
     ],
 
     'user' => [
