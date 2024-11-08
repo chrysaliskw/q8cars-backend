@@ -94,6 +94,11 @@ class CarVersionController extends Controller
             'text' => config('params.car.fuel_type')[$carVarient->fuel_type]
         ]);
 
+        $currentTravel = json_encode([
+            'id' => $carVarient->travel_type,
+            'text' => config('params.car.travel_type')[$carVarient->travel_type]
+        ]);
+
         $currentTransmission = json_encode([
             'id' => $carVarient->transmission_type,
             'text' => config('params.car.transmission_type')[$carVarient->transmission_type]
@@ -125,10 +130,18 @@ class CarVersionController extends Controller
             },
             ARRAY_FILTER_USE_KEY
         );
+        $selectedTravelTypes = array_filter(
+            config('params.car.travel_type'),
+            function ($key) use ($car) {
+                return in_array($key, json_decode($car->travel_type));
+            },
+            ARRAY_FILTER_USE_KEY
+        );
 
         return view('admin.car.car-version.edit', compact('car','carVersion', 'carVarient',
             'currentFuel', 'currentTransmission', 'currentBodyType', 'currentBrand', 'currentCar','selectedFuelTypes',
-            'currentColors', 'selectedColorsCount', 'ccount', 'carVarientName','additionals','selectedTransmissionTypes'
+            'currentColors', 'selectedColorsCount', 'ccount', 'carVarientName','additionals','selectedTransmissionTypes',
+            'selectedTravelTypes'
         ));
     }
 
@@ -191,16 +204,16 @@ class CarVersionController extends Controller
             $carVersion = null;
         }
         // dd($data);
+        $service = new CarService($data, $car, $carVersion);
+        $carVersion = $service->saveToCarVersion();
+
+        if(isset($data['attribute']))
+        {
+            // CarAdditonalSpecifications::where('car_id',$car->id)->where('car_version_id',$carVersion->id)->delete();
+            $service->saveCategoryAttributes();
+        }
         try
         {
-            $service = new CarService($data, $car, $carVersion);
-            $carVersion = $service->saveToCarVersion();
-
-            if(isset($data['attribute']))
-            {
-                // CarAdditonalSpecifications::where('car_id',$car->id)->where('car_version_id',$carVersion->id)->delete();
-                $service->saveCategoryAttributes();
-            }
 
         }
         catch (Exception $ex) {

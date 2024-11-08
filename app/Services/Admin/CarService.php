@@ -137,6 +137,7 @@ class CarService
         $this->car->transmission_type = $this->getIntValueTransmission();
         $this->car->professions = $this->getIntValueProfession();
         $this->car->colours = $this->getIntValueColor();
+        $this->car->travel_type = $this->getIntValueTravel();
 
         $this->car->why_choose = $this->data['why_choose'];
         $this->car->market_introduction = $this->data['market_introduction'];
@@ -193,6 +194,7 @@ class CarService
         // $this->version->emission_norm_complains = $this->data['emission_norm_complains'];
         $this->version->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
         $this->version->fuel_type = 1;
+        $this->version->travel_type = 1;
         // $this->version->front_suspension = $this->data['front_suspension'];
         // $this->version->rear_suspension = $this->data['rear_suspension'];
         // $this->version->steering_type = $this->data['steering_type'];
@@ -213,7 +215,7 @@ class CarService
         // $this->version->wheel_covers = $this->data['wheel_covers'];
         // $this->version->alloy_wheels = $this->data['alloy_wheels'];
         // $this->version->view_camera = $this->data['360_view_camera'];
-        $this->version->view_camera = $this->data['view_camera'];
+        // $this->version->view_camera = $this->data['view_camera'];
         // $this->version->boot_space = $this->data['boot_space'];
         // $this->version->power_windows = $this->data['power_windows'];
         // $this->version->tachometer = $this->data['tachometer'];
@@ -247,10 +249,14 @@ class CarService
         if(isset($this->data['varient_name'])) {
             $this->version->transmission_type = $this->data['transmission_type'];
             $this->version->fuel_type = $this->data['fuel_type'];
+            $this->version->travel_type = $this->data['travel_type'];
         } else {
             $this->version->transmission_type = ($this->getIntValueTransmission()[1]);
             $this->version->fuel_type = ($this->getIntValueFuel()[1]);
+            $this->version->travel_type = ($this->getIntValueTravel()[1]);
         }
+
+        // $this->version->travel_type = $this->getIntValueTravel();
 
         //$this->version->colours = $this->getIntValueColor($this->data['colors']);
         $this->version->colours = $this->car->colours;
@@ -476,6 +482,24 @@ class CarService
         }else {
             foreach($this->data['fuel_types'] as $p) {
                 $result[$i] = intval($p);
+                $i++;
+            }
+        }
+        return  json_encode($result);
+    }
+
+    private function getIntValueTravel()
+    {
+        $result = [];
+        $i = 0;
+        if(isset($this->data['all_travel']) && $this->data['all_travel'] == 1) {
+            foreach(config('params.car.travel_type') as $key => $value) {
+                $result[$i] = intval($key);
+                $i++;
+            }
+        }else {
+            foreach($this->data['travel_type'] as $tr) {
+                $result[$i] = intval($tr);
                 $i++;
             }
         }

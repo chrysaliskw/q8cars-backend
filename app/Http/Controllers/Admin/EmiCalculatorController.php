@@ -42,17 +42,18 @@ class EmiCalculatorController extends Controller
         $on_road_price = $car->on_road_price;
 
         if ($validatedData['principal'] > $on_road_price) {
-            return redirect()->back()->withErrors(['principal' => 'The principal amount cannot be greater than the on road price of the car.'])->withInput();
+            return redirect()->back()->withErrors(['principal' => 'The principal amount cannot be greater than the on road price of the car. On road price : KWD '.$on_road_price])->withInput();
         }
 
         $service = new EmiCalculatorService($request);
         $result = $service->handle();
 
         if (isset($result['error'])) {
-            return redirect()->back()->withErrors(['message' => $result['error']]);
+            return redirect()->back()->withErrors(['message' => $result['error']])->withInput();
         }
+        session()->put('form_data', $request->all());
 
-        return view('admin.emi-info.show', compact('result'));
+        return view('admin.emi-info.show', compact('result'))->with('form_data', session('form_data'));
     }
 
     /**

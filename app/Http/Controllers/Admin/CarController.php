@@ -123,10 +123,10 @@ class CarController extends Controller
         $data = array_merge($data, $validatedData);
         $data['row_count'] = $rows;
         // dd($data);
+        $service = new CarService($data);
+        $car = $service->handle();
         try
         {
-            $service = new CarService($data);
-            $car = $service->handle();
         }
         catch (PostTooLargeException $ex) {
             logger($ex);
@@ -151,6 +151,15 @@ class CarController extends Controller
         $fuelTypes =[];
         foreach($newArray as $fuelType) {
             $fuelTypes[] = config('params.car.fuel_type')[$fuelType];
+        }
+
+        $travel_type = json_decode($car->travel_type, true);
+        $travel_types = [];
+        if($travel_type) {
+            $travel_typeArray = array_combine(range(1, count($travel_type)), array_values($travel_type));
+            foreach($travel_typeArray as $c) {
+                $travel_types[] = config('params.car.travel_type')[$c];
+            }
         }
 
         $transmission = json_decode($car->transmission_type, true);
@@ -179,7 +188,7 @@ class CarController extends Controller
         $carVersion = $carVarient;
         $carVersions = CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->get();
 
-        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions','carVersion','colorsAvailable'));
+        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions','carVersion','colorsAvailable', 'travel_types'));
     }
 
     /**
@@ -230,6 +239,14 @@ class CarController extends Controller
         }
         $fcount = count(config('params.car.fuel_type'));
 
+        $currentTravel = [];
+        $selectedTravelCount = 0;
+        foreach(json_decode($car->travel_type) as $tr) {
+           array_push($currentTravel, $tr);
+           $selectedTravelCount++;
+        }
+        $trcount = count(config('params.car.travel_type'));
+
         $currentTransmissions = [];
         $selectedTransmissionCount = 0;
         foreach(json_decode($car->transmission_type) as $t) {
@@ -254,7 +271,8 @@ class CarController extends Controller
             'selectedFuelCount', 'currentFuels', 'fcount',
             'tcount','selectedTransmissionCount', 'currentTransmissions',
             'ccount','selectedColorsCount', 'currentColors',
-            'additionals','colorsAvailable',
+            'additionals','colorsAvailable', 'currentTravel','selectedTravelCount',
+            'trcount'
         ));
     }
 
