@@ -63,7 +63,7 @@
                                 <div class="form-group row" style="{{ $displayimage2 }}">
                                     <label class="col-sm-4 control-label">Image 2</label>
                                     <div class="col-sm-8">
-                                        <img src="{{ file_asset('files-curated-comparisons', $viewData['image_2']) }}"
+                                        <img src="{{ file_asset('files_curated-comparisons', $viewData['image_2']) }}"
                                             alt='image_2' class='img-thumbnail' width='100' height='150'>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                                 <div class="form-group row" style="{{ $displayimage3 }}">
                                     <label class="col-sm-4 control-label">Image 3</label>
                                     <div class="col-sm-8">
-                                        <img src="{{ file_asset('files-curated-comparisons', $viewData['image_3']) }}"
+                                        <img src="{{ file_asset('files-curated_comparisons', $viewData['image_3']) }}"
                                             alt='image_3' class='img-thumbnail' width='100' height='150'>
                                     </div>
                                 </div>
