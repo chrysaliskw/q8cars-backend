@@ -79,7 +79,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <x-form-input type="text" field="source" field-name="Source"
-                        field-value="{{ old('source') }}"></x-form-textarea>
+                        value="{{ old('source') }}"></x-form-textarea>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
@@ -109,7 +109,7 @@
             </div>
             <div class="col-md-12">
                 <x-form-input type="text" field="title" field-name="Title"
-                    field-value="{{ old('title') }}"></x-form-textarea>
+                    value="{{ old('title') }}"></x-form-textarea>
             </div>
             <hr>
             <div class="row">

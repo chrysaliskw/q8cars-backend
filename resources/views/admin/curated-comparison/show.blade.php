@@ -42,7 +42,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">Image 1</label>
                                     <div class="col-sm-8">
-                                        <img src="{{ file_asset('files-curated-comparisons', $viewData['image_1']) }}"
+                                        <img src="{{ file_asset('files-curated_comparisons', $viewData['image_1']) }}"
                                             alt='image_1' class='img-thumbnail' width='100' height='150'>
                                     </div>
                                 </div>
