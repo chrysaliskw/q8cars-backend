@@ -23,8 +23,8 @@ class CuratedComparisonResource extends JsonResource
         'title' => $this->title,
         'status' => $this->status,
         'source' => $this->source,
-        'image_2' =>   $this->image_2 ? file_asset('files-curated_comparison', $this->image_2) : '', 
-        'image_3' =>  $this->image_3 ? file_asset('files-curated_comparison', $this->image_3) : '', 
+        'image_2' =>   $this->image_2 ? file_asset('files-curated_comparisons', $this->image_2) : '', 
+        'image_3' =>  $this->image_3 ? file_asset('files-curated_comparisons', $this->image_3) : '', 
         'published_at' => get_time_ago($this->published_date),
     ];
   }
