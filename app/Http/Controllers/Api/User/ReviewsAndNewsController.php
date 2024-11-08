@@ -13,16 +13,19 @@ use App\Models\RecentSearch;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-   
+
 class ReviewsAndNewsController extends ApiBaseController
 {
-    
-    public function __invoke(Request $request)
-    { 
 
-      $data['reviews'] = $this->getReviews($request);
-      $data['news'] = $this->getNews($request);
-      return $this->success(['data' => $data], 'Recviews And News', Response::HTTP_OK);
+    public function __invoke(Request $request)
+    {
+        if ($request->id) {
+            $data['news'] = $this->getNews($request);
+        } else {
+            $data['reviews'] = $this->getReviews($request);
+            $data['news'] = $this->getNews($request);
+        }
+      return $this->success(['data' => $data], 'Reviews And News', Response::HTTP_OK);
 
     }
 
@@ -33,7 +36,7 @@ class ReviewsAndNewsController extends ApiBaseController
             ->when($request->search, function($query, $value) {
                 $query->where('detailed_comment', 'like', '%' . $value . '%')
                 ->orWhere('short_comment', 'like', '%' . $value . '%');
-            })            
+            })
             ->limit(20)
             ->get();
 
@@ -42,6 +45,13 @@ class ReviewsAndNewsController extends ApiBaseController
     }
     private function getNews(Request $request)
     {
+        if ($request->id) {
+            $news = News::active()->published()
+                ->where('id', $request->id)
+                ->first();
+
+            return $news ? new NewsResource($news) : [];
+        }
         $result = News::active()->published()
             ->when($request->search, function($query, $value) {
                 $query->where('content', 'like', '%' . $value . '%')
@@ -69,11 +79,11 @@ class ReviewsAndNewsController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-       
+
         $search = new RecentSearch();
         $search->user_id = Auth::id();
         $search->key_word = $request->search;
-        $search->save(); 
+        $search->save();
         return $this->success(['data' => []], 'Added to Recent Searches', Response::HTTP_OK);
     }
 }
