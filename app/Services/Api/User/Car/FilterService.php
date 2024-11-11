@@ -76,6 +76,7 @@ final class FilterService
         $this->filterByColors();
         $this->filterByProfession();
         $this->applySorting();
+        $this->filterByCarIds();
 
         return $this->getResultData();
     }
@@ -413,5 +414,15 @@ final class FilterService
                 break;
 
         }
+    }
+
+    public function filterByCarIds()
+    {
+        if (! $this->request->carIds) {
+            return;
+        }
+
+        $this->query = $this->query->whereIn('cars.id', $this->request->carIds);
+  
     }
 }
