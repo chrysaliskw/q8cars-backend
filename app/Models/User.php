@@ -112,6 +112,8 @@ class User extends Authenticatable
             'picture' => $this->picture ? file_asset('files-user', $this->picture): null,
             'access_token' => $this->createToken($deviceName)->plainTextToken,
             'is_guest' => false,
+            "fcm_common_topic" => Notification::COMMON_CHANNEL,
+            "fcm_individual_topic" => get_user_topic($this->id)
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Exception;
+use App\Models\User;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,6 +11,7 @@ use App\Models\UserNotificationMapping;
 use App\Services\Admin\NotificationService;
 use App\DataGrids\Admin\NotificationDataGrid;
 use App\Http\Requests\Admin\NotificationRequest;
+use App\Services\PushNotification\FirebasePushNotificationService;
 
 class NotificationController extends Controller
 {
@@ -39,6 +41,23 @@ class NotificationController extends Controller
         try {
             $service = new NotificationService();
             $notification = $service->create($request);
+
+            $image = $request->has('image') ? file_asset('files-notifications', $request->image) : null;
+
+            try {
+                $title = $notification->title;
+                $body = $notification->description;
+                $topic = Notification::COMMON_CHANNEL;
+
+                $fcmService = new FirebasePushNotificationService();
+
+                $fcmService->sendTopicNotification($topic, $title, $body, $image);
+
+            } catch (Exception  $ex) {
+                logger($ex);
+                return back()->with('error', __('app.error'))->withInput();
+            }
+
         } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();

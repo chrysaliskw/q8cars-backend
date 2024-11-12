@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'fcm' => [
+        'project_id' => env('FCM_PROJECT_ID'),
+        'base_url' => 'https://fcm.googleapis.com/fcm/',
+    ]
+
 ];

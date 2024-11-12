@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
  * For accessing the application private files.
  *
  * @param mixed $key
- * 
+ *
  */
 if (! function_exists('file_asset'))
 {
@@ -42,10 +42,10 @@ if (! function_exists('file_asset'))
 
 				$path = config('filesystems.disks.s3.url') . 'zebra/' . $basePath . '/' . $size . '/' . $file;
 			}
-			
+
 			return $path;
 		}
-		
+
 		return route('file.index', ['type' => $type, 'size' => $size, 'name' => $file]);
 	}
 }
@@ -54,7 +54,7 @@ if (! function_exists('file_asset'))
  * For accessing the application private files.
  *
  * @param mixed $key
- * 
+ *
  */
 if (! function_exists('file_asset_pdf'))
 {
@@ -148,24 +148,24 @@ if (! function_exists('compressAndResizeImage'))
 
 		if( ($imageWidth >= $width) || ($imageHeight >= $height) )
 		{
-			
+
 			$image = new ZebraImageService();
 			$image->source_path = $sourceUrl;
 			$image->target_path = $destinationUrl;
-			
+
 			$image->resize($width, $height, ZEBRA_IMAGE_NOT_BOXED, -1);
 			$isResized = true;
 		}
-		
+
 		if(!$isResized)
 		{
 			$fileSizeInMB = filesize($sourceUrl)/(1000*1000);
-			
+
 			if($fileSizeInMB > 1)
 				return compressImage($sourceUrl, $destinationUrl, 90);
 		}
-		
-		
+
+
 		return $destinationUrl;
 	}
 }
@@ -176,33 +176,33 @@ if (! function_exists('compressAndResizeImage'))
 if (! function_exists('compressImage'))
 {
 	function compressImage($sourceUrl, $destinationUrl, $quality = 50) {
-		
+
 		$info = getimagesize($sourceUrl);
-	
+
 		switch ($info['mime']) {
 			case 'image/jpeg':
 				$image = imagecreatefromjpeg($sourceUrl);
 				break;
-			
+
 			case 'image/gif':
 				$image = imagecreatefromgif($sourceUrl);
 				break;
-			
+
 			case 'image/png':
 				$image = imagecreatefrompng($sourceUrl);
 				break;
-			
+
 			default:
 				$image = false;
 				break;
 		}
-	
+
 		if(!$image){
 			return false;
 		}
 		//save file
 		imagejpeg($image, $destinationUrl, $quality);
-	
+
 		//return destination file
 		return $destinationUrl;
 	}
@@ -225,25 +225,25 @@ if (! function_exists('resizeImage'))
 
 		if( ($imageWidth >= $width) || ($imageHeight >= $height) )
 		{
-			
+
 			$image = new ZebraImageService();
 			$image->source_path = $sourceUrl;
 			$image->target_path = $destinationUrl;
-			
+
 			$image->resize($width, $height, ZEBRA_IMAGE_CROP_CENTER, -1);
 			$isResized = true;
 		    Log::info("resised" . $isResized);
 		}
-		
+
 		if(!$isResized)
 		{
 			$fileSizeInMB = filesize($sourceUrl)/(1000*1000);
-			
+
 			if($fileSizeInMB > 1)
 				return compressImage($sourceUrl, $destinationUrl, 90);
 		}
-		
-		
+
+
 		return $destinationUrl;
 	}
 }
@@ -254,12 +254,12 @@ if (! function_exists('resizeImage'))
 if (! function_exists('get_time_ago'))
 {
 	function get_time_ago($created_at) {
-        $start_datetime = new DateTime(now()); 
-        $diff = $start_datetime->diff(new DateTime($created_at)); 
+        $start_datetime = new DateTime(now());
+        $diff = $start_datetime->diff(new DateTime($created_at));
         if($diff->y >= 1) {
-            return $diff->y . ' year ago'; 
+            return $diff->y . ' year ago';
         }
-        
+
         if($diff->m >= 1) {
             return $diff->m . ' month ago';
         }
@@ -317,7 +317,15 @@ if (! function_exists('currency_formatter'))
 {
     function currency_formatter($number) {
 		return 'KWD ' . number_format($number, 2);
-	}  
+	}
+}
+
+if (! function_exists('get_user_topic'))
+{
+	function get_user_topic($id)
+	{
+		return 'customer_'.$id;
+	}
 }
 
 
