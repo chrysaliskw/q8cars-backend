@@ -32,6 +32,7 @@ use App\Http\Controllers\Api\User\CuratedComparisonController;
 use App\Http\Controllers\Api\User\CompareCarsDetailsController;
 use App\Http\Controllers\Api\User\FavouriteComparisonController;
 use App\Http\Controllers\Api\User\BankSuggestionRequestController;
+use App\Http\Controllers\Api\User\LoanController;
 use App\Http\Controllers\Api\User\RelatedNewsController;
 
 // Guest user login
@@ -110,6 +111,7 @@ Route::middleware('auth:user_api')->group(function () {
 
     //loan
     Route::post('/loan-requests', LoanRequestController::class);
+    Route::post('/loan-details', LoanController::class);
 });
 
 /**
