@@ -47,13 +47,13 @@ class CompareCarsDetailsController extends ApiBaseController
 
     private function getCarComparison($cars)    {
       return [
-        'basic_information'     => $this->basicInfo($cars),
+        'basic information'     => $this->basicInfo($cars),
         'colors'                => $this->colorInfo($cars),
-        'engine_tranmission'    => $this->engineInfo($cars),
-        'fuel_performance'      => $this->fuelInfo($cars),
-        'suspension_steering'   => $this->suspensionInfo($cars),
-        'dimension_capacity'    => $this->dimensionInfo($cars),
-        'comfort_convenience'   => $this->comfortInfo($cars),
+        'engine and tranmission'    => $this->engineInfo($cars),
+        'fuel and performance'      => $this->fuelInfo($cars),
+        'suspension and steering'   => $this->suspensionInfo($cars),
+        'dimension and capacity'    => $this->dimensionInfo($cars),
+        'comfort and convenience'   => $this->comfortInfo($cars),
         'interior'              => $this->interiorInfo($cars),
         'exterior'              => $this->exteriorInfo($cars),
         'safety'                => $this->safetyInfo($cars),
@@ -65,12 +65,12 @@ class CompareCarsDetailsController extends ApiBaseController
     {
         $comparisonData = [];
         foreach ($cars as $key => $car) {
-            $comparisonData['brand_name']["car_$key"] = $car->brand->name;
-            $comparisonData['on_road_price']["car_$key"] = $car->on_road_price . ' KWD';
-            $comparisonData['user_rating']["car_$key"] = $car->total_reviews_count . ' Ratings';
-            $comparisonData['finance_available']["car_$key"] = $car->finance_available . ' KWD';
+            $comparisonData['brand name']["car_$key"] = $car->brand->name;
+            $comparisonData['on road price']["car_$key"] = $car->on_road_price . ' KWD';
+            $comparisonData['user rating']["car_$key"] = $car->total_reviews_count . ' Ratings';
+            $comparisonData['finance available']["car_$key"] = $car->finance_available . ' KWD';
             $comparisonData['insurance']["car_$key"] = $car->insurance . ' KWD';
-            $comparisonData['service_cost']["car_$key"] = $car->service_charge . ' KWD';
+            $comparisonData['service cost']["car_$key"] = $car->service_charge . ' KWD';
         }
         return $comparisonData;
     }
@@ -93,8 +93,8 @@ class CompareCarsDetailsController extends ApiBaseController
         $engineData = [];
         $carCount = $cars->count();
         foreach ($cars as $key => $car) {
-            $engineData['engine_capacity']["car_$key"] = strtolower($car->carSpec->engine_capacity) . ' cc';
-            $engineData['transmission_type']["car_$key"] = strtolower(config('params.car.transmission_type')[$car->carSpec->transmission_type]);
+            $engineData['engine capacity']["car_$key"] = strtolower($car->carSpec->engine_capacity) . ' cc';
+            $engineData['transmission type']["car_$key"] = strtolower(config('params.car.transmission_type')[$car->carSpec->transmission_type]);
             $engineData['power']["car_$key"] = strtolower($car->carSpec->power) . ' Bph';
             $engineData['torque']["car_$key"] = strtolower($car->carSpec->torque) . ' rpm';
             if (isset($car->carSpec->engine)) {
@@ -114,7 +114,7 @@ class CompareCarsDetailsController extends ApiBaseController
         $fuelData = [];
         $carCount = $cars->count();
         foreach ($cars as $key => $car) {
-            $fuelData['fuel_type']["car_$key"] =  strtolower(config('params.car.fuel_type')[$car->carSpec->fuel_type]);
+            $fuelData['fuel type']["car_$key"] =  strtolower(config('params.car.fuel_type')[$car->carSpec->fuel_type]);
             $fuelData['mileage']["car_$key"] = $car->carSpec->mileage.' kmpl';
             if (isset($car->carSpec->fuel)) {
                 foreach ($car->carSpec->fuel as $spec) {
@@ -150,7 +150,7 @@ class CompareCarsDetailsController extends ApiBaseController
         $dimensionData = [];
         $carCount = $cars->count();
         foreach ($cars as $key => $car) {  
-             $dimensionData['body_type']["car_$key"] =  $car->carSpec->bodyType->name;
+             $dimensionData['body type']["car_$key"] =  $car->carSpec->bodyType->name;
              if (isset($car->carSpec->dimension)) {
                 foreach ($car->carSpec->dimension as $spec) {
                     $specLabelLower = strtolower($spec->specification);
@@ -168,7 +168,7 @@ class CompareCarsDetailsController extends ApiBaseController
         $comfortData = [];
         $carCount = $cars->count();
         foreach ($cars as $key => $car) {
-             $comfortData['seat_capacity']["car_$key"] =  $car->seat_capacity;
+             $comfortData['seat capacity']["car_$key"] =  $car->seat_capacity;
              if (isset($car->carSpec->comfort)) {
                 foreach ($car->carSpec->comfort as $spec) {
                     $specLabelLower = strtolower($spec->specification);
@@ -225,8 +225,8 @@ class CompareCarsDetailsController extends ApiBaseController
         $safetyData = [];
         $carCount = $cars->count();
         foreach ($cars as $key => $car) {
-            $safetyData['no_of_air_bags']["car_$key"] =  $car->carSpec->no_of_airbags;
-            $safetyData['safety_ratings']["car_$key"] =  $car->carSpec->safety_ratings;
+            $safetyData['no of airbags']["car_$key"] =  $car->carSpec->no_of_airbags;
+            $safetyData['safety ratings']["car_$key"] =  $car->carSpec->safety_ratings;
             
              if (isset($car->carSpec->safety)) {
                 foreach ($car->carSpec->safety as $spec) {
