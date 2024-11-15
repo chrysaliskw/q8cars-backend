@@ -55,9 +55,10 @@ class PartnerBankController extends Controller
             'Bank Name' => empty($partner_bank->bank_name) ? 'NIL' : $partner_bank->bank_name,
             'Branch Name' => empty($partner_bank->branch_name) ? 'NIL' : $partner_bank->branch_name,
             'City' => empty($partner_bank->city) ? 'NIL' : $partner_bank->city,
-            'Base Gross Income' => empty($partner_bank->base_gross_income) ? 'NIL' : 'KWD '. $partner_bank->base_gross_income,
-            'Base Other EMI' => empty($partner_bank->base_other_emi) ? 'NIL' : 'KWD '. $partner_bank->base_other_emi,
-            'Base Interest Rate' => empty($partner_bank->base_interest_rate) ? 'NIL' : 'KWD '. $partner_bank->base_interest_rate,
+            // 'Base Gross Income' => empty($partner_bank->base_gross_income) ? 'NIL' : 'KWD '. $partner_bank->base_gross_income,
+            // 'Base Other EMI' => empty($partner_bank->base_other_emi) ? 'NIL' : 'KWD '. $partner_bank->base_other_emi,
+            // 'Base Interest Rate' => empty($partner_bank->base_interest_rate) ? 'NIL' : 'KWD '. $partner_bank->base_interest_rate,
+            'Eligible EMI Percentage' => empty($partner_bank->eligible_emi_percentage) ? 'NIL' : $partner_bank->eligible_emi_percentage . '%',
             'Logo' => empty($partner_bank->logo) ? 'NIL' : '<img src="' . url(file_asset('files-banks', $partner_bank->logo)) . '" alt="Logo" style="max-width: 200px;"/>',
             'Status' => $partner_bank->status == Bank::STATUS_ACTIVE ? 'Active' :
                        ($partner_bank->status == Bank::STATUS_INACTIVE ? 'Inactive' : 'Unknown'),

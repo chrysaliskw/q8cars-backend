@@ -25,9 +25,10 @@ class Bank extends Model
         'city',
         'status',
         'logo',
-        'base_gross_income',
-        'base_other_emi',
-        'base_interest_rate',
+        // 'base_gross_income',
+        // 'base_other_emi',
+        // 'base_interest_rate',
+        'eligible_emi_percentage',
     ];
 
     public function scopeActive($query)

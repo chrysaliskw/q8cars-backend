@@ -25,7 +25,7 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                     <x-form-input type="text" field="base_gross_income" field-name="Base Gross Income" value="{{ old('base_gross_income', $partner_bank->base_gross_income) }}">
                     </x-form-input>
                 </div>
@@ -36,10 +36,11 @@
                 <div class="col-md-4">
                     <x-form-input type="text" field="base_interest_rate" field-name="Base Interest Rate" value="{{ old('base_interest_rate', $partner_bank->base_interest_rate) }}">
                     </x-form-input>
+                </div> --}}
+                <div class="col-md-4">
+                    <x-form-input type="text" field="eligible_emi_percentage" field-name="Eligible EMI Percentage" value="{{ old('eligible_emi_percentage', $partner_bank->eligible_emi_percentage) }}">
+                    </x-form-input>
                 </div>
-            </div>
-            <br>
-            <div class="row">
                 <div class="col-md-4">
                     <x-form-input type="file" field="logo" field-name="Logo" value="{{ old('logo') }}">
                     </x-form-input>
@@ -62,8 +63,6 @@
                     </x-form-select>
                 </div>
             </div>
-
-                <br>
             <x-form-submit>Save</x-form-submit>
         </x-form>
     </x-crud-create>

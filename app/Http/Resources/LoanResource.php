@@ -15,11 +15,12 @@ class LoanResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'bank_id' => $this->id,
-            'bank_name' => $this->bank_name,
-            'max_loan_amount' => 'KWD ' . '8000', //hardcoded value
-            'max_emi' => 'KWD ' . '5000', //hardcoded value
-            'total_interest_payable' => $this->bank_name . ', 15%' //hardcoded value
+            'bank_id' => $this->resource['bank_id'],
+            'bank_name' => $this->resource['bank_name'],
+            'max_loan_amount' => currency_formatter($this->resource['maxLoanAmount'], 2),
+            'max_emi' => currency_formatter($this->resource['eligibleEmi'], 2),
+            'total_interest_payable' => $this->resource['bank_name'] . ', ' . $this->resource['interestRate'] . '%',
+            'eligibility' => $this->resource['eligibility'],
         ];
     }
 }

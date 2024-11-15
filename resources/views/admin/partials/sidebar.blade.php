@@ -50,11 +50,16 @@
                     <i class="fa fa-car"></i><span> Cars </span>
                     </a>
                 </li> --}}
-                {{--    <li>
+                   <li>
                     <a href="{{ route('admin.emi-info.index') }}" class="waves-effect">
                     <i class="fa fa-calculator"></i><span> EMI Calculator </span>
                     </a>
-                </li>--}}
+                </li>
+                   <li>
+                    <a href="{{ route('admin.loan-info.index') }}" class="waves-effect">
+                    <i class="fa fa-calculator"></i><span> Loan Eligibility Calculator </span>
+                    </a>
+                </li>
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-car"></i> <span> Car Management </span> <span class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
