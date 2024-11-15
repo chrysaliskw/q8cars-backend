@@ -147,14 +147,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             $("#date_1").datepicker({
                 format: 'dd-mm-yyyy',
+                startDate: 'today',
+
 
             });
             $("#date_2").datepicker({
                 format: 'dd-mm-yyyy',
+                startDate: 'today',
 
             });
              $("#date_3").datepicker({
                 format: 'dd-mm-yyyy',
+                startDate: 'today',
 
             });
 

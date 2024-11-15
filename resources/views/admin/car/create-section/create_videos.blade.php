@@ -17,7 +17,7 @@
             <label for="date_1" class="control-label">Posted Date</label>
             <div class="input-group">
                 <input type="text" name="date_1" id="date_1" class="form-control"
-                    value="{{ old('date_1') }}">
+                    value="{{ old('date_1', \Carbon\Carbon::today()->format('Y-m-d')) }}">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="md md-event"></i></span>
                 </div>
@@ -62,7 +62,7 @@
             <label for="date_2" class="control-label">Posted Date</label>
             <div class="input-group">
                 <input type="text" name="date_2" id="date_2" class="form-control"
-                    value="{{ old('date_2') }}">
+                    value="{{ old('date_2', \Carbon\Carbon::today()->format('Y-m-d')) }}">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="md md-event"></i></span>
                 </div>
@@ -106,7 +106,7 @@
             <label for="date_3" class="control-label">Posted Date</label>
             <div class="input-group">
                 <input type="text" name="date_3" id="date_3" class="form-control"
-                    value="{{ old('date_3') }}">
+                    value="{{ old('date_3', \Carbon\Carbon::today()->format('Y-m-d')) }}">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="md md-event"></i></span>
                 </div>
