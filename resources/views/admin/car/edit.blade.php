@@ -127,6 +127,11 @@
                 format: 'dd-mm-yyyy',
                 startDate: 'today',
             });
+            $("#date_3").datepicker({
+                format: 'dd-mm-yyyy',
+                startDate: 'today',
+
+            });
              $("#date_0").datepicker({
                 format: 'dd-mm-yyyy',
                 startDate: 'today',
