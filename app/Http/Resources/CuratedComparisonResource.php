@@ -17,7 +17,7 @@ class CuratedComparisonResource extends JsonResource
   {
     return [
         'id' => $this->id,
-        'image_1' =>  file_asset('files-curated_comparison', $this->image_1), 
+        'image_1' =>  file_asset('files-curated_comparisons', $this->image_1), 
         'content' => $this->content,
         'html_content' => $this->html_content,
         'title' => $this->title,
