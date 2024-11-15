@@ -5022,4 +5022,5 @@ display: none;
     background-color: #007bff;
     padding: 0.2rem 0.6rem;
     margin: 0 0.2rem;
+    padding-right: 10px !important;
 }
