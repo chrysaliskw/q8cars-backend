@@ -2,7 +2,7 @@
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
         <li><a href="{{ route('admin.news.index') }}">News</a></li>
-        <li class="active">View</li> 
+        <li class="active">View</li>
     </x-slot>
 
     <x-card title="">
@@ -12,14 +12,12 @@
                     <div class="card-header">
                         <div class="m-b-30">
                             <a href="{{ route('admin.news.edit', $news) }}"
-                            class="btn btn-primary waves-effect waves-light"><i class="fa fa-pencil"></i> Edit</a>
-                            <a href="#"
-                            onclick="(function(){if(confirm('Are you sure?')){$('form#delete-form').submit()}})()"
-                            class="btn btn-danger btn-custom waves-effect waves-light"><i class="fa fa-trash"></i>
+                                class="btn btn-primary waves-effect waves-light"><i class="fa fa-pencil"></i> Edit</a>
+                            <a href="#" onclick="showDeleteConfirmation(event)"
+                                class="btn btn-danger btn-custom waves-effect waves-light"><i class="fa fa-trash"></i>
                                 Delete</a>
-                            <form id="delete-form"
-                                action="{{ route('admin.news.destroy', $news) }}"
-                                method="POST" style="display: none;">
+                            <form id="delete-form" action="{{ route('admin.news.destroy', $news) }}" method="POST"
+                                style="display: none;">
                                 @csrf
                                 @method('delete')
                             </form>
@@ -27,12 +25,13 @@
                     </div>
                     <div class="card-body">
                         <div class="form-horizontal">
-                            @foreach($viewData as $key => $value)
+                            @foreach ($viewData as $key => $value)
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">{{ $key }}</label>
                                     <div class="col-sm-8">
-                                        @if ($key == 'Image' || $key == 'Media Logo'  )
-                                            <img src="{{ $value }}" alt="news-img" class="img-thumbnail" width="100" height="150">
+                                        @if ($key == 'Image' || $key == 'Media Logo')
+                                            <img src="{{ $value }}" alt="news-img" class="img-thumbnail"
+                                                width="100" height="150">
                                         @else
                                             {!! $value !!}
                                         @endif
@@ -41,9 +40,43 @@
                             @endforeach
                         </div>
                     </div>
+                    <div class= 'modal fade' id="deleteConfirmationModal" tabindex="-1" role="dialog"
+                        aria-hidden="true">
+                        <div class= 'modal-dialog' role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Delete</h5>
+                                    <button type="button" class="close" data-dismiss='modal' aria-label="close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure that you want to delete this item?                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel
+                                    </button>
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="submitDeleteForm()">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </x-card>
+    <x-slot name="scripts">
+        <script>
+            function showDeleteConfirmation(event) {
+                event.preventDefault(); // Prevent default link behavior
+                $('#deleteConfirmationModal').modal('show'); // Show Bootstrap modal
+            }
+    
+            function submitDeleteForm() {
+                document.querySelector('form#delete-form').submit(); // Submit the form
+            }
+    
+    
+        </script>
+    </x-slot>
 </x-admin-layout>
-

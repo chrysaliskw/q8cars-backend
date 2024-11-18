@@ -1,5 +1,10 @@
 <x-admin-layout title="Cars">
-
+<style>
+    .filter{
+        min-width: 7.5em;
+        max-width: 7.5em;
+    }
+</style>
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
         <li class="active">Cars</li>

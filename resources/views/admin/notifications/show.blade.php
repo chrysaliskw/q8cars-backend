@@ -13,10 +13,10 @@
                         <div class="m-b-30">
                             <a href="{{ route('admin.notifications.edit', $notification) }}"
                             class="btn btn-primary waves-effect waves-light"><i class="fa fa-pencil"></i> Edit</a>
-                            <a href="#"
-                                onclick="(function(){if(confirm('Are you sure?')){$('form#delete-form').submit()}})()"
-                                class="btn btn-danger btn-custom waves-effect waves-light"><i class="fa fa-trash"></i>
-                                Delete</a>
+                            <a href="#" onclick="showDeleteConfirmation(event)"
+                                    class="btn btn-danger btn-custom waves-effect waves-light">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
                                 <form id="delete-form"
                                 action="{{ route('admin.notifications.destroy', $notification) }}"
                                 method="POST" style="display: none;">
@@ -39,8 +39,43 @@
                             @endforeach
                         </div>
                     </div>
+                    <!-- Delete Confirmation Modal -->
+                    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirm Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure that you want to delete this item?                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger"
+                                    onclick="submitDeleteForm()">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
     </x-card>
+    <x-slot name="scripts">
+        <script>
+            function showDeleteConfirmation(event) {
+                event.preventDefault(); // Prevent default link behavior
+                $('#deleteConfirmationModal').modal('show'); // Show Bootstrap modal
+            }
+
+            function submitDeleteForm() {
+                document.querySelector('form#delete-form').submit(); // Submit the form
+            }
+        </script>
+    </x-slot>
 </x-admin-layout>
 

@@ -89,6 +89,7 @@ class CarDataGrid extends Grid
                 'value' => function ($model) {
                     return config('params.car.status')[$model->status];
                 },
+                'contentCssClass' => 'filter',
             ],
 
             'action' => [
