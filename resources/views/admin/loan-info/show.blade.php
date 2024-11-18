@@ -58,7 +58,7 @@
                                         </tr>
                                         <tr>
                                             <th>Max Loan Amount</th>
-                                            <td>{{ $loanEligibility['maxLoanAmount'] ?? '' }}</td>
+                                            <td>{{ $emiService['maxLoanAmount'] ?? '' }}</td>
                                         </tr>
                                         <tr>
                                             <th>Max EMI</th>
@@ -102,7 +102,7 @@
                                             </tr>
                                             <tr>
                                                 <th>Loan Principal Amount</th>
-                                                <td>{{ $loanEligibility['maxLoanAmount'] ?? '' }}</td>
+                                                <td>{{ $emiService['maxLoanAmount'] ?? '' }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total Interest Payable</th>
