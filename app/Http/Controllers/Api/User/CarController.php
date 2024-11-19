@@ -164,7 +164,8 @@ class CarController extends ApiBaseController
             'transmission_type' => $car->carSpec->transmission_type,
             'transmission_type_text' => config('params.car.transmission_type')[$car->carSpec->transmission_type],
             'available_transmission_types' =>$this->getversionTransmissionTypes($car),
-            '360_view' => $car->carSpec->view_camera,
+            '360_view' => $car->carSpec->view_camera === null ? False : ($car->carSpec->view_camera == 1 ? True : False),
+
         ];
 
         return $result;
