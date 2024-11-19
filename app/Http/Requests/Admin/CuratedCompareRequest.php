@@ -50,7 +50,7 @@ class CuratedCompareRequest extends FormRequest
                 })
             ],
             'brand_3_id' => [
-                'nullable',
+                'required',
                 Rule::exists(Brand::class, 'id')->where(function ($query) {
                     return $query->where('status', Brand::STATUS_ACTIVE);
                 })
@@ -68,7 +68,7 @@ class CuratedCompareRequest extends FormRequest
                 })
             ],
             'car_3_id' => [
-                'nullable',
+                'required',
                 Rule::exists(Car::class, 'id')->where(function ($query) {
                     return $query->where('status', Car::STATUS_ACTIVE);
                 })
@@ -80,13 +80,13 @@ class CuratedCompareRequest extends FormRequest
                 'max:2048'
             ],
             'image_2' => [
-                'nullable',
+                'required',
                 // 'image',
                 'mimes:jpeg,png,jpg,gif',
                 'max:2048'
             ],
             'image_3' => [
-                'nullable',
+                'required',
                 // 'image',
                 'mimes:jpeg,png,jpg,gif',
                 'max:2048'
@@ -117,7 +117,7 @@ class CuratedCompareRequest extends FormRequest
                 })
             ],
             'brand_3_id' => [
-                'nullable',
+                'required',
                 Rule::exists(Brand::class, 'id')->where(function ($query) {
                     return $query->where('status', Brand::STATUS_ACTIVE);
                 })
@@ -135,7 +135,7 @@ class CuratedCompareRequest extends FormRequest
                 })
             ],
             'car_3_id' => [
-                'nullable',
+                'required',
                 Rule::exists(Car::class, 'id')->where(function ($query) {
                     return $query->where('status', Car::STATUS_ACTIVE);
                 })
@@ -148,13 +148,13 @@ class CuratedCompareRequest extends FormRequest
             ],
 
             'image_2' => [
-                'nullable',
+                'required',
 
                 'mimes:jpeg,png,jpg,gif',
                 'max:2048'
             ],
             'image_3' => [
-                'nullable',
+                'required',
 
                 'mimes:jpeg,png,jpg,gif',
                 'max:2048'
