@@ -81,6 +81,7 @@ class UserDataGrid extends Grid
                 'value' => function ($model) {
                     return config('params.user.status')[$model->status];
                 },
+               'contentCssClass' => 'filter',
             ],
 
             'action' => [

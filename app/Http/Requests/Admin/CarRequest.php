@@ -300,21 +300,21 @@ class CarRequest extends FormRequest
 
             'title_1' => 'nullable|string',
             'description_1' => 'nullable|string',
-            'posted_media_1' => 'nullable|string',
+            'posted_media_1' => 'nullable|string|max:255',
             'date_1' => 'nullable|date',
             'thumbnail_1' => 'mimes:jpg,png,jpeg|max:2048',
             'video_1' => 'nullable|mimes:mp4|max:2048',
 
             'title_2' => 'nullable|string',
             'description_2' => 'nullable|string',
-            'posted_media_2' => 'nullable|string',
+            'posted_media_2' => 'nullable|string|max:255',
             'date_2' => 'nullable|date',
             'thumbnail_2' => 'mimes:jpg,png,jpeg|max:2048',
             'video_2' => 'nullable|mimes:mp4|max:2048',
 
             'title_3' => 'nullable|string',
             'description_3' => 'nullable|string',
-            'posted_media_3' => 'nullable|string',
+            'posted_media_3' => 'nullable|string|max:255',
             'date_3' => 'nullable|date',
             'thumbnail_3' => 'mimes:jpg,png,jpeg|max:2048',
             'video_3' => 'nullable|mimes:mp4|max:2048',
@@ -575,21 +575,21 @@ class CarRequest extends FormRequest
 
         'title_1' => 'nullable|string',
         'description_1' => 'nullable|string',
-        'posted_media_1' => 'nullable|string',
+        'posted_media_1' => 'nullable|string|max:255',
         'date_1' => 'nullable|date',
         'thumbnail_1' => 'mimes:jpg,png,jpeg|max:2048',
         'video_1' => 'nullable|mimes:mp4|max:2048',
 
         'title_2' => 'nullable|string',
         'description_2' => 'nullable|string',
-        'posted_media_2' => 'nullable|string',
+        'posted_media_2' => 'nullable|string|max:255',
         'date_2' => 'nullable|date',
         'thumbnail_2' => 'mimes:jpg,png,jpeg|max:2048',
         'video_2' => 'nullable|mimes:mp4|max:2048',
 
         'title_0' => 'nullable|string',
         'description_0' => 'nullable|string',
-        'posted_media_0' => 'nullable|string',
+        'posted_media_0' => 'nullable|string|max:255',
         'date_0' => 'nullable|date',
         'thumbnail_0' => 'mimes:jpg,png,jpeg|max:2048',
         'video_0' => 'nullable|mimes:mp4|max:2048',
@@ -600,6 +600,7 @@ class CarRequest extends FormRequest
     {
         return [
             'required' => 'This field is required.',
+            'max' => 'The text may not be greater than :max characters.',
         ];
     }
 
