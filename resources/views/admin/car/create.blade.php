@@ -116,6 +116,14 @@
 
     <x-slot name="scripts">
 
+            <script>
+                function displayFileName(input, spanId) {
+                    const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
+                    document.getElementById(spanId).textContent = fileName;
+                }
+            </script>
+ 
+
     <script>
            function toggleFields(index)
            {

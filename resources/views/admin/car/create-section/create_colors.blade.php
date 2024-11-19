@@ -10,7 +10,7 @@
 
 <div id="color-options" class="row">
     @foreach (config('params.colors') as $key => $value)
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card border-primary" style="background-color: #f0f8ff;">
             <div class="card-body">
                 <div class="form-check form-check-inline col-md-12">
@@ -21,9 +21,16 @@
                     </label>
                 </div>
                 <div class="form-group" style="padding-top: 10px;">
-                    <!-- Color image input field -->
-                    <input type="file" id="colors_image_{{ $key }}" name="colors_image_{{ $key }}">
-                    
+                    <!-- Custom file input -->
+                    <label class="custom-file-upload" for="colors_image_{{ $key }}">
+                        <img src="{{ asset('images/upload.svg') }}" />|
+                    </label>
+                    <input type="file" id="colors_image_{{ $key }}" name="colors_image_{{ $key }}" 
+                        class="file-input d-none" onchange="displayFileName(this, 'file-name-{{ $key }}')">
+
+                    <!-- Display chosen file name -->
+                    <span id="file-name-{{ $key }}" class="file-name-display">No file chosen</span>
+
                     <!-- Display validation error for the color image -->
                     @if($errors->has('colors_image_' . $key))
                         <span class="error">
