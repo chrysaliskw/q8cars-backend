@@ -23,7 +23,7 @@ class LoanController extends ApiBaseController
             'base_gross_income' => 'required|numeric|min:0|max:99999999',
             'loanTenureYears' => 'required|integer|min:1|max:7',
             'base_interest_rate' => 'required|numeric|min:7|max:100',
-            'base_other_emi' => 'required|numeric|min:0|max:99999999',
+            'base_other_emi' => 'nullable|numeric|min:0|max:99999999',
         ]);
 
         if ($validator->fails()) {

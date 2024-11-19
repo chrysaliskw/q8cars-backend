@@ -77,8 +77,8 @@ class LoanService
 
             return [
                 'bank_name' => $this->bank_name,
-                'maxLoanAmount' => currency_formatter(round($maxLoanAmount, 2)),
-                'eligibleEmi' => currency_formatter(round($eligibleEmi, 2)),
+                'maxLoanAmount' => $maxLoanAmount,
+                'eligibleEmi' => $eligibleEmi,
                 'eligibility' => 'Eligible for loan.',
                 'interestRate' => $this->base_interest_rate . '%'
             ];
@@ -174,6 +174,7 @@ class LoanService
         $result = [
             'emi' => currency_formatter($emi),
             'year' => $this->loanTenureYears,
+            'maxLoanAmount' => currency_formatter($maxLoanAmount, 2),
             'base_gross_income' => currency_formatter($this->base_gross_income),
             'totalInterestPayable' => currency_formatter($this->totalInterestPayable),
             'totalAmountPayable' => currency_formatter($maxLoanAmount + $this->totalInterestPayable),
