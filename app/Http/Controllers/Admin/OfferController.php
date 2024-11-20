@@ -46,7 +46,7 @@ class OfferController extends Controller
             return back()->with('error', __('app.error'))->withInput();
         }
 
-        return redirect()->route('admin.offers.show', $offer)->with('success', 'Offer created successfully!');
+        return redirect()->route('admin.offers.index', $offer)->with('success', 'Offer created successfully!');
     }
 
 

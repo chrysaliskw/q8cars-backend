@@ -8,7 +8,7 @@
     <x-crud-create title="Offers">
         <x-form method="POST" action="{{ route('admin.offers.store') }}" class="form" enctype="multipart/form-data">
             @csrf
-
+            @method('POST')
             <div class="row">
                 <div class="col-md-4">
                     <x-form-select field="brand_id" field-name="Brand" id="brand_id">

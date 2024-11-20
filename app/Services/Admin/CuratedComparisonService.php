@@ -116,7 +116,9 @@ class CuratedComparisonService
             // dd($data);
 
             $data['published_date'] = Carbon::createFromFormat('d-m-Y', $request->published_date)->format('Y-m-d');
-
+            $content = str_replace("&nbsp;", " ", $request->input('content'));
+            $content = htmlspecialchars_decode($content);
+            $content = strip_tags($content);
             // $curatedcomparison->update($data);
             $curatedcomparison->update([
                 'brand_id_1' => $request->brand_1_id,
@@ -126,7 +128,7 @@ class CuratedComparisonService
                 'car_id_2' => $request->car_2_id,
                 'car_id_3' => $request->car_3_id,
                 'title' => $request->title,
-                'content' => $request->content,
+                'content' => $content,
                 'source' => $request->source,
                 'image_1' =>  $data['image_1'],
                 'image_2' => $data['image_2'],
