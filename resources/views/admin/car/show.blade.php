@@ -169,6 +169,25 @@
                             </div>
 
                             <div class="form-group row">
+                                <label class="col-sm-4 control-label">Travel Types</label>
+                                <div class="col-sm-8">
+                                    @php
+                                        $i = 0;
+                                    @endphp
+                                    @foreach($travel_types as $c)
+                                        @if($i == count($travel_types)-1)
+                                            {{$c}}
+                                        @else
+                                            {{$c}},
+                                        @endif
+                                        @php
+                                            $i++;
+                                        @endphp
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label class="col-sm-4 control-label">Status</label>
                                 <div class="col-sm-8">
                                     {{ config('params.car.status')[$car->status] }}

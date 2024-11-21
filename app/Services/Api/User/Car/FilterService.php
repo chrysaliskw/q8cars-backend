@@ -75,6 +75,7 @@ final class FilterService
         $this->filterByTorque();
         $this->filterByColors();
         $this->filterByProfession();
+        $this->filterByTravelType();
         $this->applySorting();
         $this->filterByCarIds();
 
@@ -158,6 +159,21 @@ final class FilterService
 
         // $ids = CarVersion::whereIn('fuel_type', $this->request->fuel_types)->pluck('car_id')->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
+
+    }
+
+    /**
+     * @return void
+     */
+    private function filterByTravelType()
+    {
+        if (! $this->request->travel_type) {
+            return;
+        }
+
+        $travel_type = array_map('intval', $this->request->travel_type);
+
+        $this->query = $this->query->whereJsonContains('cars.travel_type', $travel_type);
 
     }
 
@@ -423,6 +439,6 @@ final class FilterService
         }
 
         $this->query = $this->query->whereIn('cars.id', $this->request->carIds);
-  
+
     }
 }

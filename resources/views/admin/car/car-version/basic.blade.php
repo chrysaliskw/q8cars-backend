@@ -235,7 +235,15 @@
         <div class="card card-border card-primary">
 
             <div class="card-body">
-                <div class="row">
+            <div class="row">
+                <div class="col-md-4">
+                    <x-form-select field="travel_type" field-name="Travel Type*" defaultPrompt="Select travel type">
+                        @foreach ($selectedTravelTypes as $value => $label)
+                            <option {{ $carVarient->travel_type == $value ? 'Selected' : '' }} value="{{ $value }}">
+                                {{ $label }}</option>
+                        @endforeach
+                    </x-form-select>
+                </div>
                 <div class="col-md-4">
                         <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ $carVarient->seat_capacity }}">
                         </x-form-input>
