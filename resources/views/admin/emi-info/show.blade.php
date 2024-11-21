@@ -26,15 +26,15 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-input type="text" field="principal" field-name="Principal Amount*" value="{{ old('principal') }}">
+                    <x-form-input type="text" field="principal" field-name="Principal Amount*" value="{{ session('form_data')['principal'] ?? '' }}">
                     </x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="loanTenureYears" field-name="Tenure(1 to 7)*" value="{{ old('loanTenureYears') }}">
+                    <x-form-input type="text" field="loanTenureYears" field-name="Tenure(1 to 7)*" value="{{ session('form_data')['loanTenureYears'] ?? '' }}">
                     </x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="annualInterestRate" field-name="Annual Interest Rate(%)*" value="{{ old('annualInterestRate') }}">
+                    <x-form-input type="text" field="annualInterestRate" field-name="Annual Interest Rate(%)*" value="{{ session('form_data')['annualInterestRate'] ?? '' }}">
                     </x-form-input>
                 </div>
             </div>

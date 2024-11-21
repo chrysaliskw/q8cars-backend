@@ -9,11 +9,13 @@
         $fcount = count(config('params.car.fuel_type'));
         $tcount = count(config('params.car.transmission_type'));
         $ccount = count(config('params.colors'));
+        $trcount = count(config('params.car.travel_type'));
     @endphp
     <input type="hidden" name="pcount" id="pcount" value="{{ $pcount }}" />
     <input type="hidden" name="fcount" id="fcount" value="{{ $fcount }}" />
     <input type="hidden" name="tcount" id="tcount" value="{{ $tcount }}" />
     <input type="hidden" name="ccount" id="ccount" value="{{ $ccount }}" />
+    <input type="hidden" name="trcount" id="trcount" value="{{ $trcount }}" />
 
     <div id="loading-spinner" style=font-size:10px>
         <!-- Loading spinner -->
@@ -287,6 +289,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (allChecked) {
                     for (var i = 1; i <= count; i++) {
                         $("#professions" + i).attr("disabled", true);
+                    }
+                }
+            }
+
+            function selectAllTravel()
+            {
+                if ($("#all_travel").prop("checked")) {
+                    var count = document.getElementById("trcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#travel_type"+i).attr("disabled", true)
+                        $("#travel_type"+i).prop("checked", true);
+                    }
+                }
+                else {
+                    var count = document.getElementById("trcount").value;
+                    for(var i = 1; i <= count; i++) {
+                        $("#travel_type"+i).attr("disabled", false);
+                        $("#travel_type"+i).prop("checked", false);
+                    }
+                }
+            }
+
+            function updateAllTravel()
+            {
+                var count = document.getElementById("trcount").value;
+                var allChecked = true;
+
+                for (var i = 1; i <= count; i++) {
+                    if (!$("#travel_type" + i).prop("checked")) {
+                        allChecked = false;
+                        break;
+                    }
+                }
+
+                $("#all_travel").prop("checked", allChecked);
+
+                if (allChecked) {
+                    for (var i = 1; i <= count; i++) {
+                        $("#travel_type" + i).attr("disabled", true);
                     }
                 }
             }

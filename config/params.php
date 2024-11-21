@@ -97,6 +97,13 @@ return [
         'view-camera' => [
             1 => 'Yes',
             2 => 'No',
+        ],
+        'travel_type' => [
+            1 => 'Family Trips',
+            2 => 'Solo',
+            3 => 'Road Trips',
+            4 => 'Office Drive',
+            5 => 'Others',
         ]
     ],
 

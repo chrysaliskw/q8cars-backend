@@ -197,6 +197,44 @@
                 </span>
 
             </div>
+
+            <div class="col-md-12 mt-3">
+                <label class="control-label" for="travel_type">Travel Types*</label>
+                <div class="row">
+                    @php
+                        $allTravelCheck = '';
+                        if ($trcount == $selectedTravelCount) {
+                            $allTravelCheck = 'checked';
+                        }
+                    @endphp
+                    <div class="form-check form-check-inline col-md-2">
+                            <input class="form-check-input" type="checkbox" name="all_travel" id="all_travel"
+                                value="-1" onclick="selectAllTravel()" {{$allTravelCheck}}>
+                            &nbsp;<label class="form-check-label" for="all_travel" style="color: black;">
+                                All
+                            </label>
+                    </div>
+                    @foreach (config('params.car.travel_type') as $key => $value)
+                        @php
+                            $attrTrCheck = in_array($key, $currentTravel) ? 'checked' : '';
+                        @endphp
+                    <div class="form-check form-check-inline col-md-2">
+                                <input class="form-check-input" type="checkbox" name="travel_type[]"
+                                    id="travel_type{{ $key }}" onclick="updateAllTravel()" value="{{ $key }}" {{$attrTrCheck}}>
+                                &nbsp;<label class="form-check-label" for="travel_type{{ $key }}"
+                                    style="color: black;">
+                                    {{ $value }}
+                                </label>
+                    </div>
+                    @endforeach
+                </div>
+                <span class="error" role="alert">
+                        @error('travel_type')
+                            {{ $message }}</br>
+                        @enderror
+                </span>
+
+            </div>
         </div>
     </div>
 </div>
