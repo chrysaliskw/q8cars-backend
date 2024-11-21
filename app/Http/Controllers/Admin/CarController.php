@@ -239,13 +239,25 @@ class CarController extends Controller
         }
         $fcount = count(config('params.car.fuel_type'));
 
+        // $currentTravel = [];
+        // $selectedTravelCount = 0;
+        // foreach(json_decode($car->travel_type) as $tr) {
+        //    array_push($currentTravel, $tr);
+        //    $selectedTravelCount++;
+        // }
+        // $trcount = count(config('params.car.travel_type'));
+
         $currentTravel = [];
         $selectedTravelCount = 0;
-        foreach(json_decode($car->travel_type) as $tr) {
-           array_push($currentTravel, $tr);
-           $selectedTravelCount++;
+        $travelTypes = json_decode($car->travel_type); // Decode the travel_type JSON
+        if (is_array($travelTypes)) { // Check if it's a valid array
+            foreach ($travelTypes as $tr) {
+                array_push($currentTravel, $tr);
+                $selectedTravelCount++;
+            }
         }
-        $trcount = count(config('params.car.travel_type'));
+        $trcount = count(config('params.car.travel_type')); // Count the travel types from config
+
 
         $currentTransmissions = [];
         $selectedTransmissionCount = 0;
