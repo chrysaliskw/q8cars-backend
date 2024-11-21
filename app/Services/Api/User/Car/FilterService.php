@@ -439,6 +439,6 @@ final class FilterService
         }
 
         $this->query = $this->query->whereIn('cars.id', $this->request->carIds);
-  
+
     }
 }
