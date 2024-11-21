@@ -61,6 +61,7 @@ class UserService
     private function update()
     {
         try {
+            // dd($this->request->all(),'here');
 
             DB::beginTransaction();
             $this->user->name = $this->request->name;
@@ -82,9 +83,10 @@ class UserService
             DB::commit();
 
             return $this->user;
-        } catch (Exception $e) {
+        } catch (Exception $ex) {
             DB::rollBack();
-            throw $e;
+            return back()->with('error', __('app.error' ))->withInput();
+            throw $ex;
         }
     }
 }

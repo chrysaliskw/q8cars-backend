@@ -44,7 +44,7 @@ class UserController extends Controller
         }
         catch (Exception $ex) {
             logger($ex);
-            return back()->with('error', __('app.error'))->withInput();
+            return back()->with('error', __('app.error' ))->withInput();
         }
         return redirect()->route('admin.user.show', $user)->with('success', 'User created successfully!');
 
@@ -71,6 +71,7 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+        // dd($request->all());
         try 
         {
             $service = new UserService($request,$user);

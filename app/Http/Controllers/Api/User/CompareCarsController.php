@@ -87,7 +87,7 @@ class CompareCarsController extends ApiBaseController
 
     private function getComaprisonResult($lists)
     {
-            $result = null;
+            $result = [];
 
             $i = 0;
             foreach($lists as $list) {
@@ -105,15 +105,15 @@ class CompareCarsController extends ApiBaseController
                     $version2 = CarVersion::find($list->car_version_2_id);
                 }
                 $car2 = $version2 ? new CarVersionResource($version2) : [];
-                $result = [
+                $result[] = [
                     'car_1' => $car1 ?? [],
                     'car_2' => $car2 ?? []
                 ];
                 
                 $i++;
             }
-
         return $result;
+        
     } 
       
     public function getSuggestions()
