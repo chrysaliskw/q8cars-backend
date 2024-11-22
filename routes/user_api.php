@@ -44,6 +44,8 @@ Route::post('/sessions', AuthController::class);
 Route::post('/otp-verifications', OtpVerificationController::class);
 // Resend OTP
 Route::post('/otps', OtpController::class);
+   // Token Refresh Route
+Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
 
 /**
  * User Routes which can be accessed by guest user also
@@ -116,9 +118,8 @@ Route::middleware('auth:user_api')->group(function () {
 
     //fuel cost calculator
     Route::post('/fuel-cost', FuelCostController::class);
-    
-      // Token Refresh Route
-      Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
+
+   
 });
 
 /**
