@@ -88,7 +88,7 @@ class AuthController extends ApiBaseController
     public function refreshToken(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => ['required', 'exists:' . User::class . ',custom_column'],
+            'user_id' => ['required', 'exists:' . User::class . ',id'],
             'device_name' => ['required', 'string', 'max:200', new RegexAlphaNumSpace],
         ]);
         
