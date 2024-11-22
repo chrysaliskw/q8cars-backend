@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\RateLimiter;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Exceptions\UnprocessableEntityException;
+use App\Rules\RegexAlphaNumSpace;
 
 class AuthController extends ApiBaseController
 {
@@ -84,6 +85,30 @@ class AuthController extends ApiBaseController
 
         return $user;
     }
+    public function refreshToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'exists:' . User::class . ',custom_column'],
+            'device_name' => ['required', 'string', 'max:200', new RegexAlphaNumSpace],
+        ]);
+        
 
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $user = User::find($request->user_id); // Get the authenticated user
+
+        // Optional: Clear old tokens if necessary
+        $user->clearMobileSessions();
+
+        // Generate a new token
+        $newToken = $user->createToken($request->device_name)->plainTextToken;
+        return $this->success(['data' => [
+            'access_token' => $newToken,
+            'token_type' => 'Bearer',
+            'expires_in' => config('sanctum.expiration') ? config('sanctum.expiration') * 60 : null,
+        ]], 'Token refreshed successfully!', Response::HTTP_OK); 
+    }
    
 }

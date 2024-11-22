@@ -116,6 +116,9 @@ Route::middleware('auth:user_api')->group(function () {
 
     //fuel cost calculator
     Route::post('/fuel-cost', FuelCostController::class);
+    
+      // Token Refresh Route
+      Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
 });
 
 /**
