@@ -62,11 +62,11 @@
                                         </tr>
                                         <tr>
                                             <th>Max EMI</th>
-                                            <td>{{ $loanEligibility['eligibleEmi'] ?? '' }}</td>
+                                            <td>{{ isset($loanEligibility['eligibleEmi']) ? currency_formatter($loanEligibility['eligibleEmi']) : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th>Total Interest Payable</th>
-                                            <td>{{ isset($loanEligibility['interestRate']) ? $loanEligibility['interestRate'] : 'N/A' }}</td>
+                                            <td>{{ isset($loanEligibility['interestRate']) ? $loanEligibility['interestRate'] : '' }}</td>
                                         </tr>
                                         <tr>
                                             <th>Eligibility</th>

@@ -68,7 +68,7 @@ class LoanService
                     'bank_name' => $this->bank_name,
                     'maxLoanAmount' => 0,
                     'eligibleEmi' => 0,
-                    'eligibility' => 'Not eligible for loan due to existing EMI.',
+                    'eligibility' => 'Not eligible for loan due to existing EMI',
                     'interestRate' => ($this->base_interest_rate) . '%'
                 ];
             }
@@ -79,7 +79,7 @@ class LoanService
                 'bank_name' => $this->bank_name,
                 'maxLoanAmount' => $maxLoanAmount,
                 'eligibleEmi' => $eligibleEmi,
-                'eligibility' => 'Eligible for loan.',
+                'eligibility' => 'Eligible for loan',
                 'interestRate' => $this->base_interest_rate . '%'
             ];
         }
