@@ -136,6 +136,15 @@
                     <i class="fa fa-newspaper-o"></i><span> News</span>
                     </a>
                 </li>
+                <li class="has_sub">
+                    <a href="#" class="waves-effect"><i class="fa fa-file"></i> <span> Reports </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ route('admin.reports.user.index') }}">User Report</a>
+                        </li>
+                      
+                    </ul>
+                </li>
 
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-trash"></i> <span> Trash </span> <span class="pull-right"><i class="md md-add"></i></span></a>
