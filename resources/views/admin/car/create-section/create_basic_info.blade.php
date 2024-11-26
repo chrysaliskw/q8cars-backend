@@ -38,7 +38,9 @@
                     <option value="1">Yes</option>
                     <option selected value="2">No</option>
                 </x-form-select>
+               
             </div>
+            
             <div class="col-md-4 justLaunch">
                 <x-form-input type="text" id="just_launch_sort_order" field="just_launch_sort_order" field-name="Just Launch Sort Order" value="{{ old('just_launch_sort_order') }}" disabled>
                 </x-form-input>

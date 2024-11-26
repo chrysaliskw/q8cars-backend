@@ -26,7 +26,8 @@
             <div class="card ">
                 <div class="card-header">
                     <div class="dt-buttons float-right">
-                        <button type="button" onclick="onSubmit()" id="submit-btn" class="btn btn-primary buttons-copy buttons-html5 btn-md">
+                        <button type="button" onclick="onSubmit()" id="submit-btn"
+                            class="btn btn-primary buttons-copy buttons-html5 btn-md">
                             Save
                         </button>
                     </div>
@@ -83,10 +84,9 @@
             </ul>
 
             <div class="tab-content">
-                <form method="POST" id="business-user-form"
-                    action="{{ route('admin.car.store') }}"
-                    class="form" enctype="multipart/form-data">
-                        @csrf
+                <form method="POST" id="business-user-form" action="{{ route('admin.car.store') }}" class="form"
+                    enctype="multipart/form-data">
+                    @csrf
 
                     <div class="tab-pane show active" id="about-2" role="tabpanel" aria-labelledby="about-tab-2">
                         @include('admin.car.create-section.create_basic_info')
@@ -118,17 +118,16 @@
 
     <x-slot name="scripts">
 
-            <script>
-                function displayFileName(input, spanId) {
-                    const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
-                    document.getElementById(spanId).textContent = fileName;
-                }
-            </script>
- 
+        <script>
+            function displayFileName(input, spanId) {
+                const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
+                document.getElementById(spanId).textContent = fileName;
+            }
+        </script>
 
-    <script>
-           function toggleFields(index)
-           {
+
+        <script>
+            function toggleFields(index) {
                 const inputType = document.getElementById(`input_type_${index}`).value;
                 const textField = document.getElementById(`text_value_${index}`);
                 const booleanField = document.getElementById(`bool_value_${index}`);
@@ -146,12 +145,12 @@
                 }
             }
 
-// Initialize visibility based on the existing input types on page load
-document.addEventListener('DOMContentLoaded', function() {
-    @for($i = 0; $i < 10; $i++)
-        toggleFields({{ $i }});
-    @endfor
-});
+            // Initialize visibility based on the existing input types on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                @for ($i = 0; $i < 10; $i++)
+                    toggleFields({{ $i }});
+                @endfor
+            });
         </script>
         <script defer type="application/javascript">
 
@@ -479,24 +478,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         </script>
-<script>
-$(document).ready(function() {
-    brandId = $('#brand_id').val();
-    if (brandId) {
-            $.ajax({
-                url: "{{ route('admin.color.select') }}", // AJAX route
-                type: "GET",
-                data: {
-                    brand_id: brandId
-                },
-                success: function(response) {
-                    // Clear the existing colors
-                    console.log(response);
-                    $('#color-options').empty();
+        <script>
+            $(document).ready(function() {
+                brandId = $('#brand_id').val();
+                if (brandId) {
+                    $.ajax({
+                        url: "{{ route('admin.color.select') }}", // AJAX route
+                        type: "GET",
+                        data: {
+                            brand_id: brandId
+                        },
+                        success: function(response) {
+                            // Clear the existing colors
+                            console.log(response);
+                            $('#color-options').empty();
 
-                    // Loop through the response to append new color options
-                    $.each(response, function(key, value) {
-                        let colorCheckbox = `
+                            // Loop through the response to append new color options
+                            $.each(response, function(key, value) {
+                                const jsMap = new Map(Object.entries(<?php echo json_encode($errors->toArray()); ?>));
+                                console.log(jsMap);
+                                let colorCheckbox = `
                             <div class="col-md-3">
                                 <div class="card border-primary" style="background-color: #f0f8ff;">
                                     <div class="card-body">
@@ -510,65 +511,69 @@ $(document).ready(function() {
                                         <div class="form-group" style="padding-top: 10px;">
                                             <input type="file" id="colors_image_${key}" name="colors_image_${key}">
                                         </div>
+                            <span class="error">
+                                
+                                ${jsMap.has('colors_image_' + key) ? 'The selected image must be below 2MB and in PNG, JPG, or JPEG format.' : ''}
+                            </span>
+
                                     </div>
                                 </div>
                             </div>`;
 
-                        // Append the color checkbox and file input to the color-options div
-                        $('#color-options').append(colorCheckbox);
+                                // Append the color checkbox and file input to the color-options div
+                                $('#color-options').append(colorCheckbox);
+                            });
+                        }
                     });
+                    console.log(brandId);
                 }
-            });
-    console.log(brandId);
-        }
-    $('#brand_id').on('change', function() {
-        let brandId = $(this).val(); // Get the selected brand ID
+                $('#brand_id').on('change', function() {
+                    let brandId = $(this).val(); // Get the selected brand ID
 
-        if (brandId) {
-            $.ajax({
-                url: "{{ route('admin.color.select') }}", // AJAX route
-                type: "GET",
-                data: {
-                    brand_id: brandId
-                },
-                success: function(response) {
-                    // Clear the existing colors
-                    console.log(response);
-                    $('#color-options').empty();
+                    if (brandId) {
+                        $.ajax({
+                            url: "{{ route('admin.color.select') }}", // AJAX route
+                            type: "GET",
+                            data: {
+                                brand_id: brandId
+                            },
+                            success: function(response) {
+                                // Clear the existing colors
+                                console.log(response);
+                                $('#color-options').empty();
 
-                    // Loop through the response to append new color options
-                    $.each(response, function(key, value) {
-                        let colorCheckbox = `
-                            <div class="col-md-3">
-                                <div class="card border-primary" style="background-color: #f0f8ff;">
-                                    <div class="card-body">
-                                        <div class="form-check form-check-inline col-md-12">
-                                            <input class="form-check-input" type="checkbox" name="colors[]"
-                                                id="colors_${key}" value="${key}">
-                                            <label class="form-check-label" for="colors_${key}" style="color: black;">
-                                                ${value}
-                                            </label>
+                                // Loop through the response to append new color options
+                                $.each(response, function(key, value) {
+                                    let colorCheckbox = `
+                                    <div class="col-md-3">
+                                        <div class="card border-primary" style="background-color: #f0f8ff;">
+                                            <div class="card-body">
+                                                <div class="form-check form-check-inline col-md-12">
+                                                    <input class="form-check-input" type="checkbox" name="colors[]"
+                                                        id="colors_${key}" value="${key}">
+                                                    <label class="form-check-label" for="colors_${key}" style="color: black;">
+                                                        ${value}
+                                                    </label>
+                                                </div>
+                                                <div class="form-group" style="padding-top: 10px;">
+                                                    <input type="file" id="colors_image_${key}" name="colors_image_${key}">
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group" style="padding-top: 10px;">
-                                            <input type="file" id="colors_image_${key}" name="colors_image_${key}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
+                                    </div>`;
 
-                        // Append the color checkbox and file input to the color-options div
-                        $('#color-options').append(colorCheckbox);
-                    });
-                }
+                                    // Append the color checkbox and file input to the color-options div
+                                    $('#color-options').append(colorCheckbox);
+                                });
+                            }
+                        });
+                    } else {
+                        // Clear the color options if no brand is selected
+                        $('#color-options').empty();
+                    }
+                });
             });
-        } else {
-            // Clear the color options if no brand is selected
-            $('#color-options').empty();
-        }
-    });
-});
-
-</script>
+        </script>
 
     </x-slot>
 
