@@ -9,6 +9,7 @@ use App\Models\CuratedComparison;
 use App\Models\News;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\View360Image;
 
 return [
 
@@ -22,6 +23,7 @@ return [
         'notifications' => Notification::FILE_DIR,
         'curated_comparisons' => CuratedComparison::FILE_DIR,
         'banks' => Bank::FILE_DIR,
+        '360_view' =>View360Image::FILE_DIR,
     ],
 
     'user' => [
