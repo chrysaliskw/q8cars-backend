@@ -37,4 +37,5 @@ class BankSuggestionRequest extends Model
     {
         return $this->belongsTo(Bank::class);
     }
+
 }

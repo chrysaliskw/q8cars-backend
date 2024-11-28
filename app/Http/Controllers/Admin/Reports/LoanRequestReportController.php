@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Reports;
 
-use App\DataGrids\Admin\Reports\TestRideReportDataGrid;
-use App\Exports\TestRideRequestExport;
+use App\DataGrids\Admin\Reports\LoanRequestReportDataGrid;
+use App\Exports\LoanRequestsReportsExport;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class TestRideRequestsController extends Controller
+class LoanRequestReportController extends Controller
 {
     public function index(Request $request) 
     {
@@ -32,34 +32,31 @@ class TestRideRequestsController extends Controller
             ]);
         }
         
-        $grid = new TestRideReportDataGrid(request()->query());  
-        return view('admin.reports.test-ride.index',compact('grid'));
+        $grid = new LoanRequestReportDataGrid(request()->query());  
+        return view('admin.reports.loan-requests-reports.index',compact('grid'));
     }
 
     public function export(Request $request)
     {
-
-        // dd($request->all());
-        if(empty($request->startDate) && empty($request->endDate) 
-            && empty($request->user_id) && empty($request->car_1_id) 
-            && empty($request->brand_1_id) && empty($request->status)) {
-            // return redirect()->back()->with('error', 'Please select start date and end date.');
-            return back()->with('error', __('Please choose at least one filter to export the report'));
-
-        }
-        $name = 'Q8cars_Test_Ride_Request_Report.xlsx';
+        if(empty($request->startDate) && empty($request->endDate)
+                && empty($request->user_id) && empty($request->name) 
+                && empty($request->bank_name) && empty($request->status)
+                && empty($request->area_id)) {
+                    // return redirect()->back()->with('error', 'Please select start date and end date.');
+                    return back()->with('error', __('Please choose at least one filter to export the report'));
+                }
+        dd($request->all());
+        $name = 'Q8cars_Loan_Request_Report.xlsx';
         if(! empty($request->startDate)) {
             $start = Carbon::parse($request->startDate)->format('d_M_Y');
             $end = Carbon::parse($request->endDate)->format('d_M_Y');
             $name = 'WrapnSeal_Customer_Report'.$start.'_To_'.$end.'.xlsx';
         }
-        return (new TestRideRequestExport ($request->startDate, $request->endDate))
+        return (new LoanRequestsReportsExport ($request->startDate, $request->endDate))
             // ->forBrand($request->brand_1_id)
-            ->forBrand($request->brand_1_id)
-            ->forModel($request->car_1_id)
+            ->forBank($request->bank_name)
+            ->forUser($request->name)
             ->forStatus($request->status)
-            
-            
             ->download($name,\Maatwebsite\Excel\Excel::XLSX);
     }
 }

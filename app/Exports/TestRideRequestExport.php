@@ -103,7 +103,7 @@ class TestRideRequestExport implements FromQuery, WithColumnFormatting, WithMapp
             "{$row->first_name} {$row->last_name}", // Concatenated name
             "{$row->user_phone_code}{$row->user_mobile}", // Phone with code
             config('params.test_drive.status')[$row->status] ?? 'Unknown', // Mapped status
-            $row->created_at->format('Y-m-d H:i:s'), // Formatted date
+            dateFormat($row->created_at), // Formatted date
         ];
     }
 

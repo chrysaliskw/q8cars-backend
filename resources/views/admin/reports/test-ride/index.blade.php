@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            </div>
+            
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -178,14 +178,7 @@
                 $('#car_id_1_text').val(null).trigger('change');
 
                 });
-                // if ('{!! isset($_GET['brand_1_id']) ? $_GET['brand_1_id'] : '' !!}' && '{!! isset($_GET['car_id_1_text']) ? $_GET['car_id_1_text'] : '' !!}') {
-                        
-                // const countryOption = new Option('{{ isset($_GET['car_id_1_text']) ? $_GET['car_id_1_text'] : '' }}', '{{ isset($_GET['brand_1_id']) ? $_GET['brand_1_id'] : '' }}', true, true);
-                // $('#brand_1_id').append(countryOption).trigger('change');
-                // $("#car_id_1_text").val('{{ isset($_GET['car_id_1_text']) ? $_GET['car_id_1_text'] : '' }}');
-                // $("#brand_1_id_text").val('{{ isset($_GET['brand_1_id_text']) ? $_GET['brand_1_id_text'] : '' }}');
-
-            // }
+            
             if (oldBrandId && oldBrandText) {
         const option = new Option(oldBrandText, oldBrandId, true, true);
         $('#brand_1_id').append(option).trigger('change');
