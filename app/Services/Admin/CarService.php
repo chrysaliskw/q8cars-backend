@@ -488,23 +488,48 @@ class CarService
         return  json_encode($result);
     }
 
+    // private function getIntValueTravel()
+    // {
+    //     $result = [];
+    //     $i = 0;
+    //     if(isset($this->data['all_travel']) && $this->data['all_travel'] == 1) {
+    //         foreach(config('params.car.travel_type') as $key => $value) {
+    //             $result[$i] = intval($key);
+    //             $i++;
+    //         }
+    //     }else {
+    //         foreach($this->data['travel_type'] as $tr) {
+    //             $result[$i] = intval($tr);
+    //             $i++;
+    //         }
+    //     }
+    //     return  json_encode($result);
+    // }
+
     private function getIntValueTravel()
     {
         $result = [];
         $i = 0;
-        if(isset($this->data['all_travel']) && $this->data['all_travel'] == 1) {
-            foreach(config('params.car.travel_type') as $key => $value) {
+
+        if (isset($this->data['all_travel']) && $this->data['all_travel'] == 1) {
+            foreach (config('params.car.travel_type') as $key => $value) {
                 $result[$i] = intval($key);
                 $i++;
             }
-        }else {
-            foreach($this->data['travel_type'] as $tr) {
-                $result[$i] = intval($tr);
-                $i++;
+        } else {
+            if (isset($this->data['travel_type']) && is_array($this->data['travel_type'])) {
+                foreach ($this->data['travel_type'] as $tr) {
+                    $result[$i] = intval($tr);
+                    $i++;
+                }
+            } else {
+                return json_encode([]);
             }
         }
-        return  json_encode($result);
+
+        return json_encode($result);
     }
+
 
     private function getIntValueTransmission()
     {
