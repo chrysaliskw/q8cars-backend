@@ -142,7 +142,12 @@
                         <li>
                             <a href="{{ route('admin.reports.user.index') }}">User Report</a>
                         </li>
+                        <li> 
+                            <a href="{{ route('admin.reports.car.index') }}">Car Report</a>
+                        </li>
                         <li>
+                            <a href="{{ route('admin.reports.offer-request.index') }}">Offer Request Report</a>
+                        </li>
                             <a href="{{ route('admin.reports.test-ride.index') }}">Test Ride Requests Report</a>
                         </li>
                         <li>

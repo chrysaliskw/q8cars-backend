@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Reports;
 
-use App\DataGrids\Admin\Reports\UserReportDataGrid;
-use App\Exports\UserExport;
+use App\DataGrids\Admin\Reports\OfferRequestReportDataGrid;
+use App\Exports\OfferRequestExport;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 
 
-class UserReportsController extends Controller
+class OfferRequestReportsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,8 +20,6 @@ class UserReportsController extends Controller
      */
     public function index(Request $request) 
     {
-        
-        
         if ($request->hasAny(['start_date', 'end_date'])) {
             $validated = $request->validate([
                 'start_date' => 'required|date|before_or_equal:today',
@@ -40,8 +38,8 @@ class UserReportsController extends Controller
             ]);
         }
         
-        $grid = new UserReportDataGrid(request()->query());  
-        return view('admin.reports.user.index',compact('grid'));
+        $grid = new OfferRequestReportDataGrid(request()->query());  
+        return view('admin.reports.offer-request.index',compact('grid'));
     }
 
      /**
@@ -51,20 +49,21 @@ class UserReportsController extends Controller
      */
     public function export(Request $request)
     {
-        if (empty($request->startDate) && empty($request->endDate) && empty($request->name) && empty($request->mobile) && empty($request->email)) {
+        if (empty($request->startDate) && empty($request->endDate) && empty($request->model) && empty($request->mobile)  && empty($request->type) && empty($request->status)) {
             return back()->with('error', __('Please choose at least one filter to export the report'));
         }
-        $name = 'Q8cars_User_Report.xlsx';
+       
+        $name = 'Q8cars_Offer_Requests_Report.xlsx';
         if(! empty($request->startDate)) {
             $start = Carbon::parse($request->startDate)->format('d_M_Y');
             $end = Carbon::parse($request->endDate)->format('d_M_Y');
-            $name = 'WrapnSeal_Customer_Report'.$start.'_To_'.$end.'.xlsx';
+            $name = 'Q8cars_Offer_Requests_Report'.$start.'_To_'.$end.'.xlsx';
         }
-        return (new UserExport($request->startDate, $request->endDate))
-            ->forUser($request->name)
+        return (new OfferRequestExport($request->startDate, $request->endDate))
+            ->forModel($request->model)
             ->forMobile($request->mobile)
-            ->forEmail($request->email)
-            
+            ->forType($request->type)
+            ->forStatus($request->status)
             ->download($name,\Maatwebsite\Excel\Excel::XLSX);
     }
 }
