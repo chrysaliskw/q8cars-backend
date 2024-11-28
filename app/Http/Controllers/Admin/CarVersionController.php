@@ -94,9 +94,18 @@ class CarVersionController extends Controller
             'text' => config('params.car.fuel_type')[$carVarient->fuel_type]
         ]);
 
+        // $currentTravel = json_encode([
+        //     'id' => $carVarient->travel_type,
+        //     'text' => config('params.car.travel_type')[$carVarient->travel_type]
+        // ]);
+
+        $travelTypes = (array) config('params.car.travel_type');
+
         $currentTravel = json_encode([
-            'id' => $carVarient->travel_type,
-            'text' => config('params.car.travel_type')[$carVarient->travel_type]
+            'id' => $carVarient->travel_type ?? null,
+            'text' => $carVarient->travel_type !== null
+                ? ($travelTypes[$carVarient->travel_type] ?? 'Unknown')
+                : 'Not specified',
         ]);
 
         $currentTransmission = json_encode([
@@ -130,10 +139,18 @@ class CarVersionController extends Controller
             },
             ARRAY_FILTER_USE_KEY
         );
+        // $selectedTravelTypes = array_filter(
+        //     config('params.car.travel_type'),
+        //     function ($key) use ($car) {
+        //         return in_array($key, json_decode($car->travel_type));
+        //     },
+        //     ARRAY_FILTER_USE_KEY
+        // );
         $selectedTravelTypes = array_filter(
-            config('params.car.travel_type'),
+            config('params.car.travel_type') ?? [],
             function ($key) use ($car) {
-                return in_array($key, json_decode($car->travel_type));
+                $travelTypes = json_decode($car->travel_type, true);
+                return is_array($travelTypes) && in_array($key, $travelTypes);
             },
             ARRAY_FILTER_USE_KEY
         );

@@ -1,5 +1,5 @@
 <!-- Top Bar Start -->
-<div class="topbar">
+<div class="topbar" style="z-index:999999999">
     <div class="topbar-left" style="background-color:#fff;">
         <div class="text-center">
             <a href="{{ route('admin.dashboard') }}" class="logo">

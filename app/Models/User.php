@@ -113,7 +113,8 @@ class User extends Authenticatable
             'access_token' => $this->createToken($deviceName)->plainTextToken,
             'is_guest' => false,
             "fcm_common_topic" => Notification::COMMON_CHANNEL,
-            "fcm_individual_topic" => get_user_topic($this->id)
+            "fcm_individual_topic" => get_user_topic($this->id),
+            'expires_in' => config('sanctum.expiration') ? config('sanctum.expiration') * 60 : null,
         ];
     }
 
