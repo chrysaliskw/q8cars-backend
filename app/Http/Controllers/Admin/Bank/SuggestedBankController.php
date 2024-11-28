@@ -44,6 +44,7 @@ class SuggestedBankController extends Controller
      */
     public function update(Request $request, BankSuggestionRequest $suggested_bank)
     {
+        
         $suggested_bank = BankSuggestionRequest::find($request->id);
         $suggested_bank->status = $request->status;
         $suggested_bank->save();

@@ -74,7 +74,7 @@
                 const form = document.getElementById('updateStatusForm');
                 const formData = new FormData(form);
 
-                fetch('{{ route('admin.suggested-banks.update', '$suggested_bank') }}', {
+                fetch('{{ route('admin.loan-requests.index', '$suggested_bank') }}', {
                     method: 'POST',
                     body: formData,
                     headers: {

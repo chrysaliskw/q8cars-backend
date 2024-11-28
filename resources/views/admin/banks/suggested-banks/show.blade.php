@@ -54,7 +54,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="updateStatusForm">
+                    <form id="updateStatusForm" >
                         <input type="hidden" id="itemId" name="id">
                         <div class="form-group">
                             <label for="status">Select Status</label>
@@ -102,7 +102,7 @@
             {
                 const form = document.getElementById('updateStatusForm');
                 const formData = new FormData(form);
-                fetch('{{ route('admin.test-ride-requests.update') }}', {
+                fetch('{{ route('admin.suggested-banks.update') }}', {
                     method: 'POST',
                     body: formData,
                     headers: {

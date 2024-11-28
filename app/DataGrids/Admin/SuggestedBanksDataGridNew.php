@@ -10,38 +10,49 @@ class SuggestedBanksDataGridNew extends Grid
     public function gridQuery()
     {
         $query = BankSuggestionRequest::query()
-        ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
-        ->select(['bank_suggestion_requests.id', 'user_id', 'first_name', 'last_name', 'civil_id', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'bank_name', 'users.name as requested_user'])
-        ->where('type', BankSuggestionRequest::TYPE_BANK)
-        ->orderBy('bank_suggestion_requests.id', 'Desc');
+            ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
+            ->select([
+                'bank_suggestion_requests.id',
+                'user_id',
+                'first_name',
+                'last_name',
+                'civil_id',
+                'bank_suggestion_requests.email',
+                'bank_suggestion_requests.status',
+                'bank_name',
+                'users.name as requested_user',
+                'bank_suggestion_requests.contact_number',
+            ])
+            ->where('type', BankSuggestionRequest::TYPE_BANK)
+            ->orderBy('bank_suggestion_requests.id', 'Desc');
         return $query;
     }
 
     public function columns()
     {
-        return[
+        return [
 
             'requested_user' => [
-                'label' => 'Requested User',
-                'value' => function($model){
-                    return $model->requested_user;
+                'label' => 'Requested Phone',
+                'value' => function ($model) {
+                    return $model->contact_number;
                 },
                 'filter' => true,
                 'filterOptions' => [
-                    'attribute' => 'users.name',
+                    'attribute' => 'bank_suggestion_requests.contact_number',
                 ]
             ],
 
             'first_name' => [
                 'label' => 'Full Name',
-                'value' => function($model){
+                'value' => function ($model) {
                     return trim($model->first_name . ' ' . $model->last_name);
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'attribute' => 'bank_suggestion_requests.first_name',
-                    ]
-                ],
+                ]
+            ],
 
             // 'first_name' => [
             //     'label' => 'First Name',
@@ -67,7 +78,7 @@ class SuggestedBanksDataGridNew extends Grid
 
             'bank_name' => [
                 'label' => 'Bank Name',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->bank_name;
                 },
                 'filter' => true,
@@ -78,7 +89,7 @@ class SuggestedBanksDataGridNew extends Grid
 
             'civil_id' => [
                 'label' => 'Civil ID',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->civil_id;
                 },
                 'filter' => true,
@@ -89,7 +100,7 @@ class SuggestedBanksDataGridNew extends Grid
 
             'email' => [
                 'label' => 'Email',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->email;
                 },
                 'filter' => true,
@@ -140,7 +151,7 @@ class SuggestedBanksDataGridNew extends Grid
 
             'action' => [
                 'routePrefix' => 'admin.suggested-banks',
-                'buttons' => ['view','update'],
+                'buttons' => ['view', 'update'],
                 'update' => function ($model) {
                     if ($model->status != BankSuggestionRequest::STATUS_ACCEPTED) {
                         return "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}' class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>

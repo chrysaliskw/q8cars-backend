@@ -80,7 +80,7 @@ class LoanRequestDataGrid extends Grid
             'contact_number' => [
                 'label' => 'Contact Number',
                 'value' => function($model){
-                    return $model->contact_number;
+                    return '+965 '. $model->contact_number;
                 },
                 'filter' => true,
                 'filterOptions' => [
