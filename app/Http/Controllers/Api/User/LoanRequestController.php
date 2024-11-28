@@ -27,11 +27,18 @@ class LoanRequestController extends ApiBaseController
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $service = new BankSuggestionRequestService($request);
-        $service->handle(BankSuggestionRequest::TYPE_LOAN);
+        $existingLoanRequest = BankSuggestionRequest::where('user_id', $request->user()->id)
+        ->where('status', BankSuggestionRequest::STATUS_SUBMITTED)->exists();
 
-        return $this->success(['data' => [] ], 'Loan Request submitted successfully!', Response::HTTP_OK);
+        if ($existingLoanRequest) {
+            return $this->error('You already have a loan request submitted.', Response::HTTP_OK);
+        }
+
         try {
+            $service = new BankSuggestionRequestService($request);
+            $service->handle(BankSuggestionRequest::TYPE_LOAN);
+
+            return $this->success(['data' => [] ], 'Loan Request submitted successfully!', Response::HTTP_OK);
         } catch (Exception $e) {
             logger($e);
             return $this->error(__('app.error'), Response::HTTP_INTERNAL_SERVER_ERROR);
