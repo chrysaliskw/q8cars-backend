@@ -5,10 +5,10 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="pull-left page-title">Welcome!  </h4>
+                {{-- <h4 class="pull-left page-title">Welcome!  </h4>
                 <ol class="breadcrumb pull-right">
                     <li class="active">Dashboard</li>
-                </ol>
+                </ol> --}}
             </div>
         </div>
 
@@ -17,16 +17,21 @@
             <div class="col-md-4">
 
                 <a href="{{route('admin.car.index')}}" target="_blank">
-                    <div class="dashboard-card dashboard-card-2 d-flex justify-content-around align-items-center">
-                        <span class="mini-stat-icon-dashboard bg-white" ><i class="fa fa-car" style="color:thistle"></i></span>
+                    <div class="dashboard-card dashboard-card-2 d-flex align-items-start">
+                        <img src="{{ asset('moltran-asset/images/cars.svg')}}" alt="profile-img" class="img-list">
                         <div class="data">
-                        <h4 class=" text-white font-weight-bold">Cars : {{$viewData['totalCars']}}</h4>
-                        <h5 class="text-white text-4  m-0">
-                            Just Launch : {{$viewData['justLaunchedCars']}}
-                        </h5>
-                        <h5 class="text-white text-4  m-0">
-                            Upcoming :{{$viewData['upcomingCars']}}
-                        </h5>
+                        <h4>Cars</h4>
+                        <h6> {{$viewData['totalCars']}}</h6>
+                        <div class="card-more-info">
+                            <div class="lists">
+                                <h5>Just Launched</h5>
+                                <p>{{$viewData['justLaunchedCars']}}</p>
+                            </div>
+                            <div class="lists">
+                                <h5>Upcoming  </h5>
+                                <p>{{$viewData['upcomingCars']}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
@@ -35,16 +40,22 @@
         <div class="col-md-4">
 
             <a href="{{ route('admin.user.index') }}" target="_blank">
-                <div class="dashboard-card dashboard-card-1 d-flex justify-content-around align-items-center">
-                    <span class="mini-stat-icon-dashboard bg-white"><i class="ion-android-contacts" style="color: gold;"></i></span>
+                <div class="dashboard-card dashboard-card-1 d-flex align-items-start">
+                    {{-- <span class="mini-stat-icon-dashboard bg-white"><i class="ion-android-contacts" style="color: gold;"></i></span> --}}
+                    <img src="{{ asset('moltran-asset/images/users.svg')}}" alt="profile-img" class="img-list">
                     <div class="data">
-                        <h4 class=" text-white font-weight-bold">Users : {{$viewData['totalUsers']}}</h4>
-                        <h5 class="text-white text-4  m-0">
-                            Active :  {{$viewData['activeUsers']}}
-                        </h5>
-                        <h5 class="text-white text-4  m-0">
-                            Inactive : {{$viewData['inactiveUser']}}
-                        </h5>
+                        <h4>Users</h4>
+                        <h6>{{$viewData['totalUsers']}}</h6>
+                        <div class="card-more-info">
+                            <div class="lists">
+                                <h5>Active</h5>
+                                <p>{{$viewData['activeUsers']}}</p>
+                            </div>
+                            <div class="lists">
+                                <h5>Inactive  </h5>
+                                <p>{{$viewData['inactiveUser']}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
@@ -53,34 +64,44 @@
             <div class="col-md-4">
 
                 <a href="{{ route('admin.partner-banks.index') }}" target="_blank">
-                    <div class="dashboard-card dashboard-card-3 d-flex justify-content-around align-items-center">
-                        <span class="mini-stat-icon-dashboard bg-white"><i class="fa fa-building" style="color:yellowgreen;"></i></span>
+                    <div class="dashboard-card dashboard-card-3 d-flex align-items-start">
+                        <img src="{{ asset('moltran-asset/images/banks.svg')}}" alt="profile-img" class="img-list">
                         <div class="data">
-                            <h4 class="text-white font-weight-bold">Partner Banks :  {{$viewData['totalBanks']}}</h4>
-                            <h5 class="text-white text-4  m-0">
-                                Active :  {{$viewData['activeBanks']}}
-                        </h5>
-                        <h5 class="text-white text-4  m-0">
-                            Inactive :  {{$viewData['inactiveBanks']}}
-                        </h5>
+                            <h4>Partner Banks</h4>
+                            <h6>{{$viewData['totalBanks']}}</h6>
+                            <div class="card-more-info">
+                                <div class="lists">
+                                    <h5>Active</h5>
+                                    <p>{{$viewData['activeBanks']}}</p>
+                                </div>
+                                <div class="lists">
+                                    <h5>Inactive  </h5>
+                                    <p>{{$viewData['inactiveBanks']}}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+             </div>
 
         <div class="col-md-4">
 
             <a href="{{ route('admin.loan-requests.index') }}" target="_blank">
-                <div class="dashboard-card dashboard-card-4 d-flex justify-content-around align-items-center">
-                    <span class="mini-stat-icon-dashboard bg-white" ><i class="fa fa-money-bill-wave" style="color:palevioletred;"></i></span>
+                <div class="dashboard-card dashboard-card-4 d-flex align-items-start">
+                    <img src="{{ asset('moltran-asset/images/loan.svg')}}" alt="profile-img" class="img-list">
                     <div class="data">
-                        <h4 class="text-white font-weight-bold">Loan Request :  {{$viewData['totalLoanRequests']}}</h4>
-                        <h5 class="text-white text-4  m-0">
-                            New : {{$viewData['newLoanRequests']}}
-                        </h5>
-                        <h5 class="text-white text-4  m-0">
-                            Completed : {{$viewData['completedLoanRequests']}}
-                        </h5>
+                        <h4>Loan Request</h4>
+                        <h6>{{$viewData['totalLoanRequests']}}</h6>
+                        <div class="card-more-info">
+                            <div class="lists">
+                                <h5>New</h5>
+                                <p>{{$viewData['newLoanRequests']}}</p>
+                            </div>
+                            <div class="lists">
+                                <h5>Completed  </h5>
+                                <p>{{$viewData['completedLoanRequests']}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
@@ -89,16 +110,21 @@
         <div class="col-md-4">
 
             <a href="{{ route('admin.test-ride-requests.index') }}" target="_blank">
-                <div class="dashboard-card dashboard-card-5 d-flex justify-content-around align-items-center">
-                    <span class="mini-stat-icon-dashboard bg-white" ><i class="ion-ios7-paper" style="color:deepskyblue"></i></span>
+                <div class="dashboard-card dashboard-card-5 d-flex align-items-start">
+                    <img src="{{ asset('moltran-asset/images/test-ride.svg')}}" alt="profile-img" class="img-list">
                     <div class="data">
-                        <h4 class="text-white font-weight-bold">TestRide Bookings : {{$viewData['totalTestRideRequest']}}</h4>
-                        <h5 class="text-white text-4  m-0">
-                            New : {{ $viewData['newTestRideRequest'] }}
-                        </h5>
-                        <h5 class="text-white text-4  m-0">
-                           Completed : {{ $viewData['completedTestRideRequest'] }}
-                        </h5>
+                        <h4>TestRide Bookings</h4>
+                        <h6>{{$viewData['totalTestRideRequest']}}</h6>
+                        <div class="card-more-info">
+                            <div class="lists">
+                                <h5>New</h5>
+                                <p>{{ $viewData['newTestRideRequest'] }}</p>
+                            </div>
+                            <div class="lists">
+                                <h5>Completed  </h5>
+                                <p>{{ $viewData['completedTestRideRequest'] }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
@@ -107,16 +133,21 @@
         <div class="col-md-4">
 
             <a href="{{ route('admin.offer-requests.index') }}" target="_blank">
-                <div class="dashboard-card dashboard-card-6 d-flex justify-content-around align-items-center">
-                <span class="mini-stat-icon-dashboard bg-white" ><i class="ion-ios7-pricetags" style="color:tomato;"></i></span>
-                <div class="mini-stat-info  text-dark">
-                        <h4 class="text-white font-weight-bold">Offer Requests : {{$viewData['totalOfferRequests']}}</h4>
-                        <h5 class="text-white text-4  m-0">
-                            New : {{$viewData['newOfferRequests']}}
-                        </h5>
-                        <h5 class="text-white text-4  m-0">
-                            Completed : {{$viewData['completedOfferRequests']}}
-                        </h5>
+                <div class="dashboard-card dashboard-card-6 d-flex align-items-start">
+                    <img src="{{ asset('moltran-asset/images/offer.svg')}}" alt="profile-img" class="img-list">
+                <div class="data">
+                        <h4>Offer Requests</h4>
+                        <h6>{{$viewData['totalOfferRequests']}}</h6>
+                        <div class="card-more-info">
+                            <div class="lists">
+                                <h5>New</h5>
+                                <p>{{$viewData['newOfferRequests']}}</p>
+                            </div>
+                            <div class="lists">
+                                <h5>Completed  </h5>
+                                <p>{{$viewData['completedOfferRequests']}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>
@@ -154,9 +185,9 @@
     <div class="row mt-4">
         <!-- Bar Chart Section -->
         <div class="col-md-7">
-            <div class="card">
+            <div class="card mb-0" >
                 <div class="card-header text-center bg-transparent">
-                    <h5>TestRide Bookings vs Loan Applications</h5>
+                    <h4 class="text-left" style="font-weight: bold">TestRide Bookings vs Loan Applications</h4>
                 </div>
                 <div class="card-body">
                     <canvas id="testRideVsLoanChart"></canvas>
@@ -166,11 +197,11 @@
 
         <!-- Doughnut Chart Section -->
         <div class="col-md-5">
-            <div class="card">
+            <div class="card mb-0" style="height:100%;">
                 <div class="card-header text-center bg-transparent">
-                    <h5>Offers, Test Rides and Loans</h5>
+                    <h4 class="text-left" style="font-weight: bold">Offers, Test Rides and Loans</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body pt-0">
                     <div class="mb-3">
                         <x-form-select :options="$viewData['brands']" field="brand_id" id="brand_id">
                             <option value="" selected>Select a Brand</option>
@@ -179,7 +210,7 @@
                             @endforeach
                         </x-form-select>
                     </div>
-                    <canvas id="enquiriesTestRideReviewChart"></canvas>
+                    <canvas id="enquiriesTestRideReviewChart" style="margin-top:3em;"></canvas>
                 </div>
             </div>
         </div>
@@ -229,145 +260,80 @@
             }
         });
 
-        // // Doughnut Chart for Enquiries, Test Rides, and Reviews
-        // $(document).ready(function() {
-        // // Initialize the chart with default values (zeroes)
-        //     var ctxDoughnut = document.getElementById('enquiriesTestRideReviewChart').getContext('2d');
-        //     var enquiriesTestRideReviewChart = new Chart(ctxDoughnut, {
-        //         type: 'doughnut',  // Set chart type to doughnut
-        //         data: {
-        //             labels: ['Offer Requests', 'Test Rides', 'Reviews'],  // Labels
-        //             datasets: [{
-        //                 data: [10, 30, 30],  // Initial values (will be replaced with actual data)
-        //                 backgroundColor: ['#FFCE56', '#36A2EB', '#FF6384'],
-        //                 borderWidth: 1
-        //             }]
-        //         },
-        //         options: {
-        //             responsive: true,
-        //             plugins: {
-        //                 legend: {
-        //                     position: 'top',
-        //                 },
-        //                 tooltip: {
-        //                     callbacks: {
-        //                         label: function(tooltipItem) {
-        //                             return tooltipItem.label + ': ' + tooltipItem.raw + '%';  // Tooltip format
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     });
-
-        //     // Handle brand change event
-        //     $('#brand_id').change(function() {
-        //         var brandId = $(this).val();  // Get selected brand ID
-
-        //         if (brandId) {
-        //             // Send AJAX request to fetch data based on selected brand
-        //             $.ajax({
-        //                 url: '{{ route('admin.get-brand-data') }}',  // Ensure this URL matches the route
-        //                 type: 'POST',
-        //                 data: {
-        //                     brand_id: brandId,
-        //                     _token: '{{ csrf_token() }}'  // CSRF token for security
-        //                 },
-        //                 success: function(response) {
-        //                     // Update the doughnut chart with the response data
-        //                     enquiriesTestRideReviewChart.data.datasets[0].data = [
-        //                         response.offerRequests,
-        //                         response.testRideRequests,
-        //                         response.reviews
-        //                     ];
-        //                     enquiriesTestRideReviewChart.update();  // Refresh chart with new data
-        //                 },
-        //                 error: function(error) {
-        //                     console.log("Error:", error);  // Log error if request fails
-        //                 }
-        //             });
-        //         }
-        //     });
-        // });
-
         $(document).ready(function() {
-        var ctxDoughnut = document.getElementById('enquiriesTestRideReviewChart').getContext('2d');
-        var enquiriesTestRideReviewChart = new Chart(ctxDoughnut, {
-            type: 'doughnut',
-            data: {
-                labels: ['Offers', 'Test Rides', 'Reviews'],
-                datasets: [{
-                    data: [0, 0, 0],
-                    backgroundColor: ['#FFCE56', '#36A2EB', '#FF6384'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw;
+            var ctxDoughnut = document.getElementById('enquiriesTestRideReviewChart').getContext('2d');
+            var enquiriesTestRideReviewChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Offers', 'Test Rides', 'Reviews'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: ['#FFCE56', '#36A2EB', '#FF6384'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw;
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
-
-        function fetchData(brandId = null) {
-            $.ajax({
-                url: '{{ route('admin.get-brand-data') }}',
-                type: 'POST',
-                data: {
-                    brand_id: brandId,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    enquiriesTestRideReviewChart.data.datasets[0].data = [
-                        response.offerRequests,
-                        response.testRideRequests,
-                        response.reviews
-                    ];
-
-                enquiriesTestRideReviewChart.data.labels = brandId
-                    ? ['Completed Offers (Brand)', 'Completed Test Rides (Brand)', 'Verified Reviews (Brand)']
-                    : ['Offers (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
-
-                    enquiriesTestRideReviewChart.update();
-                },
-                error: function(error) {
-                    console.log("Error:", error);
-                }
             });
-        }
 
-        fetchData();
+            function fetchData(brandId = null) {
+                $.ajax({
+                    url: '{{ route('admin.get-brand-data') }}',
+                    type: 'POST',
+                    data: {
+                        brand_id: brandId,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        enquiriesTestRideReviewChart.data.datasets[0].data = [
+                            response.offerRequests,
+                            response.testRideRequests,
+                            response.reviews
+                        ];
 
-        $('#brand_id').change(function() {
-            var brandId = $(this).val();
-            fetchData(brandId);
+                    enquiriesTestRideReviewChart.data.labels = brandId
+                        ? ['Completed Offers (Brand)', 'Completed Test Rides (Brand)', 'Verified Reviews (Brand)']
+                        : ['Offers (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
+
+                        enquiriesTestRideReviewChart.update();
+                    },
+                    error: function(error) {
+                        console.log("Error:", error);
+                    }
+                });
+            }
+
+            fetchData();
+
+            $('#brand_id').change(function() {
+                var brandId = $(this).val();
+                fetchData(brandId);
+            });
         });
-    });
-
-
-
-
-
 
     </script>
 
     <div class="row mt-4">
-        <div class="col-md-12">
+        <div class="col-md-12 dashboard-request">
          <!-- New Requests Grid Section  Start -->
-       <x-crud-index title="New Requests" >
+       <x-crud-index title="" >
         <div class="col-md-12" style="">
             <div class="pt-60">
-                <ul class="w-100 enquiry-head nav nav-tabs tabs" role="tablist">
+               <div class="tab-head" style="box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);">
+                <ul class="enquiry-head nav nav-tabs tabs" role="tablist" style="box-shadow:none;">
                     <li class="nav-item tab enquiry-title">
                         <a class="nav-link active" id="test-ride-tab-2" data-toggle="tab" href="#test-ride-2" role="tab" aria-controls="directory-2" aria-selected="false">
                             <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
@@ -394,6 +360,7 @@
                         </a>
                     </li> --}}
                 </ul>
+               </div>
                 <div class="w-100 tab-content mt-3">
                     <div class="tab-pane show active" id="test-ride-2" role="tabpanel" aria-labelledby="test-ride-tab-2">
 
