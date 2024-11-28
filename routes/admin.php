@@ -28,6 +28,9 @@ use App\Http\Controllers\Admin\Image360Controller;
 use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\Reports\TestRideRequestsController;
+use App\Http\Controllers\Api\User\TestDriveRequestController;
+
 use App\Http\Controllers\Api\User\LoanController as UserLoanController;
 use App\Http\Controllers\Admin\Reports\UserReportsController;
 use App\Http\Controllers\Admin\Reports\CarReportsController;
@@ -139,6 +142,10 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/offer-request',[OfferRequestReportsController::class,'index'])->name('offer-request.index');
         Route::get('/offer-request-export',[OfferRequestReportsController::class,'export'])->name('offer-request.export');
 
+        Route::get('/test-ride',[TestRideRequestsController::class, 'index'])->name('test-ride.index');
+        Route::get('/test-ride-export',[TestRideRequestsController::class, 'export'])->name('test-ride.export');
+        // Route::get('/car',[CarReportsController::class,'index'])->name('car.index');
+        // Route::get('/car-export',[CarReportsController::class,'export'])->name('car.export');
 
 
     });

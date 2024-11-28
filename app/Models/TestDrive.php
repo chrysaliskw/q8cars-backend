@@ -24,4 +24,9 @@ class TestDrive extends Model
     {
         return $this->belongsTo(User::class)->withTrashed();
     }
+    
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
 }
