@@ -35,7 +35,6 @@ use App\Http\Controllers\Api\User\LoanController as UserLoanController;
 use App\Http\Controllers\Admin\Reports\UserReportsController;
 use App\Http\Controllers\Admin\Reports\CarReportsController;
 use App\Http\Controllers\Admin\Reports\LoanRequestReportController;
-
 use App\Http\Controllers\Admin\Reports\OfferRequestReportsController;
 /*
 |--------------------------------------------------------------------------
