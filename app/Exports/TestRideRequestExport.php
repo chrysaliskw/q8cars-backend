@@ -72,7 +72,8 @@ class TestRideRequestExport implements FromQuery, WithColumnFormatting, WithMapp
                 'u.mobile as user_mobile',
                 'c.model_name as car_model',
                 'brands.name as brand_name',
-            ])
+            ])   
+             ->where('test_drives.status', '<>', 5)
             ->orderBy('test_drives.id', 'desc');
     }
 

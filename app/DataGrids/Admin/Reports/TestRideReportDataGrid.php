@@ -21,6 +21,7 @@ class TestRideReportDataGrid extends Grid
     ->leftJoin('users as u', 'u.id', '=', 'test_drives.user_id')
     ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
     ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
+    
     ->when(request()->query('brand_1_id'), function ($q) {
         $q->where('c.brand_id', request()->query('brand_1_id'));
     })
@@ -28,6 +29,7 @@ class TestRideReportDataGrid extends Grid
         $q->where('test_drives.car_id', request()->query('car_1_id'));
     })
     ->select(['test_drives.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model','brands.name as brand_name'])
+    ->where('test_drives.status', '<>', 5)
     ->orderBy('test_drives.id', 'Desc');
     
     $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
