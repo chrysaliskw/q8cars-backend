@@ -627,6 +627,10 @@ class CarRequest extends FormRequest
                 $validator->errors()->add('fuel_types', 'Please choose a fuel type.');
             }
 
+            if (!$this->all_travel && !isset($this->travel_type)) {
+                $validator->errors()->add('travel_type', 'Please choose a travel type.');
+            }
+
             if (!$this->all_transmissions && !isset($this->transmission_types)) {
                 $validator->errors()->add('transmission_types', 'Please choose a transmission type.');
             }
