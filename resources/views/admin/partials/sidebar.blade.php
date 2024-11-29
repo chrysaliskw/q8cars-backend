@@ -144,7 +144,7 @@
                             class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="{{ route('admin.sub-admin.permission.create') }}">Permissions</a>
+                            <a href="{{ route('admin.sub-admin.permission.index') }}">Permissions</a>
                         </li>
                         <li>
                             <a href="{{ route('admin.sub-admin.role.index') }}">Roles</a>
