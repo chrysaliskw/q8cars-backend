@@ -65,7 +65,7 @@ return [
     |
     */
 
-   'timezone' => env('APP_TIMEZONE', 'Asia/Kuwait'),
+    'timezone' => env('APP_TIMEZONE', 'Asia/Kuwait'),
 
     /*
     |--------------------------------------------------------------------------
@@ -123,7 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-     /*
+    /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
@@ -166,8 +166,8 @@ return [
          * Package Service Providers...
          */
 
-      
-        
+
+
         /*
          * Application Service Providers...
          */
@@ -176,6 +176,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+
 
     ],
 

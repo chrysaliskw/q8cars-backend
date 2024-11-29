@@ -69,11 +69,12 @@ class SubAdminController extends Controller
                 'max:200',
                 Rule::unique(Admin::class),
             ],
+            'picture' => 'required|mimes:jpg,png,jpeg|max:2048',
             'password' => 'required|string|min:8|max:15|regex:/^[a-zA-Z\d!@#$%^&*_]*$/',
             'status' => 'required',
             'role' => 'required',
         ]);
-        dd($request->all());
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -85,12 +86,17 @@ class SubAdminController extends Controller
                 $admin->password = Hash::make($request->password);
             }
 
-            if (!empty($request->file_name)) {
-                $request->file_name->store(Admin::FILE_DIR);
-                $admin->picture = $request->file_name->hashName();
+            if ($request->hasfile('picture')) {
+                $request->picture->store(Admin::FILE_DIR);
+                $admin->picture = $request->picture->hashName();
             }
+            // if ($this->request->hasfile('icon')) {
+            //     $this->request->icon->store(Brand::FILE_DIR);
+            //     $this->brand->icon = $this->request->icon->hashName();
+            // }
             $admin->status = $request->status;
-
+            $admin->role = $request->role;
+            // $admin->picture = $request->picture;
             $admin->save();
 
             //Assigning role to subAdmin

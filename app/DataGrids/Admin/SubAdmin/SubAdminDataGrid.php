@@ -14,7 +14,8 @@ class SubAdminDataGrid extends Grid
     public function gridQuery()
     {
         $query = Admin::query()->orderBy('id', 'Desc')
-            ->select(['admins.*']);
+            ->select(['admins.*'])
+            ->where('admins.id', '!=', 1);
 
         // dd($query->get());
         return $query;

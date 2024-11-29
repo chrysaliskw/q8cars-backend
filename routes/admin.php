@@ -133,10 +133,18 @@ Route::middleware('auth:admin')->group(function () {
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
-Route::middleware(['auth:admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
-
-    // Route::get('/get-subsections', [PermissionController::class, 'getSubSection'])->name('permission.get-subsections');
-    Route::resource('permission', PermissionController::class);
-    Route::resource('role', RoleController::class);
-    Route::resource('admin', SubAdminController::class);
-});
+// Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+// Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+//     // Route::get('/get-subsections', [PermissionController::class, 'getSubSection'])->name('permission.get-subsections');
+//     Route::resource('permission', PermissionController::class);
+//     Route::resource('role', RoleController::class);
+//     Route::resource('admin', SubAdminController::class);
+// });
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])
+    ->name('sub-admin.')
+    ->prefix('sub-admins')
+    ->group(function () {
+        Route::resource('permission', PermissionController::class);
+        Route::resource('role', RoleController::class);
+        Route::resource('admin', SubAdminController::class);
+    });

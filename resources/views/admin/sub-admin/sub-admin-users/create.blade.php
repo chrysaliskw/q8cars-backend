@@ -10,10 +10,16 @@
                 <div class="col-md-4">
                     <x-form-input type="text" field="name" field-name="Name" value="{{ old('name') }}">
                     </x-form-input>
+
                 </div>
 
                 <div class="col-md-4">
                     <x-form-input type="email" field="email" field-name="Email" value="{{ old('email') }}"></x-form-input>
+
+                </div>
+                <div class="col-md-4">
+                    <x-form-input type="file" field="picture" field-name="Profile Picture" value="{{ old('picture') }}"></x-form-input>
+
                 </div>
 
                 <div class="col-md-4">

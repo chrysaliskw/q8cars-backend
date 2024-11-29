@@ -138,28 +138,24 @@
                         <i class="fa fa-newspaper-o"></i><span> News</span>
                     </a>
                 </li>
+                @canany(['ALL'])
+                    <li class="has_sub">
+                        <a href="#" class="waves-effect"><i class="fa fa-user"></i> <span> Sub Admins </span> <span
+                                class="pull-right"><i class="md md-add"></i></span></a>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{{ route('admin.sub-admin.permission.index') }}">Permissions</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.sub-admin.role.index') }}">Roles</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.sub-admin.admin.index') }}">Users</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
 
-                <li class="has_sub">
-                    <a href="#" class="waves-effect"><i class="fa fa-user"></i> <span> Sub Admins </span> <span
-                            class="pull-right"><i class="md md-add"></i></span></a>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="{{ route('admin.sub-admin.permission.index') }}">Permissions</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.sub-admin.role.index') }}">Roles</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.sub-admin.admin.index') }}">Users</a>
-                        </li>
-                        {{-- <li>
-                            <a href="{{ route('admin.suggested-banks.index') }}">Suggested Banks</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.loan-requests.index') }}">Loan Requests</a>
-                        </li> --}}
-                    </ul>
-                </li>
 
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-trash"></i> <span> Trash </span> <span
