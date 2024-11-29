@@ -138,6 +138,21 @@
                 </li>
 
                 <li class="has_sub">
+                    <a href="#" class="waves-effect"><i class="fa fa-user"></i> <span> Sub Admins </span> <span class="pull-right"><i class="md md-add"></i></span></a>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ route('admin.sub-admin.permission.create') }}">Permissions</a>
+                        </li>
+                        {{-- <li>
+                            <a href="{{ route('admin.suggested-banks.index') }}">Suggested Banks</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.loan-requests.index') }}">Loan Requests</a>
+                        </li> --}}
+                    </ul>
+                </li>
+
+                <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-trash"></i> <span> Trash </span> <span class="pull-right"><i class="md md-add"></i></span></a>
                     <ul class="list-unstyled">
                         <li>

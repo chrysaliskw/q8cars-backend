@@ -213,6 +213,26 @@ return [
             2 => 'Accepted',
             3 => 'Rejected',
         ]
-    ]
-
+    ],
+    'sub-admin' => [
+        'sections' => [
+            'Dashboard' => 'Dashboard',
+            'Users' => 'Users',
+            'Brands' => 'Brands',
+            'Body Types' => 'Body Types',
+            'Colors' => 'Colors',
+            'Emi Calculator' => 'Emi Calculator',
+            'Loan Eligibility Calculator' => 'Loan Eligibility Calculator',
+            'Car Management' => 'Car Management',
+            'Test Drive Requests' => 'Test Drive Requests',
+            'Offers' => 'Offers',
+            'Offers Requests' => 'Offers Requests' ,
+            'Notifications' => 'Notifications' ,
+            'Banks' => 'Banks',
+            'Reviews' => 'Reviews',
+            'Faq' => 'Faq',
+            'News' => 'News',
+            'Reports' => 'Reports',
+        ]
+    ],
 ];
