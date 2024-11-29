@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Models\Faq;
 use App\Models\Bank;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoanResource;
+use App\Http\Resources\FaqListResource;
 use Illuminate\Support\Facades\Validator;
+use App\Services\Api\User\Bank\LoanService;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Resources\LoanResource;
-use App\Services\Api\User\Bank\LoanService;
 
 class LoanController extends ApiBaseController
 {
@@ -38,7 +40,7 @@ class LoanController extends ApiBaseController
 
         $loanEligibility = $service->calculateLoanEligibility();
 
-        $data = new LoanResource([
+        $loanDetails = new LoanResource([
             'bank_id' => $bank->id,
             'bank_name' => $bank->bank_name,
             'maxLoanAmount' => $loanEligibility['maxLoanAmount'],
@@ -46,6 +48,18 @@ class LoanController extends ApiBaseController
             'interestRate' => $request->input('base_interest_rate'),
             'eligibility' => $loanEligibility['eligibility'],
         ]);
+
+        $faqs = Faq::active()->paginate(20);
+        $faqData = FaqListResource::collection($faqs);
+
+        $data = ([
+            'loan_details' => $loanDetails,
+            'faqs' => $faqData,
+        ]);
+
+        $faqs = Faq::active()->Orderby('sort_order','asc')->paginate(20);
+        $faqData = FaqListResource::collection($faqs);
+        $data['faqs'] = $faqData;
 
         return $this->success(['data' => $data], 'Loan details', Response::HTTP_OK);
 
