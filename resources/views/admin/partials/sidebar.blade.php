@@ -149,8 +149,8 @@
                         <li>
                             <a href="{{ route('admin.sub-admin.role.index') }}">Roles</a>
                         </li>
-                        {{-- <li>
-                            <a href="{{ route('admin.partner-banks.index') }}">Partner Banks</a>
+                        <li>
+                            <a href="{{ route('admin.sub-admin.admin.index') }}">Users</a>
                         </li>
                         {{-- <li>
                             <a href="{{ route('admin.suggested-banks.index') }}">Suggested Banks</a>

@@ -23,7 +23,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        // $grid = new PermissionDataGrid(request()->query());
+        $grid = new PermissionDataGrid(request()->query());
 
         return view('admin.sub-admin.permission.index', compact('grid'));
     }
@@ -48,7 +48,11 @@ class PermissionController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200',
+            'name' => [
+                'required',
+                new RegexAlphaNumSpace,
+                'string',
+                'max:200',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($this->assertNameIsUnique($request) == false) {
                         $fail('This permission already exists.');
@@ -56,11 +60,10 @@ class PermissionController extends Controller
                 },
             ],
             'section' => ['required', Rule::in(array_keys(config('params.sub-admin.sections')))],
-            'subsection' =>'required_if:subsectionCheck,1',
+            'subsection' => 'required_if:subsectionCheck,1',
         ], ['subsection.required_if' => 'Please select a subsection.']);
 
-        try
-        {
+        try {
             $permission = Permission::create(['name' => $request->name]);
 
             //Assign newly created permission to Super Admin Role
@@ -70,15 +73,12 @@ class PermissionController extends Controller
             //Assign newly created permission to Super Admin Model
             $admin = Admin::find(1);
             $admin->givePermissionTo($permission);
-
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('aap.error'))->withInput();
         }
         return redirect()->route('admin.sub-admin.permission.create')
-                    ->with('success', 'Permission created successfully !');
+            ->with('success', 'Permission created successfully !');
     }
 
     /**
@@ -96,7 +96,7 @@ class PermissionController extends Controller
             'Updated At' => dateTimeFormat($permission->updated_at)
         ];
 
-        return view('admin.sub-admin.permission.show',compact('permission','viewData'));
+        return view('admin.sub-admin.permission.show', compact('permission', 'viewData'));
     }
 
     /**
@@ -108,7 +108,7 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
 
-        return view('admin.sub-admin.permission.edit',compact('permission'));
+        return view('admin.sub-admin.permission.edit', compact('permission'));
     }
 
     /**
@@ -121,7 +121,10 @@ class PermissionController extends Controller
     public function update(Request $request, Permission $permission)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:200',
+            'name' => [
+                'required',
+                'string',
+                'max:200',
                 function ($attribute, $value, $fail) use ($request) {
                     if ($this->assertNameIsUnique($request) == false) {
                         $fail('This permission already exists.');
@@ -131,19 +134,15 @@ class PermissionController extends Controller
 
         ]);
 
-        try
-        {
+        try {
             $permission->name = $request->name;
             $permission->save();
-
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.sub-admin.permission.show', $permission)
-        ->with('success', 'Permission updated successfully!.');
+            ->with('success', 'Permission updated successfully!.');
     }
 
     /**
@@ -159,27 +158,25 @@ class PermissionController extends Controller
         try {
 
             // Delete the current permision from all roles
-            DB::table('role_has_permissions')->where('permission_id',$permission->id)->delete();
+            DB::table('role_has_permissions')->where('permission_id', $permission->id)->delete();
 
             // Delete the current permision from all models
-            DB::table('model_has_permissions')->where('permission_id',$permission->id)->delete();
+            DB::table('model_has_permissions')->where('permission_id', $permission->id)->delete();
 
             // Delete permission
             $permission->delete();
 
             DB::commit();
-        }
-        catch(Exception $ex) {
+        } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
-            throw($ex);
+            throw ($ex);
             return back()->with('error', __('app_error'))->withInput();
         }
         return redirect()->route('admin.sub-admin.permission.index')->with('success', 'Permission deleted successfully !');
-
     }
 
-      /**
+    /**
      * @param \Illuminate\Http\Request $request
      *
      * @return bool
@@ -187,10 +184,10 @@ class PermissionController extends Controller
     private function assertNameIsUnique(Request $request)
     {
         $exist = Permission::where('name', $request->name)
-                        ->when($request->isMethod('put'), function ($query, $method) use ($request) {
-                            return $query->where('id', '<>', $request->route('permission')->id);
-                        })
-                        ->exists();
+            ->when($request->isMethod('put'), function ($query, $method) use ($request) {
+                return $query->where('id', '<>', $request->route('permission')->id);
+            })
+            ->exists();
 
         return $exist == false;
     }
@@ -198,16 +195,15 @@ class PermissionController extends Controller
     public function getSubSection(Request $request)
     {
         $result = [];
-        $st ='params.sub-admin.'.$request->section.'-sub-sections';
-        $subsection = config('params.sub-admin.'.$request->section.'-sub-sections');
+        $st = 'params.sub-admin.' . $request->section . '-sub-sections';
+        $subsection = config('params.sub-admin.' . $request->section . '-sub-sections');
 
-        if($subsection){
+        if ($subsection) {
             array_push($result, 'All');
-             foreach($subsection as $key => $value)
-             {
-                 array_push($result, $value);
-             }
-         }
+            foreach ($subsection as $key => $value) {
+                array_push($result, $value);
+            }
+        }
         return response()->json($result);
     }
 }

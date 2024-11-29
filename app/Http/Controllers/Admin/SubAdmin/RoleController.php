@@ -35,7 +35,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::where('name', 'not like', 'All')->get();
-        dd($permissions);
+        // dd($permissions);
 
         return view('admin.sub-admin.role.create', compact('permissions'));
     }

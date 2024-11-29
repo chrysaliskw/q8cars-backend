@@ -27,8 +27,8 @@ use App\Http\Controllers\Admin\EmiCalculatorController;
 use App\Http\Controllers\Admin\Image360Controller;
 use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Models\Car
-;use App\Http\Controllers\Admin\OfferController;
+use App\Models\Car;
+use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Api\User\LoanController as UserLoanController;
 use App\Models\Notification;
 use Mockery\Matcher\Not;
@@ -83,7 +83,7 @@ Route::middleware('auth:admin')->group(function () {
         'user' => UserController::class,                // User
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version
-        'color' =>ColorController::class  ,             //color
+        'color' => ColorController::class,             //color
         'faq' => FaqController::class,                  // FAQ
         'news' => NewsPostController::class,            // News
         'emi-info' => EmiCalculatorController::class,   // Emi Calculator
@@ -98,27 +98,27 @@ Route::middleware('auth:admin')->group(function () {
 
     //bank
     Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
-    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index','show']);
+    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
 
     //loan
     Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
-    Route::resource('loan-requests', LoanRequestController::class)->only(['index','show']);
+    Route::resource('loan-requests', LoanRequestController::class)->only(['index', 'show']);
 
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Test ride requests
     Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
-    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index','show']);
+    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index', 'show']);
 
     // Offers
     // Route::resource('offers', OfferController::class);
 
     // Offer request
     Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
-    Route::resource('offer-requests', OfferRequestController::class)->only(['index','show']);
+    Route::resource('offer-requests', OfferRequestController::class)->only(['index', 'show']);
 
     // Review
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
-    Route::resource('reviews', ReviewController::class)->only(['index','show']);
+    Route::resource('reviews', ReviewController::class)->only(['index', 'show']);
 
     //News
     Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
@@ -127,16 +127,16 @@ Route::middleware('auth:admin')->group(function () {
 
 
     //Trash
-    Route::resource('trash-user',UserTrashController::class)->only('index','show','edit');
-    Route::resource('trash-brand',BrandTrashController::class)->only('index','show','edit');
-    Route::resource('trash-body-type',BodyTypeTrashController::class)->only('index','show','edit');
-      // Logout
+    Route::resource('trash-user', UserTrashController::class)->only('index', 'show', 'edit');
+    Route::resource('trash-brand', BrandTrashController::class)->only('index', 'show', 'edit');
+    Route::resource('trash-body-type', BodyTypeTrashController::class)->only('index', 'show', 'edit');
+    // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 Route::middleware(['auth:admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
 
     // Route::get('/get-subsections', [PermissionController::class, 'getSubSection'])->name('permission.get-subsections');
-     Route::resource('permission', PermissionController::class);
-     Route::resource('role', RoleController::class);
-    //  Route::resource('admin', SubAdminController::class);
- });
+    Route::resource('permission', PermissionController::class);
+    Route::resource('role', RoleController::class);
+    Route::resource('admin', SubAdminController::class);
+});
