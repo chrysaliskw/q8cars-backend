@@ -50,6 +50,10 @@
                             <a href="{{ route('admin.car-version.edit', $carVarient) }}"
                                 class="btn btn-info waves-effect waves-light float-right" >
                                  + Add Car Version</a>
+
+                                 <a href="{{ route('admin.car.360-view.add', ['id' => $car]) }}"
+                                class="btn btn-warning waves-effect waves-light float-right" style="margin-right:10px ;">
+                                 + Add 360 view images</a>
                         </div>
                     </div>
 

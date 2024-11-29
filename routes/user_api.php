@@ -120,7 +120,7 @@ Route::middleware('auth:user_api')->group(function () {
     //fuel cost calculator
     Route::post('/fuel-cost', FuelCostController::class);
     Route::get('/360-view-images',View360ImageController::class);
-
+   
 });
 
 /**
