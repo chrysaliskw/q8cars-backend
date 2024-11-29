@@ -23,7 +23,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $grid = new PermissionDataGrid(request()->query());
+        // $grid = new PermissionDataGrid(request()->query());
 
         return view('admin.sub-admin.permission.index', compact('grid'));
     }
