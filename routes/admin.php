@@ -27,12 +27,14 @@ use App\Http\Controllers\Admin\EmiCalculatorController;
 use App\Http\Controllers\Admin\Image360Controller;
 use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\NotificationController;
-use App\Models\Car
-;use App\Http\Controllers\Admin\OfferController;
-use App\Http\Controllers\Api\User\LoanController as UserLoanController;
-use App\Models\Notification;
-use Mockery\Matcher\Not;
+use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\Reports\TestRideRequestsController;
+use App\Http\Controllers\Api\User\TestDriveRequestController;
 
+use App\Http\Controllers\Api\User\LoanController as UserLoanController;
+use App\Http\Controllers\Admin\Reports\UserReportsController;
+use App\Http\Controllers\Admin\Reports\CarReportsController;
+use App\Http\Controllers\Admin\Reports\OfferRequestReportsController;
 /*
 |--------------------------------------------------------------------------
 | Admin Common Routes
@@ -129,4 +131,23 @@ Route::middleware('auth:admin')->group(function () {
     Route::resource('trash-body-type',BodyTypeTrashController::class)->only('index','show','edit');
       // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+    Route::name('reports.')->prefix('reports')->group(function () {
+        Route::get('/user', [UserReportsController::class, 'index'])->name('user.index');
+        Route::get('/user-export', [UserReportsController::class, 'export'])->name('user.export');
+
+        Route::get('/car',[CarReportsController::class,'index'])->name('car.index');
+        Route::get('/car-export',[CarReportsController::class,'export'])->name('car.export');
+
+        Route::get('/offer-request',[OfferRequestReportsController::class,'index'])->name('offer-request.index');
+        Route::get('/offer-request-export',[OfferRequestReportsController::class,'export'])->name('offer-request.export');
+
+        Route::get('/test-ride',[TestRideRequestsController::class, 'index'])->name('test-ride.index');
+        Route::get('/test-ride-export',[TestRideRequestsController::class, 'export'])->name('test-ride.export');
+        // Route::get('/car',[CarReportsController::class,'index'])->name('car.index');
+        // Route::get('/car-export',[CarReportsController::class,'export'])->name('car.export');
+
+
+    });
+
 });
