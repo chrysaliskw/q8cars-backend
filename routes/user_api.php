@@ -35,6 +35,7 @@ use App\Http\Controllers\Api\User\BankSuggestionRequestController;
 use App\Http\Controllers\Api\User\FuelCostController;
 use App\Http\Controllers\Api\User\LoanController;
 use App\Http\Controllers\Api\User\RelatedNewsController;
+use App\Http\Controllers\Api\User\View360ImageController;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -118,7 +119,7 @@ Route::middleware('auth:user_api')->group(function () {
 
     //fuel cost calculator
     Route::post('/fuel-cost', FuelCostController::class);
-
+    Route::get('/360-view-images',View360ImageController::class);
    
 });
 

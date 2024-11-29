@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
 use App\Models\BrandColorMapping;
+use App\Models\View360Image;
 use Illuminate\Http\Exceptions\PostTooLargeException;
 
 class CarController extends Controller
@@ -501,4 +502,61 @@ class CarController extends Controller
         return $data;
     }
 
+    public function add360ViewImages(Request $request)
+    {
+        $car = Car::find($request->id);
+        $images = View360Image::where('car_id',$car->id)->active()->get();
+        return view('admin.car.add-360-view',compact('car','images'));
+    }
+
+    public function store360ViewImages(Request $request)
+    {
+        $request->validate([
+            'picture' => 'required|image|mimes:jpeg,png,jpg|max:20480', // 20MB max
+        ]);
+
+        if ($request->hasFile('picture')) {
+            $image = new View360Image();
+            $path = $request->picture->store(View360Image::FILE_DIR); 
+            $image->image = basename($path);  
+            $image->car_id = $request->id; 
+            $image->save();
+            // Return the image URL
+            return response()->json([
+                'success' => true,
+                'image_url' => file_asset('files-360_view',$image->image), // Use 'storage' to generate a public URL
+            ]);
+        }
+        return response()->json(['success' => false, 'message' => 'No file uploaded.'], 400);
+    }
+
+
+    public function delete360ViewImage(Request $request)
+    {
+        $image = View360Image::find($request->image_id);
+        $image->delete();
+        return response()->json([
+            'success' => true,
+            
+        ]);
+    }
+    public function update360ViewImage(Request $request)
+    {    
+        $request->validate([
+            'picture' => 'required|image|mimes:jpeg,png,jpg|max:20480', // 20MB max
+        ]);
+
+        if ($request->hasFile('picture')) {
+            $image = View360Image::find($request->image_id);
+            $path = $request->picture->store(View360Image::FILE_DIR);
+            $image->image = basename($path);  
+            $image->save(); 
+        
+            return response()->json([
+                'success' => true,
+                'image_url' => file_asset('files-360_view',$image->image),
+            ]);
+        }
+        return response()->json(['success' => false, 'message' => 'No file uploaded.'], 400);
+    }
 }

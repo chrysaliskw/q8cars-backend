@@ -76,7 +76,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('car/select', [CarController::class, 'select'])->name('car.select');
     Route::get('color/select', [ColorController::class, 'select'])->name('color.select');
     Route::get('car-version/select', [CarVersionController::class, 'select'])->name('car-version.select');
-
+    Route::get('car/add-360-view',[CarController::class, 'add360ViewImages'])->name('car.360-view.add');
+    Route::post('car/store-360-view',[CarController::class, 'store360ViewImages'])->name('car.360-view.store');
+    Route::post('car/delete-360-view',[CarController::class, 'delete360ViewImage'])->name('car.360-view.delete');
+    Route::post('car/update-360-view',[CarController::class, 'update360ViewImage'])->name('car.360-view.update');
     Route::resources([
         'brand' => BrandController::class,              // Brands
         'body-type' => BodyTypeController::class,       // Body Type
@@ -147,10 +150,8 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/test-ride-export',[TestRideRequestsController::class, 'export'])->name('test-ride.export');
         Route::get('/loan-requests',[LoanRequestReportController::class, 'index'])->name('loan-requests.index');
         Route::get('/loan-requests-export',[LoanRequestReportController::class, 'export'])->name('loan-requests.export');
-        // Route::get('/car',[CarReportsController::class,'index'])->name('car.index');
-        // Route::get('/car-export',[CarReportsController::class,'export'])->name('car.export');
-
-
+       
+ 
     });
 
 });
