@@ -77,7 +77,7 @@ class PermissionController extends Controller
             logger($ex);
             return back()->with('error', __('aap.error'))->withInput();
         }
-        return redirect()->route('admin.sub-admin.permission.index')
+        return redirect()->route('admin.sub-admin.permission.create')
                     ->with('success', 'Permission created successfully !');
     }
 
