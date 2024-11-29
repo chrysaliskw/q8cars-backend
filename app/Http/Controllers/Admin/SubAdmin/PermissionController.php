@@ -16,6 +16,7 @@ use App\DataGrids\Admin\SubAdmin\PermissionDataGrid;
 
 class PermissionController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -23,6 +24,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        dd(config('hee'));
         $grid = new PermissionDataGrid(request()->query());
 
         return view('admin.sub-admin.permission.index', compact('grid'));

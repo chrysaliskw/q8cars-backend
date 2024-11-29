@@ -30,8 +30,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Car;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Api\User\LoanController as UserLoanController;
-use App\Models\Notification;
-use Mockery\Matcher\Not;
+
 use App\Http\Controllers\Admin\SubAdmin\PermissionController;
 use App\Http\Controllers\Admin\SubAdmin\RoleController;
 use App\Http\Controllers\Admin\SubAdmin\SubAdminController;
@@ -144,6 +143,7 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])
     ->name('sub-admin.')
     ->prefix('sub-admins')
     ->group(function () {
+
         Route::resource('permission', PermissionController::class);
         Route::resource('role', RoleController::class);
         Route::resource('admin', SubAdminController::class);
