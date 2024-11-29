@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\User\TestDriveRequestController;
 use App\Http\Controllers\Api\User\LoanController as UserLoanController;
 use App\Http\Controllers\Admin\Reports\UserReportsController;
 use App\Http\Controllers\Admin\Reports\CarReportsController;
+use App\Http\Controllers\Admin\Reports\LoanRequestReportController;
 use App\Http\Controllers\Admin\Reports\OfferRequestReportsController;
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +145,8 @@ Route::middleware('auth:admin')->group(function () {
 
         Route::get('/test-ride',[TestRideRequestsController::class, 'index'])->name('test-ride.index');
         Route::get('/test-ride-export',[TestRideRequestsController::class, 'export'])->name('test-ride.export');
+        Route::get('/loan-requests',[LoanRequestReportController::class, 'index'])->name('loan-requests.index');
+        Route::get('/loan-requests-export',[LoanRequestReportController::class, 'export'])->name('loan-requests.export');
         // Route::get('/car',[CarReportsController::class,'index'])->name('car.index');
         // Route::get('/car-export',[CarReportsController::class,'export'])->name('car.export');
 

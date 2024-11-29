@@ -73,6 +73,7 @@ class UserExport implements FromQuery, WithColumnFormatting, WithMapping, WithHe
     public function headings(): array
     {
         return [
+            '#',
             'Name',
             'Phone Number',
             'Email',
@@ -93,7 +94,9 @@ class UserExport implements FromQuery, WithColumnFormatting, WithMapping, WithHe
      */
     public function map($user): array
     {
+        $this->index++;
         return [
+            $this->index,
             $user->first_name . $user->last_name,
             $user->mobile,
             $user->email,

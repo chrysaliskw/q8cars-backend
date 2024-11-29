@@ -72,7 +72,8 @@ class TestRideRequestExport implements FromQuery, WithColumnFormatting, WithMapp
                 'u.mobile as user_mobile',
                 'c.model_name as car_model',
                 'brands.name as brand_name',
-            ])
+            ])   
+             ->where('test_drives.status', '<>', 5)
             ->orderBy('test_drives.id', 'desc');
     }
 
@@ -103,7 +104,7 @@ class TestRideRequestExport implements FromQuery, WithColumnFormatting, WithMapp
             "{$row->first_name} {$row->last_name}", // Concatenated name
             "{$row->user_phone_code}{$row->user_mobile}", // Phone with code
             config('params.test_drive.status')[$row->status] ?? 'Unknown', // Mapped status
-            $row->created_at->format('Y-m-d H:i:s'), // Formatted date
+            dateFormat($row->created_at), // Formatted date
         ];
     }
 
