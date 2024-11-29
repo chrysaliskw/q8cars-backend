@@ -15,7 +15,6 @@ use App\Http\Controllers\Api\User\BodyTypeController;
 use App\Http\Controllers\Api\User\FuelCostController;
 use App\Http\Controllers\Api\User\CarSearchController;
 use App\Http\Controllers\Api\User\FavouriteController;
-use App\Http\Controllers\Api\User\FaqListingController;
 use App\Http\Controllers\Api\User\JustLaunchController;
 use App\Http\Controllers\Api\User\PopularCarController;
 use App\Http\Controllers\Api\User\CompareCarsController;
@@ -121,9 +120,6 @@ Route::middleware('auth:user_api')->group(function () {
     //fuel cost calculator
     Route::post('/fuel-cost', FuelCostController::class);
     Route::get('/360-view-images',View360ImageController::class);
-
-    //faq listing
-    Route::get('/faqs',FaqListingController::class);
 
 });
 
