@@ -25,7 +25,7 @@ class SuggestedBankController extends Controller
     {
         $viewData = [
             'Requested User' => empty($suggested_bank->user) ? 'NIL' : $suggested_bank->user->name,
-            'Full Name' => empty($suggested_bank->first_name) && empty($suggested_bank->last_name) ? 'NIL' : trim($suggested_bank->first_name . ' ' . $suggested_bank->last_name),
+            'Requested Name' => empty($suggested_bank->first_name) && empty($suggested_bank->last_name) ? 'NIL' : trim($suggested_bank->first_name . ' ' . $suggested_bank->last_name),
             'Civil ID' => empty($suggested_bank->civil_id) ? 'NIL' : $suggested_bank->civil_id,
             'Email' => empty($suggested_bank->email) ? 'NIL' : $suggested_bank->email,
             'Bank Name' => empty($suggested_bank->bank_name) ? 'NIL' : $suggested_bank->bank_name,
@@ -44,7 +44,7 @@ class SuggestedBankController extends Controller
      */
     public function update(Request $request, BankSuggestionRequest $suggested_bank)
     {
-        
+
         $suggested_bank = BankSuggestionRequest::find($request->id);
         $suggested_bank->status = $request->status;
         $suggested_bank->save();

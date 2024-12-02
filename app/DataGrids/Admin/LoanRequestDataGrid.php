@@ -12,8 +12,12 @@ class LoanRequestDataGrid extends Grid
         $query = BankSuggestionRequest::query()
         ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
         ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
-        ->select(['bank_suggestion_requests.id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.name as requested_user'])
+        ->select(['bank_suggestion_requests.id', 'user_id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.mobile as user_mobile'])
         ->where('type', BankSuggestionRequest::TYPE_LOAN)
+        // ->when(request()->query('first_name'), function($query){
+        //     $query->where('bank_suggestion_requests.first_name', 'like', '%'.request()->query('first_name').'%')
+        //     ->orWhere('bank_suggestion_requests.last_name', 'like', '%'.request()->query('last_name').'%');
+        // })
         ->orderBy('bank_suggestion_requests.id', 'Desc');
         return $query;
     }
@@ -22,19 +26,30 @@ class LoanRequestDataGrid extends Grid
     {
         return[
 
-            'requested_user' => [
-                'label' => 'Requested User',
-                'value' => function($model){
-                    return $model->requested_user;
+            'user_mobile' => [
+                'label' => 'User Mobile',
+                'value' => function ($model) {
+                    return trim($model->user->phone_code . ' ' . $model->user->mobile);
                 },
                 'filter' => true,
                 'filterOptions' => [
-                    'attribute' => 'users.name',
+                    'attribute' => 'users.mobile',
                 ]
             ],
 
+            // 'requested_user' => [
+            //     'label' => 'Requested User',
+            //     'value' => function($model){
+            //         return $model->requested_user;
+            //     },
+            //     'filter' => true,
+            //     'filterOptions' => [
+            //         'attribute' => 'users.name',
+            //     ]
+            // ],
+
             'first_name' => [
-                'label' => 'Full Name',
+                'label' => 'Requested Name',
                 'value' => function($model){
                     return trim($model->first_name . ' ' . $model->last_name);
                 },

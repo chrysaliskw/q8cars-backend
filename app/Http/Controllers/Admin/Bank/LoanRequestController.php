@@ -26,7 +26,7 @@ class LoanRequestController extends Controller
     {
         $viewData = [
             'Requested User' => empty($loan_request->user) ? 'NIL' : $loan_request->user->name,
-            'Full Name' => empty($loan_request->first_name) && empty($loan_request->last_name) ? 'NIL' : trim($loan_request->first_name . ' ' . $loan_request->last_name),
+            'Requested Name' => empty($loan_request->first_name) && empty($loan_request->last_name) ? 'NIL' : trim($loan_request->first_name . ' ' . $loan_request->last_name),
             'Email' => empty($loan_request->email) ? 'NIL' : $loan_request->email,
             'Contact Number' => empty($loan_request->contact_number) ? 'NIL' : $loan_request->contact_number,
             'Bank Name' => empty($loan_request->bank) ? 'NIL' : $loan_request->bank->bank_name,
