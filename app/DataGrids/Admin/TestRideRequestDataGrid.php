@@ -16,6 +16,7 @@ class TestRideRequestDataGrid extends Grid
             ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
             ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
             ->select(['test_drives.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model','brands.name as brand_name'])
+            ->where('test_drives.status', '!=', TestDrive::STATUS_NOT_VERIFIED)
             ->orderBy('test_drives.id', 'Desc');
         return $query;
     }
@@ -88,7 +89,10 @@ class TestRideRequestDataGrid extends Grid
                     'type' => 'select',
                     'attribute' => 'test_drives.status',
                     'operator' => '=',
-                    'data' => config('params.test_drive.status')
+                    // 'data' => config('params.test_drive.status')
+                    'data' => tap(config('params.test_drive.status'), function (&$statuses) {
+                        unset($statuses[5]);
+                    }),
                 ],
                 'value' => function ($model) {
                     return config('params.test_drive.status')[$model->status] ?? 'Unknown';
