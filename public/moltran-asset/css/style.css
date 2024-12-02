@@ -4160,18 +4160,65 @@ button.swal2-confirm {
 }
 
 .dashboard-card img {
-  width: 112px;
+  width: auto;
+  height: auto;
 }
-
+.enquiry-head{
+    width: 40% !important;
+    margin: inherit;
+}
 .dashboard-card {
-  min-width: 276px;
-  max-width: 350px;
+  /* min-width: 276px;
+  max-width: 350px; */
   height: 170px;
   border-radius: 10px;
-  margin-right: 26px;
+  gap:27px;
+  /* margin-right: 26px; */
   margin-bottom: 10px !important;
+  background-color: #fff;
+  padding: 22px;
 }
-
+.dashboard-card .data{
+    width: 100%;
+}
+.dashboard-card h4{
+    color: #7A7A7A;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
+    line-height: 30px;
+}
+.dashboard-card h5{
+    color: #7A7A7A;
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 0;
+    margin-top: 0;
+    line-height: 30px;
+}
+.dashboard-card p{
+    color: #000000;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.dashboard-card h6{
+    color: #000000;
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.card-more-info{
+    padding-top: 6px;
+    border-top: 1px solid #F4F4F4;
+    margin-top:10px;
+    display: flex;
+    justify-content: space-between;
+}
+/*
 .dashboard-card-5 {
   background-color: #4D83F5;
 }
@@ -4194,7 +4241,7 @@ button.swal2-confirm {
 
 .dashboard-card-6 {
   background-color: red;
-}
+} */
 
 
 
@@ -5023,4 +5070,13 @@ display: none;
     padding: 0.2rem 0.6rem;
     margin: 0 0.2rem;
     padding-right: 10px !important;
+}
+.dashboard-request .card-header{
+    display: none;
+}
+.dashboard-request input{
+    display: none;
+}
+.dashboard-request tr.filters{
+    display: none;
 }
