@@ -17,8 +17,9 @@
         $pendingEmiOfferRequestCount = \App\Models\OfferRequest::where('status',App\Models\OfferRequest::STATUS_PENDING)->where('type', App\Models\OfferRequest::TYPE_EMI_OFFER)->count();
         $pendingLoanRequestCount = \App\Models\BankSuggestionRequest::where('status',App\Models\BankSuggestionRequest::STATUS_SUBMITTED)->where('type', App\Models\BankSuggestionRequest::TYPE_LOAN)->count();
         $pendingBankSuggestionRequestCount = \App\Models\BankSuggestionRequest::where('status',App\Models\BankSuggestionRequest::STATUS_SUBMITTED)->where('type', App\Models\BankSuggestionRequest::TYPE_BANK)->count();
+        $pendingReviewRequestCount = \App\Models\Review::where('status',App\Models\Review::STATUS_SUBMITTED)->count();
     
-        $count =  $pendingTestRideRequestCount +  $pendingOfferRequestCount + $pendingOnRoadPriceRequestCount + $pendingEmiOfferRequestCount + $pendingLoanRequestCount + $pendingBankSuggestionRequestCount;
+        $count =  $pendingTestRideRequestCount +  $pendingOfferRequestCount + $pendingOnRoadPriceRequestCount + $pendingEmiOfferRequestCount + $pendingLoanRequestCount + $pendingBankSuggestionRequestCount + $pendingReviewRequestCount;
 
     @endphp
 
@@ -155,6 +156,24 @@
                                                 <p class="m-0">
                                                     <small>
                                                         Pending Bank Suggestion Request - <span class="text-primary">{{ $pendingBankSuggestionRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif 
+                            @if( $pendingReviewRequestCount > 0)
+                                <li class="list-group">                  
+                                    <a href="{{ route('admin.reviews.index',['status' => 2]) }}" class="list-group-item">
+                                        <div class="media">
+                                             <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending Review Request - <span class="text-primary">{{ $pendingReviewRequestCount}}</span><br>
                                                     </small>
                                                 </p>
                                             </div>
