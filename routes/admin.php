@@ -82,52 +82,52 @@ Route::middleware('auth:admin')->group(function () {
 
 
 // Dashboard
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 });
 
 // users
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Users'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Users'])->group(function () {
     Route::resources([
         'user' => UserController::class
     ]);
 });
 
 //Brands
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Brands'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Brands'])->group(function () {
     Route::resources([
         'brand' => BrandController::class,              // Brands
     ]);
 });
 //Body Type
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Body Types'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Body Types'])->group(function () {
     Route::resources([
         'body-type' => BodyTypeController::class,       // Body Type
     ]);
 });
 
 //Colour
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Colors'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Colors'])->group(function () {
     Route::resources([
         'color' => ColorController::class,             //color
     ]);
 });
 
 //Emi Calculator
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Emi Calculator'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Emi Calculator'])->group(function () {
     Route::resources([
         'emi-info' => EmiCalculatorController::class,   // Emi Calculator
     ]);
 });
 
 //Loan Eligibility Calculator
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Loan Eligibility Calculator'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Loan Eligibility Calculator'])->group(function () {
     Route::resources([
         'loan-info' => LoanController::class,           //Loan Eligibility Calculator
     ]);
 });
 //Car Management
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'])->group(function () {
     Route::resources([
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version
@@ -137,21 +137,21 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'
 });
 
 //Test Drive Requests
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Test Drive Requests'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Test Drive Requests'])->group(function () {
 
     Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
     Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index', 'show']);
 });
 
 //Offers
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers'])->group(function () {
     Route::resources([
         'offers' => OfferController::class,              // Offers
     ]);
 });
 
 //Offers Requests
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers Requests'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers Requests'])->group(function () {
     Route::resources([
         'offer-requests' => OfferRequestController::class,              // Offers Requests
     ]);
@@ -160,14 +160,14 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers Requests
 });
 
 //Notifications
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Notifications'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Notifications'])->group(function () {
     Route::resources([
         'notifications' => NotificationController::class, //Notifications
     ]);
 });
 
 //Banks
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Banks'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Banks'])->group(function () {
 
     Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
     Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
@@ -179,21 +179,21 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Banks'])->name(
 });
 
 //Reviews
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Reviews'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Reviews'])->group(function () {
 
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
     Route::resource('reviews', ReviewController::class)->only(['index', 'show']);
 });
 
 //Faq
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Faq'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Faq'])->group(function () {
     Route::resources([
         'faq' => FaqController::class,                  // FAQ
     ]);
 });
 
 //News
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|News'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|News'])->group(function () {
     Route::resources([
         'news' => NewsPostController::class,            // News
     ]);
@@ -202,7 +202,7 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|News'])->name('
 
 
 //Trash
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Trash'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Trash'])->group(function () {
 
     Route::resource('trash-user', UserTrashController::class)->only('index', 'show', 'edit');
     Route::resource('trash-brand', BrandTrashController::class)->only('index', 'show', 'edit');
