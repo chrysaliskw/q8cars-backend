@@ -23,6 +23,7 @@ class TestdriveDashboardDataGrid extends Grid
             ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
             ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
             ->select(['test_drives.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model','brands.name as brand_name'])
+            ->where('test_drives.status', '!=', TestDrive::STATUS_NOT_VERIFIED)
             ->orderBy('test_drives.id', 'Desc');
         return $query;
     }
