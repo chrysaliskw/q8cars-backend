@@ -22,20 +22,7 @@
 
                 </div>
 
-                <div class="col-md-4">
-                    <label  for="password-text" style="margin-right:100px">Password</label>
-                    <div class="input-group" >
-                        <input type="text" id="password" name="password" class="form-control" >
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><a style="height:1px;margin-top:-20px;cursor:pointer"class="input-group-addon btn-crs "value="Generate" onClick="randomPassword(10);">Generate</a></span>
-                        </div>
-                    </div>
-                    <span class="error" role="alert">
-                            @error('password')
-                                {{ $message }}<br>
-                            @enderror
-                    </span>
-                </div>
+
             </div>
 
             <div class="row">
@@ -53,6 +40,20 @@
                             <option {{ old("status") == $value ? "Selected" : "" }} value="{{ $value }}">{{ $label }}</option>
                         @endforeach
                     </x-form-select>
+                </div>
+                <div class="col-md-4">
+                    <label  for="password-text" style="margin-right:100px">Password</label>
+                    <div class="input-group" >
+                        <input type="text" id="password" name="password" class="form-control" >
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><a style="height:1px;margin-top:-20px;cursor:pointer"class="input-group-addon btn-crs "value="Generate" onClick="randomPassword(10);">Generate</a></span>
+                        </div>
+                    </div>
+                    <span class="error" role="alert">
+                            @error('password')
+                                {{ $message }}<br>
+                            @enderror
+                    </span>
                 </div>
 
 

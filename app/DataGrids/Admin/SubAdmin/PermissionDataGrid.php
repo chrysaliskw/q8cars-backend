@@ -41,6 +41,11 @@ class PermissionDataGrid extends Grid
                     'attribute' => 'created_at',
                 ]
             ],
+            'action' => [
+                'routePrefix' => 'admin.sub-admin.admin',
+                'buttons' => ['view', 'delete'],
+                'contentCssClass' => 'grid-action-col',
+            ]
         ];
     }
 }

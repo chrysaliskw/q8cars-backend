@@ -24,7 +24,6 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        dd(config('hee'));
         $grid = new PermissionDataGrid(request()->query());
 
         return view('admin.sub-admin.permission.index', compact('grid'));
@@ -77,7 +76,7 @@ class PermissionController extends Controller
             $admin->givePermissionTo($permission);
         } catch (Exception $ex) {
             logger($ex);
-            return back()->with('error', __('aap.error'))->withInput();
+            return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.sub-admin.permission.create')
             ->with('success', 'Permission created successfully !');

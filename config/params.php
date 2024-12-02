@@ -242,6 +242,7 @@ return [
             'Faq' => 'Faq',
             'News' => 'News',
             'Reports' => 'Reports',
+            'Trash' => 'Trash',
         ]
     ],
 

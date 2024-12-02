@@ -61,90 +61,160 @@ Route::middleware('guest:admin')->group(function () {
  * Routes that are common to autheticated admin users
  */
 Route::middleware('auth:admin')->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
 
     // Admin Profile
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/profile/{profile}', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    // Select2
+    //select
     Route::get('brand/select', [BrandController::class, 'select'])->name('brand.select');
     Route::get('body-type/select', [BodyTypeController::class, 'select'])->name('body-type.select');
     Route::get('car/select', [CarController::class, 'select'])->name('car.select');
     Route::get('color/select', [ColorController::class, 'select'])->name('color.select');
     Route::get('car-version/select', [CarVersionController::class, 'select'])->name('car-version.select');
-
-    Route::resources([
-        'brand' => BrandController::class,              // Brands
-        'body-type' => BodyTypeController::class,       // Body Type
-        'user' => UserController::class,                // User
-        'car' => CarController::class,                  // Car
-        'car-version' => CarVersionController::class,   // Car Version
-        'color' => ColorController::class,             //color
-        'faq' => FaqController::class,                  // FAQ
-        'news' => NewsPostController::class,            // News
-        'emi-info' => EmiCalculatorController::class,   // Emi Calculator
-        'comparison' => CarComparisonListsController::class, // Car Comparison
-        'offers' => OfferController::class,              // Offers
-        'notifications' => NotificationController::class, //Notifications
-        'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
-        'partner-banks' => PartnerBankController::class, //Partner Banks
-        // 'image-360' => Image360Controller::class,       //Image 360
-        'loan-info' => LoanController::class,           //Loan Eligibility Calculator
-    ]);
-
-    //bank
-    Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
-    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
-
-    //loan
-    Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
-    Route::resource('loan-requests', LoanRequestController::class)->only(['index', 'show']);
-
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
-    // Test ride requests
-    Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
-    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index', 'show']);
-
-    // Offers
-    // Route::resource('offers', OfferController::class);
-
-    // Offer request
-    Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
-    Route::resource('offer-requests', OfferRequestController::class)->only(['index', 'show']);
-
-    // Review
-    Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
-    Route::resource('reviews', ReviewController::class)->only(['index', 'show']);
-
-    //News
-    Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
-
-
-
-
-    //Trash
-    Route::resource('trash-user', UserTrashController::class)->only('index', 'show', 'edit');
-    Route::resource('trash-brand', BrandTrashController::class)->only('index', 'show', 'edit');
-    Route::resource('trash-body-type', BodyTypeTrashController::class)->only('index', 'show', 'edit');
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
-// Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
-// Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
-//     // Route::get('/get-subsections', [PermissionController::class, 'getSubSection'])->name('permission.get-subsections');
-//     Route::resource('permission', PermissionController::class);
-//     Route::resource('role', RoleController::class);
-//     Route::resource('admin', SubAdminController::class);
-// });
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])
-    ->name('sub-admin.')
-    ->prefix('sub-admins')
-    ->group(function () {
 
-        Route::resource('permission', PermissionController::class);
-        Route::resource('role', RoleController::class);
-        Route::resource('admin', SubAdminController::class);
-    });
+
+
+// Dashboard
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+});
+
+// users
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Users'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'user' => UserController::class
+    ]);
+});
+
+//Brands
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Brands'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'brand' => BrandController::class,              // Brands
+    ]);
+});
+//Body Type
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Body Types'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'body-type' => BodyTypeController::class,       // Body Type
+    ]);
+});
+
+//Colour
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Colors'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'color' => ColorController::class,             //color
+    ]);
+});
+
+//Emi Calculator
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Emi Calculator'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'emi-info' => EmiCalculatorController::class,   // Emi Calculator
+    ]);
+});
+
+//Loan Eligibility Calculator
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Loan Eligibility Calculator'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'loan-info' => LoanController::class,           //Loan Eligibility Calculator
+    ]);
+});
+//Car Management
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'car' => CarController::class,                  // Car
+        'car-version' => CarVersionController::class,   // Car Version
+        'comparison' => CarComparisonListsController::class, // Car Comparison
+        'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
+    ]);
+});
+
+//Test Drive Requests
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Test Drive Requests'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+
+    Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
+    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index', 'show']);
+});
+
+//Offers
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'offers' => OfferController::class,              // Offers
+    ]);
+});
+
+//Offers Requests
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers Requests'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'offer-requests' => OfferRequestController::class,              // Offers Requests
+    ]);
+    Route::resource('offer-requests', OfferRequestController::class)->only(['index', 'show']);
+    Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
+});
+
+//Notifications
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Notifications'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'notifications' => NotificationController::class, //Notifications
+    ]);
+});
+
+//Banks
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Banks'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+
+    Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
+    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
+    Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
+    Route::resource('loan-requests', LoanRequestController::class)->only(['index', 'show']);
+    Route::resources([
+        'partner-banks' => PartnerBankController::class, //Partner Banks
+    ]);
+});
+
+//Reviews
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Reviews'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+
+    Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::resource('reviews', ReviewController::class)->only(['index', 'show']);
+});
+
+//Faq
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Faq'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'faq' => FaqController::class,                  // FAQ
+    ]);
+});
+
+//News
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|News'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resources([
+        'news' => NewsPostController::class,            // News
+    ]);
+    Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
+});
+
+
+//Trash
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Trash'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+
+    Route::resource('trash-user', UserTrashController::class)->only('index', 'show', 'edit');
+    Route::resource('trash-brand', BrandTrashController::class)->only('index', 'show', 'edit');
+    Route::resource('trash-body-type', BodyTypeTrashController::class)->only('index', 'show', 'edit');
+});
+// ------------------------------------------------------------
+
+
+// Sub Admin
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resource('permission', PermissionController::class);
+    Route::resource('role', RoleController::class);
+    Route::resource('admin', SubAdminController::class);
+    // Route::post('/admin/add-role', [SubAdminController::class, 'addRole'])->name('admin.add-role');
+});

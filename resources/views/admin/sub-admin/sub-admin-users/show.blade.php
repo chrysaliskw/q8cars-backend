@@ -41,29 +41,9 @@
                                 @endif
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 control-label">Country</label>
-                                <div class="col-sm-8">
-                                    {{ $admin->country ? $admin->country->name : 'NULL' }}
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 control-label">Region</label>
-                                <div class="col-sm-8">
-                                    {{ $admin->region ? $admin->region->name : 'NULL' }}
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 control-label">District</label>
-                                <div class="col-sm-8">
-                                    {{ $admin->district ? $admin->district->name: 'NULL' }}
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 control-label">Town</label>
-                                <div class="col-sm-8">
-                                    {{ $admin->town ? $admin->town->name : 'NULL' }}
-                                </div>
+
+
+                            
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Role</label>

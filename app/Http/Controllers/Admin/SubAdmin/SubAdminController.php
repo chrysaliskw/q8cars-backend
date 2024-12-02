@@ -19,6 +19,8 @@ use Illuminate\Validation\Rule;
 use App\Http\Requests\Admin\SubAdminRequest;
 use App\DataGrids\Admin\SubAdmin\SubAdminDataGrid;
 use App\Models\Area;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class SubAdminController extends Controller
 {
@@ -90,13 +92,9 @@ class SubAdminController extends Controller
                 $request->picture->store(Admin::FILE_DIR);
                 $admin->picture = $request->picture->hashName();
             }
-            // if ($this->request->hasfile('icon')) {
-            //     $this->request->icon->store(Brand::FILE_DIR);
-            //     $this->brand->icon = $this->request->icon->hashName();
-            // }
+
             $admin->status = $request->status;
             $admin->role = $request->role;
-            // $admin->picture = $request->picture;
             $admin->save();
 
             //Assigning role to subAdmin
@@ -144,18 +142,7 @@ class SubAdminController extends Controller
     {
 
 
-        if ($admin->country_id) {
-            $currentCountry = json_encode([
-                'id' => $admin->country_id,
-                'name' => $admin->country->name,
-            ]);
-        }
-        if ($admin->area_id) {
-            $currentArea = json_encode([
-                'id' => $admin->area_id,
-                'name' => $admin->area->name,
-            ]);
-        }
+
 
         $role = $admin->roles()->pluck('id');
 
@@ -165,7 +152,7 @@ class SubAdminController extends Controller
 
         $roles = Role::where('name', 'not like', 'Super Admin')->get();
 
-        return view('admin.sub-admin.sub-admin-users.edit', compact('admin', 'roleId', 'roles', 'countries', 'areas', 'currentCountry', 'currentArea'));
+        return view('admin.sub-admin.sub-admin-users.edit', compact('admin', 'roleId', 'roles',));
     }
 
     /**
@@ -175,48 +162,68 @@ class SubAdminController extends Controller
      * @param  \App\Models\admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(SubAdminRequest $request, admin $admin)
+    public function update(Request $request, admin $admin)
     {
-        DB::beginTransaction();
+        // dd($request->all());
+        request()->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:200',
+                Rule::unique('admins', 'name')->ignore($admin->id),
+            ],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:200',
+                Rule::unique('admins', 'email')->ignore($admin->id),
+            ],
+            'picture' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'password' => 'nullable|string|min:8|max:15|regex:/^[a-zA-Z\d!@#$%^&*_]*$/',
+            'status' => 'required',
+            'role' => 'required',
+        ]);
 
         try {
-
             $admin->name = $request->name;
             $admin->email = $request->email;
-            if (! empty($request->password)) {
+
+            // Handle password
+            if (!empty($request->password)) {
                 $admin->password = Hash::make($request->password);
+            } else {
+                $admin->password = $admin->getOriginal('password');
             }
 
-            if (! empty($request->file_name)) {
-                $request->file_name->store(Admin::FILE_DIR);
-                $admin->picture = $request->file_name->hashName();
+            // Handle picture
+            if ($request->hasFile('picture')) {
+                // Delete old picture if exists
+                if (!empty($admin->picture)) {
+                    Storage::delete(Admin::FILE_DIR . $admin->picture);
+                }
+                // Store new picture
+                $request->picture->store(Admin::FILE_DIR);
+                $admin->picture = $request->picture->hashName();
             }
+
+
             $admin->status = $request->status;
-            $admin->country_id = $request->country_id;
-            $admin->area_id = $request->area_id;
+            $admin->role = $request->role;
             $admin->save();
 
-            //Delete current role
-            $roleId = $role = $admin->roles()->pluck('id');
-            $currentRole = Role::findById($roleId[0]);
-            $admin->removeRole($currentRole);
-
-            //Assigning new role to subAdmin
+            // Assign role
             $role = Role::findById($request->role);
             $admin->assignRole($role);
+            Log::info('Password from request: ' . $request->password);
 
             DB::commit();
-
-            // if (! empty($request->password)) {
-            //     Mail::to($admin->email)->send(new PasswordMail($admin, $request->password));
-            // }
-
         } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
-            throw ($ex);
-            return back()->with('error', __('app_error'))->withInput();;
+            return back()->with('error', __('app_error'))->withInput();
         }
+
 
         return redirect()->route('admin.sub-admin.admin.show', $admin)->with('success', 'Sub Admin updated successfully !');
     }

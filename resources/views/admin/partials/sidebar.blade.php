@@ -138,7 +138,7 @@
                         <i class="fa fa-newspaper-o"></i><span> News</span>
                     </a>
                 </li>
-                @canany(['ALL'])
+
                     <li class="has_sub">
                         <a href="#" class="waves-effect"><i class="fa fa-user"></i> <span> Sub Admins </span> <span
                                 class="pull-right"><i class="md md-add"></i></span></a>
@@ -154,7 +154,6 @@
                             </li>
                         </ul>
                     </li>
-                @endcanany
 
 
                 <li class="has_sub">
