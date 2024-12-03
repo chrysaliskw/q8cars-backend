@@ -10,7 +10,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Api\User\OfferRequestService;
-   
+use Google\Service\CloudSearch\Id;
+
 class OfferRequestController extends ApiBaseController
 {
     
@@ -40,6 +41,11 @@ class OfferRequestController extends ApiBaseController
 
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        
+        if(OfferRequest::where('user_id',Auth::id())->where('type',$request->type)->where('status',OfferRequest::STATUS_PENDING)->exists())
+        {
+            return $this->error('You already have a request submitted', Response::HTTP_OK);
         }
 
         try {

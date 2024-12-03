@@ -58,7 +58,7 @@
                 <x-form-input type="text" field="attribute_${rowCount}" id="attribute_${rowCount}" class="validate"></x-form-input>
             </td>
             <td>
-                <x-form-select field="input_type_${rowCount}" id="input_type_${rowCount}" onchange="toggleFields(${rowCount})">
+                <x-form-select field="input_type_${rowCount}" id="input_type_${rowCount}" onchange="toggleFields(${rowCount})" style="width:80px;">
                     <option value="1">Text</option>
                     <option value="2">Boolean</option>
                 </x-form-select>

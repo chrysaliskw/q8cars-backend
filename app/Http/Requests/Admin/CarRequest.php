@@ -128,7 +128,7 @@ class CarRequest extends FormRequest
             // 'wheel_covers' => 'nullable|integer',
             // 'alloy_wheels' => 'nullable|integer',
             // '360_view_camera' => 'nullable|integer',
-            'view_camera' => ['nullable', Rule::in(array_keys(config('params.car.view-camera')))],
+            'view_camera' => ['required', Rule::in(array_keys(config('params.car.view-camera')))],
             // 'boot_space' => 'required|numeric|min:1|max:999999',
             // 'power_windows' => 'required|string',
 
@@ -401,7 +401,7 @@ class CarRequest extends FormRequest
         // 'wheel_covers' => 'nullable|integer',
         // 'alloy_wheels' => 'nullable|integer',
         // '360_view_camera' => 'nullable|integer',
-        'view_camera' => ['nullable', Rule::in(array_keys(config('params.car.view-camera')))],
+        'view_camera' => ['required', Rule::in(array_keys(config('params.car.view-camera')))],
         // 'boot_space' => 'required|numeric|min:1|max:999999',
         // 'power_windows' => 'required|string',
 
