@@ -17,31 +17,37 @@ class LoanDashboardDataGrid extends Grid
     public function gridQuery()
     {
         $query = BankSuggestionRequest::query()
-        ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
-        ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
-        ->select(['bank_suggestion_requests.id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.name as requested_user'])
-        ->where('type', BankSuggestionRequest::TYPE_LOAN)
+            ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
+            ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
+            ->select(['bank_suggestion_requests.id', 'user_id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.mobile as user_mobile'])
+            ->where('type', BankSuggestionRequest::TYPE_LOAN)
+            // ->when(request()->query('first_name'), function($query){
+        //     $query->where('bank_suggestion_requests.first_name', 'like', '%'.request()->query('first_name').'%')
+        //     ->orWhere('bank_suggestion_requests.last_name', 'like', '%'.request()->query('last_name').'%');
+        // })
         ->orderBy('bank_suggestion_requests.id', 'Desc');
         return $query;
     }
 
     public function columns()
     {
-        return[
+        return [
 
             'requested_user' => [
-                'label' => 'Requested User',
-                'value' => function($model){
-                    return $model->requested_user;
+                'label' => 'User Mobile',
+                'value' => function ($model) {
+                    // return trim($model->user->phone_code . ' ' . $model->user->mobile);
+                    return "<a href='" . route('admin.user.show', $model->user_id) . "'> {$model->user->phone_code} {$model->user_mobile}</a>";
                 },
                 'filter' => true,
                 'filterOptions' => [
-                    'attribute' => 'users.name',
+                    'attribute' => 'users.mobile',
                 ]
             ],
 
+
             'first_name' => [
-                'label' => 'Full Name',
+                'label' => 'Requested Name',
                 'value' => function($model){
                     return trim($model->first_name . ' ' . $model->last_name);
                 },
@@ -85,7 +91,7 @@ class LoanDashboardDataGrid extends Grid
             ],
 
             'contact_number' => [
-                'label' => 'Contact Number',
+                'label' => 'Requested Mobile',
                 'value' => function($model){
                     return $model->contact_number;
                 },
@@ -96,7 +102,7 @@ class LoanDashboardDataGrid extends Grid
             ],
 
             'email' => [
-                'label' => 'Email',
+                'label' => 'Requested Email',
                 'value' => function($model){
                     return $model->email;
                 },
