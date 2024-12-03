@@ -159,9 +159,9 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers'])->grou
 
 //Offers Requests
 Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers Requests'])->group(function () {
-    Route::resources([
-        'offer-requests' => OfferRequestController::class,              // Offers Requests
-    ]);
+    // Route::resources([
+    //     'offer-requests' => OfferRequestController::class,              // Offers Requests
+    // ]);
     Route::resource('offer-requests', OfferRequestController::class)->only(['index', 'show']);
     Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
 });
