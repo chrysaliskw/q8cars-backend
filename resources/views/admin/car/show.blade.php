@@ -242,7 +242,7 @@
         </div>
 
     </x-card>
-    
+
     <div class="row">
         <div class="col-md-6">
             <div class="card card-border card-primary">
@@ -580,7 +580,7 @@
 
                                         <img src="{{ file_asset('files-car', $image->file_name) }}"
                                             alt='brand-img' class='img-thumbnail' width='200' height='250'>
-                                        <button class="btn-primary" >{{$colorsAvailable[$image->color]}}</button>
+                                        <button class="btn-primary" >{{ $colorsAvailable[$image->color] ?? 'Color Not Exist' }}</button>
 
                                     @endif
 
