@@ -29,12 +29,15 @@ use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Car;
 use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\Reports\TestRideRequestsController;
+use App\Http\Controllers\Api\User\TestDriveRequestController;
+
 use App\Http\Controllers\Api\User\LoanController as UserLoanController;
-
-use App\Http\Controllers\Admin\SubAdmin\PermissionController;
-use App\Http\Controllers\Admin\SubAdmin\RoleController;
-use App\Http\Controllers\Admin\SubAdmin\SubAdminController;
-
+use App\Http\Controllers\Admin\Reports\UserReportsController;
+use App\Http\Controllers\Admin\Reports\CarReportsController;
+use App\Http\Controllers\Admin\Reports\LoanRequestReportController;
+use App\Http\Controllers\Admin\Reports\OfferRequestReportsController;
 /*
 |--------------------------------------------------------------------------
 | Admin Common Routes
@@ -74,6 +77,11 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('car/select', [CarController::class, 'select'])->name('car.select');
     Route::get('color/select', [ColorController::class, 'select'])->name('color.select');
     Route::get('car-version/select', [CarVersionController::class, 'select'])->name('car-version.select');
+    Route::get('car/add-360-view', [CarController::class, 'add360ViewImages'])->name('car.360-view.add');
+    Route::post('car/store-360-view', [CarController::class, 'store360ViewImages'])->name('car.360-view.store');
+    Route::post('car/delete-360-view', [CarController::class, 'delete360ViewImage'])->name('car.360-view.delete');
+    Route::post('car/update-360-view', [CarController::class, 'update360ViewImage'])->name('car.360-view.update');
+    Route::get('bank/select', [SuggestedBankController::class, 'select'])->name('bank.select');
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -131,6 +139,10 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'
     Route::resources([
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version
+        'color' => ColorController::class,             //color
+        'faq' => FaqController::class,                  // FAQ
+        'news' => NewsPostController::class,            // News
+        'emi-info' => EmiCalculatorController::class,   // Emi Calculator
         'comparison' => CarComparisonListsController::class, // Car Comparison
         'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
     ]);
@@ -171,50 +183,40 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Banks'])->group
 
     Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
     Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
+
+    //loan
     Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
     Route::resource('loan-requests', LoanRequestController::class)->only(['index', 'show']);
-    Route::resources([
-        'partner-banks' => PartnerBankController::class, //Partner Banks
-    ]);
-});
 
-//Reviews
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Reviews'])->group(function () {
+    Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
+    // Test ride requests
+    Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
+    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index', 'show']);
 
+    // Offers
+    // Route::resource('offers', OfferController::class);
+
+    // Offer request
+    Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
+    Route::resource('offer-requests', OfferRequestController::class)->only(['index', 'show']);
+
+    // Review
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
     Route::resource('reviews', ReviewController::class)->only(['index', 'show']);
-});
 
-//Faq
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Faq'])->group(function () {
-    Route::resources([
-        'faq' => FaqController::class,                  // FAQ
-    ]);
-});
-
-//News
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|News'])->group(function () {
-    Route::resources([
-        'news' => NewsPostController::class,            // News
-    ]);
-    Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
-});
+    //News
+    Route::middleware(['auth:admin', 'role_or_permission:Super Admin|News'])->group(function () {
+        Route::resources([
+            'news' => NewsPostController::class,            // News
+        ]);
+        Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
+    });
 
 
-//Trash
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Trash'])->group(function () {
-
+    //Trash
     Route::resource('trash-user', UserTrashController::class)->only('index', 'show', 'edit');
     Route::resource('trash-brand', BrandTrashController::class)->only('index', 'show', 'edit');
     Route::resource('trash-body-type', BodyTypeTrashController::class)->only('index', 'show', 'edit');
-});
-// ------------------------------------------------------------
-
-
-// Sub Admin
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
-    Route::resource('permission', PermissionController::class);
-    Route::resource('role', RoleController::class);
-    Route::resource('admin', SubAdminController::class);
-    // Route::post('/admin/add-role', [SubAdminController::class, 'addRole'])->name('admin.add-role');
+    // Logout
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

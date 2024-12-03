@@ -24,7 +24,10 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
 use App\Models\BrandColorMapping;
+use App\Models\View360Image;
 use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 
 class CarController extends Controller
 {
@@ -77,7 +80,6 @@ class CarController extends Controller
                 $rules["text_value_$i"] = 'nullable|string';
                 $rules["bool_value_$i"] = 'nullable|integer';
             }
-
         }
 
         // Apply the validator with dynamic rules
@@ -106,7 +108,7 @@ class CarController extends Controller
             return back()->with('error', $msg)->withInput();
         }
 
-        $attributeData = $this->setAttributes($validator->validated(),$rows);
+        $attributeData = $this->setAttributes($validator->validated(), $rows);
 
         $data = array_merge($request->validated(), $attributeData);
 
@@ -114,7 +116,7 @@ class CarController extends Controller
         for ($i = 0; $i < $rows; $i++) {
             $data['attribute_id'][$i] = null;
         }
-        $colorsAvailable = BrandColorMapping::where('brand_id',$request->brand_id)->pluck('id')->toArray();
+        $colorsAvailable = BrandColorMapping::where('brand_id', $request->brand_id)->pluck('id')->toArray();
         $rules = [];
         foreach ($colorsAvailable as $id) {
             $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg|max:2048';
@@ -123,21 +125,17 @@ class CarController extends Controller
         $data = array_merge($data, $validatedData);
         $data['row_count'] = $rows;
         // dd($data);
-        try
-        {
+        try {
             $service = new CarService($data);
             $car = $service->handle();
-        }
-        catch (PostTooLargeException $ex) {
+        } catch (PostTooLargeException $ex) {
             logger($ex);
             return back()->with('error', 'File size should be within 2MB')->withInput();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.car.show', $car)->with('success', 'Car created successfully!');
-
     }
 
     /**
@@ -148,16 +146,16 @@ class CarController extends Controller
 
         $fuel = json_decode($car->fuel_types, true);
         $newArray = array_combine(range(1, count($fuel)), array_values($fuel));
-        $fuelTypes =[];
-        foreach($newArray as $fuelType) {
+        $fuelTypes = [];
+        foreach ($newArray as $fuelType) {
             $fuelTypes[] = config('params.car.fuel_type')[$fuelType];
         }
 
         $travel_type = json_decode($car->travel_type, true);
         $travel_types = [];
-        if($travel_type) {
+        if ($travel_type) {
             $travel_typeArray = array_combine(range(1, count($travel_type)), array_values($travel_type));
-            foreach($travel_typeArray as $c) {
+            foreach ($travel_typeArray as $c) {
                 $travel_types[] = config('params.car.travel_type')[$c];
             }
         }
@@ -165,30 +163,30 @@ class CarController extends Controller
         $transmission = json_decode($car->transmission_type, true);
         $newAtransmissionarray = array_combine(range(1, count($transmission)), array_values($transmission));
         $transmissionTypes = [];
-        foreach($newAtransmissionarray as $transmissionType) {
+        foreach ($newAtransmissionarray as $transmissionType) {
             $transmissionTypes[] = config('params.car.transmission_type')[$transmissionType];
         }
 
         $color = json_decode($car->colours, true);
         $colorArray = array_combine(range(1, count($color)), array_values($color));
         $colors = [];
-        foreach($colorArray as $c) {
+        foreach ($colorArray as $c) {
             $colors[] = BrandColorMapping::find($c)->name;
         }
         $profession = json_decode($car->professions, true);
         $professions = [];
-        if($profession) {
+        if ($profession) {
             $professionArray = array_combine(range(1, count($profession)), array_values($profession));
-            foreach($professionArray as $c) {
+            foreach ($professionArray as $c) {
                 $professions[] = config('params.professions')[$c];
             }
         }
-        $colorsAvailable = BrandColorMapping::where('brand_id',$car->brand_id)->pluck('name','id')->toArray();
+        $colorsAvailable = BrandColorMapping::where('brand_id', $car->brand_id)->pluck('name', 'id')->toArray();
         $carVarient = $car->carSpec;
         $carVersion = $carVarient;
         $carVersions = CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->get();
 
-        return view('admin.car.show', compact('car','carVersions','fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions','carVersion','colorsAvailable', 'travel_types'));
+        return view('admin.car.show', compact('car', 'carVersions', 'fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions', 'carVersion', 'colorsAvailable', 'travel_types'));
     }
 
     /**
@@ -216,15 +214,15 @@ class CarController extends Controller
             $carVideos->push(new CarImage());
         }
 
-        $additionals = collect(CarAdditonalSpecifications::where('car_id', $car->id)->where('car_version_id',$carVarient->id)->get());
+        $additionals = collect(CarAdditonalSpecifications::where('car_id', $car->id)->where('car_version_id', $carVarient->id)->get());
         for ($i = $carVarient->carAdditionalSpecifications->count() + 1; $i <= 10; $i++) {
             $additionals->push(new CarAdditonalSpecifications());
         }
-// dd($additionals[0]);
+        // dd($additionals[0]);
         $currentProfessions = [];
         $selectedProfessionCount = 0;
-        if($car->professions) {
-            foreach(json_decode($car->professions) as $p) {
+        if ($car->professions) {
+            foreach (json_decode($car->professions) as $p) {
                 array_push($currentProfessions, $p);
                 $selectedProfessionCount++;
             }
@@ -233,9 +231,9 @@ class CarController extends Controller
 
         $currentFuels = [];
         $selectedFuelCount = 0;
-        foreach(json_decode($car->fuel_types) as $f) {
-           array_push($currentFuels, $f);
-           $selectedFuelCount++;
+        foreach (json_decode($car->fuel_types) as $f) {
+            array_push($currentFuels, $f);
+            $selectedFuelCount++;
         }
         $fcount = count(config('params.car.fuel_type'));
 
@@ -261,29 +259,44 @@ class CarController extends Controller
 
         $currentTransmissions = [];
         $selectedTransmissionCount = 0;
-        foreach(json_decode($car->transmission_type) as $t) {
-           array_push($currentTransmissions, $t);
-           $selectedTransmissionCount++;
+        foreach (json_decode($car->transmission_type) as $t) {
+            array_push($currentTransmissions, $t);
+            $selectedTransmissionCount++;
         }
         $tcount = count(config('params.car.transmission_type'));
 
         $currentColors = [];
         $selectedColorsCount = 0;
-        $colorsAvailable = BrandColorMapping::where('brand_id',$car->brand_id)->pluck('name','id')->toArray();
-        foreach(json_decode($car->colours) as $c) {
-           array_push($currentColors, $c);
-           $selectedColorsCount++;
+        $colorsAvailable = BrandColorMapping::where('brand_id', $car->brand_id)->pluck('name', 'id')->toArray();
+        foreach (json_decode($car->colours) as $c) {
+            array_push($currentColors, $c);
+            $selectedColorsCount++;
         }
         $ccount = count($colorsAvailable);
 
-        return view('admin.car.edit', compact('car', 'carVarient',
-            'currentBrand', 'currentBodyType',
-            'carImages', 'carVideos',
-            'pcount', 'selectedProfessionCount', 'currentProfessions',
-            'selectedFuelCount', 'currentFuels', 'fcount',
-            'tcount','selectedTransmissionCount', 'currentTransmissions',
-            'ccount','selectedColorsCount', 'currentColors',
-            'additionals','colorsAvailable', 'currentTravel','selectedTravelCount',
+        return view('admin.car.edit', compact(
+            'car',
+            'carVarient',
+            'currentBrand',
+            'currentBodyType',
+            'carImages',
+            'carVideos',
+            'pcount',
+            'selectedProfessionCount',
+            'currentProfessions',
+            'selectedFuelCount',
+            'currentFuels',
+            'fcount',
+            'tcount',
+            'selectedTransmissionCount',
+            'currentTransmissions',
+            'ccount',
+            'selectedColorsCount',
+            'currentColors',
+            'additionals',
+            'colorsAvailable',
+            'currentTravel',
+            'selectedTravelCount',
             'trcount'
         ));
     }
@@ -319,7 +332,6 @@ class CarController extends Controller
                 $rules["text_value_$i"] = 'nullable|string';
                 $rules["bool_value_$i"] = 'nullable|integer';
             }
-
         }
 
         // Apply the validator with dynamic rules
@@ -335,8 +347,8 @@ class CarController extends Controller
             'icon.*' => 'icon',
         ]);
 
-        if($validator->fails()) {
-            return back()->with('error',$validator->errors()->first())->withInput();
+        if ($validator->fails()) {
+            return back()->with('error', $validator->errors()->first())->withInput();
         }
 
         if ($msg = $this->categoryAttributeHasError('attribute', $validator->errors()->toArray())) {
@@ -349,10 +361,10 @@ class CarController extends Controller
             return back()->with('error', $msg)->withInput();
         }
 
-        $attributeData = $this->setAttributes($validator->validated(),$rows);
+        $attributeData = $this->setAttributes($validator->validated(), $rows);
 
         $data = array_merge($request->validated(), $attributeData);
-        $colorsAvailable = BrandColorMapping::where('brand_id',$car->brand_id)->pluck('id')->toArray();
+        $colorsAvailable = BrandColorMapping::where('brand_id', $car->brand_id)->pluck('id')->toArray();
         $rules = [];
         foreach ($colorsAvailable as $id) {
             $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg|max:2048';
@@ -362,13 +374,11 @@ class CarController extends Controller
         $data['update'] = 1;
         $carVarient = $car->carSpec;
         $data['row_count'] = $rows;
-    //    dd($data);
-        try
-        {
-            $service = new CarService($data, $car,$carVarient);
+        //    dd($data);
+        try {
+            $service = new CarService($data, $car, $carVarient);
             $car = $service->handle();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
@@ -380,7 +390,7 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        if(CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->count()) {
+        if (CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->count()) {
             return back()->with('error', 'Cannot delete car, versions exists')->withInput();
         }
 
@@ -401,7 +411,7 @@ class CarController extends Controller
             $car->delete();
 
             DB::commit();
-        }catch(Exception $ex) {
+        } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
@@ -432,7 +442,6 @@ class CarController extends Controller
 
         $response['results'] = $cars;
         $response['pagination'] = ['more' => !empty($cars) ?? false];
-
         return $response;
     }
 
@@ -442,7 +451,7 @@ class CarController extends Controller
             return false;
         }
 
-        $result = array_filter($errors, function ($a) use($key) {
+        $result = array_filter($errors, function ($a) use ($key) {
             return preg_match("!^{$key}.!", $a);
         }, ARRAY_FILTER_USE_KEY);
         if (empty($result)) {
@@ -452,9 +461,9 @@ class CarController extends Controller
         return array_values($result)[0][0];
     }
 
-    public function setAttributes($array,$rows)
+    public function setAttributes($array, $rows)
     {
-    //    dd($array);
+        //    dd($array);
         $data['section'] = [];
         $data['attribute'] = [];
         $data['input_type'] = [];
@@ -466,18 +475,18 @@ class CarController extends Controller
         $data['icon'] = [];
         $j = 0;
 
-        for($i = 0 ; $i < $rows; $i++) {
+        for ($i = 0; $i < $rows; $i++) {
             // dd($array['key_feature_'.$i]);
-            $data['section'][$j] = $array['section_'. $i] ??'';
-            $data['attribute'][$j] = $array['attribute_'. $i];
-            $data['input_type'][$j] = isset($array['input_type_'. $i])&&($array['input_type_'. $i] == 1) ? 1: 2;
-            $data['text_value'][$j] = isset($array['input_type_'. $i])&&($array['input_type_'. $i] == 1)? $array['text_value_'. $i]: '';
-            $data['bool_value'][$j] =  isset($array['input_type_'. $i])&&($array['input_type_'. $i] == 2) ? $array['bool_value_'.$i]: null;
-            $data['units'][$j] = $array['units_'. $i] ??'';
-            $data['attribute_id'][$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;
-            $data['key_feature'][$j] = isset($array['key_feature_'. $i]) ? $array['key_feature_'. $i]: 0;
-            $data['key_spec'][$j] = isset($array['key_spec_'. $i]) ? $array['key_spec_'. $i]: 0;
-            $data['icon'][$j] = isset($array['icon_'. $i]) ? $array['icon_'. $i]: null;
+            $data['section'][$j] = $array['section_' . $i] ?? '';
+            $data['attribute'][$j] = $array['attribute_' . $i];
+            $data['input_type'][$j] = isset($array['input_type_' . $i]) && ($array['input_type_' . $i] == 1) ? 1 : 2;
+            $data['text_value'][$j] = isset($array['input_type_' . $i]) && ($array['input_type_' . $i] == 1) ? $array['text_value_' . $i] : '';
+            $data['bool_value'][$j] =  isset($array['input_type_' . $i]) && ($array['input_type_' . $i] == 2) ? $array['bool_value_' . $i] : null;
+            $data['units'][$j] = $array['units_' . $i] ?? '';
+            $data['attribute_id'][$j] = isset($array['attribute_id_' . $i]) ? $array['attribute_id_' . $i] : null;
+            $data['key_feature'][$j] = isset($array['key_feature_' . $i]) ? $array['key_feature_' . $i] : 0;
+            $data['key_spec'][$j] = isset($array['key_spec_' . $i]) ? $array['key_spec_' . $i] : 0;
+            $data['icon'][$j] = isset($array['icon_' . $i]) ? $array['icon_' . $i] : null;
             $j++;
         }
 
@@ -491,9 +500,9 @@ class CarController extends Controller
         $data = [];
         $j = 0;
 
-        for($i = 0 ; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
 
-            $data[$j] = isset($array['attribute_id_'. $i]) ? $array['attribute_id_'. $i]: null;
+            $data[$j] = isset($array['attribute_id_' . $i]) ? $array['attribute_id_' . $i] : null;
 
             $j++;
         }
@@ -501,4 +510,61 @@ class CarController extends Controller
         return $data;
     }
 
+    public function add360ViewImages(Request $request)
+    {
+        $car = Car::find($request->id);
+        $images = View360Image::where('car_id', $car->id)->active()->get();
+        return view('admin.car.add-360-view', compact('car', 'images'));
+    }
+
+    public function store360ViewImages(Request $request)
+    {
+        $request->validate([
+            'picture' => 'required|image|mimes:jpeg,png,jpg|max:20480', // 20MB max
+        ]);
+
+        if ($request->hasFile('picture')) {
+            $image = new View360Image();
+            $path = $request->picture->store(View360Image::FILE_DIR);
+            $image->image = basename($path);
+            $image->car_id = $request->id;
+            $image->save();
+            // Return the image URL
+            return response()->json([
+                'success' => true,
+                'image_url' => file_asset('files-360_view', $image->image), // Use 'storage' to generate a public URL
+            ]);
+        }
+        return response()->json(['success' => false, 'message' => 'No file uploaded.'], 400);
+    }
+
+
+    public function delete360ViewImage(Request $request)
+    {
+        $image = View360Image::find($request->image_id);
+        $image->delete();
+        return response()->json([
+            'success' => true,
+
+        ]);
+    }
+    public function update360ViewImage(Request $request)
+    {
+        $request->validate([
+            'picture' => 'required|image|mimes:jpeg,png,jpg|max:20480', // 20MB max
+        ]);
+
+        if ($request->hasFile('picture')) {
+            $image = View360Image::find($request->image_id);
+            $path = $request->picture->store(View360Image::FILE_DIR);
+            $image->image = basename($path);
+            $image->save();
+
+            return response()->json([
+                'success' => true,
+                'image_url' => file_asset('files-360_view', $image->image),
+            ]);
+        }
+        return response()->json(['success' => false, 'message' => 'No file uploaded.'], 400);
+    }
 }

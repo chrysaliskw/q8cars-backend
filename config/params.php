@@ -25,6 +25,7 @@ return [
         'curated_comparisons' => CuratedComparison::FILE_DIR,
         'banks' => Bank::FILE_DIR,
         '360_view' => View360Image::FILE_DIR,
+        '360_view' => View360Image::FILE_DIR,
     ],
 
     'admin' => [
