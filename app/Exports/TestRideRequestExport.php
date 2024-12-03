@@ -65,6 +65,7 @@ class TestRideRequestExport implements FromQuery, WithColumnFormatting, WithMapp
             ->when($this->status, function ($query) {
                 $query->where('test_drives.status', $this->status);
             })
+
             ->whereBetween('test_drives.created_at', [$startDate, $endDate])
             ->select([
                 'test_drives.*',
@@ -72,8 +73,8 @@ class TestRideRequestExport implements FromQuery, WithColumnFormatting, WithMapp
                 'u.mobile as user_mobile',
                 'c.model_name as car_model',
                 'brands.name as brand_name',
-            ])   
-             ->where('test_drives.status', '<>', 5)
+            ])
+            ->where('test_drives.status', '<>', 5)
             ->orderBy('test_drives.id', 'desc');
     }
 

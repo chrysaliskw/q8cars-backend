@@ -7,9 +7,13 @@
     <x-crud-create cardTitle="Create Loan Request Report">
         <form method="GET" class="form-horizontal" action="{{ route('admin.reports.loan-requests.index') }}">
             <div class="row">
+
+
                 <div class="col-md-4">
-                    <x-form-input type="text" field="bank_name" field-name="Bank " value="<?php echo isset($_GET['bank_name']) ? $_GET['bank_name'] : ''; ?>"></x-form-input>
+                    <x-form-select field="bank_id" field-name="Bank Name" id="bank_id" ></x-form-select>
+                    <input type="hidden" id="bank_id_text" name="bank_id_text" value="<?php echo isset($_GET['bank_id_text']) ? $_GET['bank_id_text'] : ''; ?>" />
                 </div>
+
 
                 <div class="col-md-4">
                     <x-form-input type="text" field="name" field-name="User" value="<?php echo isset($_GET['name']) ? $_GET['name'] : ''; ?>"></x-form-input>
@@ -23,11 +27,11 @@
                             {{ $label }}
                         </option>
                     @endforeach
-                </x-form-select>                
+                </x-form-select>
             </div>
 
-            </div> 
-            <div class="row"> 
+            </div>
+            <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="start_date" class="control-label">Start date</label>
@@ -102,7 +106,7 @@
                         <input type="hidden" name="endDate" value="<?php echo $_GET['end_date'] ?? ''; ?>" />
                         <input type="hidden" name="user_id" value="<?php echo $_GET['user_id'] ?? ''; ?>" />
                         <input type="hidden" name="name" value="<?php echo $_GET['name'] ?? ''; ?>" />
-                        <input type="hidden" name="bank_name" value="<?php echo $_GET['bank_name'] ?? ''; ?>" />
+                        <input type="hidden" name="bank_id" value="<?php echo $_GET['bank_id'] ?? ''; ?>" />
                         <input type="hidden" name="status" value="<?php echo $_GET['status'] ?? ''; ?>" />
                         <input type="hidden" name="area_id" value="<?php echo $_GET['area_id'] ?? ''; ?>" />
                     </form>
@@ -116,7 +120,7 @@
     <x-slot name="scripts">
 
         <script type="application/javascript">
-    
+
             $("#start_date").datepicker({
                 format: 'dd-mm-yyyy',
                 orientation: 'bottom',
@@ -128,8 +132,53 @@
             });
 
 
-           
-            
+    const oldBankId = '{{ old('bank_id') }}';
+    const oldBankText = '{{ old('bank_id_text') }}';
+    const getBankId =
+    '{{ isset($_GET['bank_id']) ? $_GET['bank_id'] : '' }}';
+    const getBankText =
+    '{{ isset($_GET['bank_id_text']) ? $_GET['bank_id_text'] : '' }}';
+    console.log(oldBankId);
+    console.log(oldBankText);
+    console.log(getBankId);
+    console.log(getBankText);
+
+
+            $('#bank_id').select2({
+
+                placeholder: "Search bank name ",
+                minimumInputLength: 1,
+                ajax: {
+                    url: "{{ route('admin.bank.select') }}",
+                    dataType: 'json',
+                    data: function(params) {
+                        var query = {
+                            search: params.term,
+                            page: params.page || 1,
+                        }
+
+                        // Query parameters will be ?search=[term]&page=[page]
+                        return query;
+                    }
+                }
+                });
+                $('#bank_id').on('select2:select', function(e) {
+                const data = e.params.data;
+                $("#bank_id_text").val(data.text);
+
+                });
+
+                if (oldBankId && oldBrandText) {
+                const option = new Option(oldBankText, oldBankId, true, true);
+                $('#bank_id').append(option).trigger('change');
+                } else
+                if (getBankId && getBankText) {
+                const option = new Option(getBankText, getBankId, true, true);
+                $('#bank_id').append(option).trigger('change');
+                }
+
+
+
 
         </script>
 

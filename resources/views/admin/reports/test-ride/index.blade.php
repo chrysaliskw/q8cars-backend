@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <x-form-select field="brand_1_id" field-name="CarBrand" id="brand_1_id"></x-form-select>
-                    <input type="hidden" id="brand_1_id_text" name="brand_1_id_text" value="<?php echo isset($_GET['brand_1_id']) ? $_GET['brand_1_id'] : ''; ?>" />
+                    <input type="hidden" id="brand_1_id_text" name="brand_1_id_text" value="<?php echo isset($_GET['brand_1_id_text']) ? $_GET['brand_1_id_text'] : ''; ?>" />
                 </div>
                 @error('brand_1_id')
                     <span class="error" role="alert">{{ $message }}</span>
@@ -18,7 +18,7 @@
 
                 <div class="col-md-4">
                     <x-form-select field="car_1_id" field-name="Car Model" id="car_1_id"></x-form-select>
-                    <input type="hidden" id="car_id_1_text" name="car_id_1_text" value="<?php echo isset($_GET['car_1_id']) ? $_GET['car_1_id'] : ''; ?>" />
+                    <input type="hidden" id="car_id_1_text" name="car_id_1_text" value="<?php echo isset($_GET['car_id_1_text']) ? $_GET['car_id_1_text'] : ''; ?>" />
                 </div>
                 @error('car_1_id')
                     <span class="error" role="alert">{{ $message }}</span>
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -127,7 +127,7 @@
     <x-slot name="scripts">
 
         <script type="application/javascript">
-    
+
             $("#start_date").datepicker({
                 format: 'dd-mm-yyyy',
                 orientation: 'bottom',
@@ -139,7 +139,7 @@
             });
 
 
-            const oldBrandId = '{{ old('brand_1_id') }}';
+    const oldBrandId = '{{ old('brand_1_id') }}';
     const oldBrandText = '{{ old('brand_1_id_text') }}';
     const getBrandId = '{{ isset($_GET['brand_1_id']) ? $_GET['brand_1_id'] : '' }}';
     const getBrandText = '{{ isset($_GET['brand_1_id_text']) ? $_GET['brand_1_id_text'] : '' }}';
@@ -150,11 +150,11 @@
 
     console.log(oldBrandId);
     console.log(oldBrandText);
-    
-    
+
+
             $('#brand_1_id').select2({
 
-                placeholder: "Search brand 1",
+                placeholder: "Search brand",
                 minimumInputLength: 1,
                 ajax: {
                     url: "{{ route('admin.brand.select') }}",
@@ -178,7 +178,7 @@
                 $('#car_id_1_text').val(null).trigger('change');
 
                 });
-            
+
             if (oldBrandId && oldBrandText) {
         const option = new Option(oldBrandText, oldBrandId, true, true);
         $('#brand_1_id').append(option).trigger('change');
@@ -188,7 +188,7 @@
     }
 
             $('#car_1_id').select2({
-                placeholder: "Search car 1",
+                placeholder: "Search car",
                 minimumInputLength: 1,
                 ajax: {
                     url: "{{ route('admin.car.select') }}",
@@ -223,7 +223,7 @@
         $('#car_1_id').append(option).trigger('change');
     }
 
-            
+
 
         </script>
 

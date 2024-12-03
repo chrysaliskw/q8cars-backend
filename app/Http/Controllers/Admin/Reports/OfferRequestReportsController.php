@@ -18,8 +18,9 @@ class OfferRequestReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
+        // dd($request->all());
         if ($request->hasAny(['start_date', 'end_date'])) {
             $validated = $request->validate([
                 'start_date' => 'required|date|before_or_equal:today',
@@ -37,12 +38,12 @@ class OfferRequestReportsController extends Controller
                 ],
             ]);
         }
-        
-        $grid = new OfferRequestReportDataGrid(request()->query());  
-        return view('admin.reports.offer-request.index',compact('grid'));
+
+        $grid = new OfferRequestReportDataGrid(request()->query());
+        return view('admin.reports.offer-request.index', compact('grid'));
     }
 
-     /**
+    /**
      * Exporting the file
      *
      * @return file
@@ -52,18 +53,18 @@ class OfferRequestReportsController extends Controller
         if (empty($request->startDate) && empty($request->endDate) && empty($request->model) && empty($request->mobile)  && empty($request->type) && empty($request->status)) {
             return back()->with('error', __('Please choose at least one filter to export the report'));
         }
-       
+
         $name = 'Q8cars_Offer_Requests_Report.xlsx';
-        if(! empty($request->startDate)) {
+        if (! empty($request->startDate)) {
             $start = Carbon::parse($request->startDate)->format('d_M_Y');
             $end = Carbon::parse($request->endDate)->format('d_M_Y');
-            $name = 'Q8cars_Offer_Requests_Report'.$start.'_To_'.$end.'.xlsx';
+            $name = 'Q8cars_Offer_Requests_Report' . $start . '_To_' . $end . '.xlsx';
         }
         return (new OfferRequestExport($request->startDate, $request->endDate))
-            ->forModel($request->model)
+            ->forModel($request->car_1_id)
             ->forMobile($request->mobile)
             ->forType($request->type)
             ->forStatus($request->status)
-            ->download($name,\Maatwebsite\Excel\Excel::XLSX);
+            ->download($name, \Maatwebsite\Excel\Excel::XLSX);
     }
 }
