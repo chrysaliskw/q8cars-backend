@@ -10,11 +10,11 @@ class LoanRequestDataGrid extends Grid
     public function gridQuery()
     {
         $query = BankSuggestionRequest::query()
-        ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
-        ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
-        ->select(['bank_suggestion_requests.id', 'user_id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.mobile as user_mobile'])
-        ->where('type', BankSuggestionRequest::TYPE_LOAN)
-        // ->when(request()->query('first_name'), function($query){
+            ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
+            ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
+            ->select(['bank_suggestion_requests.id', 'user_id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.mobile as user_mobile'])
+            ->where('type', BankSuggestionRequest::TYPE_LOAN)
+            // ->when(request()->query('first_name'), function($query){
         //     $query->where('bank_suggestion_requests.first_name', 'like', '%'.request()->query('first_name').'%')
         //     ->orWhere('bank_suggestion_requests.last_name', 'like', '%'.request()->query('last_name').'%');
         // })
@@ -24,12 +24,12 @@ class LoanRequestDataGrid extends Grid
 
     public function columns()
     {
-        return[
+        return [
 
-            'user_mobile' => [
-                'label' => 'User Mobile',
+            'requested_user' => [
+                'label' => 'Requested User',
                 'value' => function ($model) {
-                    return trim($model->user->phone_code . ' ' . $model->user->mobile);
+                    return $model->requested_user;
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -49,15 +49,15 @@ class LoanRequestDataGrid extends Grid
             // ],
 
             'first_name' => [
-                'label' => 'Requested Name',
-                'value' => function($model){
+                'label' => 'Full Name',
+                'value' => function ($model) {
                     return trim($model->first_name . ' ' . $model->last_name);
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'attribute' => 'bank_suggestion_requests.first_name',
-                    ]
-                ],
+                ]
+            ],
 
             // 'first_name' => [
             //     'label' => 'First Name',
@@ -83,7 +83,7 @@ class LoanRequestDataGrid extends Grid
 
             'bank_name' => [
                 'label' => 'Bank Name',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->bank_name;
                 },
                 'filter' => true,
@@ -93,9 +93,9 @@ class LoanRequestDataGrid extends Grid
             ],
 
             'contact_number' => [
-                'label' => 'Contact Number',
-                'value' => function($model){
-                    return '+965 '. $model->contact_number;
+                'label' => 'Requested Mobile',
+                'value' => function ($model) {
+                    return '+965 ' . $model->contact_number;
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -105,7 +105,7 @@ class LoanRequestDataGrid extends Grid
 
             'email' => [
                 'label' => 'Email',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->email;
                 },
                 'filter' => true,
@@ -150,7 +150,7 @@ class LoanRequestDataGrid extends Grid
 
             'action' => [
                 'routePrefix' => 'admin.loan-requests',
-                'buttons' => ['view','update'],
+                'buttons' => ['view', 'update'],
                 'update' => function ($model) {
                     if ($model->status != BankSuggestionRequest::STATUS_ACCEPTED) {
                         return "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}' class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>

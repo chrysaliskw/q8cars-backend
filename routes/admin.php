@@ -27,15 +27,19 @@ use App\Http\Controllers\Admin\EmiCalculatorController;
 use App\Http\Controllers\Admin\Image360Controller;
 use App\Http\Controllers\Admin\LoanController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Models\Car;
 use App\Http\Controllers\Admin\OfferController;
-use App\Http\Controllers\Admin\Reports\TestRideRequestsController;
-use App\Http\Controllers\Api\User\TestDriveRequestController;
-
-use App\Http\Controllers\Api\User\LoanController as UserLoanController;
-use App\Http\Controllers\Admin\Reports\UserReportsController;
 use App\Http\Controllers\Admin\Reports\CarReportsController;
 use App\Http\Controllers\Admin\Reports\LoanRequestReportController;
 use App\Http\Controllers\Admin\Reports\OfferRequestReportsController;
+use App\Http\Controllers\Admin\Reports\TestRideRequestsController;
+use App\Http\Controllers\Admin\Reports\UserReportsController;
+use App\Http\Controllers\Api\User\LoanController as UserLoanController;
+
+use App\Http\Controllers\Admin\SubAdmin\PermissionController;
+use App\Http\Controllers\Admin\SubAdmin\RoleController;
+use App\Http\Controllers\Admin\SubAdmin\SubAdminController;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Common Routes
@@ -62,96 +66,175 @@ Route::middleware('guest:admin')->group(function () {
  * Routes that are common to autheticated admin users
  */
 Route::middleware('auth:admin')->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::post('/get-brand-data', [HomeController::class, 'getBrandData'])->name('get-brand-data');
+
 
     // Admin Profile
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
     Route::get('/profile/{profile}', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    // Select2
+    //select
     Route::get('brand/select', [BrandController::class, 'select'])->name('brand.select');
     Route::get('body-type/select', [BodyTypeController::class, 'select'])->name('body-type.select');
     Route::get('car/select', [CarController::class, 'select'])->name('car.select');
     Route::get('color/select', [ColorController::class, 'select'])->name('color.select');
     Route::get('car-version/select', [CarVersionController::class, 'select'])->name('car-version.select');
-    Route::get('car/add-360-view', [CarController::class, 'add360ViewImages'])->name('car.360-view.add');
-    Route::post('car/store-360-view', [CarController::class, 'store360ViewImages'])->name('car.360-view.store');
-    Route::post('car/delete-360-view', [CarController::class, 'delete360ViewImage'])->name('car.360-view.delete');
-    Route::post('car/update-360-view', [CarController::class, 'update360ViewImage'])->name('car.360-view.update');
-    Route::get('bank/select', [SuggestedBankController::class, 'select'])->name('bank.select');
+    Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
+    // Logout
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
 
+
+
+// Dashboard
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+});
+
+// users
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Users'])->group(function () {
+    Route::resources([
+        'user' => UserController::class
+    ]);
+});
+
+//Brands
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Brands'])->group(function () {
     Route::resources([
         'brand' => BrandController::class,              // Brands
+    ]);
+});
+//Body Type
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Body Types'])->group(function () {
+    Route::resources([
         'body-type' => BodyTypeController::class,       // Body Type
-        'user' => UserController::class,                // User
-        'car' => CarController::class,                  // Car
-        'car-version' => CarVersionController::class,   // Car Version
+    ]);
+});
+
+//Colour
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Colors'])->group(function () {
+    Route::resources([
         'color' => ColorController::class,             //color
-        'faq' => FaqController::class,                  // FAQ
-        'news' => NewsPostController::class,            // News
+    ]);
+});
+
+//Emi Calculator
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Emi Calculator'])->group(function () {
+    Route::resources([
         'emi-info' => EmiCalculatorController::class,   // Emi Calculator
-        'comparison' => CarComparisonListsController::class, // Car Comparison
-        'offers' => OfferController::class,              // Offers
-        'notifications' => NotificationController::class, //Notifications
-        'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
-        'partner-banks' => PartnerBankController::class, //Partner Banks
-        // 'image-360' => Image360Controller::class,       //Image 360
+    ]);
+});
+
+//Loan Eligibility Calculator
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Loan Eligibility Calculator'])->group(function () {
+    Route::resources([
         'loan-info' => LoanController::class,           //Loan Eligibility Calculator
     ]);
+});
+//Car Management
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'])->group(function () {
+    Route::resources([
+        'car' => CarController::class,                  // Car
+        'car-version' => CarVersionController::class,   // Car Version
+        'comparison' => CarComparisonListsController::class, // Car Comparison
+        'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
+    ]);
+});
 
-    //bank
-    Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
-    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
+//Test Drive Requests
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Test Drive Requests'])->group(function () {
 
-    //loan
-    Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
-    Route::resource('loan-requests', LoanRequestController::class)->only(['index', 'show']);
-
-    Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
-    // Test ride requests
     Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
     Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index', 'show']);
+});
 
-    // Offers
-    // Route::resource('offers', OfferController::class);
+//Offers
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers'])->group(function () {
+    Route::resources([
+        'offers' => OfferController::class,              // Offers
+    ]);
+});
 
-    // Offer request
-    Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
+//Offers Requests
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Offers Requests'])->group(function () {
+    // Route::resources([
+    //     'offer-requests' => OfferRequestController::class,              // Offers Requests
+    // ]);
     Route::resource('offer-requests', OfferRequestController::class)->only(['index', 'show']);
+    Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
+});
 
-    // Review
+//Notifications
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Notifications'])->group(function () {
+    Route::resources([
+        'notifications' => NotificationController::class, //Notifications
+    ]);
+});
+
+//Banks
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Banks'])->group(function () {
+
+    Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
+    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
+    Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
+    Route::resource('loan-requests', LoanRequestController::class)->only(['index', 'show']);
+    Route::resources([
+        'partner-banks' => PartnerBankController::class, //Partner Banks
+    ]);
+});
+
+//Reviews
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Reviews'])->group(function () {
+
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
     Route::resource('reviews', ReviewController::class)->only(['index', 'show']);
+});
 
-    //News
+//Faq
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Faq'])->group(function () {
+    Route::resources([
+        'faq' => FaqController::class,                  // FAQ
+    ]);
+});
+
+//News
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|News'])->group(function () {
+    Route::resources([
+        'news' => NewsPostController::class,            // News
+    ]);
     Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
+});
 
 
+//Trash
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Trash'])->group(function () {
 
-
-    //Trash
     Route::resource('trash-user', UserTrashController::class)->only('index', 'show', 'edit');
     Route::resource('trash-brand', BrandTrashController::class)->only('index', 'show', 'edit');
     Route::resource('trash-body-type', BodyTypeTrashController::class)->only('index', 'show', 'edit');
-    // Logout
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
+// ------------------------------------------------------------
+Route::name('reports.')->prefix('reports')->group(function () {
+    Route::get('/user', [UserReportsController::class, 'index'])->name('user.index');
+    Route::get('/user-export', [UserReportsController::class, 'export'])->name('user.export');
 
-    Route::name('reports.')->prefix('reports')->group(function () {
-        Route::get('/user', [UserReportsController::class, 'index'])->name('user.index');
-        Route::get('/user-export', [UserReportsController::class, 'export'])->name('user.export');
+    Route::get('/car', [CarReportsController::class, 'index'])->name('car.index');
+    Route::get('/car-export', [CarReportsController::class, 'export'])->name('car.export');
 
-        Route::get('/car', [CarReportsController::class, 'index'])->name('car.index');
-        Route::get('/car-export', [CarReportsController::class, 'export'])->name('car.export');
+    Route::get('/offer-request', [OfferRequestReportsController::class, 'index'])->name('offer-request.index');
+    Route::get('/offer-request-export', [OfferRequestReportsController::class, 'export'])->name('offer-request.export');
 
-        Route::get('/offer-request', [OfferRequestReportsController::class, 'index'])->name('offer-request.index');
-        Route::get('/offer-request-export', [OfferRequestReportsController::class, 'export'])->name('offer-request.export');
+    Route::get('/test-ride', [TestRideRequestsController::class, 'index'])->name('test-ride.index');
+    Route::get('/test-ride-export', [TestRideRequestsController::class, 'export'])->name('test-ride.export');
+    Route::get('/loan-requests', [LoanRequestReportController::class, 'index'])->name('loan-requests.index');
+    Route::get('/loan-requests-export', [LoanRequestReportController::class, 'export'])->name('loan-requests.export');
+});
 
-        Route::get('/test-ride', [TestRideRequestsController::class, 'index'])->name('test-ride.index');
-        Route::get('/test-ride-export', [TestRideRequestsController::class, 'export'])->name('test-ride.export');
-        Route::get('/loan-requests', [LoanRequestReportController::class, 'index'])->name('loan-requests.index');
-        Route::get('/loan-requests-export', [LoanRequestReportController::class, 'export'])->name('loan-requests.export');
-    });
+
+// Sub Admin
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-admin.')->prefix('sub-admins')->group(function () {
+    Route::resource('permission', PermissionController::class);
+    Route::resource('role', RoleController::class);
+    Route::resource('admin', SubAdminController::class);
+    // Route::post('/admin/add-role', [SubAdminController::class, 'addRole'])->name('admin.add-role');
 });
