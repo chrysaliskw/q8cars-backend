@@ -66,7 +66,9 @@ Route::middleware('guest:admin')->group(function () {
  * Routes that are common to autheticated admin users
  */
 Route::middleware('auth:admin')->group(function () {
-
+    // Dashboard
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::post('/get-brand-data', [HomeController::class, 'getBrandData'])->name('get-brand-data');
 
     // Admin Profile
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');

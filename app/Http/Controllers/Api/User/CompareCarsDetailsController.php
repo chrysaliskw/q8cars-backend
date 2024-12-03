@@ -8,6 +8,9 @@ use Illuminate\Http\Response;
 use App\Models\BrandColorMapping;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
+use App\Models\BrandColorMapping;
+use Illuminate\Support\Facades\Validator;
+use App\Models\CarAdditonalSpecifications;
 use App\Http\Controllers\Api\ApiBaseController;
 
 class CompareCarsDetailsController extends ApiBaseController
@@ -27,6 +30,7 @@ class CompareCarsDetailsController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
 
         $carIds = $request->carIds;
         $isCommon = $request->is_common;
@@ -335,12 +339,13 @@ class CompareCarsDetailsController extends ApiBaseController
     }
     private function colorInfo($cars)
     {
+    {
         $colours = [];
-        foreach($cars as $car){
+        foreach ($cars as $car) {
             foreach (json_decode($car->colours) as $type) {
-                $map=BrandColorMapping::find($type);
+                $map = BrandColorMapping::find($type);
                 if (isset($map)) {
-                    $colours[$car->id][$type]= $map->code;
+                    $colours[$car->id][$type] = $map->code;
                 }
             }
         }
@@ -360,10 +365,11 @@ class CompareCarsDetailsController extends ApiBaseController
                 foreach ($car->carSpec->engine as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $engineData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
+                    $engineData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
                 }
             }
         }
+        ksort($engineData);
         ksort($engineData);
         return $this->mergeSimilarLabels($engineData, $carCount);
     }
@@ -374,12 +380,12 @@ class CompareCarsDetailsController extends ApiBaseController
         $carCount = $cars->count();
         foreach ($cars as $key => $car) {
             $fuelData['fuel type']["car_$key"] =  strtolower(config('params.car.fuel_type')[$car->carSpec->fuel_type]);
-            $fuelData['mileage']["car_$key"] = $car->carSpec->mileage.' kmpl';
+            $fuelData['mileage']["car_$key"] = $car->carSpec->mileage . ' kmpl';
             if (isset($car->carSpec->fuel)) {
                 foreach ($car->carSpec->fuel as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $fuelData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
+                    $fuelData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
                 }
             }
         }
@@ -396,7 +402,7 @@ class CompareCarsDetailsController extends ApiBaseController
                 foreach ($car->carSpec->fuel as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $suspensionData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
+                    $suspensionData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
                 }
             }
         }
@@ -414,32 +420,30 @@ class CompareCarsDetailsController extends ApiBaseController
                 foreach ($car->carSpec->dimension as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $dimensionData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
+                    $dimensionData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
                 }
             }
         }
         ksort($dimensionData);
         return $this->mergeSimilarLabels($dimensionData, $carCount);
-
     }
     private function comfortInfo($cars)
     {
         $comfortData = [];
         $carCount = $cars->count();
         foreach ($cars as $key => $car) {
-             $comfortData['seat capacity']["car_$key"] =  $car->seat_capacity;
-             if (isset($car->carSpec->comfort)) {
+            $comfortData['seat capacity']["car_$key"] =  $car->seat_capacity;
+            if (isset($car->carSpec->comfort)) {
                 foreach ($car->carSpec->comfort as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $comfortData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
-            }
+                    $comfortData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
+                }
             }
         }
         ksort($comfortData);
 
-       return $this->mergeSimilarLabels($comfortData, $carCount);
-
+        return $this->mergeSimilarLabels($comfortData, $carCount);
     }
     private function interiorInfo($cars)
     {
@@ -451,14 +455,13 @@ class CompareCarsDetailsController extends ApiBaseController
                 foreach ($car->carSpec->interior as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $interiorData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
-    }
+                    $interiorData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
+                }
             }
         }
         ksort($interiorData);
 
-       return $this->mergeSimilarLabels($interiorData, $carCount);
-
+        return $this->mergeSimilarLabels($interiorData, $carCount);
     }
     private function exteriorInfo($cars)
     {
@@ -470,14 +473,13 @@ class CompareCarsDetailsController extends ApiBaseController
                 foreach ($car->carSpec->exterior as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $exteriorData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
-      }
+                    $exteriorData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
+                }
             }
         }
         ksort($exteriorData);
 
-       return $this->mergeSimilarLabels($exteriorData, $carCount);
-
+        return $this->mergeSimilarLabels($exteriorData, $carCount);
     }
     private function safetyInfo($cars)
     {
@@ -491,14 +493,13 @@ class CompareCarsDetailsController extends ApiBaseController
                 foreach ($car->carSpec->safety as $spec) {
                     $specLabelLower = strtolower($spec->specification);
                     $formattedLabel = strtolower(preg_replace('/[\s_-]+/', '', $spec->specification));
-                    $safetyData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec ,$key);
+                    $safetyData[$specLabelLower]["car_$key"] = $this->appendValue($engineData, $formattedLabel, $car, $spec, $key);
                 }
             }
         }
         ksort($safetyData);
 
-       return $this->mergeSimilarLabels($safetyData, $carCount);
-
+        return $this->mergeSimilarLabels($safetyData, $carCount);
     }
     private function entertainmentInfo($cars)
     {
@@ -515,8 +516,11 @@ class CompareCarsDetailsController extends ApiBaseController
         }
 
         ksort($entertainmentData);
+
+        ksort($entertainmentData);
         return $this->mergeSimilarLabels($entertainmentData, $carCount);
     }
+
 
     private function appendValue(&$data, $formattedLabel, $car, $spec, $key)
     {
@@ -525,6 +529,7 @@ class CompareCarsDetailsController extends ApiBaseController
         }
         return $spec->value . $spec->unit;
     }
+
 
     private function mergeSimilarLabels(&$data, $carCount)
     {
@@ -565,3 +570,4 @@ class CompareCarsDetailsController extends ApiBaseController
 
 
 }
+
