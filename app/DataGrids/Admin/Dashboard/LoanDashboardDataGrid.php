@@ -3,6 +3,7 @@
 namespace App\DataGrids\Admin\Dashboard;
 
 use App\Models\BankSuggestionRequest;
+use Illuminate\Support\Facades\Auth;
 use Rufaidulk\DataGrid\Grid;
 
 class LoanDashboardDataGrid extends Grid
@@ -17,21 +18,21 @@ class LoanDashboardDataGrid extends Grid
     public function gridQuery()
     {
         $query = BankSuggestionRequest::query()
-        ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
-        ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
-        ->select(['bank_suggestion_requests.id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.name as requested_user'])
-        ->where('type', BankSuggestionRequest::TYPE_LOAN)
-        ->orderBy('bank_suggestion_requests.id', 'Desc');
+            ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
+            ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
+            ->select(['bank_suggestion_requests.id', 'first_name', 'last_name', 'contact_number', 'bank_suggestion_requests.email', 'bank_suggestion_requests.status', 'banks.bank_name as bank_name', 'users.name as requested_user'])
+            ->where('type', BankSuggestionRequest::TYPE_LOAN)
+            ->orderBy('bank_suggestion_requests.id', 'Desc');
         return $query;
     }
 
     public function columns()
     {
-        return[
+        return [
 
             'requested_user' => [
                 'label' => 'Requested User',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->requested_user;
                 },
                 'filter' => true,
@@ -42,14 +43,14 @@ class LoanDashboardDataGrid extends Grid
 
             'first_name' => [
                 'label' => 'Full Name',
-                'value' => function($model){
+                'value' => function ($model) {
                     return trim($model->first_name . ' ' . $model->last_name);
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'attribute' => 'bank_suggestion_requests.first_name',
-                    ]
-                ],
+                ]
+            ],
 
             // 'first_name' => [
             //     'label' => 'First Name',
@@ -75,7 +76,7 @@ class LoanDashboardDataGrid extends Grid
 
             'bank_name' => [
                 'label' => 'Bank Name',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->bank_name;
                 },
                 'filter' => true,
@@ -86,7 +87,7 @@ class LoanDashboardDataGrid extends Grid
 
             'contact_number' => [
                 'label' => 'Contact Number',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->contact_number;
                 },
                 'filter' => true,
@@ -97,7 +98,7 @@ class LoanDashboardDataGrid extends Grid
 
             'email' => [
                 'label' => 'Email',
-                'value' => function($model){
+                'value' => function ($model) {
                     return $model->email;
                 },
                 'filter' => true,
@@ -143,6 +144,11 @@ class LoanDashboardDataGrid extends Grid
             'action' => [
                 'routePrefix' => 'admin.loan-requests',
                 'buttons' => ['view'],
+                // 'view' => function ($model) {
+                //     if (Auth::user()->can('All') || Auth::user()->can('Test Ride Request')) {
+                //         return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#updateStatusModal'>View</a>";
+                //     }
+                // },
             ]
         ];
     }

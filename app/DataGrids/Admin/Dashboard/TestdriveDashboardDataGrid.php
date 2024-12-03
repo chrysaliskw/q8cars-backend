@@ -3,6 +3,7 @@
 namespace App\DataGrids\Admin\Dashboard;
 
 use App\Models\TestDrive;
+use Illuminate\Support\Facades\Auth;
 use Rufaidulk\DataGrid\Grid;
 
 class TestdriveDashboardDataGrid extends Grid
@@ -22,7 +23,7 @@ class TestdriveDashboardDataGrid extends Grid
             ->leftJoin('users as u', 'u.id', '=', 'test_drives.user_id')
             ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
             ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
-            ->select(['test_drives.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model','brands.name as brand_name'])
+            ->select(['test_drives.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model', 'brands.name as brand_name'])
             ->orderBy('test_drives.id', 'Desc');
         return $query;
     }
@@ -68,7 +69,7 @@ class TestdriveDashboardDataGrid extends Grid
             'first_name' => [
                 'label' => 'Requested Name',
                 'value' => function ($model) {
-                    return $model->first_name . ' '. $model->last_name;
+                    return $model->first_name . ' ' . $model->last_name;
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -103,7 +104,12 @@ class TestdriveDashboardDataGrid extends Grid
             ],
             'action' => [
                 'routePrefix' => 'admin.test-ride-requests',
-                'buttons' => ['view']
+                'buttons' => ['view'],
+                // 'view' => function ($model) {
+                //     if (Auth::user()->can('Users') || Auth::user()->can('Dashboard')) {
+                //         return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='btn btn-primary btn-sm' >View</a>";
+                //     }
+                // },
             ]
         ];
     }

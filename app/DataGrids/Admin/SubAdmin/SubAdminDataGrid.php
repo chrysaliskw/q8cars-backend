@@ -14,7 +14,8 @@ class SubAdminDataGrid extends Grid
     public function gridQuery()
     {
         $query = Admin::query()->orderBy('id', 'Desc')
-            ->select(['admins.*'])
+            ->leftJoin('roles as r', 'r.id', '=', 'admins.role')
+            ->select(['admins.*', 'r.name as role_name'])
             ->where('admins.id', '!=', 1);
 
         // dd($query->get());
@@ -25,6 +26,19 @@ class SubAdminDataGrid extends Grid
     {
         return [
 
+            'picture' => [
+                'label' => 'Image',
+                'filter' => false,
+                'sort' => false,
+                'value' => function ($model) {
+                    if ($model->picture) {
+                        $url = file_asset('files-admin', $model->picture);
+                        return "<img src='{$url}' alt='admin-img' class='img-thumbnail img-list'>";
+                    } else {
+                        return '<img src="' . asset('moltran-asset/images/dp.png') . '" alt="profile-img" class="img-thumbnail img-list">';
+                    }
+                }
+            ],
             'name' => [
                 'label' => 'Name',
                 'value' => function ($model) {
@@ -47,7 +61,32 @@ class SubAdminDataGrid extends Grid
                     'attribute' => 'admins.email',
                 ]
             ],
-            'Created At' => [
+            'role_name' => [
+                'label' => 'Role',
+                'value' => function ($model) {
+                    return $model->role_name;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'r.name',
+                ]
+            ],
+            'status' => [
+                'label' => 'Status',
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'attribute' => 'admins.status',
+                    'operator' => '=',
+                    'data' => config('params.admin.status')
+                ],
+                'value' => function ($model) {
+                    return config('params.admin.status')[$model->status] ?? 'Unknown';
+                },
+            ],
+
+            'created_at' => [
                 'label' => 'Created Date',
                 'value' => function ($model) {
                     return dateFormat($model->created_at);
