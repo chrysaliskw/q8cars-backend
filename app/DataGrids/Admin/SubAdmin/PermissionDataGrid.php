@@ -31,9 +31,9 @@ class PermissionDataGrid extends Grid
                 ]
             ],
             'created_at' => [
-                'label' => 'Created At',
+                'label' => 'Created Date',
                 'value' => function ($model) {
-                    return $model->created_at;
+                    return dateFormat($model->created_at);
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -42,7 +42,7 @@ class PermissionDataGrid extends Grid
                 ]
             ],
             'action' => [
-                'routePrefix' => 'admin.sub-admin.admin',
+                'routePrefix' => 'admin.sub-admin.permission',
                 'buttons' => ['view', 'delete'],
                 'contentCssClass' => 'grid-action-col',
             ]

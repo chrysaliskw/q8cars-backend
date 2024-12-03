@@ -48,9 +48,9 @@ class SubAdminDataGrid extends Grid
                 ]
             ],
             'Created At' => [
-                'label' => 'Created At',
+                'label' => 'Created Date',
                 'value' => function ($model) {
-                    return $model->created_at;
+                    return dateFormat($model->created_at);
                 },
                 'filter' => true,
                 'filterOptions' => [

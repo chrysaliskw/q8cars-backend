@@ -19,11 +19,13 @@
         <!--- Divider -->
         <div id="sidebar-menu">
             <ul>
+                @canany(['All','Dashboard'], )
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="waves-effect">
                         <i class='fa fa-home'></i><span> Dashboard </span>
                     </a>
                 </li>
+                @endcanany
                 <li>
                     <a href="{{ route('admin.user.index') }}" class="waves-effect">
                         <i class="fa fa-user"></i><span> Users</span>
@@ -60,6 +62,8 @@
                         <i class="fa fa-calculator"></i><span> Loan Eligibility Calculator </span>
                     </a>
                 </li>
+
+                @canany(['All','Car Management'])
                 <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-car"></i> <span> Car Management </span> <span
                             class="pull-right"><i class="md md-add"></i></span></a>
@@ -75,6 +79,7 @@
                         </li>
                     </ul>
                 </li>
+                @endcanany
 
                 {{-- <li>
                     <a href="{{ route('admin.comparison.index') }}" class="waves-effect">

@@ -12,7 +12,8 @@ class RoleDataGrid extends Grid
     public function gridQuery()
     {
         $query = Role::query()->orderBy('id', 'Desc')
-            ->select(['roles.*']);
+            ->select(['roles.*'])
+            ->where('name', '!=', 'Super Admin');
 
         // dd($query->get());
         return $query;
@@ -34,9 +35,9 @@ class RoleDataGrid extends Grid
                 ]
             ],
             'Created At' => [
-                'label' => 'Created At',
+                'label' => 'Created Date',
                 'value' => function ($model) {
-                    return $model->created_at;
+                    return dateFormat($model->created_at);
                 },
                 'filter' => true,
                 'filterOptions' => [
