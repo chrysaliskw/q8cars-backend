@@ -35,7 +35,8 @@ class SuggestedBanksDataGridNew extends Grid
             'user_mobile' => [
                 'label' => 'User Mobile',
                 'value' => function ($model) {
-                    return trim($model->user->phone_code . ' ' . $model->user->mobile);
+                    // return trim($model->user->phone_code . ' ' . $model->user->mobile);
+                    return "<a href='" . route('admin.user.show', $model->user_id) . "'> {$model->user->phone_code} {$model->user_mobile}</a>";
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -99,7 +100,7 @@ class SuggestedBanksDataGridNew extends Grid
             ],
 
             'email' => [
-                'label' => 'Email',
+                'label' => 'Requested Email',
                 'value' => function ($model) {
                     return $model->email;
                 },

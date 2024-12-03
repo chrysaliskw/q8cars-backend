@@ -29,7 +29,7 @@ class SuggestedBankController extends Controller
             'Requested User' => empty($suggested_bank->user) ? 'NIL' : $suggested_bank->user->name,
             'Requested Name' => empty($suggested_bank->first_name) && empty($suggested_bank->last_name) ? 'NIL' : trim($suggested_bank->first_name . ' ' . $suggested_bank->last_name),
             'Civil ID' => empty($suggested_bank->civil_id) ? 'NIL' : $suggested_bank->civil_id,
-            'Email' => empty($suggested_bank->email) ? 'NIL' : $suggested_bank->email,
+            'Requested Email' => empty($suggested_bank->email) ? 'NIL' : $suggested_bank->email,
             'Bank Name' => empty($suggested_bank->bank_name) ? 'NIL' : $suggested_bank->bank_name,
             'Status' => $suggested_bank->status == BankSuggestionRequest::STATUS_SUBMITTED ? 'Submitted' : ($suggested_bank->status == BankSuggestionRequest::STATUS_ACCEPTED ? 'Accepted' : ($suggested_bank->status == BankSuggestionRequest::STATUS_REJECTED ? 'Rejected' : 'unknown')),
             'Created At' => dateTimeFormat($suggested_bank->created_at),
