@@ -11,6 +11,18 @@
         </div>
     </div>
 
+    @php
+        $pendingTestRideRequestCount = \App\Models\TestDrive::where('status',App\Models\TestDrive::STATUS_SUBMITTED)->count();
+        $pendingOfferRequestCount = \App\Models\OfferRequest::where('status',App\Models\OfferRequest::STATUS_PENDING)->where('type', App\Models\OfferRequest::TYPE_OFFER)->count();
+        $pendingOnRoadPriceRequestCount =  \App\Models\OfferRequest::where('status',App\Models\OfferRequest::STATUS_PENDING)->where('type', App\Models\OfferRequest::TYPE_ONROAD_PRICE)->count();
+        $pendingEmiOfferRequestCount = \App\Models\OfferRequest::where('status',App\Models\OfferRequest::STATUS_PENDING)->where('type', App\Models\OfferRequest::TYPE_EMI_OFFER)->count();
+        $pendingLoanRequestCount = \App\Models\BankSuggestionRequest::where('status',App\Models\BankSuggestionRequest::STATUS_SUBMITTED)->where('type', App\Models\BankSuggestionRequest::TYPE_LOAN)->count();
+        $pendingBankSuggestionRequestCount = \App\Models\BankSuggestionRequest::where('status',App\Models\BankSuggestionRequest::STATUS_SUBMITTED)->where('type', App\Models\BankSuggestionRequest::TYPE_BANK)->count();
+        $pendingReviewRequestCount = \App\Models\Review::where('status',App\Models\Review::STATUS_SUBMITTED)->count();
+
+        $count =  $pendingTestRideRequestCount +  $pendingOfferRequestCount + $pendingOnRoadPriceRequestCount + $pendingEmiOfferRequestCount + $pendingLoanRequestCount + $pendingBankSuggestionRequestCount + $pendingReviewRequestCount;
+
+    @endphp
 
     <nav class="navbar navbar-default">
 
@@ -40,9 +52,139 @@
                 <li class="dropdown d-none d-sm-block">
                     <a href="#" data-target="#" class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
                         <i class="md md-notifications"></i>
-                         <span class="badge badge-pill badge-xs badge-danger"></span>
+                         <span class="badge badge-pill badge-xs badge-danger">{{$count}}</span>
                     </a>
 
+                    @if($count > 0)
+                        <ul class="dropdown-menu dropdown-menu-lg notification-dropdown">
+                            @if($pendingTestRideRequestCount > 0)
+                                <li class="list-group">
+                                    <a href="{{ route('admin.test-ride-requests.index',['status' => 1]) }}" class="list-group-item">
+                                        <div class="media">
+                                            <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending TestRide Requests - <span class="text-primary">{{ $pendingTestRideRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if( $pendingOfferRequestCount > 0)
+                                <li class="list-group">
+                                    <a href="{{ route('admin.offer-requests.index',['status' => 1, 'type' => 1]) }}" class="list-group-item">
+                                        <div class="media">
+                                            <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending Offer Requests - <span class="text-primary">{{ $pendingOfferRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if( $pendingOnRoadPriceRequestCount > 0)
+                                <li class="list-group">
+                                    <a href="{{ route('admin.offer-requests.index',['status' => 1, 'type' => 2]) }}" class="list-group-item">
+                                        <div class="media">
+                                             <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending  Onroad Price Request - <span class="text-primary">{{ $pendingOnRoadPriceRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if( $pendingEmiOfferRequestCount > 0)
+                                <li class="list-group">
+                                    <a href="{{ route('admin.offer-requests.index',['status' => 1, 'type' => 3]) }}" class="list-group-item">
+                                        <div class="media">
+                                             <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending EMI Offer Request - <span class="text-primary">{{ $pendingEmiOfferRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if( $pendingLoanRequestCount > 0)
+                                <li class="list-group">
+                                    <a href="{{ route('admin.loan-requests.index',['status' => 1]) }}" class="list-group-item">
+                                        <div class="media">
+                                             <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending Loan Request - <span class="text-primary">{{ $pendingLoanRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if( $pendingBankSuggestionRequestCount > 0)
+                                <li class="list-group">
+                                    <a href="{{ route('admin.suggested-banks.index',['status' => 1]) }}" class="list-group-item">
+                                        <div class="media">
+                                             <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending Bank Suggestion Request - <span class="text-primary">{{ $pendingBankSuggestionRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                            @if( $pendingReviewRequestCount > 0)
+                                <li class="list-group">
+                                    <a href="{{ route('admin.reviews.index',['status' => 2]) }}" class="list-group-item">
+                                        <div class="media">
+                                             <div class="media-left pr-2">
+                                                <em class="fa fa-bell-o fa-2x text-danger"></em>
+                                            </div>
+                                            <div class="media-body clearfix">
+                                                <p class="m-0">
+                                                    <small>
+                                                        Pending Review Request - <span class="text-primary">{{ $pendingReviewRequestCount}}</span><br>
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    @endif
                 </li>
 
                 <li class="d-none d-sm-block">

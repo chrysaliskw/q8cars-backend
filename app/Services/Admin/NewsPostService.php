@@ -77,7 +77,7 @@ final class NewsPostService
         $this->post->media_name =  $this->data['media_name'];
         $this->post->brand_id = $this->data['brand_id'];
         $this->post->car_id = $this->data['car_id'];
-        $this->post->car_version_id = $this->data['car_version_id'];
+        $this->post->car_version_id = $this->data['car_version_id'] ??  null;
         $this->post->posted_time = $this->publishDate;
         $this->post->expiry_date = $this->expiryDate;
         $this->post->image = $this->moveUploadedNewsImage();

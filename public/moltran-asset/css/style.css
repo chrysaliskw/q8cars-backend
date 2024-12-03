@@ -5080,3 +5080,6 @@ display: none;
 .dashboard-request tr.filters{
     display: none;
 }
+.dashboard-request th{
+    pointer-events: none;
+}

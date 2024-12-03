@@ -94,7 +94,10 @@ class TestRideRequestDataGrid extends Grid
                     'type' => 'select',
                     'attribute' => 'test_drives.status',
                     'operator' => '=',
-                    'data' => config('params.test_drive.status')
+                    // 'data' => config('params.test_drive.status')
+                    'data' => tap(config('params.test_drive.status'), function (&$statuses) {
+                        unset($statuses[5]);
+                    }),
                 ],
                 'value' => function ($model) {
                     return config('params.test_drive.status')[$model->status] ?? 'Unknown';

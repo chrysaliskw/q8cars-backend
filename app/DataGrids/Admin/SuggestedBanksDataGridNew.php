@@ -20,7 +20,7 @@ class SuggestedBanksDataGridNew extends Grid
                 'bank_suggestion_requests.email',
                 'bank_suggestion_requests.status',
                 'bank_name',
-                'users.name as requested_user',
+                'users.mobile as user_mobile',
                 'bank_suggestion_requests.contact_number',
             ])
             ->where('type', BankSuggestionRequest::TYPE_BANK)
@@ -32,19 +32,20 @@ class SuggestedBanksDataGridNew extends Grid
     {
         return [
 
-            'requested_user' => [
-                'label' => 'Requested Phone',
+            'user_mobile' => [
+                'label' => 'User Mobile',
                 'value' => function ($model) {
-                    return $model->contact_number;
+                    // return trim($model->user->phone_code . ' ' . $model->user->mobile);
+                    return "<a href='" . route('admin.user.show', $model->user_id) . "'> {$model->user->phone_code} {$model->user_mobile}</a>";
                 },
                 'filter' => true,
                 'filterOptions' => [
-                    'attribute' => 'bank_suggestion_requests.contact_number',
+                    'attribute' => 'users.mobile',
                 ]
             ],
 
             'first_name' => [
-                'label' => 'Full Name',
+                'label' => 'Requested Name',
                 'value' => function ($model) {
                     return trim($model->first_name . ' ' . $model->last_name);
                 },
@@ -99,7 +100,7 @@ class SuggestedBanksDataGridNew extends Grid
             ],
 
             'email' => [
-                'label' => 'Email',
+                'label' => 'Requested Email',
                 'value' => function ($model) {
                     return $model->email;
                 },

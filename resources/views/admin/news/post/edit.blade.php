@@ -30,9 +30,10 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="image" class="control-label">Image/Thumbnail</label><br>
+                        <input id="image" type="file" name="image" class="form-control">
+                        <br>
                         <img src="{{ file_asset('files-news', $news->image) }}" alt="news-img"
                             class="img-thumbnail" width="100" height="150">
-                        <input id="image" type="file" name="image" class="form-control">
                         <span class="error" role="alert">
                             @error('image')
                                 {{ $message }}</br>
@@ -41,17 +42,18 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="media_name" field-name="Media Name" 
+                    <x-form-input type="text" field="media_name" field-name="Media Name"
                         value="{{ $news->media_name }}">
                     </x-form-input>
                 </div>
                 <div class="col-md-4">
-                 
+
                     <div class="form-group">
                         <label for="media_logo" class="control-label">Media Logo</label><br>
+                        <input id="media_logo" type="file" name="media_logo" class="form-control">
+                        <br>
                         <img src="{{ file_asset('files-news', $news->media_logo) }}" alt="news-img"
                             class="img-thumbnail" width="100" height="150">
-                        <input id="media_logo" type="file" name="media_logo" class="form-control">
                         <span class="error" role="alert">
                             @error('media_logo')
                                 {{ $message }}</br>
@@ -59,12 +61,12 @@
                         </span>
                     </div>
                 </div>
-                     
-            
-                
+
+
+
              </div>
-           
-    
+
+
             <div class="row">
                 <div class="col-md-12">
                     <x-form-input type="text" field="title" field-name="Title" value="{{ $news->title }}">
@@ -81,19 +83,19 @@
                                         <textarea class="summernote form-control" rows="9" name="content">{{ $news->html_content}}</textarea>
                                     </div>
                                     <span class="error" role="alert">
-                
+
                                         @error('content')
                                             {{ $message }}</br>
                                         @enderror
                                     </span>
                                 </div>
                             </div>
-                        </div> 
-                
+                        </div>
+
                 </div>
             </div>
-           
-          
+
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -142,7 +144,7 @@
     </x-crud-update>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <x-slot name="scripts">
     <script src="{{ url('moltran-asset/plugins/summernote/summernote-bs4.js') }}"></script>
 
@@ -178,11 +180,11 @@
             $("#expiry_date").datepicker({
                 format: 'dd-mm-yyyy',
                 startDate: 'today',
-                
+
             });
 
             $('#brand_id').select2({
-                
+
                 placeholder: "Search brand",
                 minimumInputLength: 1,
                 ajax: {
@@ -217,7 +219,7 @@
 
 
             $('#car_id').select2({
-                
+
                 placeholder: "Search car",
                 minimumInputLength: 1,
                 ajax: {
@@ -242,7 +244,7 @@
                 // Reset car_version_id when brand_id changes
                 $('#car_version_id').val(null).trigger('change');
                 $('#car_version_id_text').val(null).trigger('change');
-                
+
             });
 
             if('{!! $currentCar !!}') {
@@ -252,7 +254,7 @@
             }
 
             $('#car_version_id').select2({
-                
+
                 placeholder: "Search Car version",
                 minimumInputLength: 1,
                 ajax: {
@@ -273,8 +275,8 @@
             $('#car_version_id').on('select2:select', function (e) {
                 const data = e.params.data;
                 $("#car_version_id_text").val(data.text);
-            
-                
+
+
             });
 
             if('{!! $currentVersion !!}') {

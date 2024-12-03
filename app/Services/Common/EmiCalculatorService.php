@@ -135,6 +135,14 @@ class EmiCalculatorService
             $result['schedule'][] = $value;
         }
 
+        $totalAmountPayable = $this->principal + $this->totalInterestPayable;
+
+        $principalPercentage = round(($this->principal / $totalAmountPayable) * 100, 2);
+        $totalInterestPercentage = round(($this->totalInterestPayable / $totalAmountPayable) * 100, 2);
+
+        $result['principalPercentage'] = $principalPercentage . '%';
+        $result['totalInterestPercentage'] = $totalInterestPercentage . '%';
+
         return $result;
     }
 

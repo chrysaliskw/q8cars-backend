@@ -17,6 +17,8 @@ class CompareCarsDetailsController extends ApiBaseController
      */
     public function __invoke(Request $request)
     {
+
+
         $validator =   Validator::make($request->all(), [
             'carIds' => 'required|array',
             'carIds.*' => 'integer|exists:cars,id',
@@ -27,6 +29,7 @@ class CompareCarsDetailsController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
 
 
         $carIds = $request->carIds;
