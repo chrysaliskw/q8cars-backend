@@ -114,29 +114,28 @@ class NewsPostDataGrid extends Grid
                     return config('params.news.status')[$model->news_status];
                 }
             ],
-                'action' => [
-                    'routePrefix' => 'admin.news',
-                    'contentCssClass' => 'grid-action-col',
-                    'buttons' => ['view', 'update', 'newstoggle', 'delete'],
-                    'newstoggle' => function ($model) {
-                        if($model->show_in_detail_page !== News::SELECTED_BANNER){
-                            
-                            $btn = "<a onclick='toggleNews(this)' 
-                        data-id='{$model->id}' 
-                        data-car-id='{$model->car_id}' 
+            'action' => [
+                'routePrefix' => 'admin.news',
+                'contentCssClass' => 'grid-action-col',
+                'buttons' => ['view', 'update', 'newstoggle', 'delete'],
+                'newstoggle' => function ($model) {
+                    if ($model->show_in_detail_page !== News::SELECTED_BANNER) {
+
+                        $btn = "<a onclick='toggleNews(this)'
+                        data-id='{$model->id}'
+                        data-car-id='{$model->car_id}'
                         data-show_in_detail_page = '{$model->show_in_detail_page}'
                         data-is_trending = '{$model->is_trending}'
                         data-status = '{$model->status}'
-                        class='btn btn-warning btn-icon waves-effect waves-light m-b-5 mr-1' 
+                        class='btn btn-warning btn-icon waves-effect waves-light m-b-5 mr-1'
                         title='update banner'>";
-                            $btn .= "<span class='ion-flash'></span></a>";
+                        $btn .= "<span class='ion-flash'></span></a>";
 
-                            return $btn;
-                        }
-                        
-                    },
+                        return $btn;
+                    }
+                },
 
-                ]
+            ]
         ];
     }
 }

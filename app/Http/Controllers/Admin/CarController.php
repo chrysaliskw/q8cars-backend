@@ -170,8 +170,15 @@ class CarController extends Controller
         $color = json_decode($car->colours, true);
         $colorArray = array_combine(range(1, count($color)), array_values($color));
         $colors = [];
+        // foreach ($colorArray as $c) {
+
+        //     $colors[] = BrandColorMapping::find($c)->name;
+        // }
         foreach ($colorArray as $c) {
-            $colors[] = BrandColorMapping::find($c)->name;
+            $brandColor = BrandColorMapping::find($c); // Find the BrandColorMapping record
+            if ($brandColor) {
+                $colors[] = $brandColor->name; // Add the name if the record exists
+            }
         }
         $profession = json_decode($car->professions, true);
         $professions = [];

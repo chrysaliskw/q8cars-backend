@@ -15,8 +15,13 @@ class TestRideRequestDataGrid extends Grid
             ->leftJoin('users as u', 'u.id', '=', 'test_drives.user_id')
             ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
             ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
-            ->select(['test_drives.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model','brands.name as brand_name'])
-            ->where('test_drives.status', '!=', TestDrive::STATUS_NOT_VERIFIED)
+            ->select([
+                'test_drives.*',
+                'u.phone_code as user_phone_code',
+                'u.mobile as user_mobile',
+                'c.model_name as car_model',
+                'brands.name as brand_name'
+            ])
             ->orderBy('test_drives.id', 'Desc');
         return $query;
     }
@@ -62,7 +67,7 @@ class TestRideRequestDataGrid extends Grid
             'first_name' => [
                 'label' => 'Requested Name',
                 'value' => function ($model) {
-                    return $model->first_name . ' '. $model->last_name;
+                    return $model->first_name . ' ' . $model->last_name;
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -100,7 +105,7 @@ class TestRideRequestDataGrid extends Grid
             ],
             'action' => [
                 'routePrefix' => 'admin.test-ride-requests',
-                'buttons' => ['view','update'],
+                'buttons' => ['view', 'update'],
                 'update' => function ($model) {
                     if ($model->status != TestDrive::STATUS_COMPLETED) {
                         return "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}' class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>

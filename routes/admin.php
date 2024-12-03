@@ -66,7 +66,9 @@ Route::middleware('guest:admin')->group(function () {
  * Routes that are common to autheticated admin users
  */
 Route::middleware('auth:admin')->group(function () {
-
+    // Dashboard
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::post('/get-brand-data', [HomeController::class, 'getBrandData'])->name('get-brand-data');
 
     // Admin Profile
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
@@ -88,10 +90,10 @@ Route::middleware('auth:admin')->group(function () {
 
 
 // Dashboard
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-});
-
+// Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->group(function () {
+//     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+// });
+//
 // users
 Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Users'])->group(function () {
     Route::resources([
@@ -138,7 +140,7 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'
     Route::post('car/store-360-view', [CarController::class, 'store360ViewImages'])->name('car.360-view.store');
     Route::post('car/delete-360-view', [CarController::class, 'delete360ViewImage'])->name('car.360-view.delete');
     Route::post('car/update-360-view', [CarController::class, 'update360ViewImage'])->name('car.360-view.update');
-   
+
     Route::resources([
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version

@@ -3,33 +3,33 @@
 
 
 
-        <div class="row">
-            <div class="col-sm-12">
-                {{-- <h4 class="pull-left page-title">Welcome!  </h4>
+    <div class="row">
+        <div class="col-sm-12">
+            {{-- <h4 class="pull-left page-title">Welcome!  </h4>
                 <ol class="breadcrumb pull-right">
                     <li class="active">Dashboard</li>
                 </ol> --}}
-            </div>
         </div>
+    </div>
 
-        <!-- Cards Section  Start -->
-        <div class="row">
-            <div class="col-md-4">
+    <!-- Cards Section  Start -->
+    <div class="row">
+        <div class="col-md-4">
 
-                <a href="{{route('admin.car.index')}}" target="_blank">
-                    <div class="dashboard-card dashboard-card-2 d-flex align-items-start">
-                        <img src="{{ asset('moltran-asset/images/cars.svg')}}" alt="profile-img" class="img-list">
-                        <div class="data">
+            <a href="{{ route('admin.car.index') }}" target="_blank">
+                <div class="dashboard-card dashboard-card-2 d-flex align-items-start">
+                    <img src="{{ asset('moltran-asset/images/cars.svg') }}" alt="profile-img" class="img-list">
+                    <div class="data">
                         <h4>Cars</h4>
-                        <h6> {{$viewData['totalCars']}}</h6>
+                        <h6> {{ $viewData['totalCars'] }}</h6>
                         <div class="card-more-info">
                             <div class="lists">
                                 <h5>Just Launched</h5>
-                                <p>{{$viewData['justLaunchedCars']}}</p>
+                                <p>{{ $viewData['justLaunchedCars'] }}</p>
                             </div>
                             <div class="lists">
-                                <h5>Upcoming  </h5>
-                                <p>{{$viewData['upcomingCars']}}</p>
+                                <h5>Upcoming </h5>
+                                <p>{{ $viewData['upcomingCars'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -42,18 +42,18 @@
             <a href="{{ route('admin.user.index') }}" target="_blank">
                 <div class="dashboard-card dashboard-card-1 d-flex align-items-start">
                     {{-- <span class="mini-stat-icon-dashboard bg-white"><i class="ion-android-contacts" style="color: gold;"></i></span> --}}
-                    <img src="{{ asset('moltran-asset/images/users.svg')}}" alt="profile-img" class="img-list">
+                    <img src="{{ asset('moltran-asset/images/users.svg') }}" alt="profile-img" class="img-list">
                     <div class="data">
                         <h4>Users</h4>
-                        <h6>{{$viewData['totalUsers']}}</h6>
+                        <h6>{{ $viewData['totalUsers'] }}</h6>
                         <div class="card-more-info">
                             <div class="lists">
                                 <h5>Active</h5>
-                                <p>{{$viewData['activeUsers']}}</p>
+                                <p>{{ $viewData['activeUsers'] }}</p>
                             </div>
                             <div class="lists">
-                                <h5>Inactive  </h5>
-                                <p>{{$viewData['inactiveUser']}}</p>
+                                <h5>Inactive </h5>
+                                <p>{{ $viewData['inactiveUser'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -61,45 +61,45 @@
             </a>
         </div>
 
-            <div class="col-md-4">
+        <div class="col-md-4">
 
-                <a href="{{ route('admin.partner-banks.index') }}" target="_blank">
-                    <div class="dashboard-card dashboard-card-3 d-flex align-items-start">
-                        <img src="{{ asset('moltran-asset/images/banks.svg')}}" alt="profile-img" class="img-list">
-                        <div class="data">
-                            <h4>Partner Banks</h4>
-                            <h6>{{$viewData['totalBanks']}}</h6>
-                            <div class="card-more-info">
-                                <div class="lists">
-                                    <h5>Active</h5>
-                                    <p>{{$viewData['activeBanks']}}</p>
-                                </div>
-                                <div class="lists">
-                                    <h5>Inactive  </h5>
-                                    <p>{{$viewData['inactiveBanks']}}</p>
-                                </div>
+            <a href="{{ route('admin.partner-banks.index') }}" target="_blank">
+                <div class="dashboard-card dashboard-card-3 d-flex align-items-start">
+                    <img src="{{ asset('moltran-asset/images/banks.svg') }}" alt="profile-img" class="img-list">
+                    <div class="data">
+                        <h4>Partner Banks</h4>
+                        <h6>{{ $viewData['totalBanks'] }}</h6>
+                        <div class="card-more-info">
+                            <div class="lists">
+                                <h5>Active</h5>
+                                <p>{{ $viewData['activeBanks'] }}</p>
+                            </div>
+                            <div class="lists">
+                                <h5>Inactive </h5>
+                                <p>{{ $viewData['inactiveBanks'] }}</p>
                             </div>
                         </div>
                     </div>
-                </a>
-             </div>
+                </div>
+            </a>
+        </div>
 
         <div class="col-md-4">
 
             <a href="{{ route('admin.loan-requests.index') }}" target="_blank">
                 <div class="dashboard-card dashboard-card-4 d-flex align-items-start">
-                    <img src="{{ asset('moltran-asset/images/loan.svg')}}" alt="profile-img" class="img-list">
+                    <img src="{{ asset('moltran-asset/images/loan.svg') }}" alt="profile-img" class="img-list">
                     <div class="data">
                         <h4>Loan Request</h4>
-                        <h6>{{$viewData['totalLoanRequests']}}</h6>
+                        <h6>{{ $viewData['totalLoanRequests'] }}</h6>
                         <div class="card-more-info">
                             <div class="lists">
                                 <h5>New</h5>
-                                <p>{{$viewData['newLoanRequests']}}</p>
+                                <p>{{ $viewData['newLoanRequests'] }}</p>
                             </div>
                             <div class="lists">
-                                <h5>Completed  </h5>
-                                <p>{{$viewData['completedLoanRequests']}}</p>
+                                <h5>Completed </h5>
+                                <p>{{ $viewData['completedLoanRequests'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -111,17 +111,17 @@
 
             <a href="{{ route('admin.test-ride-requests.index') }}" target="_blank">
                 <div class="dashboard-card dashboard-card-5 d-flex align-items-start">
-                    <img src="{{ asset('moltran-asset/images/test-ride.svg')}}" alt="profile-img" class="img-list">
+                    <img src="{{ asset('moltran-asset/images/test-ride.svg') }}" alt="profile-img" class="img-list">
                     <div class="data">
                         <h4>TestRide Bookings</h4>
-                        <h6>{{$viewData['totalTestRideRequest']}}</h6>
+                        <h6>{{ $viewData['totalTestRideRequest'] }}</h6>
                         <div class="card-more-info">
                             <div class="lists">
                                 <h5>New</h5>
                                 <p>{{ $viewData['newTestRideRequest'] }}</p>
                             </div>
                             <div class="lists">
-                                <h5>Completed  </h5>
+                                <h5>Completed </h5>
                                 <p>{{ $viewData['completedTestRideRequest'] }}</p>
                             </div>
                         </div>
@@ -134,18 +134,18 @@
 
             <a href="{{ route('admin.offer-requests.index') }}" target="_blank">
                 <div class="dashboard-card dashboard-card-6 d-flex align-items-start">
-                    <img src="{{ asset('moltran-asset/images/offer.svg')}}" alt="profile-img" class="img-list">
-                <div class="data">
+                    <img src="{{ asset('moltran-asset/images/offer.svg') }}" alt="profile-img" class="img-list">
+                    <div class="data">
                         <h4>Offer Requests</h4>
-                        <h6>{{$viewData['totalOfferRequests']}}</h6>
+                        <h6>{{ $viewData['totalOfferRequests'] }}</h6>
                         <div class="card-more-info">
                             <div class="lists">
                                 <h5>New</h5>
-                                <p>{{$viewData['newOfferRequests']}}</p>
+                                <p>{{ $viewData['newOfferRequests'] }}</p>
                             </div>
                             <div class="lists">
-                                <h5>Completed  </h5>
-                                <p>{{$viewData['completedOfferRequests']}}</p>
+                                <h5>Completed </h5>
+                                <p>{{ $viewData['completedOfferRequests'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -153,11 +153,11 @@
             </a>
         </div>
 
-        </div>
+    </div>
 
-        <!-- Cards Section  End -->
+    <!-- Cards Section  End -->
 
-        <!-- Graphs Section Start -->
+    <!-- Graphs Section Start -->
     {{-- <div class="row mt-4">
         <!-- Bar Chart Section -->
         <div class="col-md-7">
@@ -171,7 +171,7 @@
                 <h5 class="text-center">TestRide Bookings vs Loan Applications</h5>
                 <x-form-select :options="$viewData['brands']" field="brand_id" id="brand_id">
                     <option value="" selected>Select a Brand</option>
-                    @foreach($viewData['brands'] as $brand)
+                    @foreach ($viewData['brands'] as $brand)
                         <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                     @endforeach
                 </x-form-select>
@@ -185,7 +185,7 @@
     <div class="row mt-4">
         <!-- Bar Chart Section -->
         <div class="col-md-7">
-            <div class="card mb-0" >
+            <div class="card mb-0">
                 <div class="card-header text-center bg-transparent">
                     <h4 class="text-left" style="font-weight: bold">TestRide Bookings vs Loan Applications</h4>
                 </div>
@@ -205,7 +205,7 @@
                     <div class="mb-3">
                         <x-form-select :options="$viewData['brands']" field="brand_id" id="brand_id">
                             <option value="" selected>Select a Brand</option>
-                            @foreach($viewData['brands'] as $brand)
+                            @foreach ($viewData['brands'] as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
                         </x-form-select>
@@ -235,21 +235,23 @@
         var testRideVsLoanChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],  // Example labels for months
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+                'Dec'], // Example labels for months
                 datasets: [{
-                    label: 'Test Ride Bookings',
-                    data: totalTestRideRequest,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Loan Applications',
-                    data: totalLoanRequests,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
+                        label: 'Test Ride Bookings',
+                        data: totalTestRideRequest,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Loan Applications',
+                        data: totalLoanRequests,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
             },
             options: {
                 scales: {
@@ -304,9 +306,11 @@
                             response.reviews
                         ];
 
-                    enquiriesTestRideReviewChart.data.labels = brandId
-                        ? ['Completed Offers (Brand)', 'Completed Test Rides (Brand)', 'Verified Reviews (Brand)']
-                        : ['Offers (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
+                        enquiriesTestRideReviewChart.data.labels = brandId ?
+                            ['Completed Offers (Brand)', 'Completed Test Rides (Brand)',
+                                'Verified Reviews (Brand)'
+                            ] :
+                            ['Offers (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
 
                         enquiriesTestRideReviewChart.update();
                     },
@@ -323,86 +327,98 @@
                 fetchData(brandId);
             });
         });
-
     </script>
 
     <div class="row mt-4">
         <div class="col-md-12 dashboard-request">
-         <!-- New Requests Grid Section  Start -->
-       <x-crud-index title="" >
-        <div class="col-md-12" style="">
-            <div class="pt-60">
-               <div class="tab-head" style="box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);">
-                <ul class="enquiry-head nav nav-tabs tabs" role="tablist" style="box-shadow:none;">
-                    <li class="nav-item tab enquiry-title">
-                        <a class="nav-link active" id="test-ride-tab-2" data-toggle="tab" href="#test-ride-2" role="tab" aria-controls="directory-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
-                            <span class="d-none d-sm-block">Test Rides</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab enquiry-title">
-                        <a class="nav-link " id="offers-tab-2" data-toggle="tab" href="#offers-2" role="tab" aria-controls="classified-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
-                            <span class="d-none d-sm-block">Offers</span>
-                        </a>
-                    </li>
-                    <li class="nav-item tab enquiry-title">
-                        <a class="nav-link " id="loans-tab-2" data-toggle="tab" href="#loans-2" role="tab" aria-controls="helpline-2" aria-selected="false">
-                            <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
-                            <span class="d-none d-sm-block">Loans</span>
-                        </a>
-                    </li>
+            <!-- New Requests Grid Section  Start -->
+            <x-crud-index title="">
+                <div class="col-md-12" style="">
+                    <div class="pt-60">
+                        <div class="tab-head" style="box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);">
+                            <ul class="enquiry-head nav nav-tabs tabs" role="tablist" style="box-shadow:none;">
+                                <li class="nav-item tab enquiry-title">
+                                    <a class="nav-link active" id="test-ride-tab-2" data-toggle="tab"
+                                        href="#test-ride-2" role="tab" aria-controls="directory-2"
+                                        aria-selected="false">
+                                        <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
+                                        <span class="d-none d-sm-block">Test Rides</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item tab enquiry-title">
+                                    <a class="nav-link " id="offers-tab-2" data-toggle="tab" href="#offers-2"
+                                        role="tab" aria-controls="classified-2" aria-selected="false">
+                                        <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
+                                        <span class="d-none d-sm-block">Offers</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item tab enquiry-title">
+                                    <a class="nav-link " id="loans-tab-2" data-toggle="tab" href="#loans-2"
+                                        role="tab" aria-controls="helpline-2" aria-selected="false">
+                                        <span class="d-block d-sm-none"><i class="fa fa-home"></i></span>
+                                        <span class="d-none d-sm-block">Loans</span>
+                                    </a>
+                                </li>
 
-                    {{-- <li class="nav-item tab enquiry-title">
+                                {{-- <li class="nav-item tab enquiry-title">
                         <a class="nav-link" id="tag-tab-2" data-toggle="tab" href="#tag-2" role="tab" aria-controls="tag-2" aria-selected="false">
                             <span class="d-block d-sm-none"><i class="fa fa-user"></i></span>
                             <span class="d-none d-sm-block">Tags</span>
                         </a>
                     </li> --}}
-                </ul>
-               </div>
-                <div class="w-100 tab-content mt-3">
-                    <div class="tab-pane show active" id="test-ride-2" role="tabpanel" aria-labelledby="test-ride-tab-2">
-
-                        {!! $testDriveDataGrid->render() !!}
-
-                        <div class="mt-3 text-right">
-                            <a href="{{ route('admin.test-ride-requests.index') }}" >View All</a>
+                            </ul>
                         </div>
+                        <div class="w-100 tab-content mt-3">
+                            <div class="tab-pane show active" id="test-ride-2" role="tabpanel"
+                                aria-labelledby="test-ride-tab-2">
 
-                    </div>
-                    <div class="tab-pane show " id="offers-2" role="tabpanel" aria-labelledby="offers-tab-2">
+                                {!! $testDriveDataGrid->render() !!}
+                                @canany(['All', 'Test Drive Requests'])
+                                    <div class="mt-3 text-right">
+                                        <a href="{{ route('admin.test-ride-requests.index') }}">View All</a>
+                                    </div>
+                                @endcanany
 
-                        {!! $offerDataGrid->render() !!}
 
-                        <div class="mt-3 text-right">
-                            <a href="{{ route('admin.offer-requests.index') }}" >View All</a>
-                        </div>
+                            </div>
+                            <div class="tab-pane show " id="offers-2" role="tabpanel"
+                                aria-labelledby="offers-tab-2">
 
-                    </div>
-                    <div class="tab-pane show " id="loans-2" role="tabpanel" aria-labelledby="loans-tab-2">
+                                {!! $offerDataGrid->render() !!}
+                                @canany(['All', 'Offers Requests'])
+                                    <div class="mt-3 text-right">
+                                        <a href="{{ route('admin.offer-requests.index') }}">View All</a>
+                                    </div>
+                                @endcanany
 
-                        {!! $loanDataGrid->render() !!}
 
-                        <div class="mt-3 text-right">
-                            <a href="{{ route('admin.loan-requests.index') }}" >View All</a>
-                        </div>
+                            </div>
+                            <div class="tab-pane show " id="loans-2" role="tabpanel"
+                                aria-labelledby="loans-tab-2">
 
-                    </div>
-                    {{-- <div class="tab-pane show " id="tag-2" role="tabpanel" aria-labelledby="tag-tab-2">
+                                {!! $loanDataGrid->render() !!}
+                            @canany(['All', 'Banks'])
+                            <div class="mt-3 text-right">
+                                <a href="{{ route('admin.loan-requests.index') }}">View All</a>
+                            </div>
+                            @endcanany
+
+
+                            </div>
+                            {{-- <div class="tab-pane show " id="tag-2" role="tabpanel" aria-labelledby="tag-tab-2">
 
                         {!! $newTagRequests->render() !!}
 
                     </div> --}}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </x-crud-index>
+            <!-- New Requests Grid Section End -->
         </div>
-    </x-crud-index>
-     <!-- New Requests Grid Section End -->
-    </div>
     </div>
 
-     {{--   <div class="row" style="margin-top: 20px;">
+    {{--   <div class="row" style="margin-top: 20px;">
             <div class="col-sm-8">
                 <div class="mini-stat clearfix bx-shadow bg-white ">
                     <h4 class="text-dark text-4  m-0 font-weight-bold " style="text-align:center">Statistics ( {{ $currentYear }} ) </h4>
@@ -666,6 +682,6 @@
 
             </script>
 
-        </x-slot>--}}
+        </x-slot> --}}
 
-    </x-admin-layout>
+</x-admin-layout>

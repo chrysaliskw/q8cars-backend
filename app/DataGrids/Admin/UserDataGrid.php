@@ -12,10 +12,10 @@ class UserDataGrid extends Grid
 
     public function gridQuery()
     {
-        $query = User::query() 
-        ->where('id' ,'!=' ,0)->orderBy('id','Desc')
-        ->select(['users.*', DB::raw("CONCAT(users.phone_code, users.mobile) as full_mobile")]);
-   
+        $query = User::query()
+            ->where('id', '!=', 0)->orderBy('id', 'Desc')
+            ->select(['users.*', DB::raw("CONCAT(users.phone_code, users.mobile) as full_mobile")]);
+
         return $query;
     }
 
@@ -38,7 +38,7 @@ class UserDataGrid extends Grid
             'mobile' => [
                 'label' => 'Mobile',
                 'value' => function ($model) {
-                    return $model->phone_code .$model->mobile;
+                    return $model->phone_code . $model->mobile;
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -81,11 +81,11 @@ class UserDataGrid extends Grid
                 'value' => function ($model) {
                     return config('params.user.status')[$model->status];
                 },
-               'contentCssClass' => 'filter',
+                'contentCssClass' => 'filter',
             ],
 
             'action' => [
-                'routePrefix' => 'admin.user', 
+                'routePrefix' => 'admin.user',
                 'contentCssClass' => 'grid-action-col',
             ]
         ];

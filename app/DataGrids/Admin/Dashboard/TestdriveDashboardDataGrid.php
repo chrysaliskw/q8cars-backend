@@ -3,6 +3,8 @@
 namespace App\DataGrids\Admin\Dashboard;
 
 use App\Models\TestDrive;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Rufaidulk\DataGrid\Grid;
 
 class TestdriveDashboardDataGrid extends Grid
@@ -22,7 +24,8 @@ class TestdriveDashboardDataGrid extends Grid
             ->leftJoin('users as u', 'u.id', '=', 'test_drives.user_id')
             ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
             ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
-            ->select(['test_drives.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model','brands.name as brand_name'])
+            ->select(['test_drives.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model', 'brands.name as brand_name'])
+            ->select(['test_drives.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model', 'brands.name as brand_name'])
             ->where('test_drives.status', '!=', TestDrive::STATUS_NOT_VERIFIED)
             ->orderBy('test_drives.id', 'Desc');
         return $query;
@@ -69,7 +72,7 @@ class TestdriveDashboardDataGrid extends Grid
             'first_name' => [
                 'label' => 'Requested Name',
                 'value' => function ($model) {
-                    return $model->first_name . ' '. $model->last_name;
+                    return $model->first_name . ' ' . $model->last_name;
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -102,9 +105,25 @@ class TestdriveDashboardDataGrid extends Grid
                     return config('params.test_drive.status')[$model->status] ?? 'Unknown';
                 },
             ],
+            // 'action' => [
+            //     'routePrefix' => 'admin.test-ride-requests',
+            //     'buttons' => ['view'],
+            //     'view' => function ($model) {
+            //         if (Auth::user()->can(['Test Drive Requests'])) {
+            //             // if (auth()->user()->canAny(['Dashboard', 'dashboard-access'])) {
+            //             return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='test-ride-request-view btn btn-success btn-icon waves-effect waves-light m-b-5 mr-1 ion-eye' ></a>";
+            //         }
+            //     },
+            // ]
             'action' => [
                 'routePrefix' => 'admin.test-ride-requests',
-                'buttons' => ['view']
+                'buttons' => ['view'],
+                'view' => function ($model) {
+                    if (auth()->user()->canAny(['All', 'Test Drive Requests'])) {
+                        return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='test-ride-request-view btn btn-success btn-icon waves-effect waves-light m-b-5 mr-1 ion-eye' ></a>";
+                    }
+                },
+                'contentCssClass' => 'grid-action-col',
             ]
         ];
     }
