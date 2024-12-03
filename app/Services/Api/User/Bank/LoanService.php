@@ -90,7 +90,7 @@ class LoanService
 
             if ($eligibleEmi <= 0) {
                 return [
-                    'maxLoanAmount' => 0,
+                    'maxLoanAmount' => currency_formatter(0),
                     'eligibleEmi' => 0,
                     'eligibility' => 'Not eligible for loan due to existing EMI.'
                 ];
