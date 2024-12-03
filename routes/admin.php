@@ -89,10 +89,10 @@ Route::middleware('auth:admin')->group(function () {
 
 
 // Dashboard
-Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-});
-
+// Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Dashboard'])->group(function () {
+//     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+// });
+//
 // users
 Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Users'])->group(function () {
     Route::resources([

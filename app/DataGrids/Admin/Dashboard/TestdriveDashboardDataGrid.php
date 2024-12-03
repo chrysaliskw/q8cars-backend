@@ -4,6 +4,7 @@ namespace App\DataGrids\Admin\Dashboard;
 
 use App\Models\TestDrive;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Rufaidulk\DataGrid\Grid;
 
 class TestdriveDashboardDataGrid extends Grid
@@ -102,14 +103,25 @@ class TestdriveDashboardDataGrid extends Grid
                     return config('params.test_drive.status')[$model->status] ?? 'Unknown';
                 },
             ],
+            // 'action' => [
+            //     'routePrefix' => 'admin.test-ride-requests',
+            //     'buttons' => ['view'],
+            //     'view' => function ($model) {
+            //         if (Auth::user()->can(['Test Drive Requests'])) {
+            //             // if (auth()->user()->canAny(['Dashboard', 'dashboard-access'])) {
+            //             return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='test-ride-request-view btn btn-success btn-icon waves-effect waves-light m-b-5 mr-1 ion-eye' ></a>";
+            //         }
+            //     },
+            // ]
             'action' => [
                 'routePrefix' => 'admin.test-ride-requests',
                 'buttons' => ['view'],
-                // 'view' => function ($model) {
-                //     if (Auth::user()->can('Users') || Auth::user()->can('Dashboard')) {
-                //         return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='btn btn-primary btn-sm' >View</a>";
-                //     }
-                // },
+                'view' => function ($model) {
+                    if (auth()->user()->canAny(['All', 'Test Drive Requests'])) {
+                        return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='test-ride-request-view btn btn-success btn-icon waves-effect waves-light m-b-5 mr-1 ion-eye' ></a>";
+                    }
+                },
+                'contentCssClass' => 'grid-action-col',
             ]
         ];
     }

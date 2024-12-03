@@ -144,11 +144,11 @@ class LoanDashboardDataGrid extends Grid
             'action' => [
                 'routePrefix' => 'admin.loan-requests',
                 'buttons' => ['view'],
-                // 'view' => function ($model) {
-                //     if (Auth::user()->can('All') || Auth::user()->can('Test Ride Request')) {
-                //         return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#updateStatusModal'>View</a>";
-                //     }
-                // },
+                'view' => function ($model) {
+                    if (auth()->user()->canAny(['All', 'Banks'])) {
+                        return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='test-ride-request-view btn btn-success btn-icon waves-effect waves-light m-b-5 mr-1 ion-eye' ></a>";
+                    }
+                },
             ]
         ];
     }

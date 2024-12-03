@@ -4,6 +4,7 @@ namespace App\DataGrids\Admin\Dashboard;
 
 use App\Models\OfferRequest;
 use App\Models\TestDrive;
+use Illuminate\Support\Facades\Auth;
 use Rufaidulk\DataGrid\Grid;
 
 class OfferDashboardDataGrid extends Grid
@@ -22,8 +23,8 @@ class OfferDashboardDataGrid extends Grid
         $query = OfferRequest::query()
             ->leftJoin('users as u', 'u.id', '=', 'offer_requests.user_id')
             ->leftJoin('cars as c', 'c.id', '=', 'offer_requests.car_id')
-           // ->leftJoin('offers', 'offers.id', '=', 'offer_requests.offer_id')
-            ->select(['offer_requests.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model'])
+            // ->leftJoin('offers', 'offers.id', '=', 'offer_requests.offer_id')
+            ->select(['offer_requests.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model'])
             ->orderBy('offer_requests.id', 'Desc');
         return $query;
     }
@@ -36,7 +37,6 @@ class OfferDashboardDataGrid extends Grid
                 'label' => 'User Mobile',
                 'value' => function ($model) {
                     return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_phone_code $model->user_mobile</a>";
-
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -117,7 +117,13 @@ class OfferDashboardDataGrid extends Grid
             ],
             'action' => [
                 'routePrefix' => 'admin.offer-requests',
-                'buttons' => ['view']
+                'buttons' => ['view'],
+                'view' => function ($model) {
+                    // if (Auth::user()->can('All') || Auth::user()->can('Offers Requests')) {
+                    if (auth()->user()->canAny(['All', 'Offers Requests'])) {
+                        return "<a href='" . route('admin.loan-requests.show', $model->id) . "' class='test-ride-request-view btn btn-success btn-icon waves-effect waves-light m-b-5 mr-1 ion-eye' ></a>";
+                    }
+                },
             ]
         ];
     }
