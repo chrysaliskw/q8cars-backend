@@ -19,13 +19,13 @@
         <!--- Divider -->
         <div id="sidebar-menu">
             <ul>
-                @canany(['All','Dashboard'], )
+                {{-- @canany(['All','Dashboard'], ) --}}
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="waves-effect">
                         <i class='fa fa-home'></i><span> Dashboard </span>
                     </a>
                 </li>
-                @endcanany
+                {{-- @endcanany --}}
                 <li>
                     <a href="{{ route('admin.user.index') }}" class="waves-effect">
                         <i class="fa fa-user"></i><span> Users</span>
@@ -149,7 +149,7 @@
                         <li>
                             <a href="{{ route('admin.reports.user.index') }}">User Report</a>
                         </li>
-                        <li> 
+                        <li>
                             <a href="{{ route('admin.reports.car.index') }}">Car Report</a>
                         </li>
                         <li>
@@ -161,7 +161,7 @@
                         <li>
                             <a href="{{ route('admin.reports.offer-request.index') }}">Offer Request Report</a>
                         </li>
-                      
+
                     </ul>
                 </li>
 
