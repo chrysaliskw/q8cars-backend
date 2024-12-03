@@ -80,6 +80,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('color/select', [ColorController::class, 'select'])->name('color.select');
     Route::get('car-version/select', [CarVersionController::class, 'select'])->name('car-version.select');
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
+    Route::post('/get-brand-data', [HomeController::class, 'getBrandData'])->name('get-brand-data');
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
