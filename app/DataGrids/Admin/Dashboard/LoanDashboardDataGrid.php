@@ -92,7 +92,7 @@ class LoanDashboardDataGrid extends Grid
             ],
 
             'contact_number' => [
-                'label' => 'Contact Number',
+                'label' => 'Requested Mobile',
                 'value' => function ($model) {
                     return $model->contact_number;
                 },
