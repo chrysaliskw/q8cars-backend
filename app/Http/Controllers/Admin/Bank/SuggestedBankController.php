@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin\Bank;
 
 use App\DataGrids\Admin\SuggestedBanksDataGridNew;
 use App\Http\Controllers\Controller;
+use App\Models\Bank;
 use App\Models\BankSuggestionRequest;
 use Illuminate\Http\Request;
+
 
 class SuggestedBankController extends Controller
 {
@@ -29,9 +31,7 @@ class SuggestedBankController extends Controller
             'Civil ID' => empty($suggested_bank->civil_id) ? 'NIL' : $suggested_bank->civil_id,
             'Email' => empty($suggested_bank->email) ? 'NIL' : $suggested_bank->email,
             'Bank Name' => empty($suggested_bank->bank_name) ? 'NIL' : $suggested_bank->bank_name,
-            'Status' => $suggested_bank->status == BankSuggestionRequest::STATUS_SUBMITTED ? 'Submitted' :
-                       ($suggested_bank->status == BankSuggestionRequest::STATUS_ACCEPTED ? 'Accepted' :
-                       ($suggested_bank->status == BankSuggestionRequest::STATUS_REJECTED ? 'Rejected' : 'unknown')),
+            'Status' => $suggested_bank->status == BankSuggestionRequest::STATUS_SUBMITTED ? 'Submitted' : ($suggested_bank->status == BankSuggestionRequest::STATUS_ACCEPTED ? 'Accepted' : ($suggested_bank->status == BankSuggestionRequest::STATUS_REJECTED ? 'Rejected' : 'unknown')),
             'Created At' => dateTimeFormat($suggested_bank->created_at),
             'Updated At' => dateTimeFormat($suggested_bank->updated_at),
         ];
@@ -48,5 +48,21 @@ class SuggestedBankController extends Controller
         $suggested_bank->status = $request->status;
         $suggested_bank->save();
         return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+    }
+
+    public function select(Request $request)
+    {
+        $page = $request->query('page');
+        $term = $request->query('search');
+        $countryId = $request->query('country_id');
+        $limit = 100;
+        $offset = ($page - 1) * $limit;
+
+        $query = Bank::where('bank_name', 'like', "%$term%")->active();
+        $banks = $query->select(['id', 'bank_name AS text'])->offset($offset)->limit($limit)->get()->toArray();
+
+        $response['results'] = $banks;
+        $response['pagination'] = ['more' => !empty($banks) ?? false];
+        return $response;
     }
 }

@@ -15,29 +15,30 @@ class OfferRequestReportDataGrid extends Grid
     {
         $endDate = Carbon::parse(request()->query('end_date'))->addHours(23)->addMinutes(59)->addSeconds(59)->format('Y-m-d H:i');
         $startDate = Carbon::parse(request()->query('start_date'))->format('Y-m-d H:i');
-      
+
         $query = OfferRequest::query()
             ->leftJoin('users as u', 'u.id', '=', 'offer_requests.user_id')
             ->leftJoin('cars as c', 'c.id', '=', 'offer_requests.car_id')
-           // ->leftJoin('offers', 'offers.id', '=', 'offer_requests.offer_id')
-            ->select(['offer_requests.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model'])
+            // ->leftJoin('offers', 'offers.id', '=', 'offer_requests.offer_id')
+            ->select(['offer_requests.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model'])
             ->orderBy('offer_requests.id', 'Desc');
-            $query->when(request()->query('model'), function ($query, $model) {
-                $query->where('car_model', 'like', '%' . $model . '%');
-            });
-            $query->when(request()->query('mobile'), function ($query, $model) {
-                $query->where('user_mobile', 'like', '%' . $model . '%');
-            });
-            $query->when(request()->query('type'), function ($query, $model) {
-                $query->where('offer_requests.type',  $model );
-            });
-            $query->when(request()->query('status'), function ($query, $model) {
-                $query->where('offer_requests.status',  $model );
-            });
-            $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
-                $q->where('offer-requests.created_at', '>=', $startDate)
-                    ->where('offer_requests.created_at', '<=', $endDate);
-            });
+
+        $query->when(request()->query('car_1_id'), function ($query, $model) {
+            $query->where('offer_requests.car_id', request()->query('car_1_id'));
+        });
+        $query->when(request()->query('mobile'), function ($query, $model) {
+            $query->where('user_mobile', 'like', '%' . $model . '%');
+        });
+        $query->when(request()->query('type'), function ($query, $model) {
+            $query->where('offer_requests.type',  $model);
+        });
+        $query->when(request()->query('status'), function ($query, $model) {
+            $query->where('offer_requests.status',  $model);
+        });
+        $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
+            $q->where('offer_requests.created_at', '>=', $startDate)
+                ->where('offer_requests.created_at', '<=', $endDate);
+        });
         return $query;
     }
 
@@ -49,7 +50,6 @@ class OfferRequestReportDataGrid extends Grid
                 'label' => 'User Mobile',
                 'value' => function ($model) {
                     return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_phone_code $model->user_mobile</a>";
-
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -128,7 +128,7 @@ class OfferRequestReportDataGrid extends Grid
                     return config('params.offer_request.status')[$model->status];
                 },
             ],
-           
+
         ];
     }
 }

@@ -76,17 +76,19 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('car/select', [CarController::class, 'select'])->name('car.select');
     Route::get('color/select', [ColorController::class, 'select'])->name('color.select');
     Route::get('car-version/select', [CarVersionController::class, 'select'])->name('car-version.select');
-    Route::get('car/add-360-view',[CarController::class, 'add360ViewImages'])->name('car.360-view.add');
-    Route::post('car/store-360-view',[CarController::class, 'store360ViewImages'])->name('car.360-view.store');
-    Route::post('car/delete-360-view',[CarController::class, 'delete360ViewImage'])->name('car.360-view.delete');
-    Route::post('car/update-360-view',[CarController::class, 'update360ViewImage'])->name('car.360-view.update');
+    Route::get('car/add-360-view', [CarController::class, 'add360ViewImages'])->name('car.360-view.add');
+    Route::post('car/store-360-view', [CarController::class, 'store360ViewImages'])->name('car.360-view.store');
+    Route::post('car/delete-360-view', [CarController::class, 'delete360ViewImage'])->name('car.360-view.delete');
+    Route::post('car/update-360-view', [CarController::class, 'update360ViewImage'])->name('car.360-view.update');
+    Route::get('bank/select', [SuggestedBankController::class, 'select'])->name('bank.select');
+
     Route::resources([
         'brand' => BrandController::class,              // Brands
         'body-type' => BodyTypeController::class,       // Body Type
         'user' => UserController::class,                // User
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version
-        'color' =>ColorController::class  ,             //color
+        'color' => ColorController::class,             //color
         'faq' => FaqController::class,                  // FAQ
         'news' => NewsPostController::class,            // News
         'emi-info' => EmiCalculatorController::class,   // Emi Calculator
@@ -101,27 +103,27 @@ Route::middleware('auth:admin')->group(function () {
 
     //bank
     Route::post('suggested-banks/update', [SuggestedBankController::class, 'update'])->name('suggested-banks.update');
-    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index','show']);
+    Route::resource('suggested-banks', SuggestedBankController::class)->only(['index', 'show']);
 
     //loan
     Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
-    Route::resource('loan-requests', LoanRequestController::class)->only(['index','show']);
+    Route::resource('loan-requests', LoanRequestController::class)->only(['index', 'show']);
 
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Test ride requests
     Route::post('test-ride-requests/update', [TestRideRequestController::class, 'update'])->name('test-ride-requests.update');
-    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index','show']);
+    Route::resource('test-ride-requests', TestRideRequestController::class)->only(['index', 'show']);
 
     // Offers
     // Route::resource('offers', OfferController::class);
 
     // Offer request
     Route::post('offer-requests/update', [OfferRequestController::class, 'update'])->name('offer-requests.update');
-    Route::resource('offer-requests', OfferRequestController::class)->only(['index','show']);
+    Route::resource('offer-requests', OfferRequestController::class)->only(['index', 'show']);
 
     // Review
     Route::post('reviews/update', [ReviewController::class, 'update'])->name('reviews.update');
-    Route::resource('reviews', ReviewController::class)->only(['index','show']);
+    Route::resource('reviews', ReviewController::class)->only(['index', 'show']);
 
     //News
     Route::post('news/banner', [NewsPostController::class, 'updatebanner'])->name('news.banner');
@@ -130,28 +132,25 @@ Route::middleware('auth:admin')->group(function () {
 
 
     //Trash
-    Route::resource('trash-user',UserTrashController::class)->only('index','show','edit');
-    Route::resource('trash-brand',BrandTrashController::class)->only('index','show','edit');
-    Route::resource('trash-body-type',BodyTypeTrashController::class)->only('index','show','edit');
-      // Logout
+    Route::resource('trash-user', UserTrashController::class)->only('index', 'show', 'edit');
+    Route::resource('trash-brand', BrandTrashController::class)->only('index', 'show', 'edit');
+    Route::resource('trash-body-type', BodyTypeTrashController::class)->only('index', 'show', 'edit');
+    // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
     Route::name('reports.')->prefix('reports')->group(function () {
         Route::get('/user', [UserReportsController::class, 'index'])->name('user.index');
         Route::get('/user-export', [UserReportsController::class, 'export'])->name('user.export');
 
-        Route::get('/car',[CarReportsController::class,'index'])->name('car.index');
-        Route::get('/car-export',[CarReportsController::class,'export'])->name('car.export');
+        Route::get('/car', [CarReportsController::class, 'index'])->name('car.index');
+        Route::get('/car-export', [CarReportsController::class, 'export'])->name('car.export');
 
-        Route::get('/offer-request',[OfferRequestReportsController::class,'index'])->name('offer-request.index');
-        Route::get('/offer-request-export',[OfferRequestReportsController::class,'export'])->name('offer-request.export');
+        Route::get('/offer-request', [OfferRequestReportsController::class, 'index'])->name('offer-request.index');
+        Route::get('/offer-request-export', [OfferRequestReportsController::class, 'export'])->name('offer-request.export');
 
-        Route::get('/test-ride',[TestRideRequestsController::class, 'index'])->name('test-ride.index');
-        Route::get('/test-ride-export',[TestRideRequestsController::class, 'export'])->name('test-ride.export');
-        Route::get('/loan-requests',[LoanRequestReportController::class, 'index'])->name('loan-requests.index');
-        Route::get('/loan-requests-export',[LoanRequestReportController::class, 'export'])->name('loan-requests.export');
-       
- 
+        Route::get('/test-ride', [TestRideRequestsController::class, 'index'])->name('test-ride.index');
+        Route::get('/test-ride-export', [TestRideRequestsController::class, 'export'])->name('test-ride.export');
+        Route::get('/loan-requests', [LoanRequestReportController::class, 'index'])->name('loan-requests.index');
+        Route::get('/loan-requests-export', [LoanRequestReportController::class, 'export'])->name('loan-requests.export');
     });
-
 });

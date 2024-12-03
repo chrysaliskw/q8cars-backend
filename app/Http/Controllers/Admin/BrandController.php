@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use Exception;
 use App\Models\Brand;
 use Illuminate\Http\Request;
@@ -45,17 +46,14 @@ class BrandController extends Controller
      */
     public function store(BrandRequest $request)
     {
-        try 
-        {
+        try {
             $service = new BrandService($request);
             $brand = $service->handle();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.brand.show', $brand)->with('success', 'Brand created successfully!');
-
     }
 
     /**
@@ -89,25 +87,20 @@ class BrandController extends Controller
      */
     public function update(BrandRequest $request, Brand $brand)
     {
-        try 
-        {
-            if($brand->status == Brand::STATUS_ACTIVE && $request->status == Brand::STATUS_INACTIVE)
-            {
+        try {
+            if ($brand->status == Brand::STATUS_ACTIVE && $request->status == Brand::STATUS_INACTIVE) {
                 $brandIds = Car::active()->pluck('brand_id')->toArray();
                 if (in_array($brand->id, $brandIds)) {
                     return back()->with('error', __('Cannot deactivate brand: Active cars are associated with it. Please deactivate or reassign the cars first.'));
                 }
-                
             }
-            $service = new BrandService($request,$brand);
+            $service = new BrandService($request, $brand);
             $brand = $service->handle();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.brand.show', $brand)->with('success', 'Brand updated successfully!');
-
     }
 
     /**
@@ -125,7 +118,7 @@ class BrandController extends Controller
         DB::beginTransaction();
         try {
             $oldPicture[] = $brand->icon;
-            // JunkFileDeleteJob::dispatchAfterResponse(Brand::FILE_DIR, $oldPicture); 
+            // JunkFileDeleteJob::dispatchAfterResponse(Brand::FILE_DIR, $oldPicture);
             $brand->delete();
             DB::commit();
         } catch (Exception $ex) {
@@ -134,12 +127,11 @@ class BrandController extends Controller
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.brand.index')->with('success', 'Brand deleted successfully!');
-
     }
 
-     /**
+    /**
      * Search endpoint for select2 dropdown
-     * 
+     *
      * @param Request $request
      * @return array
      */
@@ -159,8 +151,7 @@ class BrandController extends Controller
 
         $response['results'] = $cities;
         $response['pagination'] = ['more' => !empty($cities) ?? false];
-        
+
         return $response;
     }
-
 }

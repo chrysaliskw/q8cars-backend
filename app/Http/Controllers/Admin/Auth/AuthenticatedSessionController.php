@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        
+
         return redirect()->route('admin.dashboard');
     }
 
@@ -64,14 +64,14 @@ class AuthenticatedSessionController extends Controller
 
     public function sendResetLink(Request $request)
     {
-       
+
         $validated = $request->validate([
             'email' => 'required|string|email:filter|max:255',
         ]);
 
         $admin = Admin::where('email', $request->email)->first();
 
-        if(empty($admin)) {
+        if (empty($admin)) {
             return redirect()->back()->with('error', 'Provided Email is not registered');
         }
 
@@ -91,23 +91,22 @@ class AuthenticatedSessionController extends Controller
     {
         $validatedData = $request->validate([
             'email' => [
-                'required','string', 'max:200', 
+                'required',
+                'string',
+                'max:200',
                 Rule::exists(Admin::class)
             ],
-    
+
             'password' => 'required|string|min:8|max:15|regex:/^[a-zA-Z\d!@#$%^&*_]*$/',
             'confirm_password' => 'required|same:password',
-           
+
         ]);
 
-        try
-        {
+        try {
             $admin = Admin::where('email', $request->email)->first();
-            $admin->password = Hash::make($validatedData['password']); 
+            $admin->password = Hash::make($validatedData['password']);
             $admin->update();
-            
-        }
-        catch(Exception $ex){
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'));
         }
