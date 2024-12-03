@@ -134,6 +134,11 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Loan Eligibilit
 });
 //Car Management
 Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'])->group(function () {
+    Route::get('car/add-360-view', [CarController::class, 'add360ViewImages'])->name('car.360-view.add');
+    Route::post('car/store-360-view', [CarController::class, 'store360ViewImages'])->name('car.360-view.store');
+    Route::post('car/delete-360-view', [CarController::class, 'delete360ViewImage'])->name('car.360-view.delete');
+    Route::post('car/update-360-view', [CarController::class, 'update360ViewImage'])->name('car.360-view.update');
+   
     Route::resources([
         'car' => CarController::class,                  // Car
         'car-version' => CarVersionController::class,   // Car Version
