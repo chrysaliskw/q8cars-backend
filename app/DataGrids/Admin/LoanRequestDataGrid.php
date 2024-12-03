@@ -26,8 +26,8 @@ class LoanRequestDataGrid extends Grid
     {
         return [
 
-            'requested_user' => [
-                'label' => 'Requested User',
+            'user_mobile' => [
+                'label' => 'User Mobile',
                 'value' => function ($model) {
                     // return trim($model->user->phone_code . ' ' . $model->user->mobile);
                     return "<a href='" . route('admin.user.show', $model->user_id) . "'> {$model->user->phone_code} {$model->user_mobile}</a>";
@@ -50,7 +50,7 @@ class LoanRequestDataGrid extends Grid
             // ],
 
             'first_name' => [
-                'label' => 'Full Name',
+                'label' => 'Requested Name',
                 'value' => function ($model) {
                     return trim($model->first_name . ' ' . $model->last_name);
                 },
