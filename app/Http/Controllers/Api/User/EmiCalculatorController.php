@@ -23,7 +23,7 @@ class EmiCalculatorController extends ApiBaseController
             'annualInterestRate' => ['nullable', 'numeric'],
             'loanTenureYears' => ['nullable', 'integer'],
             'car_id' => ['required'],
-            'car_version_id' => ['required']
+            'car_version_id' => ['nullable']
         ]);
 
         if ($validator->fails()) {

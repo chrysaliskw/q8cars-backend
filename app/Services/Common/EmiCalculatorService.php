@@ -115,11 +115,12 @@ class EmiCalculatorService
                 break;
             }
         }
-        $carVersion = CarVersion::find($this->request->car_version_id);
+        $car = Car::find($this->request->car_id);
+        $carVersion = $this->request->car_version_id ? CarVersion::find($this->request->car_version_id) : $car->carSpec;
 
         $result['car_id'] = $this->request->car_id;
-        $result['car_model_name'] = (Car::find($this->request->car_id))->model_name;
-        $result['car_version_id'] = $this->request->car_version_id;
+        $result['car_model_name'] = $car->model_name;
+        $result['car_version_id'] = $this->request->car_version_id  ?? $car->carSpec->id;
         if (isset($result['car_varient_name'])) {
             $result['car_varient_name'] = (CarVersion::find($this->request->car_version_id))->varient_name;
         }
