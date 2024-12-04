@@ -648,7 +648,7 @@ class CarController extends ApiBaseController
                 ->whereBetween('on_road_price', [$car->on_road_price * 0.95, $car->on_road_price * 1.05])
                 //->whereNotNull('version_id')
                 ->active()
-                ->orderBy('on_road_price','Acs')
+                ->orderBy('on_road_price','asc')
                 ->limit(2)
                 ->get();
         }
