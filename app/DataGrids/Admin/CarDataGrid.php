@@ -54,6 +54,19 @@ class CarDataGrid extends Grid
                     'attribute' => 'b.name',
                 ]
             ],
+            'is_upcoming' => [
+                'label' => 'Is Upcoming',
+                'value' => function ($model) {
+                    return ($model->is_upcoming == 1) ? 'Yes' : 'No';
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'attribute' => 'cars.is_upcoming',
+                    'operator' => '=',
+                    'data' => $this->getUpcoming(),
+                ],
+            ],
             'sort_order' => [
                 'label' => 'Sort Order',
                 'value' => function ($model) {
@@ -96,6 +109,13 @@ class CarDataGrid extends Grid
                 'routePrefix' => 'admin.car',
                 'contentCssClass' => 'grid-action-col',
             ]
+        ];
+    }
+    private function getUpcoming()
+    {
+        return [
+            1 => 'Yes',
+            2 => 'No',
         ];
     }
 }
