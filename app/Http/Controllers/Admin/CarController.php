@@ -326,7 +326,7 @@ class CarController extends Controller
             $rules["units_$i"] = 'nullable|string';
             $rules["key_feature_$i"] = 'nullable|integer';
             $rules["key_spec_$i"] = 'nullable|integer';
-            $rules["icon_$i"] = 'required_with:key_feature_'.$i.',key_spec_'.$i.'|mimes:jpg,png,jpeg|max:2048';            
+            $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';            
 
             $inputType = $request->input("input_type_$i");
             if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
