@@ -13,28 +13,31 @@
                 <div class="col-md-4">
                     <x-form-select field="bank_id" field-name="Bank*" defaultPrompt="Select bank">
                         @foreach ($banks as $bank)
-                            <option value="{{ $bank->id }}" {{ old('bank_id') == $bank->id ? 'selected' : '' }}>
+                            {{-- <option value="{{ $bank->id }}" {{ old('bank_id') == $bank->id ? 'selected' : '' }}>
+                                {{ $bank->bank_name }}
+                            </option> --}}
+                            <option value="{{ $bank->id }}" {{ (isset($input['bank_id']) && $input['bank_id'] == $bank->id) ? 'selected' : '' }}>
                                 {{ $bank->bank_name }}
                             </option>
                         @endforeach
                     </x-form-select>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="base_gross_income" field-name="Gross Income*" value="{{ old('base_gross_income') }}">
+                    <x-form-input type="text" field="base_gross_income" field-name="Gross Income*" value="{{ $input['base_gross_income'] ?? '' }}">
                     </x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="base_other_emi" field-name="Other EMIs" value="{{ old('base_other_emi') }}">
+                    <x-form-input type="text" field="base_other_emi" field-name="Other EMIs" value="{{ $input['base_other_emi'] ?? '' }}">
                     </x-form-input>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-input type="text" field="base_interest_rate" field-name="Annual Interest Rate(%)*" value="{{ old('base_interest_rate') }}">
+                    <x-form-input type="text" field="base_interest_rate" field-name="Annual Interest Rate(%)*" value="{{ $input['base_interest_rate'] ?? '' }}">
                     </x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="loanTenureYears" field-name="Tenure(1 to 7)*" value="{{ old('loanTenureYears') }}">
+                    <x-form-input type="text" field="loanTenureYears" field-name="Tenure(1 to 7)*" value="{{ $input['loanTenureYears'] ?? '' }}">
                     </x-form-input>
                 </div>
             </div>

@@ -29,6 +29,8 @@ class EmiCalculatorController extends Controller
      */
     public function store(Request $request)
     {
+        $input = $request->all();
+
         $validatedData = $request->validate([
             'brand_id' => 'required',
             'car_id' => 'required',
@@ -53,7 +55,7 @@ class EmiCalculatorController extends Controller
         }
         session()->put('form_data', $request->all());
 
-        return view('admin.emi-info.show', compact('result'))->with('form_data', session('form_data'));
+        return view('admin.emi-info.show', compact('result', 'input'))->with('form_data', session('form_data'));
     }
 
     /**
