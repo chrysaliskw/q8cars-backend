@@ -220,7 +220,7 @@ final class FilterService
         }
         $transmission_types = array_map('intval', $this->request->transmission_types);
 
-        $this->query = $this->query->whereJsonContains('cars.transmission_types', $transmission_types);
+        $this->query = $this->query->whereJsonContains('cars.transmission_type', $transmission_types);
 
         // $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
