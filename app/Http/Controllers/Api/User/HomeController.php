@@ -64,7 +64,7 @@ class HomeController extends ApiBaseController
 
     private function getTrending()
     {
-        $result = News::active()->published()->trending()->orderBy('posted_time', 'desc')->limit(3)->get();
+        $result = News::active()->published()->trending()->orderBy('posted_time', 'desc')->get();
         return NewsResource::collection($result);
     }
 
