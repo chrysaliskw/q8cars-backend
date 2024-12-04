@@ -11,17 +11,29 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-select field="brand_id" field-name="Brand*" id="brand_id"></x-form-select>
-                    <input type="hidden" id="brand_id_text" name="brand_id_text" />
+                    <x-form-select field="brand_id" field-name="Brand*" id="brand_id">
+                        <option value="{{ session('form_data')['brand_id'] ?? '' }}" selected>
+                            {{ session('form_data')['brand_id_text'] ?? 'Select a brand' }}
+                        </option>
+                    </x-form-select>
+                    <input type="hidden" id="brand_id_text" name="brand_id_text" value="{{ session('form_data')['brand_id_text'] ?? '' }}"/>
                     <span class="error" role="alert" id="brand_id_error"></span>
                 </div>
                 <div class="col-md-4">
-                    <x-form-select field="car_id" field-name="Car Model*" id="car_id"></x-form-select>
-                    <input type="hidden" id="car_id_text" name="car_id_text" />
+                    <x-form-select field="car_id" field-name="Car Model*" id="car_id">
+                        <option value="{{ session('form_data')['car_id'] ?? '' }}" selected>
+                            {{ session('form_data')['car_id_text'] ?? 'Select a car' }}
+                        </option>
+                    </x-form-select>
+                    <input type="hidden" id="car_id_text" name="car_id_text" value="{{ session('form_data')['car_id_text'] ?? '' }}"/>
                 </div>
                 <div class="col-md-4">
-                    <x-form-select field="car_version_id" field-name="Car Version" id="car_version_id"></x-form-select>
-                    <input type="hidden" id="car_version_id_text" name="car_version_id_text" />
+                    <x-form-select field="car_version_id" field-name="Car Version" id="car_version_id">
+                        <option value="{{ session('form_data')['car_version_id'] ?? '' }}" selected>
+                            {{ session('form_data')['car_version_id_text'] ?? 'Select a car version' }}
+                        </option>
+                    </x-form-select>
+                    <input type="hidden" id="car_version_id_text" name="car_version_id_text" value="{{ session('form_data')['car_version_id_text'] ?? '' }}"/>
                 </div>
             </div>
             <div class="row">

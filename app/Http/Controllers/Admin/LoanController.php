@@ -34,6 +34,8 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
+        $input = $request->all();
+        
         $validator = Validator::make($request->all(), [
             'bank_id' => 'required|exists:banks,id',
             'base_gross_income' => 'required|numeric|min:0|max:99999999',
@@ -67,7 +69,7 @@ class LoanController extends Controller
             return redirect()->back()->withErrors(['message' => $loanEligibility['error']])->withInput();
         }
 
-        return view('admin.loan-info.show', compact('emiService', 'banks', 'loanEligibility'));
+        return view('admin.loan-info.show', compact('emiService', 'banks', 'loanEligibility', 'input'));
 
     }
 
