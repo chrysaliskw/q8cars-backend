@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\PushNotification;
+namespace App\Services\Admin\PushNotification;
 
 use Google_Client;
 use GuzzleHttp\Client;

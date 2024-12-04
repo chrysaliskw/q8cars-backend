@@ -11,7 +11,7 @@ use App\Models\UserNotificationMapping;
 use App\Services\Admin\NotificationService;
 use App\DataGrids\Admin\NotificationDataGrid;
 use App\Http\Requests\Admin\NotificationRequest;
-use App\Services\PushNotification\FirebasePushNotificationService;
+use App\Services\Admin\PushNotification\FirebasePushNotificationService;
 
 class NotificationController extends Controller
 {
