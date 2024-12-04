@@ -17,13 +17,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
+use App\Exceptions\FuelTtypeAndTransmissionException;
 class CarService
 {
-    protected $car;
+    public $car;
     protected $data;
     protected $version;
     private $oldAttributeIds;
     public $idstobedeleted;
+    public $error;
 
     public function __construct(array $data, Car $car = null, CarVersion $version = null)
     {
@@ -49,6 +51,9 @@ class CarService
 
             $this->saveCar();
             $this->saveToCarVersion();
+            if ($this->error) {
+                throw new \App\Exceptions\FuelTtypeAndTransmissionException($this->error);
+            }
             $this->saveCarImages();
             $this->saveCarVideos();
             $this->saveCarColorsAndImages();
@@ -205,7 +210,12 @@ class CarService
         // $this->version->alloy_wheel_front = $this->data['alloy_wheel_front'];
         // $this->version->alloy_wheel_rear = $this->data['alloy_wheel_rear'];
         // $this->version->power_steering = $this->data['power_steering'];
-        $this->version->body_type = $this->data['body_type_id'];
+        if($this->data['update'] && $this->version->body_type_id !== $this->data['body_type_id']){
+            $this->version->body_type = $this->data['body_type_id'];
+            CarVersion::where('car_id', $this->car->id)->update(['body_type_id' => $this->data['body_type_id']]);        
+        }else{
+            $this->version->body_type = $this->data['body_type_id'];
+        }
         // $this->version->width = $this->data['width'];
         // $this->version->length = $this->data['length'];
         // $this->version->height = $this->data['height'];
@@ -480,10 +490,24 @@ class CarService
                 $i++;
             }
         }else {
-            foreach($this->data['fuel_types'] as $p) {
-                $result[$i] = intval($p);
-                $i++;
-            }
+            if ($this->data['update']) {
+                $i = 0; 
+                $existingFuelTypes = Carversion::where('car_id', $this->car->id)->pluck('fuel_type')->toArray(); // Get existing fuel types for the car
+                $result = [];
+                foreach ($this->data['fuel_types'] as $p) {
+                       $result[$i] = intval($p);
+                        $i++;
+                }
+                $excludedFuelTypes = array_diff($existingFuelTypes, $result);
+                if (!empty($excludedFuelTypes)) {
+                 $this->error = 'The fuel types already assigned to car versions cannot be excluded';
+                }
+            }else{
+                foreach($this->data['fuel_types'] as $p) {
+                    $result[$i] = intval($p);
+                    $i++;
+                }
+            }    
         }
         return  json_encode($result);
     }
@@ -516,9 +540,22 @@ class CarService
                 $i++;
             }
         }else {
-            foreach($this->data['transmission_types'] as $p) {
-                $result[$i] = intval($p);
-                $i++;
+            if ($this->data['update']) {
+                $i = 0; 
+                $existingTranmissionTypes = Carversion::where('car_id', $this->car->id)->pluck('transmission_type')->toArray(); 
+                foreach ($this->data['transmission_types'] as $p) {
+                       $result[$i] = intval($p);
+                        $i++;
+                }
+                $excludedTTypes = array_diff($existingTranmissionTypes, $result);
+                if (!empty($excludedTTypes)) {
+                    $this->error = 'The transmission types already assigned to car versions cannot be excluded';
+                }
+            }else{
+                foreach($this->data['transmission_types'] as $p) {
+                    $result[$i] = intval($p);
+                    $i++;
+                }
             }
         }
         return json_encode($result);

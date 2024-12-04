@@ -23,6 +23,7 @@ use App\Http\Requests\Admin\CarRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
+use App\Exceptions\FuelTtypeAndTransmissionException;
 use App\Models\BrandColorMapping;
 use App\Models\View360Image;
 use Illuminate\Http\Exceptions\PostTooLargeException;
@@ -385,6 +386,9 @@ class CarController extends Controller
         try {
             $service = new CarService($data, $car, $carVarient);
             $car = $service->handle();
+        }catch(FuelTtypeAndTransmissionException $e){
+            logger($e); 
+            return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();

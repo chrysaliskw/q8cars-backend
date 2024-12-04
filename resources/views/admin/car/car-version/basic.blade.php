@@ -31,7 +31,7 @@
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
-                        <x-form-select field="body_type_id" field-name="Body Type*" id="body_type_id">
+                        <x-form-select field="body_type_id" field-name="Body Type*" id="body_type_id" disabled>
                         </x-form-select>
                         <input type="hidden" id="body_type_id_text" name="body_type_id_text" />
                         <span class="error" role="alert" id="body_type_id_error" ></span>
