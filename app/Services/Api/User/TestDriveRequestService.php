@@ -35,7 +35,7 @@ class TestDriveRequestService
         $testDriveRequest->otp_expiry = date('Y-m-d H:i:s', strtotime("+ 10 min"));
         $testDriveRequest->otp = generate_otp();
         $testDriveRequest->saveOrFail(); 
-        Log::info('otp',$testDriveRequest->otp);
+        Log::info('otp',[$testDriveRequest->otp]);
         return true; 
     }
 
