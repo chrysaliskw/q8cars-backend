@@ -5,6 +5,7 @@ namespace App\Services\Api\User;
 use App\Models\TestDrive;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TestDriveRequestService
 {
@@ -34,6 +35,7 @@ class TestDriveRequestService
         $testDriveRequest->otp_expiry = date('Y-m-d H:i:s', strtotime("+ 10 min"));
         $testDriveRequest->otp = generate_otp();
         $testDriveRequest->saveOrFail(); 
+        Log::info('otp',$testDriveRequest->otp);
         return true; 
     }
 
