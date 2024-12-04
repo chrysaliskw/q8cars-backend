@@ -653,7 +653,7 @@ class CarController extends ApiBaseController
         }
         $i = 0;
         foreach($cars as $compare) {
-            $version = CarVersion::where('car_id', $compare->id)->where('transmission_type', Car::TR_MANUAL)->first();
+            $version = CarVersion::where('car_id', $compare->id)->where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first();
             $result[$i]['id'] = $compare->id;
             $result[$i]['name'] = $compare->model_name;
             $result[$i]['rating'] = round($compare->avg_rating,1);
