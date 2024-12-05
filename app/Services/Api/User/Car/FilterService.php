@@ -310,6 +310,7 @@ final class FilterService
         $ids = [];
 
         for($i = 0; $i < count($this->request->power_min); $i++) {
+            
             if($this->request->power_max[$i] == 0) {
                 $ids = array_merge($ids, CarVersion::where('power','>=', $this->request->power_min[$i])->pluck('car_id')->toArray());
             }else {
@@ -333,6 +334,7 @@ final class FilterService
         $ids = [];
 
         for($i = 0; $i < count($this->request->engine_capacity_min); $i++) {
+            $this->request->engine_capacity_max[$i] = $this->request->engine_capacity_max[$i] ??  PHP_INT_MAX;
             if($this->request->engine_capacity_max[$i] == 0) {
                 $ids = array_merge($ids, CarVersion::where('engine_capacity','>=', $this->request->engine_capacity_min[$i])->pluck('car_id')->toArray());
             }else {
@@ -356,6 +358,7 @@ final class FilterService
         $ids = [];
 
         for($i = 0; $i < count($this->request->mileage_min); $i++) {
+            $this->request->mileage_max[$i] = $this->request->mileage_max[$i] ?? PHP_INT_MAX;
             if($this->request->mileage_max[$i] == 0) {
                 $ids = array_merge($ids, CarVersion::where('mileage','>=', $this->request->mileage_min[$i])->pluck('car_id')->toArray());
             }else {
