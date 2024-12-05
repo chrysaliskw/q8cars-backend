@@ -263,6 +263,22 @@
         });
 
         $(document).ready(function() {
+            $('#brand_id').select2({
+                placeholder: "Select a Brand",
+                allowClear: true,
+                minimumResultsForSearch: Infinity,
+                dropdownParent: $('.mb-3'),
+                width: '100%'
+            });
+
+            $('#brand_id').on('select2:unselect', function(e) {
+                setTimeout(function() {
+                    $('#brand_id').select2('close');
+                }, 0);
+            });
+        });
+
+        $(document).ready(function() {
             var ctxDoughnut = document.getElementById('enquiriesTestRideReviewChart').getContext('2d');
             var enquiriesTestRideReviewChart = new Chart(ctxDoughnut, {
                 type: 'doughnut',
