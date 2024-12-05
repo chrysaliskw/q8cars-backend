@@ -5053,6 +5053,10 @@ display: none;
   height: 100px;
   width: 150px;
 }
+.img-list-user {
+    height: 100px;
+    width: 100px;
+  }
 .other-specs td{
     vertical-align: middle;
 }

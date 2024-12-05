@@ -120,7 +120,7 @@ class UserController extends Controller
             ->toArray();
         $response['results'] = $mobile;
         $response['pagination'] = ['more' => !empty($banks) ?? false];
-        logger($response);
+        // logger($response);
         return $response;
     }
 }
