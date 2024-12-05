@@ -17,8 +17,6 @@ class CompareCarsDetailsController extends ApiBaseController
      */
     public function __invoke(Request $request)
     {
-
-
         $validator =   Validator::make($request->all(), [
             'carIds' => 'required|array',
             'carIds.*' => 'integer|exists:cars,id',
@@ -181,6 +179,10 @@ class CompareCarsDetailsController extends ApiBaseController
 
         $specifications['colors'] = $colorInfoByCar;
 
+        $specifications = array_filter($specifications, function ($value) {
+            return !empty($value) && (is_array($value) ? !empty(array_filter($value)) : true);
+        });
+
         // $data =   $this->getCarComparison($cars);
         $data = $specifications;
         return $this->success(['data' =>  $data], 'comparison Details!', Response::HTTP_OK);
@@ -246,6 +248,11 @@ class CompareCarsDetailsController extends ApiBaseController
         }
 
         $specifications['colors'] = $colorInfoByCar;
+
+        $specifications = array_filter($specifications, function ($value) {
+            return !empty($value) && (is_array($value) ? !empty(array_filter($value)) : true);
+        });
+
         return $specifications;
     }
 
@@ -259,8 +266,8 @@ class CompareCarsDetailsController extends ApiBaseController
         }
 
         $categories = [
-            'basic_information'     => [],
-            'colors'                => [],
+            // 'basic_information'     => [],
+            // 'colors'                => [],
             'engine_tranmission' => $this->engineInfo($cars),
             'fuel_performance' => $this->fuelInfo($cars),
             'suspension_steering' => $this->suspensionInfo($cars),
@@ -323,6 +330,10 @@ class CompareCarsDetailsController extends ApiBaseController
                 }
             }
         }
+
+        $specifications = array_filter($specifications, function ($category) {
+            return !empty($category);
+        });
 
         return $specifications;
     }
