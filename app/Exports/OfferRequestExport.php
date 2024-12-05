@@ -72,7 +72,7 @@ class OfferRequestExport implements FromQuery, WithColumnFormatting, WithMapping
                 $query->where('c.id', $this->model);
             })
             ->when($this->mobile, function ($query, $model) {
-                $query->where('user_mobile', 'like', '%' . $model . '%');
+                $query->where('u.mobile', 'like', '%' . $model . '%');
             })
             ->when($this->type, function ($query, $model) {
                 $query->where('offer_requests.type', 'like', $model);
