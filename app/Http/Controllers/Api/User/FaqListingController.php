@@ -13,7 +13,7 @@ class FaqListingController extends ApiBaseController
     
 public function __invoke(Request $request)
     {
-        $faqs = Faq::active()->paginate(20);
+        $faqs = Faq::active()->orderBy('sort_order')->paginate(20);
         FaqListResource::collection($faqs);
         return $this->success(['data' => $faqs], 'Faq List!', Response::HTTP_OK);
     }
