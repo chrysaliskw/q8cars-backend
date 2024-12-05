@@ -27,7 +27,7 @@ class OfferRequestReportDataGrid extends Grid
             $query->where('offer_requests.car_id', request()->query('car_1_id'));
         });
         $query->when(request()->query('mobile'), function ($query, $model) {
-            $query->where('user_mobile', 'like', '%' . $model . '%');
+            $query->where('u.mobile', 'like', '%' . $model . '%');
         });
         $query->when(request()->query('type'), function ($query, $model) {
             $query->where('offer_requests.type',  $model);
@@ -35,8 +35,8 @@ class OfferRequestReportDataGrid extends Grid
         $query->when(request()->query('status'), function ($query, $model) {
             $query->where('offer_requests.status',  $model);
         });
-        $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
-            $q->where('offer_requests.created_at', '>=', $startDate)
+        $query->when(request()->query('start_date'), function ($query) use ($startDate, $endDate) {
+            $query->where('offer_requests.created_at', '>=', $startDate)
                 ->where('offer_requests.created_at', '<=', $endDate);
         });
         return $query;
