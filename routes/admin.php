@@ -84,6 +84,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     Route::post('/get-brand-data', [HomeController::class, 'getBrandData'])->name('get-brand-data');
     Route::get('bank/select', [SuggestedBankController::class, 'select'])->name('bank.select');
+    Route::get('user/select', [UserController::class, 'select'])->name('user.select');
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

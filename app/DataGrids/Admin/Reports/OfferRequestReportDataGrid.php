@@ -15,19 +15,27 @@ class OfferRequestReportDataGrid extends Grid
     {
         $endDate = Carbon::parse(request()->query('end_date'))->addHours(23)->addMinutes(59)->addSeconds(59)->format('Y-m-d H:i');
         $startDate = Carbon::parse(request()->query('start_date'))->format('Y-m-d H:i');
-
+        // var_dump(request()->query('user_mobile_text'));
+        // die();
         $query = OfferRequest::query()
             ->leftJoin('users as u', 'u.id', '=', 'offer_requests.user_id')
             ->leftJoin('cars as c', 'c.id', '=', 'offer_requests.car_id')
+            ->select([
+
+                'offer_requests.*',
+                'u.phone_code as user_phone_code',
+                'u.mobile as user_mobile',
+                'c.model_name as car_model'
+            ])
             // ->leftJoin('offers', 'offers.id', '=', 'offer_requests.offer_id')
-            ->select(['offer_requests.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model'])
             ->orderBy('offer_requests.id', 'Desc');
 
         $query->when(request()->query('car_1_id'), function ($query, $model) {
             $query->where('offer_requests.car_id', request()->query('car_1_id'));
         });
-        $query->when(request()->query('mobile'), function ($query, $model) {
-            $query->where('u.mobile', 'like', '%' . $model . '%');
+
+        $query->when(request()->query('user_mobile'), function ($query, $model) {
+            $query->where('u.id', request()->query('user_mobile'));
         });
         $query->when(request()->query('type'), function ($query, $model) {
             $query->where('offer_requests.type',  $model);
@@ -39,6 +47,9 @@ class OfferRequestReportDataGrid extends Grid
             $query->where('offer_requests.created_at', '>=', $startDate)
                 ->where('offer_requests.created_at', '<=', $endDate);
         });
+
+        // dd($query->get());
+
         return $query;
     }
 
@@ -51,10 +62,9 @@ class OfferRequestReportDataGrid extends Grid
                 'value' => function ($model) {
                     return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_phone_code $model->user_mobile</a>";
                 },
-                'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'u.mobile',
+                    'attribute' => 'u.id',
                 ]
             ],
             'car_model' => [
@@ -85,11 +95,11 @@ class OfferRequestReportDataGrid extends Grid
                 'value' => function ($model) {
                     return $model->phone_code . $model->mobile;
                 },
-                'filter' => true,
-                'filterOptions' => [
-                    'type' => 'text',
-                    'attribute' => 'offer_requests.mobile',
-                ]
+                'filter' => false,
+                // 'filterOptions' => [
+                //     'type' => 'text',
+                //     'attribute' => 'offer_requests.mobile',
+                // ]
             ],
             'email' => [
                 'label' => 'Requested Email',
