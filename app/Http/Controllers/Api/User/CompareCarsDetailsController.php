@@ -9,6 +9,8 @@ use App\Models\BrandColorMapping;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Models\RecentComparison;
+use Illuminate\Support\Facades\Auth;
 
 class CompareCarsDetailsController extends ApiBaseController
 {
@@ -27,10 +29,32 @@ class CompareCarsDetailsController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-
-
-
+        
         $carIds = $request->carIds;
+        for ($i = 0; $i < count($carIds); $i++) {
+            for ($j = $i + 1; $j < count($carIds); $j++) {
+                // Check if the comparison already exists
+                $existingComparison = RecentComparison::where('user_id', Auth::id())
+                    ->where(function($query) use ($carIds, $i, $j) {
+                        $query->where('car_1_id', $carIds[$i])
+                              ->where('car_2_id', $carIds[$j]);
+                    })
+                    ->orWhere(function($query) use ($carIds, $i, $j) {
+                        $query->where('car_1_id', $carIds[$j])
+                              ->where('car_2_id', $carIds[$i]);
+                    })
+                    ->exists();
+        
+                // If no existing comparison, create a new one
+                if (!$existingComparison) {
+                    $comparison = new RecentComparison();
+                    $comparison->user_id = Auth::id();
+                    $comparison->car_1_id = $carIds[$i];
+                    $comparison->car_2_id = $carIds[$j];
+                    $comparison->save();
+                }
+            }
+        }        
         $isCommon = $request->is_common;
         $isDifferent = $request->is_different;
         $cars = Car::whereIn('id', $carIds)->orderByRaw('FIELD(id, ' . implode(',', $carIds) . ')')
