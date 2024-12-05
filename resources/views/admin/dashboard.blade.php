@@ -1,5 +1,5 @@
 <x-admin-layout title="Dashboard">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> -->
 
 
 
@@ -307,8 +307,8 @@
                         ];
 
                         enquiriesTestRideReviewChart.data.labels = brandId ?
-                            ['Completed Offers (Brand)', 'Completed Test Rides (Brand)',
-                                'Verified Reviews (Brand)'
+                            ['Completed Offers ', 'Completed Test Rides ',
+                                'Verified Reviews'
                             ] :
                             ['Offers (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
 
