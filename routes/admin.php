@@ -223,7 +223,7 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Trash'])->group
     Route::resource('trash-body-type', BodyTypeTrashController::class)->only('index', 'show', 'edit');
 });
 // ------------------------------------------------------------
-Route::name('reports.')->prefix('reports')->group(function () {
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Reports'])->name('reports.')->prefix('reports')->group(function () {
     Route::get('/user', [UserReportsController::class, 'index'])->name('user.index');
     Route::get('/user-export', [UserReportsController::class, 'export'])->name('user.export');
 
