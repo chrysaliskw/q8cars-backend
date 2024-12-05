@@ -57,6 +57,7 @@
 
                     @if($count > 0)
                         <ul class="dropdown-menu dropdown-menu-lg notification-dropdown">
+                        <li class="text-center notifi-title">Notifications </li>
                             @if($pendingTestRideRequestCount > 0)
                                 <li class="list-group">
                                     <a href="{{ route('admin.test-ride-requests.index',['status' => 1]) }}" class="list-group-item">

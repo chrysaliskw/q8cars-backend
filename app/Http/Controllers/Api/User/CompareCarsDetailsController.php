@@ -9,6 +9,8 @@ use App\Models\BrandColorMapping;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Models\RecentComparison;
+use Illuminate\Support\Facades\Auth;
 
 class CompareCarsDetailsController extends ApiBaseController
 {
@@ -17,8 +19,6 @@ class CompareCarsDetailsController extends ApiBaseController
      */
     public function __invoke(Request $request)
     {
-
-
         $validator =   Validator::make($request->all(), [
             'carIds' => 'required|array',
             'carIds.*' => 'integer|exists:cars,id',
@@ -29,10 +29,32 @@ class CompareCarsDetailsController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-
-
-
+        
         $carIds = $request->carIds;
+        for ($i = 0; $i < count($carIds); $i++) {
+            for ($j = $i + 1; $j < count($carIds); $j++) {
+                // Check if the comparison already exists
+                $existingComparison = RecentComparison::where('user_id', Auth::id())
+                    ->where(function($query) use ($carIds, $i, $j) {
+                        $query->where('car_1_id', $carIds[$i])
+                              ->where('car_2_id', $carIds[$j]);
+                    })
+                    ->orWhere(function($query) use ($carIds, $i, $j) {
+                        $query->where('car_1_id', $carIds[$j])
+                              ->where('car_2_id', $carIds[$i]);
+                    })
+                    ->exists();
+        
+                // If no existing comparison, create a new one
+                if (!$existingComparison) {
+                    $comparison = new RecentComparison();
+                    $comparison->user_id = Auth::id();
+                    $comparison->car_1_id = $carIds[$i];
+                    $comparison->car_2_id = $carIds[$j];
+                    $comparison->save();
+                }
+            }
+        }        
         $isCommon = $request->is_common;
         $isDifferent = $request->is_different;
         $cars = Car::whereIn('id', $carIds)->orderByRaw('FIELD(id, ' . implode(',', $carIds) . ')')
@@ -181,6 +203,10 @@ class CompareCarsDetailsController extends ApiBaseController
 
         $specifications['colors'] = $colorInfoByCar;
 
+        $specifications = array_filter($specifications, function ($value) {
+            return !empty($value) && (is_array($value) ? !empty(array_filter($value)) : true);
+        });
+
         // $data =   $this->getCarComparison($cars);
         $data = $specifications;
         return $this->success(['data' =>  $data], 'comparison Details!', Response::HTTP_OK);
@@ -246,6 +272,11 @@ class CompareCarsDetailsController extends ApiBaseController
         }
 
         $specifications['colors'] = $colorInfoByCar;
+
+        $specifications = array_filter($specifications, function ($value) {
+            return !empty($value) && (is_array($value) ? !empty(array_filter($value)) : true);
+        });
+
         return $specifications;
     }
 
@@ -259,8 +290,8 @@ class CompareCarsDetailsController extends ApiBaseController
         }
 
         $categories = [
-            'basic_information'     => [],
-            'colors'                => [],
+            // 'basic_information'     => [],
+            // 'colors'                => [],
             'engine_tranmission' => $this->engineInfo($cars),
             'fuel_performance' => $this->fuelInfo($cars),
             'suspension_steering' => $this->suspensionInfo($cars),
@@ -323,6 +354,10 @@ class CompareCarsDetailsController extends ApiBaseController
                 }
             }
         }
+
+        $specifications = array_filter($specifications, function ($category) {
+            return !empty($category);
+        });
 
         return $specifications;
     }

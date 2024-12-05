@@ -210,9 +210,9 @@ class CarService
         // $this->version->alloy_wheel_front = $this->data['alloy_wheel_front'];
         // $this->version->alloy_wheel_rear = $this->data['alloy_wheel_rear'];
         // $this->version->power_steering = $this->data['power_steering'];
-        if($this->data['update'] && $this->version->body_type_id !== $this->data['body_type_id']){
+        if($this->data['update'] && $this->version->body_type !== $this->data['body_type_id']){
             $this->version->body_type = $this->data['body_type_id'];
-            CarVersion::where('car_id', $this->car->id)->update(['body_type_id' => $this->data['body_type_id']]);        
+            CarVersion::where('car_id', $this->car->id)->update(['body_type' => $this->data['body_type_id']]);        
         }else{
             $this->version->body_type = $this->data['body_type_id'];
         }

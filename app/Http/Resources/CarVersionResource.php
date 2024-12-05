@@ -27,6 +27,7 @@ class CarVersionResource extends JsonResource
         'on_road_price' => 'KWD ' . $this->on_road_price,
         'finance_available' => 'KWD '. $this->finance_available,
         'image' => file_asset('files-car', $this->car->image),
+        'fuel_type' => config('params.car.fuel_type')[$this->fuel_type],
     ];
   }
 }
