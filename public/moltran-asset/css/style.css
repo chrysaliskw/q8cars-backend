@@ -1074,6 +1074,8 @@ label {
 .datepicker {
   border: 1px solid #dddddd;
   padding: 8px !important;
+  z-index: 999 !important;
+
 }
 
 .datepicker th {

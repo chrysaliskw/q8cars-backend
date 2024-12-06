@@ -11,12 +11,14 @@
             <div class="row">
                 <!-- Main Car Section -->
                 <div class="col-md-4">
-                    <x-form-select field="page" field-name="Page" id="page" onchange="toggleCarSelect()">
-                        <option disabled selected value="0">Select Page</option>
-                        <option value="1">Home Page</option>
-                        <option value="2">Detailed Page</option>
-                        <option value="3">Comparison Page</option>
+                    <x-form-select field="page" field-name="Page" id="page" defaultPrompt="Select status">
+                        @foreach (config('params.car-comparison-list.page') as $value => $label)
+                            <option {{ old('page') == $value ? 'Selected' : '' }} value="{{ $value }}">
+                                {{ $label }}
+                            </option>
+                        @endforeach
                     </x-form-select>
+
                 </div>
 
                 <div class="col-md-4">
@@ -110,6 +112,19 @@
                     $('#body_type_id').on('select2:select', function(e) {
                         const data = e.params.data;
                         $("#body_type_id_text").val(data.text);
+                        $('#car_id_1').val(null).trigger('change');
+                    $('#car_id_1_text').val(null).trigger('change');
+                    $('#car_1_version_id').val(null).trigger('change');
+                    $('#car_1_version_id_text').val(null).trigger('change');
+                    $('#car_id').val(null).trigger('change');
+                    $('#car_id_text').val(null).trigger('change');
+                    $('#car_id_2').val(null).trigger('change');
+                    $('#car_id_2_text').val(null).trigger('change');
+                    $('#car_2_version_id').val(null).trigger('change');
+                    $('#car_2_version_id_text').val(null).trigger('change');
+
+
+
                     });
                 });
 
@@ -209,8 +224,7 @@
                     const data = e.params.data;
                     $("#car_id_1_text").val(data.text);
                     // Reset Car Version 1 when Car 1 changes
-                    $('#car_1_version_id').val(null).trigger('change');
-                    $('#car_version_id_1_text').val(null);
+
                 });
 
                 $('#car_1_version_id').select2({
@@ -379,20 +393,49 @@
             });
 
 
-            function toggleCarSelect() {
-                const pageSelect = document.getElementById('page');
-                const carSelectContainer = document.getElementById('carSelectContainer');
-                const carModelContainer = document.getElementById('carModelContainer');
+        //     function toggleCarSelect() {
+        //         const pageSelect = document.getElementById('page');
+        //         const carSelectContainer = document.getElementById('carSelectContainer');
+        //         const carModelContainer = document.getElementById('carModelContainer');
 
-                // Show the car select containers if "Detailed Page" is selected
-                if (pageSelect.value == '2') {
-                    carSelectContainer.style.display = 'block';
-                    carModelContainer.style.display = 'block';
-                } else {
-                    carSelectContainer.style.display = 'none';
-                    carModelContainer.style.display = 'none';
-                }
+        //         // Show the car select containers if "Detailed Page" is selected
+        //         if (pageSelect.value == '2') {
+        //             carSelectContainer.style.display = 'block';
+        //             carModelContainer.style.display = 'block';
+        //         } else {
+        //             carSelectContainer.style.display = 'none';
+        //             carModelContainer.style.display = 'none';
+        //         }
+        //     }
+        //
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const pageSelect = document.getElementById('page');
+        const carSelectContainer = document.getElementById('carSelectContainer');
+        const carModelContainer = document.getElementById('carModelContainer');
+
+        function toggleCarSelect() {
+            if (pageSelect.value == '2') {
+                carSelectContainer.style.display = 'block';
+                carModelContainer.style.display = 'block';
+            } else {
+                carSelectContainer.style.display = 'none';
+                carModelContainer.style.display = 'none';
             }
+        }
+
+        // Run the toggle function on page load to reflect the current selection
+        toggleCarSelect();
+
+        // Add onchange event listener to the page select dropdown
+        pageSelect.addEventListener('change', toggleCarSelect);
+    });
+
+
+
+
+
+
         </script>
     </x-slot>
 </x-admin-layout>
@@ -547,7 +590,7 @@
                     const data = e.params.data;
                     const brandTextId = $(this).attr('id') + '_text';
                     $("#" + brandTextId).val(data.text);
-                    
+
                     // Clear car selections when brand changes
                     const carSelectId = $(this).attr('id').replace('brand_', 'car_');
                     $("#" + carSelectId).val(null).trigger('change');
@@ -593,7 +636,7 @@
     </x-slot>
 </x-admin-layout> --}}
 
-{{-- 
+{{--
 <x-admin-layout title="Car Comparison">
     <link href="{{ url('moltran-asset/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet">
     <x-slot name="breadcrumb">
@@ -677,11 +720,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <x-slot name="scripts">
         <script src="{{ url('moltran-asset/plugins/summernote/summernote-bs4.js') }}"></script>
-      
+
         <script>
             $(document).ready(function() {
                 let selectedBodyTypeId = null;
-        
+
                 // Initialize Select2 for Body Type
                 $('#body_type_id').select2({
                     placeholder: "Search Body Type",
@@ -697,14 +740,14 @@
                         }
                     }
                 });
-        
+
                 $('#body_type_id').on('select2:select', function(e) {
                     const data = e.params.data;
                     $("#body_type_id_text").val(data.text);
                     selectedBodyTypeId = data.id; // Store selected body type ID
                     updateBrandSelect(); // Update brands based on selected body type
                 });
-        
+
                 function updateBrandSelect() {
                     $('#brand_id').select2({
                         placeholder: "Search Brand",
@@ -722,19 +765,19 @@
                         }
                     });
                 }
-        
+
                 // Brand selection logic
                 $('#brand_id').on('select2:select', function(e) {
                     const data = e.params.data;
                     $("#brand_id_text").val(data.text);
-        
+
                     // Reset dependent selects
                     $('#car_id').val(null).trigger('change');
                     $('#car_id_text').val(null);
-        
+
                     updateCarModelSelect(data.id); // Update car model based on selected brand
                 });
-        
+
                 function updateCarModelSelect(brandId) {
                     $('#car_id').select2({
                         placeholder: "Search car",
@@ -753,16 +796,16 @@
                         }
                     });
                 }
-        
+
                 // Other sections (Car 1 and Car 2) would be similarly adjusted...
-        
+
                 // Example for Car 1
                 $('#brand_1_id').on('select2:select', function(e) {
                     const data = e.params.data;
                     $("#brand_1_id_text").val(data.text);
                     updateCarModelSelectForCar1(data.id); // Update car model for Car 1
                 });
-        
+
                 function updateCarModelSelectForCar1(brandId) {
                     $('#car_id_1').select2({
                         placeholder: "Search Car 1",
@@ -781,10 +824,10 @@
                         }
                     });
                 }
-        
+
                 // Similar updates for Car 2...
             });
         </script>
-        
+
     </x-slot>
 </x-admin-layout> --}}

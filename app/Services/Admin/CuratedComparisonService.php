@@ -20,7 +20,7 @@ class CuratedComparisonService
     {
         DB::beginTransaction();
         try {
-           
+
             $data = $request->all();
 
             $data['html_content'] = '<p style= "text-align:left;">' . $request->input('content') . '</p>';
@@ -33,14 +33,12 @@ class CuratedComparisonService
             if ($request->hasFile('image_2') && $request->file('image_2')->isValid()) {
                 $request->file('image_2')->store(CuratedComparison::FILE_DIR);
                 $data['image_2'] = $request->file('image_2')->hashName();
-            }
-            else
-            {
+            } else {
                 $data['image_2'] = null;
             }
             if ($request->hasFile('image_3') && $request->file('image_3')->isValid()) {
-               $request->file('image_3')->store(CuratedComparison::FILE_DIR);
-               $data['image_3'] = $request->file('image_3')->hashName();
+                $request->file('image_3')->store(CuratedComparison::FILE_DIR);
+                $data['image_3'] = $request->file('image_3')->hashName();
             } else {
                 $data['image_3'] = null; // Set to null if image_3 is not provided
             }
@@ -73,7 +71,7 @@ class CuratedComparisonService
         } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
-            return back()->with('error', __('app.error') )->withInput();
+            return back()->with('error', __('app.error'))->withInput();
         }
     }
 
@@ -85,7 +83,7 @@ class CuratedComparisonService
             // dd($data);
             $data['html_content'] = '<p style= "text-align:left;">' . $request->input('content') . '</p>';
 
-      
+
             if ($request->hasFile('image_1') && $request->file('image_1')->isValid()) {
                 if ($curatedcomparison->image_1) {
                     Storage::disk('public')->delete($curatedcomparison->image_1);
@@ -100,8 +98,6 @@ class CuratedComparisonService
                 }
                 $request->file('image_2')->store(CuratedComparison::FILE_DIR);
                 $data['image_2'] = $request->file('image_2')->hashName();
-            }else{
-                $data['image_2'] = null;
             }
 
             if ($request->hasFile('image_3') && $request->file('image_3')->isValid()) {
@@ -110,8 +106,15 @@ class CuratedComparisonService
                 }
                 $request->file('image_3')->store(CuratedComparison::FILE_DIR);
                 $data['image_3'] = $request->file('image_3')->hashName();
-            } else {
-                $data['image_3'] = null; // Set to null if image_3 is not provided
+            }
+            if (empty($data['image_1'])) {
+                $data['image_1'] = $curatedcomparison->image_1;
+            }
+            if (empty($data['image_2'])) {
+                $data['image_2'] = $curatedcomparison->image_2;
+            }
+            if (empty($data['image_3'])) {
+                $data['image_3'] = $curatedcomparison->image_3;
             }
             // dd($data);
 

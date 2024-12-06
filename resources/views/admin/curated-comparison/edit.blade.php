@@ -24,21 +24,23 @@
                 </div>
 
                 <div class="col-md-4">
-                    <x-form-select field="car_1_id" field-name="Compare Model 1" id="car_1_id"> 
+                    <x-form-select field="car_1_id" field-name="Compare Model 1" id="car_1_id">
                         @if( $curatedComparison->car_id_1)
                         <option value="{{ $curatedComparison->car_id_1, }}" selected>{{$curatedComparison->car1->model_name }}</option>
                     @endif
                 </x-form-select>
                     <input type="hidden" id="car_id_1_text" name="car_id_1_text" />
-                  
+
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="file" field="image_1" field-name="Image 1" id="image_1">
+                    <x-form-input type="file" field="image_1" field-name="Image 1" id="image_1" >
                     </x-form-input>
-                    <img src="{{ $curatedComparison->image_1 ? url(file_asset('files-curated-comparisons', $curatedComparison->image_1)) : '' }}"
-                        alt="image_1" class="img-thumbnail" width="100" height="150">   
+                    @if($curatedComparison->image_1)
+                    <img src="{{ $curatedComparison->image_1 ? url(file_asset('files-curated_comparisons', $curatedComparison->image_1)) : '' }}"
+                        alt="image_1" class="img-thumbnail" width="100" height="150">
+                    @endif
                 </div>
-               
+
 
 
 
@@ -68,18 +70,20 @@
                 <div class="col-md-4">
                     <x-form-input type="file" field="image_2" field-name="Image 2" value=" " id="image_2">
                     </x-form-input>
-                    <img src="{{ $curatedComparison->image_2 ? url(file_asset('files-curated-comparisons', $curatedComparison->image_2)) : '' }}"
-                        alt="image_2" class="img-thumbnail" width="100" height="150">   
+                    @if ($curatedComparison->image_2)
+                    <img src="{{ $curatedComparison->image_2 ? url(file_asset('files-curated_comparisons', $curatedComparison->image_2)) : '' }}"
+                        alt="image_2" class="img-thumbnail" width="100" height="150">
+                    @endif
                 </div>
-           
-                    
+
+
                 <hr>
             </div>
 
             <!-- Car 3 Section -->
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-select field="brand_3_id" field-name="Brand 3" id="brand_3_id">
+                    <x-form-select field="brand_3_id" field-name="Brand 3" id="brand_3_id" >
                         @if ($curatedComparison->brand_id_3)
                             <option value="{{$curatedComparison->brand_id_3 }}" selected>
                                 {{ $curatedComparison->brand3->name }}</option>
@@ -98,13 +102,15 @@
                 </div>
 
                 <div class="col-md-4">
-                    <x-form-input type="file" field="image_3" field-name="Image 3" value=" " id="image_3">
+                    <x-form-input type="file" field="image_3" field-name="Image 3"  id="image_3" value="{{ old('image_3') }}">
                     </x-form-input>
-                    <img src="{{ $curatedComparison->image_3 ? url(file_asset('files-curated-comparisons', $curatedComparison->image_3)) : '' }}"
-                        alt="image_3" class="img-thumbnail" width="100" height="150">   
-                </div>
-                
-                
+                    @if($curatedComparison->image_3)
+                    <img src="{{ $curatedComparison->image_3 ? url(file_asset('files-curated_comparisons', $curatedComparison->image_3)) : '' }}"
+                        alt="image_3" class="img-thumbnail" width="100" height="150">
+                    @endif
+                    </div>
+
+
             </div>
             <hr>
             <div class="row">
@@ -161,7 +167,7 @@
                 </div>
             </div>
             <div class="row">
-            
+
 
             </div>
 
@@ -177,7 +183,7 @@
              $("#published_date").datepicker({
                 format: 'dd-mm-yyyy',
                 startDate: 'today',
-         
+
             });
             jQuery(document).ready(function() {
 
