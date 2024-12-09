@@ -252,11 +252,12 @@ final class FilterService
         // $this->query = $this->query->whereIn('cars.id', $ids);
         $ids = [];
         for($i = 0; $i < count($this->request->no_of_airbags_min); $i++) {
-            if($this->request->no_of_airbags_max[$i] == 0) {
+            $bagMax = $this->request->no_of_airbags_max[$i];
+            if( $bagMax == 0) {
                 $ids = array_merge($ids, CarVersion::where('no_of_airbags','>=', $this->request->no_of_airbags_min[$i])->pluck('car_id')->toArray());
             }else {
                 $ids = array_merge($ids, CarVersion::whereBetween('no_of_airbags',
-                    [$this->request->no_of_airbags_min[$i], $this->request->no_of_airbags_max[$i]])->pluck('car_id')->toArray());
+                    [$this->request->no_of_airbags_min[$i],  $bagMax])->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
@@ -287,11 +288,12 @@ final class FilterService
         $ids = [];
 
         for($i = 0; $i < count($this->request->torque_min); $i++) {
-            if($this->request->torque_max[$i] == 0) {
+            $torqueMax = $this->request->torque_max[$i] ?? PHP_INT_MAX;
+            if( $torqueMax == 0) {
                 $ids = array_merge($ids, CarVersion::where('torque','>=', $this->request->torque_min[$i])->pluck('car_id')->toArray());
             }else {
                 $ids = array_merge($ids, CarVersion::whereBetween('torque',
-                    [$this->request->torque_min[$i], $this->request->torque_max[$i]])->pluck('car_id')->toArray());
+                    [$this->request->torque_min[$i],  $torqueMax])->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
@@ -310,12 +312,12 @@ final class FilterService
         $ids = [];
 
         for($i = 0; $i < count($this->request->power_min); $i++) {
-            
-            if($this->request->power_max[$i] == 0) {
+            $powerMax = $this->request->power_max[$i] ??  PHP_INT_MAX;
+            if( $powerMax == 0) {
                 $ids = array_merge($ids, CarVersion::where('power','>=', $this->request->power_min[$i])->pluck('car_id')->toArray());
             }else {
                 $ids = array_merge($ids, CarVersion::whereBetween('power',
-                    [$this->request->power_min[$i], $this->request->power_max[$i]])->pluck('car_id')->toArray());
+                    [$this->request->power_min[$i],  $powerMax])->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
@@ -334,12 +336,13 @@ final class FilterService
         $ids = [];
 
         for($i = 0; $i < count($this->request->engine_capacity_min); $i++) {
-            $this->request->engine_capacity_max[$i] = $this->request->engine_capacity_max[$i] ??  PHP_INT_MAX;
-            if($this->request->engine_capacity_max[$i] == 0) {
+            $engineMax = $this->request->engine_capacity_max[$i] ??  PHP_INT_MAX;
+          //  $this->request->engine_capacity_max[$i] = $this->request->engine_capacity_max[$i] ??  PHP_INT_MAX;
+            if($engineMax == 0) {
                 $ids = array_merge($ids, CarVersion::where('engine_capacity','>=', $this->request->engine_capacity_min[$i])->pluck('car_id')->toArray());
             }else {
                 $ids = array_merge($ids, CarVersion::whereBetween('engine_capacity',
-                    [$this->request->engine_capacity_min[$i], $this->request->engine_capacity_max[$i]])->pluck('car_id')->toArray());
+                    [$this->request->engine_capacity_min[$i],  $engineMax])->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
@@ -358,12 +361,13 @@ final class FilterService
         $ids = [];
 
         for($i = 0; $i < count($this->request->mileage_min); $i++) {
-            $this->request->mileage_max[$i] = $this->request->mileage_max[$i] ?? PHP_INT_MAX;
-            if($this->request->mileage_max[$i] == 0) {
+            $mileageMax = $this->request->mileage_max[$i] ?? PHP_INT_MAX;
+            // $this->request->mileage_max[$i] = $this->request->mileage_max[$i] ?? PHP_INT_MAX;
+            if($mileageMax == 0) {
                 $ids = array_merge($ids, CarVersion::where('mileage','>=', $this->request->mileage_min[$i])->pluck('car_id')->toArray());
             }else {
                 $ids = array_merge($ids, CarVersion::whereBetween('mileage',
-                    [$this->request->mileage_min[$i], $this->request->mileage_max[$i]])->pluck('car_id')->toArray());
+                    [$this->request->mileage_min[$i], $mileageMax])->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);

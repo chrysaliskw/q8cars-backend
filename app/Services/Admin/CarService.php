@@ -158,7 +158,7 @@ class CarService
 
     public function saveToCarVersion()
     {
-        $name = $this->car->model_name;
+        $name = $this->car->model_name. ' Base Varient';
         $carSpec = CarVersion::CAR_VARIENT_SPECIFICATION;
         if(!$this->version) {
             $this->version = new CarVersion();
