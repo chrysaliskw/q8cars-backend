@@ -222,15 +222,6 @@ class CarComparisonListsController extends Controller
     public function update(CarComparisonListRequest $request, string $id)
 
     {
-        // dd($request->all());
-        //get the body type of the cars 1 and 2 and compare it with the selected body type
-        $car1_bodyType = CarComparisonList::whereHas('bodyType', $request->car_id_1)->pluck('body_type');
-        $car2_bodyType = CarComparisonList::whereHas('bodyType', $request->car_id_2)->pluck('body_type');
-        dd([$request->body_type_id, $car1_bodyType, $car2_bodyType]);
-
-
-
-
 
         // $cars_bodyType = CarComparisonList::whereHas('bodyType', function ($query) use ($request) {
         //     $query->where('body_type', $request->body_type_id);
