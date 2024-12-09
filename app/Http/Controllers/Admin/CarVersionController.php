@@ -217,6 +217,7 @@ class CarVersionController extends Controller
         $data['row_count']= $rows;
         $data['update']= 1;
         $car = $carVersion->car;
+        $data['body_type_id']= $car->carSpec->body_type;
         if($carVersion->is_car_spec == CarVersion::CAR_SPECIFICATION) {
             $carVersion = null;
         }
