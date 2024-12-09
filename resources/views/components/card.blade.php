@@ -49,7 +49,7 @@
         </div>
             
     </div>
-    <input type="text" name="" id="error_text" value=""  style=" border:hidden;">
+    <input type="hidden" name="" id="error_text" value=""  style=" border:hidden;">
     <div class="card-body">
     
         {{ $slot }}

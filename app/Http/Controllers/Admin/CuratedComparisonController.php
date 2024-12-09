@@ -47,16 +47,16 @@ class CuratedComparisonController extends Controller
                 'car_2_id' => 'Each Compare Model must be different!',
                 'car_3_id' => 'Each Compare Model must be different!'
             ]);
-        }   
-    
+        }
+
         try {
-     
+
             $service = new CuratedComparisonService();
             $curatedComparison = $service->create($request);
             // dd($curatedComparison);
         } catch (Exception $ex) {
             logger($ex);
-            return back()->with('error', __('app.error') )->withInput();
+            return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.curated-comparison.index', $curatedComparison)->with('success', 'Curated Comparison Created successfully!');
     }
@@ -82,7 +82,7 @@ class CuratedComparisonController extends Controller
             'image_3' => empty($curatedComparison->image_3) ? 'NIL' : $curatedComparison->image_3,
             'status' => empty($curatedComparison->status) ? 'NIL' : ($curatedComparison->status == 1 ? 'Active' : 'Inactive')
         ];
-        
+
 
         return view('admin.curated-comparison.show', compact('curatedComparison', 'viewData'));
     }
@@ -135,6 +135,16 @@ class CuratedComparisonController extends Controller
      */
     public function update(CuratedCompareRequest $request, CuratedComparison $curatedComparison)
     {
+        // dd($request->all());
+        // if ($request->image_1 == null) {
+        //     $request->image_1 = $curatedComparison->image_1;
+        // }
+        // if ($request->image_2 == null) {
+        //     $request->image_2 = $curatedComparison->image_2;
+        // }
+        // if ($request->image_3 == null) {
+        //     $request->image_3 = $curatedComparison->image_3;
+        // }
         try {
             $service = new CuratedComparisonService();
             $service->update($request, $curatedComparison);
@@ -158,5 +168,4 @@ class CuratedComparisonController extends Controller
 
         return redirect()->route('admin.curated-comparison.index')->with('success', 'Curated Comparison deleted successfully!');
     }
-    
 }

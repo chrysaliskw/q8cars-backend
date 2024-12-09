@@ -71,7 +71,7 @@ class SubAdminController extends Controller
                 'max:200',
                 Rule::unique(Admin::class),
             ],
-            'picture' => 'required|mimes:jpg,png,jpeg|max:2048',
+            'picture' => 'nullable|mimes:jpg,png,jpeg|max:2048',
             'password' => 'required|string|min:8|max:15|regex:/^[a-zA-Z\d!@#$%^&*_]*$/',
             'status' => 'required',
             'role' => 'required',

@@ -9,12 +9,12 @@
         <div class="row">
             <!-- Main Car Section -->
             <div class="col-md-4">
-                <x-form-select field="page" field-name="Page" id="page" onchange="toggleCarSelect()">
-                    <option disabled selected value="0">Select Page</option>
-                    
-                    <option value="1">Home Page</option>
-                    <option value="2">Detailed Page</option>
-                    <option value="3">Comparison Page</option>
+                <x-form-select field="page" field-name="Page" id="page" defaultPrompt="Select status">
+                    @foreach (config('params.car-comparison-list.page') as $value => $label)
+                        <option {{ old('page') == $value ? 'Selected' : '' }} value="{{ $value }}">
+                            {{ $label }}
+                        </option>
+                    @endforeach
                 </x-form-select>
             </div>
 
@@ -110,6 +110,17 @@
                     $('#body_type_id').on('select2:select', function(e) {
                         const data = e.params.data;
                         $("#body_type_id_text").val(data.text);
+                        $('#car_id_1').val(null).trigger('change');
+                    $('#car_id_1_text').val(null).trigger('change');
+                    $('#car_1_version_id').val(null).trigger('change');
+                    $('#car_1_version_id_text').val(null).trigger('change');
+                    $('#car_id').val(null).trigger('change');
+                    $('#car_id_text').val(null).trigger('change');
+                    $('#car_id_2').val(null).trigger('change');
+                    $('#car_id_2_text').val(null).trigger('change');
+                    $('#car_2_version_id').val(null).trigger('change');
+                    $('#car_2_version_id_text').val(null).trigger('change');
+
                     });
                 });
 
@@ -366,21 +377,28 @@
                 const bodyTypeOption = new Option(currentBodyType.text, currentBodyType.id, true, true);
                 $('#body_type_id').append(bodyTypeOption).trigger('change');
             }
-        
-            function toggleCarSelect() {
-                const pageSelect = document.getElementById('page');
-                const carSelectContainer = document.getElementById('carSelectContainer');
-                const carModelContainer = document.getElementById('carModelContainer');
 
-                // Show the car select containers if "Detailed Page" is selected
-                if (pageSelect.value == '2') {
-                    carSelectContainer.style.display = 'block';
-                    carModelContainer.style.display = 'block';
-                } else {
-                    carSelectContainer.style.display = 'none';
-                    carModelContainer.style.display = 'none';
-                }
+            document.addEventListener('DOMContentLoaded', function () {
+        const pageSelect = document.getElementById('page');
+        const carSelectContainer = document.getElementById('carSelectContainer');
+        const carModelContainer = document.getElementById('carModelContainer');
+
+        function toggleCarSelect() {
+            if (pageSelect.value == '2') {
+                carSelectContainer.style.display = 'block';
+                carModelContainer.style.display = 'block';
+            } else {
+                carSelectContainer.style.display = 'none';
+                carModelContainer.style.display = 'none';
             }
+        }
+
+        // Run the toggle function on page load to reflect the current selection
+        toggleCarSelect();
+
+        // Add onchange event listener to the page select dropdown
+        pageSelect.addEventListener('change', toggleCarSelect);
+    });
         </script>
     </x-slot>
 </x-admin-layout>

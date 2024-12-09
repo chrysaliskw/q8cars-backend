@@ -1074,6 +1074,8 @@ label {
 .datepicker {
   border: 1px solid #dddddd;
   padding: 8px !important;
+  z-index: 999 !important;
+
 }
 
 .datepicker th {
@@ -5053,6 +5055,10 @@ display: none;
   height: 100px;
   width: 150px;
 }
+.img-list-user {
+    height: 100px;
+    width: 100px;
+  }
 .other-specs td{
     vertical-align: middle;
 }

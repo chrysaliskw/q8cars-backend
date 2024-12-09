@@ -9,9 +9,12 @@
         <form method="GET" class="form-horizontal" action="{{ route('admin.reports.offer-request.index') }}">
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-input type="text" field="mobile" field-name="User Mobile"
-                        value="<?php echo isset($_GET['mobile']) ? $_GET['mobile'] : ''; ?>"></x-form-input>
+                    <x-form-select field="user_mobile" field-name="User Mobile" id="user_mobile"></x-form-select>
+                    <input type="hidden" id="user_mobile_text" name="user_mobile_text" value="<?php echo isset($_GET['user_mobile_text']) ? $_GET['user_mobile_text'] : ''; ?>" />
                 </div>
+                @error('user_mobile')
+                    <span class="error" role="alert">{{ $message }}</span>
+                @enderror
 
                 <div class="col-md-4">
                     <x-form-select field="car_1_id" field-name="Car Model" id="car_1_id"></x-form-select>
@@ -117,7 +120,7 @@
                         <input type="hidden" name="startDate" value="<?php echo $_GET['start_date'] ?? ''; ?>" />
                         <input type="hidden" name="endDate" value="<?php echo $_GET['end_date'] ?? ''; ?>" />
                         <input type="hidden" name="type" value="<?php echo $_GET['type'] ?? ''; ?>" />
-                        <input type="hidden" name="mobile" value="<?php echo $_GET['mobile'] ?? ''; ?>" />
+                        <input type="hidden" name="user_mobile" value="<?php echo $_GET['user_mobile'] ?? ''; ?>" />
                         <input type="hidden" name="status" value="<?php echo $_GET['status'] ?? ''; ?>" />
                         <input type="hidden" name="car_1_id" value="<?php echo $_GET['car_1_id'] ?? ''; ?>" />
                     </form>
@@ -148,11 +151,17 @@
     const getCarId = '{{ isset($_GET['car_1_id']) ? $_GET['car_1_id'] : '' }}';
     const getCarText = '{{ isset($_GET['car_id_1_text']) ? $_GET['car_id_1_text'] : '' }}';
 
+    const oldUserId = '{{ old('user_mobile') }}';
+    const oldUserText = '{{ old('user_mobile_text') }}';
+    const getUserId = '{{ isset($_GET['user_mobile']) ? $_GET['user_mobile'] : '' }}';
+    const getUserText = '{{ isset($_GET['user_mobile_text']) ? $_GET['user_mobile_text'] : '' }}';
 
-    // console.log(oldCarId);
-    // console.log(oldCarText);
-    console.log(getCarId);
-    console.log(getCarText);
+
+
+    console.log('the old user id',oldUserId);
+    console.log( 'old user text',oldUserText);
+    console.log( 'get user id',getUserId);
+    console.log( 'get user text',getUserText);
 
             $('#car_1_id').select2({
                 placeholder: "Search car",
@@ -176,19 +185,44 @@
                 const data = e.params.data;
                 $("#car_id_1_text").val(data.text);
             });
-
-            // if ('{!! old('car_1_id') !!}' && '{!! old('car_id_1_text') !!}') {
-            //     const cOption = new Option('{{ old('car_id_1_text') }}', '{{ old('car_1_id') }}', true, true);
-            //     $('#car_1_id').append(cOption).trigger('change');
-            //     $("#car_id_1_text").val('{{ old('car_id_1_text') }}');
-            // }
-                    if (oldCarId && oldCarText) {
-                    const option = new Option(oldCarText, oldCarId, true, true);
-                    $('#car_1_id').append(option).trigger('change');
+                if (oldCarId && oldCarText) {
+                const option = new Option(oldCarText, oldCarId, true, true);
+                $('#car_1_id').append(option).trigger('change');
                 } else
                 if (getCarId && getCarText) {
                     const option = new Option(getCarText, getCarId, true, true);
                     $('#car_1_id').append(option).trigger('change');
+                }
+
+                $('#user_mobile').select2({
+                placeholder: "Search User",
+                minimumInputLength: 1,
+                ajax: {
+                    url: "{{ route('admin.user.select') }}",
+                    dataType: 'json',
+                    data: function(params) {
+                        var query = {
+                            search: params.term,
+                            page: params.page || 1,
+                            // brand_id: $('#brand_1_id').val(),
+                        }
+
+                        // Query parameters will be ?search=[term]&page=[page]
+                        return query;
+                    }
+                }
+            });
+            $('#user_mobile').on('select2:select', function(e) {
+                const data = e.params.data;
+                $("#user_mobile_text").val(data.text);
+            });
+                if (oldUserId && oldUserText) {
+                const option = new Option(oldUserText, oldUserId, true, true);
+                $('#user_mobile').append(option).trigger('change');
+                } else
+                if (getUserId && getUserText) {
+                    const option = new Option(getUserText, getUserId, true, true);
+                    $('#user_mobile').append(option).trigger('change');
                 }
 
 

@@ -10,6 +10,8 @@ use Exception;
 use App\Services\Admin\UserService;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\JunkFileDeleteJob;
+use App\Models\OfferRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -21,7 +23,6 @@ class UserController extends Controller
         $grid = new UserDataGrid(request()->query());
 
         return view('admin.user.index', compact('grid'));
-        
     }
 
     /**
@@ -37,17 +38,14 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        try 
-        {
+        try {
             $service = new UserService($request);
             $user = $service->handle();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
-            return back()->with('error', __('app.error' ))->withInput();
+            return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.user.show', $user)->with('success', 'User created successfully!');
-
     }
 
     /**
@@ -72,17 +70,14 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         // dd($request->all());
-        try 
-        {
-            $service = new UserService($request,$user);
+        try {
+            $service = new UserService($request, $user);
             $user = $service->handle();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.user.show', $user)->with('success', 'User updated successfully!');
-
     }
 
     /**
@@ -93,7 +88,7 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $oldPicture[] = $user->icon;
-            // JunkFileDeleteJob::dispatchAfterResponse(User::FILE_DIR, $oldPicture); 
+            // JunkFileDeleteJob::dispatchAfterResponse(User::FILE_DIR, $oldPicture);
             $user->delete();
             DB::commit();
         } catch (Exception $ex) {
@@ -102,6 +97,30 @@ class UserController extends Controller
             return back()->with('error', __('app.error'))->withInput();
         }
         return redirect()->route('admin.user.index')->with('success', 'User deleted successfully!');
+    }
+    public function select(Request $request)
+    {
+        $page = $request->query('page');
+        $term = $request->query('search');
+        $countryId = $request->query('country_id');
+        $limit = 100;
+        $offset = ($page - 1) * $limit;
 
+        // $query = OfferRequest::whereHas('user')->where();
+        // $query = User::whereHas('offerRequests')->where('mobile', 'like', "%$term%");
+        $query = User::whereHas('offerRequests', function ($query) use ($term) {
+            // Concatenate 'phone_code' and 'mobile' to search for both
+            $query->whereRaw("CONCAT(phone_code, mobile) LIKE ?", ["%$term%"]);
+        });
+
+        $mobile = $query->select(['id', DB::raw("CONCAT(phone_code, mobile) AS text")])
+            ->offset($offset)
+            ->limit($limit)
+            ->get()
+            ->toArray();
+        $response['results'] = $mobile;
+        $response['pagination'] = ['more' => !empty($banks) ?? false];
+        // logger($response);
+        return $response;
     }
 }

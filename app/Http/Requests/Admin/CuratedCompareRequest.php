@@ -141,20 +141,20 @@ class CuratedCompareRequest extends FormRequest
                 })
             ],
             'image_1' => [
-                'required',
+                'nullable',
                 'file', // Ensures that the input is a file
                 'mimes:jpeg,png,jpg,gif', // Specifies allowed formats
                 'max:2048', // Limits file size to 2 MB
             ],
 
             'image_2' => [
-                'required',
+                'nullable',
 
                 'mimes:jpeg,png,jpg,gif',
                 'max:2048'
             ],
             'image_3' => [
-                'required',
+                'nullable',
 
                 'mimes:jpeg,png,jpg,gif',
                 'max:2048'

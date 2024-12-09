@@ -109,7 +109,7 @@ class User extends Authenticatable
             'name' => $this->name,
             'email' => $this->email,
             'mobile' => $this->mobile,
-            'picture' => $this->picture ? file_asset('files-user', $this->picture): null,
+            'picture' => $this->picture ? file_asset('files-user', $this->picture) : null,
             'access_token' => $this->createToken($deviceName)->plainTextToken,
             'is_guest' => false,
             "fcm_common_topic" => Notification::COMMON_CHANNEL,
@@ -131,7 +131,7 @@ class User extends Authenticatable
             'email' => $this->email,
             'phone_code' => $this->phone_code,
             'mobile' => $this->mobile,
-            'address' => !empty($this->address)?$this->address :null,
+            'address' => !empty($this->address) ? $this->address : null,
             'picture' => $this->picture ? file_asset('files-user', $this->picture) : null,
             'role' => $this->role,
             'status' => $this->status,
@@ -139,7 +139,7 @@ class User extends Authenticatable
         ];
     }
 
-     /**
+    /**
      * Clear the session to limit the mobile sesison to the value of SESSION_LIMIT.
      *
      * @return void
@@ -156,7 +156,11 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->belongsToMany(Notification::class, 'user_notification_mappings')
-                    ->withPivot('read_status')
-                    ->withTimestamps();
+            ->withPivot('read_status')
+            ->withTimestamps();
+    }
+    public function offerRequests()
+    {
+        return $this->hasMany(OfferRequest::class);
     }
 }
