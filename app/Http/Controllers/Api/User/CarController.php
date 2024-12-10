@@ -686,31 +686,33 @@ class CarController extends ApiBaseController
      */
     private function saveCarViewCount($id)
     {
-        // dd($id);
         DB::beginTransaction();
-
-        try
-        {
-            $model = CarView::where([
-                'car_id' => $id,
-                'user_id' => Auth::id()
-            ]);
-// dd($model);
-            if (! $model->id) {
+    
+        try {
+            $model = CarView::where('car_id', $id)->where('user_id', Auth::id())->first();
+    
+            if (!$model) {
+                // Create a new CarView record if it doesn't exist
+                $model = new CarView();
+                $model->car_id = $id;
+                $model->user_id = Auth::id();
+                $model->save();
+    
+                // Update the car's view count after saving the new CarView
                 $count = CarView::where('car_id', $id)->count();
-                Car::where('id', $id)->update(['view_count' => $count + 1]);
-
+                Car::where('id', $id)->update(['view_count' => $count]);
+            } else {
+                // Update the existing CarView's updated_at timestamp
+                $model->touch();
             }
-            $model->updated_at = Carbon::now();
-            $model->save();
-
+    
             DB::commit();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             DB::rollBack();
             throw $ex;
         }
     }
+    
 
     private function getMileageDetails(Car $car)
     {
