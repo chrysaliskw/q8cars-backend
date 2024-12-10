@@ -716,18 +716,15 @@ class CarController extends ApiBaseController
 
     private function getMileageDetails(Car $car)
     {
-        $subquery = CarVersion::select('fuel_type', 'transmission_type')
-            ->where('car_id', $car->id)
+        // Fetch unique combinations of fuel_type and transmission_type
+        $versions = CarVersion::where('car_id', $car->id)
+            ->select('fuel_type', 'transmission_type')
             ->distinct()
-            ->toBase();
-
-        $versions = CarVersion::whereIn(DB::raw('(fuel_type, transmission_type)'), $subquery)
-            ->where('car_id', $car->id)
             ->get();
-
+    
         return CarDetailResource::collection($versions);
-
     }
+    
     private function getCarTransmissionTypes(Car $car)
     {
         $carTransmissionTypes = [];
