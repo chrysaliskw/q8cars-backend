@@ -122,21 +122,21 @@
 
             $("#date_1").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
             });
             $("#date_2").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
             });
             $("#date_3").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
             });
              $("#date_0").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
             });
             if(($('#is_upcoming').val()) == 1){
         console.log($('#is_upcoming').val());

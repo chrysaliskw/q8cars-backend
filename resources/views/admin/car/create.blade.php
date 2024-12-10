@@ -156,18 +156,18 @@
 
             $("#date_1").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
 
             });
             $("#date_2").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
             });
              $("#date_3").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
             });
 

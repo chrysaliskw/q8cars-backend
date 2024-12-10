@@ -179,7 +179,7 @@
 
             $("#expiry_date").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                startDate: 'tomorrow',
 
             });
 
