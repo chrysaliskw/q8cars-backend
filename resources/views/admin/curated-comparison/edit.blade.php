@@ -160,6 +160,9 @@
                                 <label for="content">Content</label>
                                 <div class="card-body">
                                     <textarea class="summernote form-control" rows="9" name="content">{{ $curatedComparison->content }}</textarea>
+                                    @error('content')
+                                    <span class="error" role="alert">{{ $message }}</span>
+                                @enderror
                                 </div>
                             </div>
                         </div>

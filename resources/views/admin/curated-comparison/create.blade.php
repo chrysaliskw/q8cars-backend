@@ -47,7 +47,7 @@
                     <x-form-input type="file" field="image_2" field-name="Image 2" value="{{ old('image_2') }}"
                         id="image_2">
                     </x-form-input>
-                
+
                     <div class="col-mod-3" id="image_2-preview">
                 </div>
                 </div>
@@ -70,7 +70,7 @@
                     <x-form-input type="file" field="image_3" field-name="Image 3" value="{{ old('image_3') }}"
                         id="image_3">
                     </x-form-input>
-                 
+
                     <div class="col-mod-3" id="image_3-preview">
                 </div>
                 </div>
@@ -120,14 +120,20 @@
                                 <label for="content">Content</label>
                                 <div class="card-body">
                                     <textarea class="summernote form-control" rows="9" name="content">{{ old('content') }}</textarea>
+                                    @error('content')
+                                <span class="error" role="alert">{{ $message }}</span>
+                                @enderror
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="row">
-                
+
 
             </div>
 
@@ -416,11 +422,11 @@
                 }
                 reader.readAsDataURL(file);
             });
-            
+
             $("#published_date").datepicker({
                 format: 'dd-mm-yyyy',
                 startDate: 'today',
-         
+
             });
         </script>
 
