@@ -87,12 +87,12 @@ class CarVersionRequest extends FormRequest
             // 'alloy_wheel_front' => 'nullable|integer',
             // 'alloy_wheel_rear' => 'nullable|integer',
             // 'power_steering' => 'nullable|integer',
-            'body_type_id' => [
-                'required',
-                Rule::exists(BodyType::class, 'id')->where(function ($query) {
-                    return $query->where('status', BodyType::STATUS_ACTIVE);
-                })
-            ],
+            // 'body_type_id' => [
+            //     'required',
+            //     Rule::exists(BodyType::class, 'id')->where(function ($query) {
+            //         return $query->where('status', BodyType::STATUS_ACTIVE);
+            //     })
+            // ],
             // 'length' => 'required|numeric|min:1|max:9999999',
             // 'width' => 'required|numeric|min:1|max:9999999',
             // 'height' => 'required|numeric|min:1|max:9999999',
