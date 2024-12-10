@@ -578,4 +578,22 @@ class CarController extends Controller
         }
         return response()->json(['success' => false, 'message' => 'No file uploaded.'], 400);
     }
+
+    public function deleteCarVideo(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $video =CarImage::find($request->id);
+            $car = Car::find($video->car_id);
+            $video->delete();
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            logger($ex);
+            return back()->with('error', __('app.error'))->withInput();
+        }
+
+        return redirect()->route('admin.car.show',compact('car'))->with('success', 'Car video deleted successfully!');
+
+    }
 }

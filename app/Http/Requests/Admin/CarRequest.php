@@ -598,6 +598,13 @@ class CarRequest extends FormRequest
         'date_0' => 'nullable|date',
         'thumbnail_0' => 'mimes:jpg,png,jpeg|max:2048',
         'video_0' => 'nullable|mimes:mp4|max:2048',
+
+        'title_3' => 'nullable|string',
+        'description_3' => 'nullable|string',
+        'posted_media_3' => 'nullable|string|max:255',
+        'date_3' => 'nullable|date',
+        'thumbnail_3' => 'mimes:jpg,png,jpeg|max:2048',
+        'video_3' => 'nullable|mimes:mp4|max:2048',
         ];
     }
 

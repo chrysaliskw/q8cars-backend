@@ -210,7 +210,7 @@ class CarService
         // $this->version->alloy_wheel_front = $this->data['alloy_wheel_front'];
         // $this->version->alloy_wheel_rear = $this->data['alloy_wheel_rear'];
         // $this->version->power_steering = $this->data['power_steering'];
-        if($this->data['update'] && $this->version->body_type !== $this->data['body_type_id']){
+        if(isset($this->data['update'])&& $this->version->body_type !== $this->data['body_type_id']){
             $this->version->body_type = $this->data['body_type_id'];
             CarVersion::where('car_id', $this->car->id)->update(['body_type' => $this->data['body_type_id']]);        
         }else{
@@ -594,6 +594,7 @@ class CarService
 
     private function saveCarVideos()
     {
+        // dd($this->data);
         $videos = [];
         $idstobedeleted = [];
 
@@ -602,7 +603,7 @@ class CarService
             $videosArr = $this->car->carVideos()->pluck('thumbnail')->toArray();
             $carVediosiIds = $this->car->carVideos()->pluck('id')->toArray();
         }
-        for($i =1; $i <3 ; $i++)
+        for($i =1; $i <=3 ; $i++)
         {
             $title = 'title_'.$i;
             $video = 'video_'.$i;
