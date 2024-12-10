@@ -44,15 +44,16 @@ class PopularCarController extends ApiBaseController
     }
     private function relatedNews(Request $request)
     {
-        $carIds = Car::active()->launched()
-        ->when($request->brand_id, function ($query) use ($request) {
-            $query->where('brand_id', $request->brand_id);
-        })
-            ->orderBy('view_count', 'desc')
-            ->limit(10)
-            ->pluck('id'); 
+        // $carIds = Car::active()->launched()
+        // ->when($request->brand_id, function ($query) use ($request) {
+        //     $query->where('brand_id', $request->brand_id);
+        // })
+        //     ->orderBy('view_count', 'desc')
+        //     ->limit(10)
+        //     ->pluck('id'); 
 
-        $news = News::whereIn('car_id',$carIds)->active()->limit(5)->get();
+        // $news = News::whereIn('car_id',$carIds)->active()->limit(5)->get();
+        $news = News::active()->published()->trending()->orderBy('posted_time', 'desc')->get();
         return NewsResource::collection($news);
     }
 }
