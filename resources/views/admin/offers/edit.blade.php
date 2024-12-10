@@ -104,12 +104,15 @@
                 <div class="col-md-12">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="card">
+                            <div class="col-md-12">
+                        <x-form-textarea class="summernote form-control" field="description" field-name="Description" field-value="{{ old('description')  ??$offer->description  }}"></x-form-textarea>
+                    </div>
+                                {{--<div class="card">
                                     <label for="description">Description</label>
                                     <div class="card-body">
                                         <textarea class="summernote form-control" rows="9" name="description">{{ $offer->description }}</textarea>
                                     </div>
-                                </div>
+                                </div>--}}
                             </div>
                         </div>
                 </div>
