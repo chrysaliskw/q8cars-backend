@@ -33,32 +33,44 @@ class ColorRequest extends FormRequest
     }
     private function createRules()
     {
-    
         return [
-            'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200','unique:brand_color_mappings'],
+            'name' => [
+                'required', 
+                new RegexAlphaNumSpace, 
+                'string', 
+                'max:200', 
+                Rule::unique('brand_color_mappings')->where(function ($query) {
+                    return $query->where('brand_id', request()->input('brand'));
+                }),
+            ],
             'color_code' => 'required',
             'brand' => 'required|array',
             'status' => ['required', Rule::in(array_keys(config('params.brand_color.status')))],
         ];
     }
+    
      /**
      * @return array
      */
     private function updateRules()
     {
         return [
-           'name' => [
+            'name' => [
                 'required',
-                'string', 
+                'string',
                 'max:200',
                 new RegexAlphaNumSpace,
-               
+                Rule::unique('brand_color_mappings')
+                    ->where(function ($query) {
+                        return $query->where('brand_id', request()->input('brand'));
+                    })
+                    ->ignore($this->route('color')), // Ignore the current record's ID
             ],
             'brand' => 'required',
             'status' => ['required', Rule::in(array_keys(config('params.brand_color.status')))],
         ];
     }
-
+    
     public function messages()
     {
         return [
