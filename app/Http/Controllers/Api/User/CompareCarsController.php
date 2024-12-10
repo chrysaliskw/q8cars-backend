@@ -42,7 +42,7 @@ class CompareCarsController extends ApiBaseController
     {
         $recentlyLauchedCars = Car::where('is_just_launched', Car::JUST_LAUNCHED)
         ->active()
-        ->orderByRaw('COALESCE(just_launch_sort_order, id) ASC')
+        ->orderByRaw('COALESCE(just_launch_sort_order) ASC')
         ->limit(4)
         ->get();
      $groupedLists = $recentlyLauchedCars->chunk(2)->toArray();
