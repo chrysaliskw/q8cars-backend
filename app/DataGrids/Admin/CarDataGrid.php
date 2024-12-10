@@ -54,6 +54,31 @@ class CarDataGrid extends Grid
                     'attribute' => 'b.name',
                 ]
             ],
+            'is_just_launched' => [
+                'label' => 'Is Just Launched',
+                'value' => function ($model) {
+                    return ($model->is_just_launched == 1) ? 'Yes' : 'No';
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'attribute' => 'cars.is_just_launched',
+                    'operator' => '=',
+                    'data' => $this->getRecentlyLaunched(),
+                ],
+            ],
+            'just_launch_sort_order' => [
+                'label' => 'Just Launch Sort Order',
+                'value' => function ($model) {
+                    return $model->just_launch_sort_order;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'just_launch_sort_order',
+                ]
+            ],
+
             'is_upcoming' => [
                 'label' => 'Is Upcoming',
                 'value' => function ($model) {
@@ -118,4 +143,12 @@ class CarDataGrid extends Grid
             2 => 'No',
         ];
     }
+    private function getRecentlyLaunched()
+    {
+        return [
+            1 => 'Yes',
+            2 => 'No',
+        ];
+    }
+    
 }
