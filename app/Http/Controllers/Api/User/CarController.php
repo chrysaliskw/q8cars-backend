@@ -699,8 +699,8 @@ class CarController extends ApiBaseController
                 $model->save();
     
                 // Update the car's view count after saving the new CarView
-                $count = CarView::where('car_id', $id)->count();
-                Car::where('id', $id)->update(['view_count' => $count]);
+                // $count = CarView::where('car_id', $id)->count();
+                Car::where('id', $id)->increment(['view_count']);
             } else {
                 // Update the existing CarView's updated_at timestamp
                 $model->touch();
@@ -723,7 +723,7 @@ class CarController extends ApiBaseController
 
         $versions = CarVersion::whereIn(DB::raw('(fuel_type, transmission_type)'), $subquery)
             ->where('car_id', $car->id)
-            ->limit(2)->get();
+            ->get();
 
         return CarDetailResource::collection($versions);
 
