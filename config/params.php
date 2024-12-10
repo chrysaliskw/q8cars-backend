@@ -51,6 +51,10 @@ return [
             1 => 'Yes',
             2 => 'No'
         ],
+        'is_recently_purchased' => [
+            1 => 'Yes',
+            2 => 'No'
+        ],
     ],
 
     'body-type' =>  [

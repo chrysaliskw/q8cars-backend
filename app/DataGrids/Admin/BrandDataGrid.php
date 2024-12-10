@@ -11,7 +11,7 @@ class BrandDataGrid extends Grid
 
     public function gridQuery()
     {
-        $query = Brand::query()->orderBy('id','Desc')
+        $query = Brand::query()->orderBy('id', 'Desc')
             ->select(['brands.*']);
 
         return $query;
@@ -44,6 +44,33 @@ class BrandDataGrid extends Grid
                     'attribute' => 'name',
                 ]
             ],
+            'is_top_brand' => [
+                'label' => 'Is Top Brand',
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'attribute' => 'brands.is_top_brand',
+                    'operator' => '=',
+                    'data' => config('params.brand.is_top_brand')
+                ],
+                'value' => function ($model) {
+                    return config('params.brand.is_top_brand')[$model->is_top_brand];
+                },
+            ],
+            'is_recently_purchased' => [
+                'label' => 'Is Recently Purchased',
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'attribute' => 'brands.is_recently_purchased',
+                    'operator' => '=',
+                    'data' => config('params.brand.is_recently_purchased')
+                ],
+                'value' => function ($model) {
+                    return config('params.brand.is_recently_purchased')[$model->is_recently_purchased];
+                },
+            ],
+
 
 
             'status' => [
@@ -62,7 +89,7 @@ class BrandDataGrid extends Grid
 
             'action' => [
                 'routePrefix' => 'admin.brand',
-               
+
                 'contentCssClass' => 'grid-action-col',
             ]
         ];
