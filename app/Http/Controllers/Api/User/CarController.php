@@ -695,7 +695,7 @@ class CarController extends ApiBaseController
                 'car_id' => $id,
                 'user_id' => Auth::id()
             ]);
-dd($model);
+// dd($model);
             if (! $model->id) {
                 $count = CarView::where('car_id', $id)->count();
                 Car::where('id', $id)->update(['view_count' => $count + 1]);
