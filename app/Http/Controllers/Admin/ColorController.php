@@ -95,14 +95,25 @@ class ColorController extends Controller
     {
         try 
         {
-            if($color->status == BrandColorMapping::STATUS_ACTIVE && $request->status == BrandColorMapping::STATUS_INACTIVE)
-            {
-                $colors = json_decode(Car::active()->pluck('colours'));
-                if (in_array($color->id, $colors)) {
-                    return back()->with('error', __('Cannot deactivate color: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+            if ($color->status == BrandColorMapping::STATUS_ACTIVE && $request->status == BrandColorMapping::STATUS_INACTIVE) {
+                $activeCarColors = Car::active()->pluck('colours');
+                $mergedColors = [];
+            
+                foreach ($activeCarColors as $carColors) {
+                    $decodedColors = json_decode($carColors, true); 
+                    if (is_array($decodedColors)) {
+                        $mergedColors = array_merge($mergedColors, $decodedColors); 
+                    }
                 }
-                
+                $uniqueColors = array_values(array_unique($mergedColors));
+                if (in_array($color->id, $uniqueColors)) {
+                    return back()->with(
+                        'error',
+                        __('Cannot deactivate color: Active cars are associated with it. Please deactivate or reassign the cars first.')
+                    );
+                }
             }
+            
             $service = new ColorService($request,$color);
              $color = $service->handle();
         }
@@ -122,9 +133,21 @@ class ColorController extends Controller
      */
     public function destroy(BrandColorMapping $color)
     {
-        $colors = json_decode(Car::active()->pluck('colours'));
-        if (in_array($color->id, $colors)) {
-            return back()->with('error', __('Cannot delete color: Active cars are associated with it. Please deactivate or reassign the cars first.'));
+        $activeCarColors = Car::active()->pluck('colours');
+        $mergedColors = [];
+    
+        foreach ($activeCarColors as $carColors) {
+            $decodedColors = json_decode($carColors, true); 
+            if (is_array($decodedColors)) {
+                $mergedColors = array_merge($mergedColors, $decodedColors); 
+            }
+        }
+        $uniqueColors = array_values(array_unique($mergedColors));
+        if (in_array($color->id, $uniqueColors)) {
+            return back()->with(
+                'error',
+                __('Cannot delete color: Active cars are associated with it. Please deactivate or reassign the cars first.')
+            );
         }
         DB::beginTransaction();
         try {
@@ -150,7 +173,7 @@ class ColorController extends Controller
     {
         
         $brandId = $request->query('brand_id');
-        $colors = BrandColorMapping::where('brand_id', $brandId)->pluck('name', 'id');
+        $colors = BrandColorMapping::where('brand_id', $brandId)->where('status',BrandColorMapping::STATUS_ACTIVE)->pluck('name', 'id');
     
         return response()->json($colors);
     }
