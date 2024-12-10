@@ -68,7 +68,7 @@ class CarController extends ApiBaseController
         $data['mileage_desc'] = $car->mileage_summary;
 
         try {
-            if (! empty($data) && Auth::user()->isNotGuest()) {
+            if (! empty($result) && Auth::user()->isNotGuest()) {
                 // dd('ssdfb');
                 $this->saveCarViewCount($id);
             }
