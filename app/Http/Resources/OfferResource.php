@@ -17,14 +17,15 @@ class OfferResource extends JsonResource
    */
     public function toArray($request)
     {
+        $carVersion = $this->carVersion ?? $this->car->carSpec;
         return [
             'id' => $this->id,
             'car_name' => $this->car->model_name,
-            'varient_name'=> $this->carVersion->varient_name,
+            'varient_name'=> $carVersion->varient_name  ,
             'title' => $this->title,
             'offer' => 'KWD '.$this->offer,
-            'ex_showroom_price' => 'KWD ' . $this->carVersion->ex_showroom_price,
-            'offer_price' => 'KWD ' .  ($this->carVersion->ex_showroom_price -$this->offer ),
+            'ex_showroom_price' => 'KWD ' . $carVersion->ex_showroom_price,
+            'offer_price' => 'KWD ' .  ($carVersion->ex_showroom_price -$this->offer ),
             'time_left' => $this->TimeLeft($this->end_date),
             'image' => file_asset('files-car', $this->car->image) 
         ];
