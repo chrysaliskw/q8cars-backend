@@ -23,6 +23,7 @@ use App\Http\Resources\CarDetailResource;
 use App\Services\Api\User\Car\FilterService;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Models\BrandColorMapping;
+use App\Models\CarAdditonalSpecifications;
 use Carbon\Carbon;
 use App\Models\CarComparisonList;
 use App\Models\CarFavourite;
@@ -67,7 +68,8 @@ class CarController extends ApiBaseController
         $data['mileage_desc'] = $car->mileage_summary;
 
         try {
-            if (! empty($result) && Auth::user()->isNotGuest()) {
+            if (! empty($data) && Auth::user()->isNotGuest()) {
+                // dd('ssdfb');
                 $this->saveCarViewCount($id);
             }
         }
@@ -186,7 +188,7 @@ class CarController extends ApiBaseController
         if($carVersion->keyFeature){
             foreach($carVersion->keyFeature as $feature)
             {
-                $res[$feature->specification]['value'] = $feature->value .' '.$feature->unit;
+                $res[$feature->specification]['value'] = $feature->input_type == CarAdditonalSpecifications::TYPE_TEXT ? $feature->value .' '.$feature->unit : ($feature->value==1 ? 'Yes' : 'No');
                 $res[$feature->specification]['icon'] = $feature->key_icon ? file_asset('files-car',$feature->key_icon):'';
             }
         }
@@ -684,15 +686,16 @@ class CarController extends ApiBaseController
      */
     private function saveCarViewCount($id)
     {
+        // dd($id);
         DB::beginTransaction();
 
         try
         {
-            $model = CarView::firstOrNew([
+            $model = CarView::where([
                 'car_id' => $id,
                 'user_id' => Auth::id()
             ]);
-
+dd($model);
             if (! $model->id) {
                 $count = CarView::where('car_id', $id)->count();
                 Car::where('id', $id)->update(['view_count' => $count + 1]);
