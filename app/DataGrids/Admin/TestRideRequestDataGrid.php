@@ -22,6 +22,7 @@ class TestRideRequestDataGrid extends Grid
                 'c.model_name as car_model',
                 'brands.name as brand_name'
             ])
+            ->where('test_drives.status', '!=', TestDrive::STATUS_NOT_VERIFIED)
             ->orderBy('test_drives.id', 'Desc');
         return $query;
     }
