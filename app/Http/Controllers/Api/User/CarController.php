@@ -700,7 +700,7 @@ class CarController extends ApiBaseController
     
                 // Update the car's view count after saving the new CarView
                 // $count = CarView::where('car_id', $id)->count();
-                Car::where('id', $id)->increment(['view_count']);
+                Car::where('id', $id)->increment('view_count');
             } else {
                 // Update the existing CarView's updated_at timestamp
                 $model->touch();
