@@ -25,7 +25,7 @@ class OfferResource extends JsonResource
             'title' => $this->title,
             'offer' => 'KWD '.$this->offer,
             'ex_showroom_price' => 'KWD ' . $carVersion->ex_showroom_price,
-            'offer_price' => 'KWD ' .  ($carVersion->ex_showroom_price -$this->offer ),
+            'offer_price' => 'KWD ' . ((float)$carVersion->ex_showroom_price - (float)$this->offer),
             'time_left' => $this->TimeLeft($this->end_date),
             'image' => file_asset('files-car', $this->car->image) 
         ];
