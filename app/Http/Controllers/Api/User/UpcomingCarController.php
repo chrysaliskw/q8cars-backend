@@ -64,9 +64,9 @@ class UpcomingCarController extends ApiBaseController
     private function relatedNews(Request $request)
     {
         $carIds = Car::active()->upcoming()
-        ->when($request->brand_id, function ($query) use ($request) {
-            $query->where('brand_id', $request->brand_id);
-        })
+        // ->when($request->brand_id, function ($query) use ($request) {
+        //     $query->where('brand_id', $request->brand_id);
+        // })
             ->orderBy('view_count', 'desc')
             ->limit(10)
             ->pluck('id'); 

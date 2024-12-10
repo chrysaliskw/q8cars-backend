@@ -413,9 +413,8 @@ class CarService
                 }
             }
 
-            DB::table((new CarImage())->getTable())->upsert($images, ['car_id', 'color'], ['file_name']);
+            DB::table((new CarImage())->getTable())->upsert($images, ['car_id','type', 'color'], ['file_name']);
         }
-
         JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
     }
 
@@ -728,5 +727,16 @@ class CarService
         $hashedFileName = $image->hashName();
 
         return $hashedFileName;
+    }
+    private function updateCarColour($colors)
+    {
+        $result = null;
+        $i = 0;
+        foreach($colors as $p) {
+            $result[$i] = intval($p);
+            $i++;
+        }
+
+        return json_encode($result);
     }
 }
