@@ -117,7 +117,7 @@ class CompareCarsController extends ApiBaseController
 
             $i++;
         }
-        dd($result);
+        // dd($result);
         return $result;
     }
 
