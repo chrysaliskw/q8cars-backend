@@ -34,11 +34,10 @@ class PartnerBankController extends Controller
      */
     public function store(BankRequest $request)
     {
-        try{
+        try {
             $service = new BankService();
             $partner_bank = $service->create($request);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
@@ -60,8 +59,7 @@ class PartnerBankController extends Controller
             // 'Base Interest Rate' => empty($partner_bank->base_interest_rate) ? 'NIL' : 'KWD '. $partner_bank->base_interest_rate,
             'Eligible EMI Percentage' => empty($partner_bank->eligible_emi_percentage) ? 'NIL' : $partner_bank->eligible_emi_percentage . '%',
             'Logo' => empty($partner_bank->logo) ? 'NIL' : '<img src="' . url(file_asset('files-banks', $partner_bank->logo)) . '" alt="Logo" style="max-width: 200px;"/>',
-            'Status' => $partner_bank->status == Bank::STATUS_ACTIVE ? 'Active' :
-                       ($partner_bank->status == Bank::STATUS_INACTIVE ? 'Inactive' : 'Unknown'),
+            'Status' => $partner_bank->status == Bank::STATUS_ACTIVE ? 'Active' : ($partner_bank->status == Bank::STATUS_INACTIVE ? 'Inactive' : 'Unknown'),
             'Created At' => dateTimeFormat($partner_bank->created_at),
             'Updated At' => dateTimeFormat($partner_bank->updated_at),
         ];
@@ -82,11 +80,14 @@ class PartnerBankController extends Controller
      */
     public function update(BankRequest $request, Bank $partner_bank)
     {
-        try{
+
+        if (!isset($request->logo)) {
+            $request->merge(['logo' => $partner_bank->logo]);
+        }
+        try {
             $service = new BankService();
             $service->update($request, $partner_bank);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
@@ -99,10 +100,9 @@ class PartnerBankController extends Controller
      */
     public function destroy(Bank $partner_bank)
     {
-        try{
+        try {
             $partner_bank->delete();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return back()->with('error', __('app.error'))->withInput();
         }
 

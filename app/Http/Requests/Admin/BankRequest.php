@@ -22,6 +22,15 @@ class BankRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->isMethod('post')) {
+            return $this->createRules();
+        }
+
+        return $this->updateRules();
+    }
+
+    public function createRules()
+    {
         return [
             'bank_name' => 'required|string|max:255',
             'branch_name' => 'required|string|max:255',
@@ -31,6 +40,21 @@ class BankRequest extends FormRequest
             // 'base_interest_rate' => 'nullable|numeric|min:0|max:99999999',
             'eligible_emi_percentage' => 'required|numeric|min:0|max:100',
             'logo' => 'required|image|max:2048|mimes:png,jpg,jpeg',
+            'status' => 'required|in:' . implode(',', array_keys(Bank::STATUSES)),
+        ];
+    }
+
+    public function updateRules()
+    {
+        return [
+            'bank_name' => 'required|string|max:255',
+            'branch_name' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            // 'base_gross_income' => 'nullable|numeric|min:0|max:99999999',
+            // 'base_other_emi' => 'nullable|numeric|min:0|max:99999999',
+            // 'base_interest_rate' => 'nullable|numeric|min:0|max:99999999',
+            'eligible_emi_percentage' => 'required|numeric|min:0|max:100',
+            'logo' => 'nullable|image|max:2048|mimes:png,jpg,jpeg',
             'status' => 'required|in:' . implode(',', array_keys(Bank::STATUSES)),
         ];
     }
