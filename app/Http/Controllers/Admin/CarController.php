@@ -55,6 +55,8 @@ class CarController extends Controller
      */
     public function store(CarRequest $request)
     {
+        ini_set('upload_max_filesize', '50M');
+        ini_set('post_max_size', '60M');
         $rows = $request->row_count;
 
         $rules = [];
@@ -530,6 +532,8 @@ class CarController extends Controller
 
     public function store360ViewImages(Request $request)
     {
+        ini_set('upload_max_filesize', '50M');
+        ini_set('post_max_size', '60M');
         $request->validate([
             'picture' => 'required|image|mimes:jpeg,png,jpg|max:20480', // 20MB max
         ]);
