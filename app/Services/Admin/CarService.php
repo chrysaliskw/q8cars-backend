@@ -57,6 +57,7 @@ class CarService
             $this->saveCarImages();
             $this->saveCarVideos();
             $this->saveCarColorsAndImages();
+            
             if(isset($this->data['attribute']))
             {
                 $this->saveCategoryAttributes();
@@ -416,6 +417,11 @@ class CarService
             DB::table((new CarImage())->getTable())->upsert($images, ['car_id','type', 'color'], ['file_name']);
         }
         JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
+        $uploadedColors = CarImage::where('car_id',$this->car->id)->where('type',CarImage::TYPE_IMAGE)->whereNotNull('color')->pluck('color')->toArray();;
+        $this->car->colours = $uploadedColors;
+        $this->car->save();
+        $this->car->carVersions()->update(['colours' => json_encode($uploadedColors)]);
+        
     }
 
     /**
