@@ -633,7 +633,7 @@ class CarController extends ApiBaseController
         {
             $carId1 = $compareCar->car_1_id;
             $carId2 = $compareCar->car_2_id;
-            $cars = Car::whereIn('id',[$carId1,$carId2])->get();
+            $cars = Car::whereIn('id',[$carId1,$carId2])->orderBy('on_road_price','asc')->get();
         }else{
             // $cars = Car::where('brand_id', '!=', $car->brand_id)->where('version_id')->active()->limit(2)->get();
             $carBaseVariantBodyType = CarVersion::where('car_id', $car->id)
