@@ -15,6 +15,7 @@ class JustLaunchController extends ApiBaseController
     public function index(Request $request)
     {
         $result = Car::where('is_just_launched', Car::JUST_LAUNCHED)
+                    ->orderByRaw('COALESCE(just_launch_sort_order) ASC')
                     ->when($request->brand_id, function($query, $value){
                         $query->where('cars.brand_id', $value);
                     })
@@ -48,6 +49,7 @@ class JustLaunchController extends ApiBaseController
             ->when($request->brand_id, function($query, $value){
                 $query->where('cars.brand_id', $value);
             })
+            ->orderByRaw('COALESCE(just_launch_sort_order) ASC')
             ->limit(50)
             ->get();
 
