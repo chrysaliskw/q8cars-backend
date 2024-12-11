@@ -30,7 +30,7 @@
                                     <label class="col-sm-4 control-label">{{ $key }}</label>
                                     <div class="col-sm-8">
                                         @if ($key == 'Key Icon 1' || $key == 'Key Icon 2')
-                                            <img src="{{ $value }}" alt="news-img" class="img-thumbnail"
+                                            <img src="{{ file_asset('files-offer',$value )}}" alt="offer-img" class="img-thumbnail"
                                                 width="100" height="150">
                                         @else
                                             {!! $value !!}

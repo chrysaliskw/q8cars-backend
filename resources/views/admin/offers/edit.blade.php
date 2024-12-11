@@ -37,11 +37,17 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="card">
+                            <div class="card">
                                     <label for="key_feature_1">Key Feature 1</label>
                                     <div class="card-body">
-                                        <textarea class="summernote form-control" rows="9" name="key_feature_1">{{ $offer->key_feature_1 }}</textarea>
+                                        <textarea class="summernote form-control" rows="9" name="key_feature_1">{{ $offer->html_key_feature_1}}</textarea>
                                     </div>
+                                    <span class="error" role="alert">
+
+                                        @error('key_feature_1')
+                                            {{ $message }}</br>
+                                        @enderror
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +57,7 @@
                             <div class="card">
                                 <label for="key_feature_2">Key Feature 2</label>
                                 <div class="card-body">
-                                    <textarea class="summernote form-control" rows="9" name="key_feature_2">{{ $offer->key_feature_2 }}</textarea>
+                                    <textarea class="summernote form-control" rows="9" name="key_feature_2">{{ $offer->html_key_feature_2 }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -70,8 +76,8 @@
                         {{'Format : PNG'}}
                     </span>
                     @if ($offer->key_icon_1)
-                        <img src="{{ $offer->key_icon_1 ? url(file_asset('files-offers', $offer->key_icon_1)) : '' }}"
-                        alt="key_icon_1" class="img-thumbnail" width="100" height="150">
+                    <img src="{{ file_asset('files-offer', $offer->key_icon_1) }}" alt="offer-icon-img"
+                    class="img-thumbnail" width="100" height="150">
                     @endif
                 </div>
                 <div class="col-md-4">
@@ -84,9 +90,9 @@
                         <br>
                         {{'Format : PNG'}}
                     </span>
-                    @if ($offer->key_icon_2)
-                        <img src="{{ $offer->key_icon_2 ? url(file_asset('files-offers', $offer->key_icon_2)) : '' }}"
-                        alt="key_icon_2" class="img-thumbnail" width="100" height="150">
+                    @if ($offer->key_icon_1)
+                    <img src="{{ file_asset('files-offer', $offer->key_icon_2) }}" alt="offer-icon-img"
+                    class="img-thumbnail" width="100" height="150">
                     @endif
                 </div>
                 <div class="col-md-4">
@@ -104,17 +110,21 @@
                 <div class="col-md-12">
                         <div class="row">
                             <div class="col-sm-12">
-                            <div class="col-md-12">
-                        <x-form-textarea class="summernote form-control" field="description" field-name="Description" field-value="{{ old('description')  ??$offer->description  }}"></x-form-textarea>
-                    </div>
-                                {{--<div class="card">
+                                <div class="card">
                                     <label for="description">Description</label>
                                     <div class="card-body">
-                                        <textarea class="summernote form-control" rows="9" name="description">{{ $offer->description }}</textarea>
+                                        <textarea class="summernote form-control" rows="9" name="description">{{ $offer->html_description}}</textarea>
                                     </div>
-                                </div>--}}
+                                    <span class="error" role="alert">
+
+                                        @error('description')
+                                            {{ $message }}</br>
+                                        @enderror
+                                    </span>
+                                </div>
                             </div>
                         </div>
+
                 </div>
             </div>
             <br>
