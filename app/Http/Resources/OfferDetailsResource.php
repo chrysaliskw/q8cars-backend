@@ -21,11 +21,13 @@ class OfferDetailsResource extends JsonResource
    */
     public function toArray($request)
     {
+        $carVersion = $this->carVersion ?? $this->car->carSpec;
+        
         return [
             'id' => $this->id,
             'car_id' => $this->car_id,
             'car_name' => $this->car->model_name,
-            'varient_name'=> $this->carVersion->varient_name,
+            'varient_name'=>  $carVersion->varient_name,
             'car_versions'=> $this->getVariants($this->car_id),
             'title' => $this->title,
             'key_feature_1' => $this->key_feature_1,
@@ -39,8 +41,8 @@ class OfferDetailsResource extends JsonResource
             'rating' => $this->car->avg_rating,
             'total_reviews_count' => $this->car->total_reviews_count,
             'offer' => 'KWD '.$this->offer,
-            'ex_showroom_price' => 'KWD ' . $this->carVersion->ex_showroom_price,
-            'offer_price' => 'KWD ' .  ($this->carVersion->ex_showroom_price -$this->offer ),
+            'ex_showroom_price' => 'KWD ' .   $carVersion->ex_showroom_price,
+            'offer_price' => 'KWD ' .  ( (float) $carVersion->ex_showroom_price -(float)$this->offer ),
             'time_span' => $this->TimeSpan($this->start_date ,$this->end_date),
             'image' => file_asset('files-car', $this->car->image),
             'is_favourite' => CarFavourite::where('user_id', Auth::id())->where('car_id',$this->car_id)->exists() ? 1: 0,
