@@ -2,8 +2,10 @@
 
 namespace App\Services\Api\User\Car;
 
+use App\Models\Configuration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PSpell\Config;
 
 class FuelCostService
 {
@@ -11,8 +13,8 @@ class FuelCostService
     {
         try {
 
-            $fuelCostPerLiter = DB::table('configurations')->where('key', 'fuel_cost')->value('value');
-
+            $fuelCostPerLiter = DB::table('configurations')->where('key', 'fuel_cost_per_liter')->value('value');
+            // $fuelCostPerLiter = Configuration::fuelCostPerLiter();
             if ($fuelCostPerLiter === null) {
                 throw new \Exception("Fuel cost not found in the database.");
             }
