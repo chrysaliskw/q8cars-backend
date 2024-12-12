@@ -68,7 +68,7 @@ class CarController extends ApiBaseController
         $data['mileage_desc'] = $car->mileage_summary;
 
         try {
-            if (! empty($result) && Auth::user()->isNotGuest()) {
+            if ( Auth::user()->isNotGuest()) {
                 // dd('ssdfb');
                 $this->saveCarViewCount($id);
             }
@@ -633,7 +633,7 @@ class CarController extends ApiBaseController
         {
             $carId1 = $compareCar->car_1_id;
             $carId2 = $compareCar->car_2_id;
-            $cars = Car::whereIn('id',[$carId1,$carId2])->get();
+            $cars = Car::whereIn('id',[$carId1,$carId2])->orderBy('on_road_price','asc')->get();
         }else{
             // $cars = Car::where('brand_id', '!=', $car->brand_id)->where('version_id')->active()->limit(2)->get();
             $carBaseVariantBodyType = CarVersion::where('car_id', $car->id)
@@ -686,46 +686,45 @@ class CarController extends ApiBaseController
      */
     private function saveCarViewCount($id)
     {
-        // dd($id);
         DB::beginTransaction();
-
-        try
-        {
-            $model = CarView::where([
-                'car_id' => $id,
-                'user_id' => Auth::id()
-            ]);
-// dd($model);
-            if (! $model->id) {
-                $count = CarView::where('car_id', $id)->count();
-                Car::where('id', $id)->update(['view_count' => $count + 1]);
-
+    
+        try {
+            $model = CarView::where('car_id', $id)->where('user_id', Auth::id())->first();
+    
+            if (!$model) {
+                // Create a new CarView record if it doesn't exist
+                $model = new CarView();
+                $model->car_id = $id;
+                $model->user_id = Auth::id();
+                $model->save();
+    
+                // Update the car's view count after saving the new CarView
+                // $count = CarView::where('car_id', $id)->count();
+                Car::where('id', $id)->increment('view_count');
+            } else {
+                // Update the existing CarView's updated_at timestamp
+                $model->touch();
             }
-            $model->updated_at = Carbon::now();
-            $model->save();
-
+    
             DB::commit();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             DB::rollBack();
             throw $ex;
         }
     }
+    
 
     private function getMileageDetails(Car $car)
     {
-        $subquery = CarVersion::select('fuel_type', 'transmission_type')
-            ->where('car_id', $car->id)
+        // Fetch unique combinations of fuel_type and transmission_type
+        $versions = CarVersion::where('car_id', $car->id)
+            ->select('fuel_type', 'transmission_type')
             ->distinct()
-            ->toBase();
-
-        $versions = CarVersion::whereIn(DB::raw('(fuel_type, transmission_type)'), $subquery)
-            ->where('car_id', $car->id)
-            ->limit(2)->get();
-
+            ->get();
+    
         return CarDetailResource::collection($versions);
-
     }
+    
     private function getCarTransmissionTypes(Car $car)
     {
         $carTransmissionTypes = [];

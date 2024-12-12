@@ -17,7 +17,7 @@ class NewsPostDataGrid extends Grid
             // ->where('type', News::NOT_VIDEO_STORY)
             ->leftJoin('cars AS c', 'c.id', '=', 'car_id')
             ->leftJoin('brands AS b', 'b.id', '=', 'news.brand_id')
-            ->orderByDesc('news.posted_time')
+            ->orderByDesc('news.id')
             ->select([
                 'b.name as brand_name',
                 'c.model_name as model_name',

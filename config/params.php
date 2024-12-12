@@ -8,6 +8,7 @@ use App\Models\Car;
 use App\Models\CuratedComparison;
 use App\Models\News;
 use App\Models\Notification;
+use App\Models\Offer;
 use App\Models\User;
 use App\Models\View360Image;
 
@@ -26,6 +27,7 @@ return [
         'curated_comparisons' => CuratedComparison::FILE_DIR,
         'banks' => Bank::FILE_DIR,
         '360_view' => View360Image::FILE_DIR,
+        'offer' =>Offer::FILE_DIR,
     ],
 
     'admin' => [

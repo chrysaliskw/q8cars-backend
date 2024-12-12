@@ -156,18 +156,18 @@
 
             $("#date_1").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
 
             });
             $("#date_2").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
             });
              $("#date_3").datepicker({
                 format: 'dd-mm-yyyy',
-                startDate: 'today',
+                endDate: 'today',
 
             });
 
@@ -508,9 +508,11 @@
                                                 ${value}
                                             </label>
                                         </div>
+                                      
                                         <div class="form-group" style="padding-top: 10px;">
                                             <input type="file" id="colors_image_${key}" name="colors_image_${key}">
-                                        </div>
+                                           <small>Image required when color is selected</small></div>
+                                         
                             <span class="error">
                                 
                                 ${jsMap.has('colors_image_' + key) ? 'The selected image must be below 2MB and in PNG, JPG, or JPEG format.' : ''}
@@ -558,6 +560,7 @@
                                                 <div class="form-group" style="padding-top: 10px;">
                                                     <input type="file" id="colors_image_${key}" name="colors_image_${key}">
                                                 </div>
+                                                   <small>Image required when color is selected</small>
                                             </div>
                                         </div>
                                     </div>`;

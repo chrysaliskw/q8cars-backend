@@ -61,9 +61,9 @@ class OfferController extends Controller
             'Car Version' => empty($offer->carVersion) ? 'NIL' : $offer->carVersion->varient_name,
             'Title' => empty($offer->title) ? 'NIL' : $offer->title,
             'Key Feature 1' => empty($offer->key_feature_1) ? 'NIL' : $offer->key_feature_1,
-            'Key Icon 1' => empty($offer->key_icon_1) ? 'NIL' : '<img src="' . url(file_asset('files-offers', $offer->key_icon_1)) . '" alt="Key Icon 1" style="max-width: 200px;"/>',
+            'Key Icon 1' => $offer->key_icon_1 ,
             'Key Feature 2' => empty($offer->key_feature_2) ? 'NIL' : $offer->key_feature_2,
-            'Key Icon 2' => empty($offer->key_icon_2) ? 'NIL' : '<img src="' . url(file_asset('files-offers', $offer->key_icon_2)) . '" alt="Key Icon 2" style="max-width: 200px;"/>',
+            'Key Icon 2' =>  $offer->key_icon_2 ,
             'Description' => empty($offer->description) ? 'NIL' : $offer->description,
             'Start date' => empty($offer->start_date) ? 'NIL' : dateTimeFormat($offer->start_date),
             'End date' => empty($offer->end_date) ? 'NIL' : dateTimeFormat($offer->end_date),
@@ -73,7 +73,7 @@ class OfferController extends Controller
             'Created At' => dateTimeFormat($offer->created_at),
             'Updated At' => dateTimeFormat($offer->updated_at),
         ];
-
+// dd($viewData);
         return view('admin.offers.show', compact('offer', 'viewData'));
     }
 

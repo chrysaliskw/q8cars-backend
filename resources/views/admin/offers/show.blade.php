@@ -29,9 +29,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-4 control-label">{{ $key }}</label>
                                     <div class="col-sm-8">
-
-                                        {!! $value !!}
-
+                                        @if ($key == 'Key Icon 1' || $key == 'Key Icon 2')
+                                            <img src="{{ file_asset('files-offer',$value )}}" alt="offer-img" class="img-thumbnail"
+                                                width="100" height="150">
+                                        @else
+                                            {!! $value !!}
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach

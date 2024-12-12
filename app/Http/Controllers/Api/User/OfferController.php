@@ -12,6 +12,10 @@ use App\Models\Offer;
 use App\Http\Resources\OfferDetailsResource;
 use App\Models\News;
 use App\Http\Resources\NewsResource;
+use App\Models\OfferView;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class OfferController extends ApiBaseController
 {
@@ -42,6 +46,18 @@ class OfferController extends ApiBaseController
         if($offer){
             $data['offer'] = OfferDetailsResource::make($offer);
             $data['latest_news'] = $this->getLatestdNews($offer);
+            try {
+                if ( Auth::user()->isNotGuest()) {
+                    // dd('ssdfb');
+                    $this->saveOfferViewCount($id);
+                }
+            }
+            catch (Exception $ex) {
+                logger($ex);
+                return $this->error(__('app.error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+          
         }else{
             $data =[];
         }
@@ -138,4 +154,33 @@ class OfferController extends ApiBaseController
             return [];
         }
     }
+
+    /**
+     * @param int $id
+     *
+     * @throws \Exception
+     */
+    private function saveOfferViewCount($id)
+    {
+        DB::beginTransaction();
+    
+        try {
+            $model = OfferView::where('offer_id', $id)->where('user_id', Auth::id())->first();
+    
+            if (!$model) {
+                $model = new OfferView();
+                $model->offer_id = $id;
+                $model->user_id = Auth::id();
+                $model->save();
+                Offer::where('id', $id)->increment('view_count');
+            } else {
+                $model->touch();
+            }
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            throw $ex;
+        }
+    }
+    
 }

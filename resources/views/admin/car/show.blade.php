@@ -211,7 +211,7 @@
                                     {{ dateTimeFormat($car->updated_at) }}
                                 </div>
                             </div>
-                            < <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+                             <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
                             aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -229,6 +229,28 @@
                                             data-dismiss="modal">Cancel</button>
                                         <button type="button" class="btn btn-danger"
                                             onclick="submitDeleteForm()">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="deleteVideoConfirmationModal" tabindex="-1" role="dialog"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirm Delete</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure that you want to delete this item?                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="submitVideoDeleteForm()">Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -611,13 +633,14 @@
             @foreach($car->carImages as $image)
             @if($image->type == 2)
             <div class="row">
-
-                <div class="col-md-6">
+        
+                <div class="col-md-5">
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Title</label>
                         <div class="col-sm-8">
                             {{ $image->video_title }}
                         </div>
+                       
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Description</label>
@@ -644,15 +667,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-
-                            <video width="500" height="400" controls style="margin-top: -53px;">
+                <div class="col-md-5">
+                           <video width="400" height="300" controls style="margin-top: -53px;">
                                 <source src="{{ file_asset('files-car',
                                         $image->file_name) }}">
                             </video>
-
-
                 </div>
+                <div class="col-md-2">
+                  {{--  <a href="{{ route('admin.car.video.edit', $image->id) }}"
+                    class="btn btn-primary waves-effect waves-light"><i class="fa fa-pencil"></i> </a>--}}
+                    <a href="#"
+                                onclick="showDeleteVideoConfirmation(event)"
+                                class="btn btn-danger btn-custom waves-effect waves-light"><i class="fa fa-trash"></i>
+                                </a>
+                            <form id="video-delete-form"
+                                action="{{ route('admin.car.video.delete',['id'=>$image->id])}}"
+                                method="POST" style="display: none;">
+                                @csrf
+                                @method('delete')
+                            </form>
+                
+                </div>
+              
             </div>
             <hr>
             @endif
@@ -673,6 +709,14 @@
 
             function submitDeleteForm() {
                 document.querySelector('form#delete-form').submit(); // Submit the form
+            }
+            function showDeleteVideoConfirmation($event){
+                event.preventDefault(); // Prevent default link behavior
+                $('#deleteVideoConfirmationModal').modal('show'); // Show Bootstrap modal
+            }
+            function submitVideoDeleteForm()
+            {
+                document.querySelector('form#video-delete-form').submit(); // Submit the form
             }
         </script>
     </x-slot>

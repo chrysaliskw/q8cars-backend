@@ -55,6 +55,8 @@ class CarController extends Controller
      */
     public function store(CarRequest $request)
     {
+        ini_set('upload_max_filesize', '50M');
+        ini_set('post_max_size', '60M');
         $rows = $request->row_count;
 
         $rules = [];
@@ -530,6 +532,8 @@ class CarController extends Controller
 
     public function store360ViewImages(Request $request)
     {
+        ini_set('upload_max_filesize', '50M');
+        ini_set('post_max_size', '60M');
         $request->validate([
             'picture' => 'required|image|mimes:jpeg,png,jpg|max:20480', // 20MB max
         ]);
@@ -577,5 +581,23 @@ class CarController extends Controller
             ]);
         }
         return response()->json(['success' => false, 'message' => 'No file uploaded.'], 400);
+    }
+
+    public function deleteCarVideo(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $video =CarImage::find($request->id);
+            $car = Car::find($video->car_id);
+            $video->delete();
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            logger($ex);
+            return back()->with('error', __('app.error'))->withInput();
+        }
+
+        return redirect()->route('admin.car.show',compact('car'))->with('success', 'Car video deleted successfully!');
+
     }
 }

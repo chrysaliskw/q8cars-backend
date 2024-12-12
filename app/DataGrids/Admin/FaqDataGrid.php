@@ -48,7 +48,7 @@ class FaqDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
-                    'attribute' => 'c.id',
+                    'attribute' => 'c.model_name',
                 ],
                 'value' => function ($model) {
                     return $model->car_model_name;

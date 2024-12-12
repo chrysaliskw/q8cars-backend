@@ -21,23 +21,9 @@
                     </label>
                 </div>
                 <div class="form-group" style="padding-top: 10px;">
-                    <!-- Custom file input -->
-                    <label class="custom-file-upload" for="colors_image_{{ $key }}">
-                        <img src="{{ asset('images/upload.svg') }}" />|
-                    </label>
-                    <input type="file" id="colors_image_{{ $key }}" name="colors_image_{{ $key }}" 
-                        class="file-input d-none" onchange="displayFileName(this, 'file-name-{{ $key }}')">
-
-                    <!-- Display chosen file name -->
-                    <span id="file-name-{{ $key }}" class="file-name-display">No file chosen</span>
-
-                    <!-- Display validation error for the color image -->
-                    @if($errors->has('colors_image_' . $key))
-                        <span class="error">
-                            {{ $errors->first('colors_image_' . $key) }}
-                        </span>
-                    @endif
+                    <input type="file" id="colors_image_{{ $key }}" name="colors_image_{{ $key }}">
                 </div>
+                <small>Image required when color is selected</small>
             </div>
         </div>
     </div>
