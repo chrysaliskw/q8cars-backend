@@ -114,7 +114,7 @@ final class FilterService
                             $join->on('cf.car_id', '=', 'cars.id')
                                 ->where('cf.user_id', Auth::id());
 
-                        });
+                        })->orderByDesc('cars.id');
     }
 
     /**
