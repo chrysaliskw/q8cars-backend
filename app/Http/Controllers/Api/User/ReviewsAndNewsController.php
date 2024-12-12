@@ -57,7 +57,7 @@ class ReviewsAndNewsController extends ApiBaseController
                 $query->where('content', 'like', '%' . $value . '%')
                 ->orWhere('title', 'like', '%' . $value . '%');
             })
-            ->limit(4)->orderBy('posted_time', 'asc')
+            ->orderByDesc('posted_time')
             ->limit(20)
             ->get();
         return  NewsResource::collection($result);
