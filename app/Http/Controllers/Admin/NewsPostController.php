@@ -112,7 +112,7 @@ class NewsPostController extends Controller
         $currentVersion = null;
         $currentVersion = json_encode([
             'id' => $news->car_version_id,
-            'text' => $news->carVersion->varient_name
+            'text' => $news->carVersion ?  $news->carVersion->varient_name :'',
         ]);
 
         return view('admin.news.post.edit', compact('news', 'currentBrand', 'currentCar', 'currentVersion'));
