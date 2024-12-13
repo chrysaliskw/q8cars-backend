@@ -420,7 +420,7 @@ class CarService
                     $addedImage->car_id = $this->car->id;
                     $addedImage->type =  CarImage::TYPE_IMAGE;
                     $addedImage->color =  $image['color'];
-                    $addedImage->image =  $image['file_name'];
+                    $addedImage->file_name =  $image['file_name'];
                     $addedImage->save();
                 }
             }
