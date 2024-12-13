@@ -38,6 +38,7 @@ class NotificationController extends Controller
      */
     public function store(NotificationRequest $request)
     {
+        // DD($request->all());
         try {
             $service = new NotificationService();
             $notification = $service->create($request);
@@ -52,12 +53,10 @@ class NotificationController extends Controller
                 $fcmService = new FirebasePushNotificationService();
 
                 $fcmService->sendTopicNotification($topic, $title, $body, $image);
-
             } catch (Exception  $ex) {
                 logger($ex);
                 return back()->with('error', __('app.error'))->withInput();
             }
-
         } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
@@ -78,9 +77,7 @@ class NotificationController extends Controller
             'Logo' => empty($notification->logo) ? 'NIL' : '<img src="' . url(file_asset('files-notifications', $notification->logo)) . '" alt="Notification Logo" style="max-width: 200px;"/>',
             'Start date' => empty($notification->start_date) ? 'NIL' : dateTimeFormat($notification->start_date),
             'End date' => empty($notification->end_date) ? 'NIL' : dateTimeFormat($notification->end_date),
-            'Status' => $notification->status == Notification::STATUS_ACTIVE ? 'Active' :
-                       ($notification->status == Notification::STATUS_INACTIVE ? 'Inactive' :
-                       ($notification->status == Notification::STATUS_EXPIRED ? 'Expired' : 'Unknown')),
+            'Status' => $notification->status == Notification::STATUS_ACTIVE ? 'Active' : ($notification->status == Notification::STATUS_INACTIVE ? 'Inactive' : ($notification->status == Notification::STATUS_EXPIRED ? 'Expired' : 'Unknown')),
             'Created At' => dateTimeFormat($notification->created_at),
             'Updated At' => dateTimeFormat($notification->updated_at),
         ];
@@ -101,6 +98,12 @@ class NotificationController extends Controller
      */
     public function update(NotificationRequest $request, Notification $notification)
     {
+        if (!isset($request->logo)) {
+            $request->merge(['logo' => $notification->logo]);
+        }
+        if (!isset($request->image)) {
+            $request->merge(['image' => $notification->image]);
+        }
         try {
             $service = new NotificationService();
             $service->update($request, $notification);
@@ -120,8 +123,7 @@ class NotificationController extends Controller
         try {
             UserNotificationMapping::where('notification_id', $notification->id)->delete();
             $notification->delete();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return back()->with('error', __('app.error'))->withInput();
         }
 

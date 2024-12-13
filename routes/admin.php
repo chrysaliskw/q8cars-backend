@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Trash\UserTrashController;
 use App\Http\Controllers\Admin\Trash\BrandTrashController;
 use App\Http\Controllers\Admin\Trash\BodyTypeTrashController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\ConfigurationController;
 use App\Http\Controllers\Admin\CuratedComparisonController;
 use App\Http\Controllers\Admin\EmiCalculatorController;
 use App\Http\Controllers\Admin\Image360Controller;
@@ -87,6 +88,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('user/select', [UserController::class, 'select'])->name('user.select');
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+    Route::get('configurations', [ConfigurationController::class, 'getInput'])->name('configurations');
+    Route::post('configurations/save', [ConfigurationController::class, 'saveValue'])->name('configurations.save');;
 });
 
 
