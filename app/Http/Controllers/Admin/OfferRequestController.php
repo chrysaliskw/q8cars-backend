@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
-use App\Models\TestDrive;
 use Exception;
-use App\DataGrids\Admin\OfferRequestDataGrid;
+use App\Models\SmtpSetting;
 use App\Models\OfferRequest;
 use Illuminate\Http\Request;
+use App\Jobs\SendAdminMailJob;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\DataGrids\Admin\OfferRequestDataGrid;
 
 class OfferRequestController extends Controller
 {
@@ -50,9 +52,46 @@ class OfferRequestController extends Controller
     public function update(Request $request)
     {
         $offerRequest = OfferRequest::find($request->id);
-        $offerRequest->status = $request->status;
-        $offerRequest->save();
-        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+
+        // $settings = SmtpSetting::checkSmtpConfig();
+        // $details = [];
+
+        // if ($settings) {
+
+            Log::info('Status in request: ' . $request->status);
+            if ($request->status == OfferRequest::STATUS_COMPLETED) {
+                $page = 'emails.admin.offer_request.offer_request_completed';
+            } elseif ($request->status == OfferRequest::STATUS_CANCELLED) {
+                $page = 'emails.admin.offer_request.offer_request_cancelled';
+            } else {
+                $page = null;
+            }
+
+            $details = [
+                'title' => 'Offer Request',
+                'page'  => $page,
+                'offerRequest' => $offerRequest,
+            ];
+        // }
+
+        try {
+            $offerRequest->status = $request->status;
+            $offerRequest->save();
+
+            if($page){
+                dispatch(new SendAdminMailJob($details, $offerRequest->email));
+                return response()->json(['success' => true, 'message' => 'Offer request status updated and email sent.']);
+            }
+            return response()->json(['success' => true, 'message' => 'Offer request status updated.']);
+
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return back()->with('failed', 'Failed! There is some issue with email provider.');
+        }
+        // $offerRequest = OfferRequest::find($request->id);
+        // $offerRequest->status = $request->status;
+        // $offerRequest->save();
+        // return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
         // return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
     }
 

@@ -13,14 +13,14 @@ class TestDriveRequestService
 
     /**
      * Creates a new instance
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      */
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
-    
+
     public function sendOtp()
     {
         $testDriveRequest = new TestDrive();
@@ -33,8 +33,8 @@ class TestDriveRequestService
         $testDriveRequest->status = TestDrive::STATUS_NOT_VERIFIED;
         $testDriveRequest->otp_expiry = date('Y-m-d H:i:s', strtotime("+ 10 min"));
         $testDriveRequest->otp = generate_otp();
-        $testDriveRequest->saveOrFail(); 
-        return true; 
+        $testDriveRequest->saveOrFail();
+        return true;
     }
 
     public function verifyOtp()
@@ -66,17 +66,17 @@ class TestDriveRequestService
                     'data' => [],
                 ];
             }
-        
+
         if ($this->request->otp == $testDriveRequest->otp) {
             $testDriveRequest->otp = null;
             $testDriveRequest->otp_expiry = null;
             $testDriveRequest->status = TestDrive::STATUS_SUBMITTED;
             $testDriveRequest->saveOrFail();
-           
+
         }
         $testDriveRequest->otp = null;
         $testDriveRequest->otp_expiry = null;
-    
+
         return [
             'data' => [], // You can include relevant data here if needed
             'msg' => 'Test drive request submitted successfully!',

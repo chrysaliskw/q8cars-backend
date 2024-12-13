@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
-use App\Models\Review;
 use Exception;
-use App\DataGrids\Admin\ReviewDataGrid;
+use App\Models\Review;
+use App\Models\SmtpSetting;
 use Illuminate\Http\Request;
+use App\Jobs\SendAdminMailJob;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\DataGrids\Admin\ReviewDataGrid;
 
 class ReviewController extends Controller
 {
@@ -52,28 +55,80 @@ class ReviewController extends Controller
     {
         $review = Review::find($request->id);
         $oldStatus = $review->status;
+        $brand = $review->car->brand->name;
+        $model = $review->car->model_name;
        DB::beginTransaction();
-       try {
-        $review->status = $request->status;
-        $review->save();
-        if($review->status == Review::STATUS_VERIFIED && $oldStatus !=  Review::STATUS_VERIFIED)
-        {
-            $review->car->avg_rating =  round(
-                (($review->car->avg_rating * $review->car->total_reviews_count) + $review->rating) / 
-                ($review->car->total_reviews_count + 1), 
-                1
-            );
-            $review->car->total_reviews_count = $review->car->total_reviews_count+1;
-            $review->car->save();
-        }
-        DB::commit();
-       } catch (Exception $e) {
-            logger($e);
-            DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Status Updation Failed.']);
 
-       }
-       
+       try {
+            $review->status = $request->status;
+            $review->save();
+
+            if($review->status == Review::STATUS_VERIFIED && $oldStatus !=  Review::STATUS_VERIFIED)
+            {
+                $review->car->avg_rating =  round(
+                    (($review->car->avg_rating * $review->car->total_reviews_count) + $review->rating) /
+                    ($review->car->total_reviews_count + 1),
+                    1
+                );
+                $review->car->total_reviews_count = $review->car->total_reviews_count+1;
+                $review->car->save();
+            }
+            // $settings = SmtpSetting::checkSmtpConfig();
+            // $details = [];
+
+            // if ($settings) {
+
+                Log::info('Status in request: ' . $request->status);
+                if ($request->status == Review::STATUS_VERIFIED) {
+                    $page = 'emails.admin.review.review_verified';
+                } elseif ($request->status == Review::STATUS_REJECTED) {
+                    $page = 'emails.admin.review.review_rejected';
+                } else {
+                    $page = null;
+                }
+
+                $details = [
+                    'title' => 'Review Submission',
+                    'page'  => $page,
+                    'review' => $review,
+                    'brand' => $brand,
+                    'model' => $model,
+                ];
+            // }
+            DB::commit();
+            if($page){
+            dispatch(new SendAdminMailJob($details, $review->user->email));
+            return response()->json(['success' => true, 'message' => 'Review status updated and email sent.']);
+            }
+
+            return response()->json(['success' => true, 'message' => 'Review status updated.']);
+
+            } catch (\Exception $e) {
+                Log::info($e->getMessage());
+                DB::rollBack();
+                return back()->with('failed', 'Failed! There is some issue with email provider.');
+            }
+    //    try {
+    //     $review->status = $request->status;
+    //     $review->save();
+    //     if($review->status == Review::STATUS_VERIFIED && $oldStatus !=  Review::STATUS_VERIFIED)
+    //     {
+    //         $review->car->avg_rating =  round(
+    //             (($review->car->avg_rating * $review->car->total_reviews_count) + $review->rating) /
+    //             ($review->car->total_reviews_count + 1),
+    //             1
+    //         );
+    //         $review->car->total_reviews_count = $review->car->total_reviews_count+1;
+    //         $review->car->save();
+    //     }
+    //     DB::commit();
+    //    } catch (Exception $e) {
+    //         logger($e);
+    //         DB::rollBack();
+    //         return response()->json(['success' => false, 'message' => 'Status Updation Failed.']);
+
+    //    }
+
         return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
     }
 }

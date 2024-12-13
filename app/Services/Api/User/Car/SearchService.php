@@ -171,7 +171,7 @@ final class SearchService
             return;
         }
 
-        $this->query = $this->query->whereIn('cars.travel_type', $this->request->travel_type);
+        $this->query = $this->query->whereIn('car_versions.travel_type', $this->request->travel_type);
 
     }
     private function searchByKeyword()

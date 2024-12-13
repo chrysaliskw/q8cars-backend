@@ -102,7 +102,7 @@
             {
                 const form = document.getElementById('updateStatusForm');
                 const formData = new FormData(form);
-                fetch('{{ route('admin.test-ride-requests.update') }}', {
+                fetch('{{ route('admin.loan-requests.update', '$loan_request') }}', {
                     method: 'POST',
                     body: formData,
                     headers: {

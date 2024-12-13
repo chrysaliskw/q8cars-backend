@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api\User;
 
 use Exception;
+use App\Models\Bank;
+use App\Models\SmtpSetting;
 use Illuminate\Http\Request;
+use App\Jobs\SendAdminMailJob;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\BankSuggestionRequest;
 use Illuminate\Support\Facades\Validator;
@@ -27,14 +31,28 @@ class LoanRequestController extends ApiBaseController
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $service = new BankSuggestionRequestService($request);
-        $service->handle(BankSuggestionRequest::TYPE_LOAN);
+        // $settings = SmtpSetting::checkSmtpConfig();
+        // if ($settings) {
+            $bank = Bank::find($request->bank_id);
 
-        return $this->success(['data' => [] ], 'Loan Request submitted successfully!', Response::HTTP_OK);
+            $details = [
+                'title' => 'Loan Request',
+                'page'  => 'emails.admin.loan.loan_submitted',
+                'loan_request' => $request->all(),
+                'bank_name' => $bank ? $bank->bank_name : 'Unknown Bank',
+            ];
+        // }
         try {
-        } catch (Exception $e) {
-            logger($e);
-            return $this->error(__('app.error'), Response::HTTP_INTERNAL_SERVER_ERROR);
+            $service = new BankSuggestionRequestService($request);
+            $service->handle(BankSuggestionRequest::TYPE_LOAN);
+
+            dispatch(new SendAdminMailJob($details, $request->email));
+
+            return $this->success(['data' => [] ], 'Loan Request submitted successfully!', Response::HTTP_OK);
+
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return back()->with('failed', 'Failed! there is some issue with email provider');
         }
     }
 }

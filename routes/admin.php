@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\EmiCalculatorController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Models\Car
 ;use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\MailControllerTest;
 use App\Models\Notification;
 use Mockery\Matcher\Not;
 
@@ -95,6 +96,8 @@ Route::middleware('auth:admin')->group(function () {
     //loan
     Route::post('loan-requests/update', [LoanRequestController::class, 'update'])->name('loan-requests.update');
     Route::resource('loan-requests', LoanRequestController::class)->only(['index','show']);
+
+    Route::get('send-email', [MailControllerTest::class, 'sendEmail']);
 
     Route::get('car-comparison-lists/select', [CarComparisonListsController::class, 'select'])->name('car-comparison-lists.select');
     // Test ride requests
