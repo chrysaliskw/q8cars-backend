@@ -205,7 +205,7 @@ final class FilterService
         //         ->pluck('car_id')
         //         ->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
-        $this->query = $this->query->whereBetween('cars.on_road_price', [
+        $this->query = $this->query->whereBetween('cars.ex_showroom_price', [
                 $this->request->min_price, $this->request->max_price
         ]);
     }
