@@ -421,7 +421,7 @@ class CarService
                     $addedImage->type =  CarImage::TYPE_IMAGE;
                     $addedImage->color =  $image['color'];
                     $addedImage->image =  $image['file_name'];
-                    $addedImage->image->save();
+                    $addedImage->save();
                 }
             }
 
