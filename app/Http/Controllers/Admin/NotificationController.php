@@ -38,6 +38,7 @@ class NotificationController extends Controller
      */
     public function store(NotificationRequest $request)
     {
+        // DD($request->all());
         try {
             $service = new NotificationService();
             $notification = $service->create($request);

@@ -30,14 +30,15 @@ class NotificationRequest extends FormRequest
      */
     public function createRules(): array
     {
+        // dd($this->all());
         return [
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'image' => 'required|image|max:2048|mimes:png,jpg,jpeg',
             'logo' => 'required|image|max:2048|mimes:png,jpg,jpeg',
             'business_name' => 'required|string|max:255',
-            'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
+            // 'end_date' => 'required|date|after_or_equal:start_date',
             'status' => 'required|in:' . implode(',', array_keys(Notification::STATUSES)),
         ];
     }
