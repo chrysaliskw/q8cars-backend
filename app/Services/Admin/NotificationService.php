@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\UserNotificationMapping;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\NotificationRequest;
+use Illuminate\Support\Carbon;
 
 class NotificationService
 {
@@ -20,6 +21,8 @@ class NotificationService
     public function create(NotificationRequest $request)
     {
         $data = $request->all();
+        $expiryDate = Carbon::parse($data['end_date'])->addHours(23)->addMinutes(59)->addSeconds(59);
+        $data['end_date'] = $expiryDate;
 
         DB::beginTransaction();
 
@@ -52,6 +55,8 @@ class NotificationService
     public function update(NotificationRequest $request, Notification $notification)
     {
         $data = $request->all();
+        $expiryDate = Carbon::parse($data['end_date'])->addHours(23)->addMinutes(59)->addSeconds(59);
+        $data['end_date'] = $expiryDate;
 
         DB::beginTransaction();
 

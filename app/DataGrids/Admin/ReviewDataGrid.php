@@ -17,7 +17,7 @@ class ReviewDataGrid extends Grid
             ->leftJoin('users as u', 'u.id', '=', 'reviews.user_id')
             ->leftJoin('cars as c', 'c.id', '=', 'reviews.car_id')
             ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
-            ->select(['reviews.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model'])
+            ->select(['reviews.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model'])
             ->orderBy('reviews.id', 'Desc');
         return $query;
     }
@@ -25,12 +25,11 @@ class ReviewDataGrid extends Grid
     public function columns()
     {
         return [
-           
+
             'user_mobile' => [
                 'label' => 'User Mobile',
                 'value' => function ($model) {
                     return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_phone_code $model->user_mobile</a>";
-                  
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -49,7 +48,7 @@ class ReviewDataGrid extends Grid
                     'attribute' => 'c.model_name',
                 ]
             ],
-           
+
             'short_comment' => [
                 'label' => 'Title',
                 'value' => function ($model) {
@@ -95,12 +94,15 @@ class ReviewDataGrid extends Grid
 
             'action' => [
                 'routePrefix' => 'admin.reviews',
-                'buttons' => ['view','update'],
-                'update' => function ($model) {   
-                    $btn = "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}'class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>";
-                    $btn .= "<span class='ion-edit'></span></a>";
-                    return $btn;      
-                },
+                'buttons' => ['view', 'update'],
+                'update' => function ($model) {
+                    if ($model->status == Review::STATUS_SUBMITTED) {
+                        $btn = "<a onclick='openUpdateStatusModal(this)' data-id='{$model->id}' data-status='{$model->status}'class='btn btn-info btn-icon waves-effect waves-light m-b-5 mr-1' title='Update'>";
+                        $btn .= "<span class='ion-edit'></span></a>";
+                        return $btn;
+                    }
+                }
+
             ]
         ];
     }

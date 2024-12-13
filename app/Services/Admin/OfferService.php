@@ -9,6 +9,7 @@ use App\Jobs\JunkFileDeleteJob;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\OfferRequest;
+use Illuminate\Support\Carbon;
 
 class OfferService
 {
@@ -19,6 +20,7 @@ class OfferService
     public function create(Request $request)
     {
         DB::beginTransaction();
+        $end_date = Carbon::parse($request->end_date)->addHours(23)->addMinutes(59)->addSeconds(59);
 
         try{
             $offer = new Offer();
@@ -47,7 +49,7 @@ class OfferService
                 $offer->key_icon_2 = $request->key_icon_2->hashName();  
             }
             $offer->start_date = $request->start_date;
-            $offer->end_date = $request->end_date;
+            $offer->end_date = $end_date;
             $offer->offer = $request->offer;
             $offer->status = $request->status;
             $offer->show_in_suggestions = $request->show_in_suggestions ? 1:2;
@@ -66,6 +68,7 @@ class OfferService
     public function update(Request $request, Offer $offer)
     {
         DB::beginTransaction();
+        $end_date = Carbon::parse($request->end_date)->addHours(23)->addMinutes(59)->addSeconds(59);
 
         try{
             $offer->brand_id = $request->brand_id;
@@ -93,7 +96,7 @@ class OfferService
                 $offer->key_icon_2 = $request->key_icon_2->hashName();  
             }
             $offer->start_date = $request->start_date;
-            $offer->end_date = $request->end_date;
+            $offer->end_date = $end_date;
             $offer->offer = $request->offer;
             $offer->status = $request->status;
             $offer->show_in_suggestions = $request->show_in_suggestions ? 1:2;
