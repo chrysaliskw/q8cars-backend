@@ -5094,3 +5094,8 @@ display: none;
     z-index: 10; /* Ensure it's above other elements */
     padding-right: 10px; /* Adjust if needed */
 }
+.modal-dialog
+{
+padding-top: 54px !important;
+
+}

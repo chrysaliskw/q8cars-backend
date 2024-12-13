@@ -69,7 +69,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                     <div class="form-group">
                         <label for="end_date" class="control-label">End Date</label>
                         <div class="input-group">
@@ -83,7 +83,27 @@
                             <span class="error" role="alert">{{ $message }}</span>
                         @enderror
                     </div>
+                </div> --}}
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="end_date" class="control-label">End Date</label>
+                        <div class="input-group">
+                            <!-- Displayed input for the user -->
+                            <input type="text" name="end_date_display" id="end_date_display" class="form-control"
+                                value="{{ old('end_date_display', \Carbon\Carbon::parse($notification->end_date)->format('Y-m-d H:i')) }}">
+                            <!-- Hidden input to store the full value -->
+                            <input type="hidden" name="end_date" id="end_date"
+                                value="{{ old('end_date', $notification->end_date)}}">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="md md-event"></i></span>
+                            </div>
+                        </div>
+                        @error('end_date')
+                            <span class="error" role="alert">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
+
 
                 <div class="col-md-4">
                     <x-form-select field="status" field-name="Status" defaultPrompt="Select status">
@@ -125,6 +145,26 @@
                 autoclose: true,
                 startDate: today
             });
+
+            $('#end_date_display').datepicker({
+                    format: 'yyyy-mm-dd',
+                    autoclose: true,
+                    startDate: today
+                }).on('changeDate', function(e) {
+                    // Get the selected date
+                    const selectedDate = e.date;
+
+                    // Set the default time to 23:59
+                    const endDateWithTime = new Date(selectedDate);
+                    endDateWithTime.setHours(23, 59, 0); // Set time to 23:59
+
+                    // Format the date and time as "YYYY-MM-DD 23:59"
+                    const formattedDate = endDateWithTime.toISOString().slice(0, 10); // Get date part
+                    const formattedTime = '23:59'; // Set time part
+
+                    // Update the hidden input field
+                    $('#end_date').val(`${formattedDate} ${formattedTime}`);
+                });
         });
 
     </script>

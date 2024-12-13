@@ -48,7 +48,24 @@ class CarComparisonListsController extends Controller
         // dd([$request->body_type_id, $car1_bodyType, $car2_bodyType]);
 
 
-        if ($request->page == CarComparisonList::HOME_PAGE || $request->page == CarComparisonList::CAR_COMPARISON_PAGE) {
+        if ($request->page == CarComparisonList::HOME_PAGE) {
+            if (CarComparisonList::where(function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('car_1_id', $request->car_id_1)
+                        ->where('car_2_id', $request->car_id_2)
+                        ->where('car_version_1_id', $request->car_1_version_id)
+                        ->where('car_version_2_id', $request->car_2_version_id);
+                })->orWhere(function ($q) use ($request) {
+                    $q->where('car_1_id', $request->car_id_2)
+                        ->where('car_2_id', $request->car_id_1)
+                        ->where('car_version_1_id', $request->car_2_version_id)
+                        ->where('car_version_2_id', $request->car_1_version_id);
+                });
+            })->exists()) {
+                return back()->with('error', 'Car comparison list already exists with these cars!')->withInput();
+            }
+        }
+        if ($request->page == CarComparisonList::CAR_COMPARISON_PAGE) {
             if (CarComparisonList::where(function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('car_1_id', $request->car_id_1)
@@ -233,7 +250,24 @@ class CarComparisonListsController extends Controller
         //     return back()->with('error', 'Body type selection has changed. Please try again.');
         // }
 
-        if ($request->page == CarComparisonList::HOME_PAGE || $request->page == CarComparisonList::CAR_COMPARISON_PAGE) {
+        if ($request->page == CarComparisonList::HOME_PAGE) {
+            if (CarComparisonList::where(function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('car_1_id', $request->car_id_1)
+                        ->where('car_2_id', $request->car_id_2)
+                        ->where('car_version_1_id', $request->car_1_version_id)
+                        ->where('car_version_2_id', $request->car_2_version_id);
+                })->orWhere(function ($q) use ($request) {
+                    $q->where('car_1_id', $request->car_id_2)
+                        ->where('car_2_id', $request->car_id_1)
+                        ->where('car_version_1_id', $request->car_2_version_id)
+                        ->where('car_version_2_id', $request->car_1_version_id);
+                });
+            })->exists()) {
+                return back()->with('error', 'Car comparison list already exists with these cars!')->withInput();
+            }
+        }
+        if ($request->page == CarComparisonList::CAR_COMPARISON_PAGE) {
             if (CarComparisonList::where(function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('car_1_id', $request->car_id_1)

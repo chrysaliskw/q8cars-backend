@@ -19,7 +19,7 @@
         <!--- Divider -->
         <div id="sidebar-menu">
             <ul>
-             
+
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="waves-effect">
                         <i class='fa fa-home'></i><span> Dashboard </span>
@@ -191,6 +191,9 @@
                             </li>
                             <li>
                                 <a href="{{ route('admin.sub-admin.admin.index') }}">Users</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.configurations') }}">Configurations</a>
                             </li>
                         </ul>
                     </li>
