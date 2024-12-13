@@ -411,10 +411,21 @@ class CarService
                 if ($existingImage) {
 
                     $image['id'] = $existingImage->id;
+                    
+                    $existingImage->file_name = $image['file_name'];
+                    $existingImage->color = $image['color'];
+                    $existingImage->save();
+                }else{
+                    $addedImage = new CarImage();
+                    $addedImage->car_id = $this->car->id;
+                    $addedImage->type =  CarImage::TYPE_IMAGE;
+                    $addedImage->color =  $image['color'];
+                    $addedImage->image =  $image['file_name'];
+                    $addedImage->image->save();
                 }
             }
 
-            DB::table((new CarImage())->getTable())->upsert($images, ['car_id','type', 'color'], ['file_name']);
+           // DB::table((new CarImage())->getTable())->upsert($images, ['car_id','type', 'color'], ['file_name']);
         }
         JunkFileDeleteJob::dispatchAfterResponse(Car::FILE_DIR, $imagesToDelete);
         $uploadedColors = CarImage::where('car_id',$this->car->id)->where('type',CarImage::TYPE_IMAGE)->whereNotNull('color')->pluck('color')->toArray();;
