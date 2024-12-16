@@ -31,15 +31,15 @@ class OfferService
             $offer->description =  htmlspecialchars_decode($request->description);
             $offer->description = strip_tags( $offer->description);
             $offer->description = str_replace("&nbsp", " " , $offer->description );
-            $offer->html_description = '<p style="text-align:left;">'. $offer->description.'</p>';
+            $offer->html_description = '<p style="text-align:left;">'. $request->description.'</p>';
             $offer->key_feature_1 =  htmlspecialchars_decode($request->key_feature_1);
             $offer->key_feature_1 = strip_tags( $offer->key_feature_1);
             $offer->key_feature_1 = str_replace("&nbsp", " " , $offer->key_feature_1 );
-            $offer->html_key_feature_1 = '<p style="text-align:left;">'. $offer->key_feature_1.'</p>';
+            $offer->html_key_feature_1 = '<p style="text-align:left;">'. $request->key_feature_1.'</p>';
             $offer->key_feature_2 =  htmlspecialchars_decode($request->key_feature_2);
             $offer->key_feature_2 = strip_tags( $offer->key_feature_2);
             $offer->key_feature_2 = str_replace("&nbsp", " " , $offer->key_feature_2 );
-            $offer->html_key_feature_2 = '<p style="text-align:left;">'. $offer->key_feature_2.'</p>';
+            $offer->html_key_feature_2 = '<p style="text-align:left;">'. $request->key_feature_2.'</p>';
             if($request->hasfile('key_icon_1')){
                 $request->key_icon_1->store(Offer::FILE_DIR);
                 $offer->key_icon_1 = $request->key_icon_1->hashName();  
@@ -78,15 +78,15 @@ class OfferService
             $offer->description =  htmlspecialchars_decode($request->description);
             $offer->description = strip_tags( $offer->description);
             $offer->description = str_replace("&nbsp", " " , $offer->description );
-            $offer->html_description = '<p style="text-align:left;">'. $offer->description.'</p>';
+            $offer->html_description = '<p style="text-align:left;">'. $request->description.'</p>';
             $offer->key_feature_1 =  htmlspecialchars_decode($request->key_feature_1);
             $offer->key_feature_1 = strip_tags( $offer->key_feature_1);
             $offer->key_feature_1 = str_replace("&nbsp", " " , $offer->key_feature_1 );
-            $offer->html_key_feature_1 = '<p style="text-align:left;">'. $offer->key_feature_1.'</p>';
+            $offer->html_key_feature_1 = '<p style="text-align:left;">'. $request->key_feature_1.'</p>';
             $offer->key_feature_2 =  htmlspecialchars_decode($request->key_feature_2);
             $offer->key_feature_2 = strip_tags( $offer->key_feature_2);
             $offer->key_feature_2 = str_replace("&nbsp", " " , $offer->key_feature_2 );
-            $offer->html_key_feature_2 = '<p style="text-align:left;">'. $offer->key_feature_2.'</p>';
+            $offer->html_key_feature_2 = '<p style="text-align:left;">'. $request->key_feature_2.'</p>';
             if($request->hasfile('key_icon_1')){
                 $request->key_icon_1->store(Offer::FILE_DIR);
                 $offer->key_icon_1 = $request->key_icon_1->hashName();  
