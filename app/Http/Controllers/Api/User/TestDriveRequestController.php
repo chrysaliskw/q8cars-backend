@@ -39,7 +39,19 @@ class TestDriveRequestController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        
+        $testDriveRequest = TestDrive::where('car_id',$request->car_id)->where('user_id',Auth::id())->whereIn('status',[TestDrive::STATUS_ONGOIND,TestDrive::STATUS_SUBMITTED,TestDrive::STATUS_COMPLETED])->first();
+        if($testDriveRequest){
+            if($testDriveRequest->status == TestDrive::STATUS_COMPLETED){
+                $msg = 'You have already completed the test ride for this car';
+            }else if($testDriveRequest->status == TestDrive::STATUS_ONGOIND){
+                $msg = 'Your Test ride request already under processing';
+            }else{
+                $msg = 'You already have a Test ride request submitted for this car';
+            }
+            return $this->error(__($msg), Response::HTTP_INTERNAL_SERVER_ERROR);
+           
+        }
+
         try
         {
             $service = new TestDriveRequestService($request);
