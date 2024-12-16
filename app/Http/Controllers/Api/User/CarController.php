@@ -167,6 +167,7 @@ class CarController extends ApiBaseController
             'transmission_type_text' => config('params.car.transmission_type')[$car->carSpec->transmission_type],
             'available_transmission_types' =>$this->getversionTransmissionTypes($car),
             '360_view' => $car->carSpec->view_camera === null ? False : ($car->carSpec->view_camera == 1 ? True : False),
+            'is_active_review' => Review::where('user_id',Auth::id())->whereIn('status',[Review::STATUS_SUBMITTED,Review::STATUS_VERIFIED])->where('car_id',$car->id)->exists() ? true: false,
 
         ];
 
