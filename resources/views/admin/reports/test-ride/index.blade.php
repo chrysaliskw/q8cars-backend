@@ -27,7 +27,11 @@
                 <div class="col-md-4">
                     <x-form-select field="status" field-name="Status" defaultPrompt="Select status"
                         value="{{ request()->get('status', '') }}">
-                        @foreach (config('params.test_drive.status') as $value => $label)
+                        @php 
+                       $status = config('params.test_drive.status');
+                       unset($status[5]);
+                        @endphp
+                        @foreach ($status as $value => $label)
                             <option {{ old('status') == $value ? 'Selected' : '' }} value="{{ $value }}">
                                 {{ $label }}
                             </option>
