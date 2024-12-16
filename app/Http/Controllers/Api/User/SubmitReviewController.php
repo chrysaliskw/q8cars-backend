@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Http\Controllers\Api\ApiBaseController;
 use Exception;
+use App\Models\Car;
+use App\Models\User;
+use App\Models\Review;
+use App\Models\SmtpSetting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Jobs\SendAdminMailJob;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Api\User\SubmitReviewService;
+
+use App\Http\Controllers\Api\ApiBaseController;
+use App\Models\CarVersion;
 
 class SubmitReviewController extends ApiBaseController
 {
@@ -28,7 +37,31 @@ class SubmitReviewController extends ApiBaseController
 
         try {
             $service = new SubmitReviewService($request);
-            $res = $service->handle();
+            $service->handle();
+
+            // $settings = SmtpSetting::checkSmtpConfig();
+            // if ($settings) {
+            $car = Car::find($request->car_id);
+            $carVersion = CarVersion::find($request->car_version_id);
+            $user = Auth::user();
+            $review = Review::where('user_id', Auth::id())
+                ->where('status', Review::STATUS_SUBMITTED)
+                ->latest()
+                ->first();
+
+            if ($review) {
+                $details = [
+                    'title' => 'New Car Review Submitted',
+                    'page' => 'emails.admin.review.review_submitted',
+                    'car_model' => $car ? $car->model_name : 'Unknown Car',
+                    'user_name' => $user ? $user->name : 'Unknown',
+                    'car_version' => $carVersion ? $carVersion->varient_name : 'Unknown Car Version',
+                ];
+                dispatch(new SendAdminMailJob($details, Auth::user()->email));
+            }
+
+            // }
+
             return $this->success(['data' => []], 'Review Submitted Successfully', Response::HTTP_OK);
         } catch (Exception $e) {
             logger($e);

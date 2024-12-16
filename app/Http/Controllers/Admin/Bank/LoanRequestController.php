@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Bank;
 
+use App\Models\SmtpSetting;
 use Illuminate\Http\Request;
+use App\Jobs\SendAdminMailJob;
+use App\Mail\Admin\LoanRequestMail;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Models\BankSuggestionRequest;
 use App\DataGrids\Admin\LoanRequestDataGrid;
 
@@ -39,14 +44,46 @@ class LoanRequestController extends Controller
         return view('admin.banks.loan-requests.show', compact('loan_request', 'viewData'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, BankSuggestionRequest $loan_request)
     {
         $loan_request = BankSuggestionRequest::find($request->id);
-        $loan_request->status = $request->status;
-        $loan_request->save();
-        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+
+        // $settings = SmtpSetting::checkSmtpConfig();
+        // $details = [];
+
+        // if ($settings) {
+
+            Log::info('Status in request: ' . $request->status);
+            if ($request->status == BankSuggestionRequest::STATUS_ACCEPTED) {
+                $page = 'emails.admin.loan.loan_accepted';
+            } elseif ($request->status == BankSuggestionRequest::STATUS_REJECTED) {
+                $page = 'emails.admin.loan.loan_rejected';
+            } else {
+                $page = null;
+            }
+
+            $details = [
+                'title' => 'Loan Request',
+                'page'  => $page,
+                'loan_request' => $loan_request,
+            ];
+        // }
+
+        try {
+            $loan_request->status = $request->status;
+            $loan_request->save();
+
+            if($page){
+                dispatch(new SendAdminMailJob($details, $loan_request->email));
+                return response()->json(['success' => true, 'message' => 'Loan request status updated and email sent.']);
+            }
+            return response()->json(['success' => true, 'message' => 'Loan request status updated.']);
+
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return back()->with('failed', 'Failed! There is some issue with email provider.');
+        }
     }
+
+
 }
