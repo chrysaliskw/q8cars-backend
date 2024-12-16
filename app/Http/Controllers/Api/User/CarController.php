@@ -28,6 +28,7 @@ use Carbon\Carbon;
 use App\Models\CarComparisonList;
 use App\Models\CarFavourite;
 use Illuminate\Support\Facades\Validator;
+use App\Services\Api\User\Car\SearchService;
 
 class CarController extends ApiBaseController
 {
@@ -37,7 +38,12 @@ class CarController extends ApiBaseController
     public function index(Request $request)
     {
         $result = null;
-        $result = (new FilterService($request))->handle();
+        if($request->is_search){
+            $result = (new SearchService($request))->handle();
+
+        }else{
+            $result = (new FilterService($request))->handle();
+        }
 
         return CarResource::collection($result)
             ->additional([
