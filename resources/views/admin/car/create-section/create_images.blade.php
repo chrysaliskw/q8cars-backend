@@ -28,7 +28,10 @@
 <label for="image" class="col-md-2 control-label">
     Additional Images
 </label>
-@for($key = 1; $key <= 20; $key++)
+<div class="row" style="margin-left:800px">
+            <button type="button" class="btn btn-primary" id="add-image-section" onclick="addImageSection()">Add Image</button>
+        </div>
+{{--@for($key = 1; $key <= 20; $key++)
     <div class="form-group row">
 
 
@@ -72,7 +75,9 @@
         </div>
 
     </div>
-@endfor
+@endfor--}}
+
+@include('admin.car.create-section.images')
 
 <script>
     function previewImage(event, index) {
