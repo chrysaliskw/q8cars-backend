@@ -319,7 +319,7 @@ class CarController extends ApiBaseController
     private function getCarVersionAndPrice(Car $car)
     {
         $carTransmissionTypes = $this->getCarTransmissionTypes($car);
-        $versionsByTransmission = [];
+        //$versionsByTransmission = [];
         foreach ($carTransmissionTypes as $typeKey => $typeName) {
             $versions = CarVersion::where('car_id', $car->id)
                 ->where('transmission_type', $typeKey)
@@ -330,7 +330,7 @@ class CarController extends ApiBaseController
                     return $item->transmission_type . '-' . $item->fuel_type;
                 });
 
-            $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
+            $versionsByTransmission = CarDetailResource::collection($versions);
         }
         return $versionsByTransmission;
     }
