@@ -2,6 +2,7 @@
     @php
         $carImagesCount = count($carImages);
     @endphp
+   
     <div class="row" id="image-section-row">
         @for ($index = 0; $index < $carImagesCount; $index++)
             @php

@@ -220,9 +220,9 @@ class CarController extends Controller
         //     $carImages->push(new CarImage());
         // }
         $carVideos = collect(CarImage::where('car_id', $car->id)->video()->get());
-        for ($i = $car->carVideos->count() + 1; $i <= 3; $i++) {
-            $carVideos->push(new CarImage());
-        }
+        // for ($i = $car->carVideos->count() + 1; $i <= 3; $i++) {
+        //     $carVideos->push(new CarImage());
+        // }
 
         $additionals = collect(CarAdditonalSpecifications::where('car_id', $car->id)->where('car_version_id', $carVarient->id)->get());
         for ($i = $carVarient->carAdditionalSpecifications->count() + 1; $i <= 10; $i++) {
