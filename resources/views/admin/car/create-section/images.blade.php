@@ -28,7 +28,7 @@
         <div style="display:flex;">
             <div class="col-md">
                 <img src="" alt="" id="image_preview_{{ $key}}" class="img-thumbnail img-list"
-                                width="100" height="150" style="display:none;">
+                style="width: 100px; height: 80px;display:none; ">
             </div>
             <div class="col-md">
                 <button id="remove-image_{{ $key}}" type="button" class="btn btn-danger"
@@ -67,7 +67,7 @@
                 <div style="display:flex;">
                     <div class="col-md">
                         <img src="" alt="" id="image_preview_${imageSectionCount}" class="img-thumbnail img-list"
-                            width="100" height="150" style="display:none;">
+                            style="width: 100px; height: 80px; object-fit: cover;display:none;">
                     </div>
                     <div class="col-md">
                         <button id="remove-image_${imageSectionCount}" type="button" class="btn btn-danger"
@@ -82,18 +82,18 @@
         container.insertAdjacentHTML('beforeend', newSection);
     }
 
-    function previewImage(event, key) {
-        const reader = new FileReader();
-        reader.onload = function () {
-            const output = document.getElementById(`image_preview_${key}`);
-            output.src = reader.result;
-            output.style.display = 'block';
-        };
-        reader.readAsDataURL(event.target.files[0]);
+    // function previewImage(event, key) {
+    //     const reader = new FileReader();
+    //     reader.onload = function () {
+    //         const output = document.getElementById(`image_preview_${key}`);
+    //         output.src = reader.result;
+    //         output.style.display = 'block';
+    //     };
+    //     reader.readAsDataURL(event.target.files[0]);
 
-        const removeButton = document.getElementById(`remove-image_${key}`);
-        removeButton.style.display = 'inline-block';
-    }
+    //     const removeButton = document.getElementById(`remove-image_${key}`);
+    //     removeButton.style.display = 'inline-block';
+    // }
 
     function removeImageRow(key) {
         const row = document.getElementById(`image-section-row-${key}`);

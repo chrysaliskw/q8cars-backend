@@ -32,7 +32,7 @@
     <div class="col-md-4" id="image-preview">
         @if ($car->image)
             <img src="{{ file_asset('files-car', $car->image) }}"
-                alt="profile-image" id="profile_image" class="img-thumbnail img-list" >
+                alt="profile-image" id="profile_image" class="img-thumbnail img-list" style="width:80;height:100;" >
         @endif
     </div>
 </div>
@@ -50,13 +50,13 @@
     <div class="col-md-4" id="image-preview-detail">
         @if ($car->image_2)
             <img src="{{ file_asset('files-car', $car->image_2) }}"
-                alt="profile-image" id="image_2" class="img-thumbnail img-list" >
+                alt="profile-image" id="image_2" class="img-thumbnail img-list"  style="width:80;height:80;">
         @endif
     </div>
 </div>
 
 <label for="additional-images" class="col-md-2 control-label">Additional Images</label>
-<div class="row" style="margin-left:800px">
+<div class="row" style="margin-left:800px;margin-bottom:10px;">
             <button type="button" class="btn btn-primary" id="add-image-section" onclick="addImageSection()">Add Image</button>
         </div>
 @include('admin.car.edit-section.images')
@@ -106,7 +106,8 @@
             img.classList.add('img-thumbnail');
             img.classList.add('img-list');
             img.src = event.target.result;
-
+            img.height = 80;
+            img.width =80;
             preview.innerHTML = '';
             preview.appendChild(img);
             removeBtn.style.display = 'block';

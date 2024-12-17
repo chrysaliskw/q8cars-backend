@@ -1,143 +1,105 @@
-<div id="image-section-container">
+<div id="image-section-container" class="container">
     @php
-    $carImagesCount = count($carImages);
-@endphp
-    @for($index = 0; $index < $carImagesCount; $index++)
-        @php
-            $carImage = $carImages[$index];
-        @endphp
-
-        <div class="form-group row" id="image-section-row-{{ $index }}">
-        <div class="col-md-3">
-            <div class="form-group">
-                <select name="img_section_{{$index}}" class="form-control">
-                @foreach (config('params.car.image-section') as $value => $label)
-                            <option value="{{ $value }}"
-                                @if($value == $carImage->section) selected @endif>
+        $carImagesCount = count($carImages);
+    @endphp
+    <div class="row" id="image-section-row">
+        @for ($index = 0; $index < $carImagesCount; $index++)
+            @php
+                $carImage = $carImages[$index];
+            @endphp
+            <div class="col-md-4 mb-4" id="image-section-row-{{ $index }}">
+                <div class="form-group">
+                    <!-- Dropdown -->
+                    <select name="img_section_{{ $index }}" class="form-control mb-2">
+                        @foreach (config('params.car.image-section') as $value => $label)
+                            <option value="{{ $value }}" @if ($value == $carImage->section) selected @endif>
                                 {{ $label }}
                             </option>
-                            @endforeach
-                </select>
-                @error('img_section_' . ($index))
-                    <span class="error" role="alert">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-        <div class="col-md-3">
-            <input id="image_{{ $index}}" type="file" name="image_{{$index}}" class="form-control"
-                onchange="previewImage(event, {{$index}})" />
-                <input type="hidden" id="image_old_{{ $index }}" name="image_old_{{ $index }}"
-                value="{{ $carImage->file_name }}">
+                        @endforeach
+                    </select>
 
-            <span class="error" role="alert">
-                @error('image_' . ($index))
-                    {{ $message }}</br>
-                @enderror
-            </span>
-        </div>
-           
+                    <!-- File Input -->
+                    <input id="image_{{ $index }}" type="file" name="image_{{ $index }}" class="form-control mb-2"
+                           onchange="previewImage(event, {{ $index }})" />
+                    <input type="hidden" id="image_old_{{ $index }}" name="image_old_{{ $index }}"
+                           value="{{ $carImage->file_name }}">
 
-            <div class="col-md">
-                <div class="form-group">
-                @if ($carImage->file_name)
-                            <div class="image-preview-wrapper">
-                                <img src="{{ file_asset('files-car', $carImage->file_name) }}" alt="profile-image"
-                                     id="image_preview_{{ $index }}" class="img-thumbnail img-list">
-                                <button id="remove-image_{{ $index }}" type="button" class="btn btn-danger">
-                                    x
-                                </button>
-                            </div>
-                            <input type="hidden" id="image_removed_{{ $index }}" name="image_removed_{{ $index }}"
-                                value="0">
-                            <input type="hidden" id="deleted_image_id_{{ $index }}" name="deleted_image_id_{{ $index }}"
-                                value="{{ $carImage->id }}">
+                    <!-- Image Preview -->
+                    <div class="image-preview-wrapper text-center">
+                        @if ($carImage->file_name)
+                            <img src="{{ file_asset('files-car', $carImage->file_name) }}" alt="profile-image"
+                                 id="image_preview_{{ $index }}" class="img-thumbnail img-list"
+                                 style="width: 100px; height: 80px; object-fit: cover;">
                         @else
-                            <div class="image-preview-wrapper">
-                                <img src="" alt="" id="image_preview_{{ $index }}" class="img-thumbnail img-list"
-                                     width="100" height="150" style="display:none;">
-                                <button id="remove-image_{{ $index }}" type="button" class="btn btn-danger" style="display:none">
-                                    x
-                                </button>
-                            </div>
+                            <img src="" alt="" id="image_preview_{{ $index }}" class="img-thumbnail img-list"
+                                 style="width: 100px; height: 80px; object-fit: cover; display: none;">
                         @endif
-                </div>
-            </div>
-
-           
-        </div>
-    @endfor
-</div>
-
-<script>
-    let imageSectionCount = {{ $carImagesCount }};
-
-    // Function to add a new image section
-    function addImageSection() {
-        const container = document.getElementById('image-section-container');
-
-         const newSection = `
-            <div class="form-group row" id="image-section-row-${imageSectionCount}">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <select name="img_section_${imageSectionCount}" class="form-control">
-                            @foreach (config('params.car.image-section') as $value => $label)
-                            <option value="{{ $value }}">{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <input id="image_${imageSectionCount}" type="file" name="image_${imageSectionCount}" class="form-control"
-                        onchange="previewImage(event, ${imageSectionCount})" />
-                    <input type="hidden" id="image_old_${imageSectionCount}" name="image_old_${imageSectionCount}" value="">
-                </div>
-                <div style="display:flex;">
-                    <div class="col-md">
-                        <img src="" alt="" id="image_preview_${imageSectionCount}" class="img-thumbnail img-list"
-                            width="100" height="150" style="display:none;">
-                    </div>
-                    <div class="col-md">
-                        <button id="remove-image_${imageSectionCount}" type="button" class="btn btn-danger"
-                            onclick="removeImageRow(${imageSectionCount})">
-                             x
+                        <button id="remove-image_{{ $index }}" type="button" class="btn btn-danger mt-2"
+                                onclick="removeImageRow({{ $index }})">
+                            x
                         </button>
                     </div>
                 </div>
             </div>
-        `;
+        @endfor
+    </div>
 
-        container.insertAdjacentHTML('beforeend', newSection);
-        imageSectionCount++;
-    }
 
-    // Function to preview image
-    function previewImage(event, key) {
-        const reader = new FileReader();
-        reader.onload = function () {
-            const output = document.getElementById(`image_preview_${key}`);
-            output.src = reader.result;
-            output.style.display = 'block';
+</div>
 
-            const removeButton = document.getElementById(`remove-image_${key}`);
-            removeButton.style.display = 'inline-block';
-        };
-        reader.readAsDataURL(event.target.files[0]);
+<script>
+let imageSectionCount = {{ $carImagesCount }};
 
-        // Show file input only after selecting an image
-        const fileInput = document.getElementById(`image_${key}`);
-        fileInput.style.display = 'none'; // Hide file input once the image is uploaded
-    }
+// Function to add a new image section
+function addImageSection() {
+    const container = document.querySelector("#image-section-container .row");
 
-    // Function to remove image row
-    function removeImageRow(key) {
-        const row = document.getElementById(`image-section-row-${key}`);
-        row.remove();
-    }
+    const newSection = `
+        <div class="col-md-4 mb-4" id="image-section-row-${imageSectionCount}">
+            <div class="form-group">
+                <!-- Dropdown -->
+                <select name="img_section_${imageSectionCount}" class="form-control mb-2">
+                    @foreach (config('params.car.image-section') as $value => $label)
+                        <option value="{{ $value }}">{{ $label }}</option>
+                    @endforeach
+                </select>
 
-    // Function to handle edit image (show image in preview for editing)
-    function editImage(key) {
-        const fileInput = document.getElementById(`image_${key}`);
-        fileInput.style.display = 'block'; // Show file input when editing
-        fileInput.click(); // Trigger the file input
-    }
+                <!-- File Input -->
+                <input id="image_${imageSectionCount}" type="file" name="image_${imageSectionCount}" class="form-control mb-2"
+                       onchange="previewImage(event, ${imageSectionCount})" />
+
+                <!-- Image Preview -->
+                <div class="image-preview-wrapper text-center">
+                    <img src="" alt="" id="image_preview_${imageSectionCount}" class="img-thumbnail img-list"
+                         style="width: 100px; height: 80px; object-fit: cover; display: none;">
+                    <button id="remove-image_${imageSectionCount}" type="button" class="btn btn-danger mt-2"
+                            onclick="removeImageRow(${imageSectionCount})">
+                        x
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    container.insertAdjacentHTML("beforeend", newSection);
+    imageSectionCount++;
+}
+
+// Function to preview image
+function previewImage(event, key) {
+    const reader = new FileReader();
+    reader.onload = function () {
+        const output = document.getElementById(`image_preview_${key}`);
+        output.src = reader.result;
+        output.style.display = "block";
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+// Function to remove image row
+function removeImageRow(key) {
+    const row = document.getElementById(`image-section-row-${key}`);
+    row.remove();
+}
 </script>
+

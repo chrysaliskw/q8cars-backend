@@ -80,7 +80,7 @@
 @include('admin.car.create-section.images')
 
 <script>
-    function previewImage(event, index) {
+     function previewImage(event, index) {
         let reader = new FileReader();
         reader.onload = function() {
             let preview = document.getElementById("image_preview_" + index);
@@ -107,9 +107,10 @@
         reader.onload = function(event) {
             let img = document.createElement('img');
             img.classList.add('img-thumbnail');
+            img.classList.add('img-list');
             img.src = event.target.result;
-            img.width = 100;
-            img.height = 150;
+            // img.height = 80;
+            // img.width =100;
             preview.innerHTML = '';
             preview.appendChild(img);
             removeBtn.style.display = 'block';
@@ -139,9 +140,10 @@
         reader.onload = function(event) {
             let img = document.createElement('img');
             img.classList.add('img-thumbnail');
+            img.classList.add('img-list');
             img.src = event.target.result;
-            img.width = 100;
-            img.height = 150;
+            // img.width = 100;
+            // img.height = 100;
             previewDetail.innerHTML = '';
             previewDetail.appendChild(img);
             removeBtnDetail.style.display = 'block';
@@ -215,9 +217,10 @@
         reader.onload = function(event) {
             let img = document.createElement('img');
             img.classList.add('img-thumbnail');
+            img.classList.add('img-list');
             img.src = event.target.result;
-            img.width = 100;
-            img.height = 150;
+            // img.width = 100;
+            // img.height = 150;
             preview.innerHTML = '';
             preview.appendChild(img);
             removeBtn.style.display = 'block';
