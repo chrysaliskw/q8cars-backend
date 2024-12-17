@@ -138,6 +138,8 @@ class User extends Authenticatable
             'status' => $this->status,
             'is_guest' => false,
             'is_mute' => $this->is_mute,
+            "fcm_common_topic" => Notification::COMMON_CHANNEL,
+            "fcm_individual_topic" => get_user_topic($this->id),
         ];
     }
 
