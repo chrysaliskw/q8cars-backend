@@ -319,7 +319,7 @@ class CarController extends ApiBaseController
     private function getCarVersionAndPrice(Car $car)
     {
         $carTransmissionTypes = $this->getCarTransmissionTypes($car);
-        //$versionsByTransmission = [];
+        $versionsByTransmission = [];
         foreach ($carTransmissionTypes as $typeKey => $typeName) {
             $versions = CarVersion::where('car_id', $car->id)
                 ->where('transmission_type', $typeKey)
@@ -329,10 +329,9 @@ class CarController extends ApiBaseController
                     // Use both fuel_type and transmission_type to ensure uniqueness
                     return $item->transmission_type . '-' . $item->fuel_type;
                 });
-            if($versions){
-                $versionsByTransmission[] = CarDetailResource::collection($versions);
-            }
-                    
+          
+                $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
+                       
         }
         return $versionsByTransmission;
     }
@@ -726,10 +725,12 @@ class CarController extends ApiBaseController
     private function getMileageDetails(Car $car)
     {
         // Fetch unique combinations of fuel_type and transmission_type
-        $versions = CarVersion::where('car_id', $car->id)
-            ->select('fuel_type', 'transmission_type')
-            ->distinct()
-            ->get();
+        $subquery = CarVersion::where('car_id', $car->id)
+            ->selectRaw('MIN(id) as id')
+            ->groupBy('fuel_type', 'transmission_type');
+    
+        $versions = CarVersion::whereIn('id', $subquery->pluck('id'))->get();
+            //dd($versions);
     
         return CarDetailResource::collection($versions);
     }
