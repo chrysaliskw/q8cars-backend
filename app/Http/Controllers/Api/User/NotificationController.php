@@ -51,7 +51,10 @@ class NotificationController extends ApiBaseController
 
     public function read(Request $request)
     {
-        UserNotificationMapping::where('Notification_id',$request->id)->where('user_id',Auth::id())->update(['read_status',Notification::READ]);
+        UserNotificationMapping::where('notification_id', $request->id)
+        ->where('user_id', Auth::id())
+        ->update(['read_status' => Notification::READ]);
+    
         return $this->success(['data' => []], 'Read Status Updated Successfully', Response::HTTP_OK);
     }
 
