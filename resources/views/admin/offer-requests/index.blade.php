@@ -1,4 +1,4 @@
-<x-admin-layout title="Offer Requests">
+<x-admin-layout title="Enquiries">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
         <li class="active">Enquiries</li>
