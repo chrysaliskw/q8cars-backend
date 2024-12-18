@@ -42,7 +42,7 @@ class OfferDetailsResource extends JsonResource
             'total_reviews_count' => $this->car->total_reviews_count,
             'offer' => 'KWD '.$this->offer,
             'ex_showroom_price' => 'KWD ' .   $carVersion->ex_showroom_price,
-            'offer_price' => 'KWD ' .  ( (float) $carVersion->ex_showroom_price -(float)$this->offer ),
+            'offer_price' => 'KWD ' .  (  $carVersion->ex_showroom_price -$this->offer ),
             'time_span' => $this->TimeSpan($this->start_date ,$this->end_date),
             'image' => file_asset('files-car', $this->car->image),
             'is_favourite' => CarFavourite::where('user_id', Auth::id())->where('car_id',$this->car_id)->exists() ? 1: 0,
