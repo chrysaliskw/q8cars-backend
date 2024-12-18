@@ -13,24 +13,45 @@ class TestRideRequestsController extends Controller
     public function index(Request $request)
     {
         // dd($request->all());
-        if ($request->hasAny(['start_date', 'end_date'])) {
-            $validated = $request->validate([
+        // if ($request->hasAny(['start_date', 'end_date'])) {
+        //     $validated = $request->validate([
 
-                'start_date' => 'required|date|before_or_equal:today',
-                'end_date' => [
-                    'nullable',
-                    'date',
-                    'after_or_equal:start_date',
-                    function ($attribute, $value, $fail) use ($request) {
-                        $startDate = Carbon::parse($request->start_date);
-                        $endDate = $value ? Carbon::parse($value) : Carbon::today();
-                        if ($endDate->diffInDays($startDate) > 30) {
-                            $fail('The number of days should be 30 or less.');
-                        }
-                    },
-                ],
-            ]);
-        }
+        //         'start_date' => 'required|date|before_or_equal:today',
+        //         'end_date' => [
+        //             'nullable',
+        //             'date',
+        //             'after_or_equal:start_date',
+        //             function ($attribute, $value, $fail) use ($request) {
+        //                 $startDate = Carbon::parse($request->start_date);
+        //                 $endDate = $value ? Carbon::parse($value) : Carbon::today();
+        //                 if ($endDate->diffInDays($startDate) > 30) {
+        //                     $fail('The number of days should be 30 or less.');
+        //                 }
+        //             },
+        //         ],
+        //     ]);
+        // }
+
+        // $grid = new TestRideReportDataGrid(request()->query());
+        // return view('admin.reports.test-ride.index', compact('grid'));
+        // if ($request->hasAny(['start_date', 'end_date'])) {
+        //     $validated = $request->validate([
+
+        //         'start_date' => 'required|date|before_or_equal:today',
+        //         'end_date' => [
+        //             'nullable',
+        //             'date',
+        //             'after_or_equal:start_date',
+        //             function ($attribute, $value, $fail) use ($request) {
+        //                 $startDate = Carbon::parse($request->start_date);
+        //                 $endDate = $value ? Carbon::parse($value) : Carbon::today();
+        //                 if ($endDate->diffInDays($startDate) > 30) {
+        //                     $fail('The number of days should be 30 or less.');
+        //                 }
+        //             },
+        //         ],
+        //     ]);
+        // }
 
         $grid = new TestRideReportDataGrid(request()->query());
         return view('admin.reports.test-ride.index', compact('grid'));

@@ -252,7 +252,7 @@ final class FilterService
         // $this->query = $this->query->whereIn('cars.id', $ids);
         $ids = [];
         for($i = 0; $i < count($this->request->no_of_airbags_min); $i++) {
-            $bagMax = $this->request->no_of_airbags_max[$i];
+            $bagMax = $this->request->no_of_airbags_max[$i] ?? PHP_INT_MAX;
             if( $bagMax == 0) {
                 $ids = array_merge($ids, CarVersion::where('no_of_airbags','>=', $this->request->no_of_airbags_min[$i])->pluck('car_id')->toArray());
             }else {

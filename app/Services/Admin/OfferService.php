@@ -33,6 +33,7 @@ class OfferService
             $offer->description =  htmlspecialchars_decode($request->description);
             $offer->description = strip_tags($offer->description);
             $offer->description = str_replace("&nbsp", " ", $offer->description);
+            $offer->html_description = '<p style="text-align:left;">' . $request->description . '</p>';
             $offer->key_feature_1 =  htmlspecialchars_decode($request->key_feature_1);
             $offer->key_feature_1 = strip_tags($offer->key_feature_1);
             $offer->key_feature_1 = str_replace("&nbsp", " ", $offer->key_feature_1);

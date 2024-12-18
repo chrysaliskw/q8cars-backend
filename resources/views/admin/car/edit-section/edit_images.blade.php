@@ -32,7 +32,7 @@
     <div class="col-md-4" id="image-preview">
         @if ($car->image)
             <img src="{{ file_asset('files-car', $car->image) }}"
-                alt="profile-image" id="profile_image" class="img-thumbnail img-list" >
+                alt="profile-image" id="profile_image" class="img-thumbnail img-list" style="width:80;height:100;" >
         @endif
     </div>
 </div>
@@ -50,88 +50,16 @@
     <div class="col-md-4" id="image-preview-detail">
         @if ($car->image_2)
             <img src="{{ file_asset('files-car', $car->image_2) }}"
-                alt="profile-image" id="image_2" class="img-thumbnail img-list" >
+                alt="profile-image" id="image_2" class="img-thumbnail img-list"  style="width:80;height:80;">
         @endif
     </div>
 </div>
 
 <label for="additional-images" class="col-md-2 control-label">Additional Images</label>
-
-@php
-    $carImagesCount = count($carImages);
-    $rows = ceil($carImagesCount / 3); // Calculate the number of rows needed
-@endphp
-
-@for($row = 0; $row < $rows; $row++)
-    <div class="form-group row">
-        @for($col = 0; $col < 3; $col++)
-            @php
-                $index = ($row * 3) + $col;
-                $carImage = $carImages[$index] ?? null;
-            @endphp
-
-            @if($carImage)
-                <div class="col-md-4">
-                    <div class="form-group">
-                        {{-- <select name="img_section_{{ $index }}" class="form-control">
-                            @foreach (config('params.car.image-section') as $value => $label)
-                                <option value="{{ $value }}"
-                                    @if($value == $carImage->section) selected @endif>
-                                    {{ $label }}
-                                </option>
-                            @endforeach
-                        </select> --}}
-                        <x-form-select field="img_section_{{$index}}" defaultPrompt="Select">
-                            @foreach (config('params.car.image-section') as $value => $label)
-                            <option value="{{ $value }}"
-                                @if($value == $carImage->section) selected @endif>
-                                {{ $label }}
-                            </option>
-                            @endforeach
-                        </x-form-select>
-                        @error('img_section_' . $index)
-                            <span class="error" role="alert">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <input id="image_{{ $index }}" type="file" name="image_{{ $index }}" class="form-control"
-                            onchange="previewImage(event, {{ $index }})">
-                        <input type="hidden" id="image_old_{{ $index }}" name="image_old_{{ $index }}"
-                            value="{{ $carImage->file_name }}">
-                        <span class="error" role="alert">
-                            @error('image_' . $index)
-                                {{ $message }}</br>
-                            @enderror
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        @if ($carImage->file_name)
-                            <div class="image-preview-wrapper">
-                                <img src="{{ file_asset('files-car', $carImage->file_name) }}" alt="profile-image"
-                                     id="image_preview_{{ $index }}" class="img-thumbnail img-list">
-                                <button id="remove-image_{{ $index }}" type="button" class="btn btn-danger">
-                                    x
-                                </button>
-                            </div>
-                            <input type="hidden" id="image_removed_{{ $index }}" name="image_removed_{{ $index }}"
-                                value="0">
-                            <input type="hidden" id="deleted_image_id_{{ $index }}" name="deleted_image_id_{{ $index }}"
-                                value="{{ $carImage->id }}">
-                        @else
-                            <div class="image-preview-wrapper">
-                                <img src="" alt="" id="image_preview_{{ $index }}" class="img-thumbnail img-list"
-                                     width="100" height="150" style="display:none;">
-                                <button id="remove-image_{{ $index }}" type="button" class="btn btn-danger" style="display:none">
-                                    x
-                                </button>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endif
-        @endfor
-    </div>
-@endfor
+<div class="row" style="margin-left:800px;margin-bottom:10px;">
+            <button type="button" class="btn btn-primary" id="add-image-section" onclick="addImageSection()">Add Image</button>
+        </div>
+@include('admin.car.edit-section.images')
 
 <script>
     function previewImage(event, index) {
@@ -178,7 +106,8 @@
             img.classList.add('img-thumbnail');
             img.classList.add('img-list');
             img.src = event.target.result;
-
+            img.height = 80;
+            img.width =80;
             preview.innerHTML = '';
             preview.appendChild(img);
             removeBtn.style.display = 'block';

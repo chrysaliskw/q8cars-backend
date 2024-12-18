@@ -28,6 +28,7 @@ use Carbon\Carbon;
 use App\Models\CarComparisonList;
 use App\Models\CarFavourite;
 use Illuminate\Support\Facades\Validator;
+use App\Services\Api\User\Car\SearchService;
 
 class CarController extends ApiBaseController
 {
@@ -37,7 +38,12 @@ class CarController extends ApiBaseController
     public function index(Request $request)
     {
         $result = null;
-        $result = (new FilterService($request))->handle();
+        if($request->is_search){
+            $result = (new SearchService($request))->handle();
+
+        }else{
+            $result = (new FilterService($request))->handle();
+        }
 
         return CarResource::collection($result)
             ->additional([
@@ -167,6 +173,7 @@ class CarController extends ApiBaseController
             'transmission_type_text' => config('params.car.transmission_type')[$car->carSpec->transmission_type],
             'available_transmission_types' =>$this->getversionTransmissionTypes($car),
             '360_view' => $car->carSpec->view_camera === null ? False : ($car->carSpec->view_camera == 1 ? True : False),
+            'is_active_review' => Review::where('user_id',Auth::id())->whereIn('status',[Review::STATUS_SUBMITTED,Review::STATUS_VERIFIED])->where('car_id',$car->id)->exists() ? true: false,
 
         ];
 
@@ -322,8 +329,9 @@ class CarController extends ApiBaseController
                     // Use both fuel_type and transmission_type to ensure uniqueness
                     return $item->transmission_type . '-' . $item->fuel_type;
                 });
-
-            $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
+          
+                $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
+                       
         }
         return $versionsByTransmission;
     }
@@ -717,10 +725,12 @@ class CarController extends ApiBaseController
     private function getMileageDetails(Car $car)
     {
         // Fetch unique combinations of fuel_type and transmission_type
-        $versions = CarVersion::where('car_id', $car->id)
-            ->select('fuel_type', 'transmission_type')
-            ->distinct()
-            ->get();
+        $subquery = CarVersion::where('car_id', $car->id)
+            ->selectRaw('MIN(id) as id')
+            ->groupBy('fuel_type', 'transmission_type');
+    
+        $versions = CarVersion::whereIn('id', $subquery->pluck('id'))->get();
+            //dd($versions);
     
         return CarDetailResource::collection($versions);
     }

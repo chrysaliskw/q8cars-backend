@@ -42,7 +42,7 @@ class CarReportDataGrid extends Grid
             $query->where('cars.model_name', 'like', '%' . $model . '%');
         });
         $query->when(request()->query('brand'), function ($query, $brand) {
-            $query->where('brands.name', 'like', '%' . $brand . '%');
+            $query->where('b.name', 'like', '%' . $brand . '%');
         });
         $query->when(request()->query('is_upcoming'), function ($query, $value) {
             $query->where('cars.is_upcoming', $value);
@@ -51,8 +51,8 @@ class CarReportDataGrid extends Grid
             $query->where('cars.is_just_launched', $value);
         });
         $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
-            $q->where('users.created_at', '>=', $startDate)
-                ->where('users.created_at', '<=', $endDate);
+            $q->where('cars.created_at', '>=', $startDate)
+                ->where('cars.created_at', '<=', $endDate);
         });
    
         return $query;

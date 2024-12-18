@@ -88,7 +88,7 @@ class CarExport implements FromQuery, WithColumnFormatting, WithMapping, WithHea
                     $query->where('cars.model_name', 'like', '%' . $model . '%');
                 })
                 ->when($this->brand, function ($query, $brand) {
-                    $query->where('brands.name', 'like', '%' . $brand . '%');
+                    $query->where('b.name', 'like', '%' . $brand . '%');
                 })
                 ->when($this->upcoming, function ($query, $value) {
                     $query->where('cars.is_upcoming', $value);

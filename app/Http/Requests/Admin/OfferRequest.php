@@ -45,7 +45,7 @@ class OfferRequest extends FormRequest
      */
     protected function withValidator($validator): void
     {
-        if ($this->isMethod('post')) {
+      
             $validator->after(function ($validator) {
                 // Check if key_feature_1 and key_icon_1 are dependent
                 if ($this->filled('key_feature_1') && !$this->hasFile('key_icon_1')) {
@@ -63,7 +63,7 @@ class OfferRequest extends FormRequest
                     $validator->errors()->add('key_feature_2', 'The key feature 2 is required when key icon 2 is present.');
                 }
             });
-        }
+      
     
       
     }
