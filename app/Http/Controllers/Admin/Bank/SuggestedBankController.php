@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Bank;
 
-use App\DataGrids\Admin\SuggestedBanksDataGridNew;
+use App\Models\SmtpSetting;
+use Illuminate\Http\Request;
+use App\Jobs\SendAdminMailJob;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\BankSuggestionRequest;
-use Illuminate\Http\Request;
+use App\DataGrids\Admin\SuggestedBanksDataGridNew;
 
 
 class SuggestedBankController extends Controller
@@ -42,13 +45,85 @@ class SuggestedBankController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(Request $request, BankSuggestionRequest $suggested_bank)
+    // {
+    //     $suggested_bank = BankSuggestionRequest::find($request->id);
+    //     $suggested_bank->status = $request->status;
+    //     $suggested_bank->save();
+    //     return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+    // }
+
     public function update(Request $request, BankSuggestionRequest $suggested_bank)
     {
+        // $suggested_bank = BankSuggestionRequest::find($request->id);
+
+        // $settings = SmtpSetting::checkSmtpConfig();
+        // $details = [];
+        // if ($settings) {
+        //     if ($request->status == BankSuggestionRequest::STATUS_ACCEPTED) {
+        //         $details = [
+        //             'title' => 'Bank Suggestion Request',
+        //             'status' => $request->status,
+        //             'page'  => 'emails.admin.bank.bank_accepted',
+        //             'cc' => [],
+        //         ];
+        //     } elseif($request->status == BankSuggestionRequest::STATUS_REJECTED) {
+        //         $details = [
+        //             'title' => 'Bank Suggestion Request',
+        //             'status' => $request->status,
+        //             'page'  => 'emails.admin.bank.bank_rejected',
+        //             'cc' => [],
+        //         ];
+        //     }
+        // }
+
+        // try {
+        //     $suggested_bank->status = $request->status;
+        //     $suggested_bank->save();
+        //     dispatch(new SendAdminMailJob($details, $suggested_bank->email));
+        //     return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        // } catch (\Exception $e) {
+        //     Log::info($e->getMessage());
+        //     return back()->with('failed', 'Failed! there is some issue with email provider');
+        // }
+
 
         $suggested_bank = BankSuggestionRequest::find($request->id);
-        $suggested_bank->status = $request->status;
-        $suggested_bank->save();
-        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+
+        // $settings = SmtpSetting::checkSmtpConfig();
+        // $details = [];
+
+        // if ($settings) {
+
+        Log::info('Status in request: ' . $request->status);
+        if ($request->status == BankSuggestionRequest::STATUS_ACCEPTED) {
+            $page = 'emails.admin.bank.bank_accepted';
+        } elseif ($request->status == BankSuggestionRequest::STATUS_REJECTED) {
+            $page = 'emails.admin.bank.bank_rejected';
+        } else {
+            $page = null;
+        }
+
+        $details = [
+            'title' => 'Bank Suggestion Request',
+            'page'  => $page,
+            'suggested_bank' => $suggested_bank,
+        ];
+        // }
+
+        try {
+            $suggested_bank->status = $request->status;
+            $suggested_bank->save();
+
+            if ($page) {
+                dispatch(new SendAdminMailJob($details, $suggested_bank->email));
+                return response()->json(['success' => true, 'message' => 'Bank suggestion request status updated and email sent.']);
+            }
+            return response()->json(['success' => true, 'message' => 'Bank suggestion request status updated.']);
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return back()->with('failed', 'Failed! There is some issue with email provider.');
+        }
     }
 
     public function select(Request $request)

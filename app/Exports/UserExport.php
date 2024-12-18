@@ -32,6 +32,7 @@ class UserExport implements FromQuery, WithColumnFormatting, WithMapping, WithHe
     }
     public function forUser($name)
     {
+        // dd($name);
         $this->name = $name;
         return $this;
     }
@@ -45,29 +46,27 @@ class UserExport implements FromQuery, WithColumnFormatting, WithMapping, WithHe
         $this->email = $email;
         return $this;
     }
-   
+
     public function query()
     {
         $endDate = Carbon::parse($this->endDate)->addHours(23)->addMinutes(59)->addSeconds(59)->format('Y-m-d H:i');
         $startDate = Carbon::parse($this->startDate)->format('Y-m-d H:i');
-        
-      return User::query() 
-                ->where('id' ,'!=' ,0)->orderBy('id','Desc')
-                ->select(['users.*', DB::raw("CONCAT(users.phone_code, users.mobile) as full_mobile")])
-                ->when($this->name, function ($query, $value) {
-                    $query->where('users.name', $value);
-                })
-                ->when($this->mobile, function ($query, $value) {
-                    $query->where('users.mobile', $value);
-                })
-                ->when($this->email, function ($query, $value) {
-                    $query->where('users.email', $value);
-                })
-               
-                ->when($this->startDate, function ($query) use ($startDate, $endDate) {
-                    $query->where('users.created_at', '>=', $startDate)
-                        ->where('users.created_at', '<=', $endDate);
-                })
+
+        return User::query()
+            ->where('id', '!=', 0)->orderBy('id', 'Desc')
+            ->select(['users.*', DB::raw("CONCAT(users.phone_code, users.mobile) as full_mobile")])
+            ->where('users.name', 'like', "%{$this->name}%")
+            ->when($this->mobile, function ($query, $value) {
+                $query->where('users.mobile', $value);
+            })
+            ->when($this->email, function ($query, $value) {
+                $query->where('users.email', $value);
+            })
+
+            ->when($this->startDate, function ($query) use ($startDate, $endDate) {
+                $query->where('users.created_at', '>=', $startDate)
+                    ->where('users.created_at', '<=', $endDate);
+            })
             ->orderBy('users.created_at', 'desc');
     }
     public function headings(): array
@@ -97,12 +96,11 @@ class UserExport implements FromQuery, WithColumnFormatting, WithMapping, WithHe
         $this->index++;
         return [
             $this->index,
-            $user->first_name . $user->last_name,
+            $user->name,
             $user->mobile,
             $user->email,
             config('params.user.status')[$user->status],
             dateFormat($user->created_at),
         ];
     }
-
 }

@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
-use App\Models\TestDrive;
 use Exception;
-use App\DataGrids\Admin\TestRideRequestDataGrid;
+use App\Models\TestDrive;
+use App\Models\SmtpSetting;
 use Illuminate\Http\Request;
+use App\Jobs\SendAdminMailJob;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\DataGrids\Admin\TestRideRequestDataGrid;
 
 class TestRideRequestController extends Controller
 {
@@ -50,9 +53,49 @@ class TestRideRequestController extends Controller
     public function update(Request $request)
     {
         $testDrive = TestDrive::find($request->id);
-        $testDrive->status = $request->status;
-        $testDrive->save();
-        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+
+        // $settings = SmtpSetting::checkSmtpConfig();
+        // $details = [];
+
+        // if ($settings) {
+
+            Log::info('Status in request: ' . $request->status);
+            if ($request->status == TestDrive::STATUS_COMPLETED) {
+                $page = 'emails.admin.testdrive.testdrive_completed';
+            } elseif ($request->status == TestDrive::STATUS_ONGOIND) {
+                $page = 'emails.admin.testdrive.testdrive_ongoing';
+            } elseif ($request->status == TestDrive::STATUS_REJECTED) {
+                $page = 'emails.admin.testdrive.testdrive_rejected';
+            } elseif ($request->status == TestDrive::STATUS_CANCELLED) {
+                $page = 'emails.admin.testdrive.testdrive_cancelled';
+            } else {
+                $page = null;
+            }
+
+            $details = [
+                'title' => 'Test Drive Request',
+                'page'  => $page,
+                'testDrive' => $testDrive,
+            ];
+        // }
+
+        try {
+            $testDrive->status = $request->status;
+            $testDrive->save();
+
+            if($page){
+                dispatch(new SendAdminMailJob($details, $testDrive->user->email));
+                return response()->json(['success' => true, 'message' => 'Test Drive request status updated and email sent.']);
+            }
+            return response()->json(['success' => true, 'message' => 'Test Drive request status updated.']);
+
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+            return back()->with('failed', 'Failed! There is some issue with email provider.');
+        }
+        // $testDrive->status = $request->status;
+        // $testDrive->save();
+        // return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
         // return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
     }
 }

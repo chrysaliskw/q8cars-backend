@@ -18,10 +18,10 @@ class UserReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
-        
-        
+
+
         if ($request->hasAny(['start_date', 'end_date'])) {
             $validated = $request->validate([
                 'start_date' => 'required|date|before_or_equal:today',
@@ -39,32 +39,33 @@ class UserReportsController extends Controller
                 ],
             ]);
         }
-        
-        $grid = new UserReportDataGrid(request()->query());  
-        return view('admin.reports.user.index',compact('grid'));
+
+        $grid = new UserReportDataGrid(request()->query());
+        return view('admin.reports.user.index', compact('grid'));
     }
 
-     /**
+    /**
      * Exporting the file
      *
      * @return file
      */
     public function export(Request $request)
     {
+        // dd($request->all());
         if (empty($request->startDate) && empty($request->endDate) && empty($request->name) && empty($request->mobile) && empty($request->email)) {
             return back()->with('error', __('Please choose at least one filter to export the report'));
         }
         $name = 'Q8cars_User_Report.xlsx';
-        if(! empty($request->startDate)) {
+        if (! empty($request->startDate)) {
             $start = Carbon::parse($request->startDate)->format('d_M_Y');
             $end = Carbon::parse($request->endDate)->format('d_M_Y');
-            $name = 'WrapnSeal_Customer_Report'.$start.'_To_'.$end.'.xlsx';
+            $name = 'Q8cars_User_Report' . $start . '_To_' . $end . '.xlsx';
         }
         return (new UserExport($request->startDate, $request->endDate))
             ->forUser($request->name)
             ->forMobile($request->mobile)
             ->forEmail($request->email)
-            
-            ->download($name,\Maatwebsite\Excel\Excel::XLSX);
+
+            ->download($name, \Maatwebsite\Excel\Excel::XLSX);
     }
 }

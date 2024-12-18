@@ -4,7 +4,7 @@
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
         <li class="active">Customer Reports</li>
     </x-slot>
-    
+
     <x-crud-create cardTitle="Create User Report">
         <form method="GET" class="form-horizontal" action="{{ route('admin.reports.user.index') }}">
             <div class="row">
@@ -20,8 +20,8 @@
                     <x-form-input type="email" field="email" field-name="Email" value="<?php echo isset($_GET['email']) ? $_GET['email'] : ''; ?>"></x-form-input>
                 </div>
 
-            </div> 
-            <div class="row"> 
+            </div>
+            <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="start_date" class="control-label">Start date</label>
@@ -85,7 +85,7 @@
                 {!! $grid->render() !!}
             </div>
         </div>
-        
+
         {{-- Hidden Form --}}
         <div class="col-lg-12" style="margin-top: 10px;">
             <div class="form-group row m-b-0">
@@ -93,7 +93,7 @@
                     <form id="export-form" action="{{route('admin.reports.user.export')}}" method="GET" style="display: none;">
                         <input type="hidden" name="startDate" value="<?php echo $_GET['start_date'] ?? ''; ?>" />
                         <input type="hidden" name="endDate" value="<?php echo $_GET['end_date'] ?? ''; ?>" />
-                        <input type="hidden" name="user_id" value="<?php echo $_GET['user_id'] ?? ''; ?>" />
+                        <input type="hidden" name="name" value="<?php echo $_GET['name'] ?? ''; ?>" />
                         <input type="hidden" name="mobile" value="<?php echo $_GET['mobile'] ?? ''; ?>" />
                         <input type="hidden" name="email" value="<?php echo $_GET['email'] ?? ''; ?>" />
                         <input type="hidden" name="area_id" value="<?php echo $_GET['area_id'] ?? ''; ?>" />
@@ -103,12 +103,12 @@
         </div>
         {{-- Hidden Form End --}}
     </x-crud-index>
-  
+
 
     <x-slot name="scripts">
 
         <script type="application/javascript">
-    
+
             $("#start_date").datepicker({
                 format: 'dd-mm-yyyy',
                 orientation: 'bottom',
@@ -119,7 +119,7 @@
                 orientation: 'bottom',
             });
 
-            
+
 
         </script>
 
