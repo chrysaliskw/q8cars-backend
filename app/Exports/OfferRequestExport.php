@@ -40,6 +40,7 @@ class OfferRequestExport implements FromQuery, WithColumnFormatting, WithMapping
     }
     public function forMobile($mobile)
     {
+        // dd($mobile);
         $this->mobile = $mobile;
         return $this;
     }
@@ -72,7 +73,8 @@ class OfferRequestExport implements FromQuery, WithColumnFormatting, WithMapping
                 $query->where('c.id', $this->model);
             })
             ->when($this->mobile, function ($query, $model) {
-                $query->where('u.mobile', 'like', '%' . $model . '%');
+                $query->where('u.id', $this->mobile);
+                // dd($query->where('u.mobile', $this->mobile));
             })
             ->when($this->type, function ($query, $model) {
                 $query->where('offer_requests.type', 'like', $model);

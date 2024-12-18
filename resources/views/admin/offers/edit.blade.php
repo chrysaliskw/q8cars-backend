@@ -188,21 +188,6 @@
     <script>
 
         jQuery(document).ready(function(){
-
-            $('#start_date').datepicker({
-                format: 'yyyy-mm-dd',
-                autoclose: true
-            }).on('changeDate', function(e) {
-                $('#end_date').datepicker('setStartDate', e.date);
-                $('#end_date').val('');
-            });
-
-            $('#end_date').datepicker({
-                format: 'yyyy-mm-dd',
-                autoclose: true
-            });
-            $('#end_date').datepicker('setStartDate', new Date());
-
             $('.summernote').summernote({
                 height: 200,                 // set editor height
 
@@ -223,10 +208,27 @@
                     ['insert', [ 'picture']],
                 ],
             });
-
         });
+
+
+
+
     </script>
         <script type="application/javascript">
+        $('#start_date').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            }).on('changeDate', function(e) {
+                $('#end_date').datepicker('setStartDate', e.date);
+                $('#end_date').val('');
+            });
+
+            $('#end_date').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
+            $('#end_date').datepicker('setStartDate', new Date());
+
 
             $('#brand_id').select2({
 

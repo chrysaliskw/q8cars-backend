@@ -9,7 +9,7 @@
         <x-form-textarea type="text" field="description_{{$key+1}}" field-name="Description" field-value="{{ $carVideo->video_description }}">
         </x-form-textarea>
     </div>
-  
+
     <div class="col-md-4">
         <x-form-input type="text" field="posted_media_{{$key+1}}" field-name="Posted Media" value="{{ $carVideo->video_posted_media }}">
         </x-form-input>
@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label for="thumbnail_{{$key+1}}" class="control-label">Thumbnail</label><br>
                         @if($carVideo->thumbnail)
-                        <img src="{{ file_asset('files-car', $carVideo->thumbnail) }}" 
+                        <img src="{{ file_asset('files-car', $carVideo->thumbnail) }}"
                             alt="brand-img" class="img-thumbnail" width="100" height="150">
                         @endif
                         <input id="thumbnail_{{$key+1}}" type="file" name="thumbnail_{{$key+1}}" class="form-control">
@@ -43,15 +43,38 @@
                             @enderror
                         </span>
                         <span class="text-muted">
-                            {{'Max size : 2MB'}} 
+                            {{'Max size : 2MB'}}
                         </span>
                     </div>
     </div>
-   
+
     <div class="col-md-4">
-        <x-form-input type="file" field="video_{{$key+1}}" field-name="Video File" value="">
-        </x-form-input>
+        <div class="form-group">
+        <label for="video_{{$key+1}}" class="control-label">Video File</label><br>
+        @if($carVideo->file_name)
+
+            <video  width="100" height="150" controls autoplay class="img-thumbnail">
+                <source src="{{ file_asset('files-car', $carVideo->file_name) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        @endif
+        {{-- <x-form-input
+            type="file"
+            field="video_{{$key+1}}"
+            field-name=""
+            >
+
+        </x-form-input> --}}
+        <input id="video_{{$key+1}}" type="file" name="video_{{$key+1}}" class="form-control ">
+        <span class="error" role="alert">
+            @error('video_'.($key+1))
+                {{ $message }}</br>
+            @enderror
+        </span>
+        </div>
+
     </div>
+
 </div>
 <hr><br>
 @endforeach
