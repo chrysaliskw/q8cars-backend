@@ -1,7 +1,7 @@
 <x-admin-layout title="Offer Requests">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li class="active">Offer Requests</li>
+        <li class="active">Enquiries</li>
     </x-slot>
     @php
         $statuses = config('params.offer_request.status');

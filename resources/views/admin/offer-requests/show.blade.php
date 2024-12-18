@@ -1,13 +1,13 @@
-<x-admin-layout title="Offer Requests">
+<x-admin-layout title="Enquiries">
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li><a href="{{ route('admin.offer-requests.index') }}">Offer Requests</a></li>
+        <li><a href="{{ route('admin.offer-requests.index') }}">Enquiries</a></li>
         <li class="active">View</li>
     </x-slot>
     @php
         $statuses = config('params.offer_request.status');
     @endphp
-    <x-card title="Offer Request">
+    <x-card title="Enquiries">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-12">
                 <div class="card card-border card-primary">
