@@ -99,7 +99,7 @@
                 </div>
 <div class="col-md-4">
         <div class="form-group">
-        <label for="video_{{$key+1}}" class="control-label">Video File</label><br>
+        <label for="video_${sectionCount}" class="control-label">Video File</label><br>
         @if($carVideo->file_name)
 
             <video  width="100" height="150" controls autoplay class="img-thumbnail">
@@ -109,12 +109,12 @@
         @endif
         {{-- <x-form-input
             type="file"
-            field="video_{{$key+1}}"
+            field="video_${sectionCount}"
             field-name=""
             >
 
         </x-form-input> --}}
-        <input id="video_{{$key+1}}" type="file" name="video_{{$key+1}}" class="form-control ">
+        <input id="video_${sectionCount}" type="file" name="video_${sectionCount}" class="form-control ">
         <span class="error" role="alert">
             @error('video_'.($key+1))
                 {{ $message }}</br>
