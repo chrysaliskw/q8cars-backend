@@ -800,7 +800,7 @@ class CarController extends ApiBaseController
     public function incrementVideoViewCount(Request $request)
     {
         $validator =   Validator::make($request->all(), [
-            'video_id' => 'required'
+            'id' => 'required'
         ]);
       
         if ($validator->fails()) {
@@ -821,6 +821,7 @@ class CarController extends ApiBaseController
             }
     
             DB::commit();
+            return $this->success(['data' => []], 'Success', Response::HTTP_OK);
         } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
