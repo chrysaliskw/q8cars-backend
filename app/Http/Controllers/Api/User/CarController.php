@@ -160,6 +160,7 @@ class CarController extends ApiBaseController
             'colours' => count(json_decode($car->colours)),
             'photos' => $car->carPhoto()->count() ,
             'videos' => $car->carVideos->count(),
+            'image' =>  file_asset('files-car', $car->image),
             'main_image' =>  file_asset('files-car', $car->image_2),
             'showroom_price' => 'KWD '.$car->ex_showroom_price,
             'finance_available' =>'KWD '. $car->finance_available,
