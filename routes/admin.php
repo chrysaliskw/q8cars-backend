@@ -40,6 +40,7 @@ use App\Http\Controllers\Api\User\LoanController as UserLoanController;
 use App\Http\Controllers\Admin\SubAdmin\PermissionController;
 use App\Http\Controllers\Admin\SubAdmin\RoleController;
 use App\Http\Controllers\Admin\SubAdmin\SubAdminController;
+use App\Http\Controllers\Admin\Setting\FuelCostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,9 +90,7 @@ Route::middleware('auth:admin')->group(function () {
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::get('configurations', [ConfigurationController::class, 'getInput'])->name('configurations');
-    Route::post('configurations/save', [ConfigurationController::class, 'saveValue'])->name('configurations.save');;
-});
+   });
 
 
 
@@ -253,3 +252,8 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-a
     Route::resource('admin', SubAdminController::class);
     // Route::post('/admin/add-role', [SubAdminController::class, 'addRole'])->name('admin.add-role');
 });
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->group(function () {
+    Route::get('configurations', [ConfigurationController::class, 'getInput'])->name('configurations');
+    Route::post('configurations/save', [ConfigurationController::class, 'saveValue'])->name('configurations.save');   
+});
+
