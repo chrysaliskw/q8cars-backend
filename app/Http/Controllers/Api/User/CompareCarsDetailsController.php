@@ -298,8 +298,10 @@ class CompareCarsDetailsController extends ApiBaseController
         $specifications = [];
         $carKeyMap = [];
         if($request->version_id){
-            foreach ($request->version_id as $index => $carId) {
-                $carKeyMap[$request->version_id[$index]] = 'car_' . $index;
+            foreach ($carIds as $index => $carId) {
+                $key = $request->version_id[$index] ?? $cars[$index]->carSpec->id;
+            
+                $carKeyMap[$key] = 'car_' . $index;
             }  
         }else{
             foreach ($carIds as $index => $carId) {  
