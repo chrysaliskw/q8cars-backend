@@ -52,8 +52,15 @@ class OfferRequestController extends ApiBaseController
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if (OfferRequest::where('user_id', Auth::id())->where('type', $request->type)->where('status', OfferRequest::STATUS_PENDING)->exists()) {
-            return $this->error('You already have a request submitted', Response::HTTP_OK);
+        if (OfferRequest::where('user_id', Auth::id())->where('type', $request->type)->where('status', OfferRequest::STATUS_PENDING)
+            ->when($request->car_id, function ($query, $carId) {
+                $query->where('car_id', $carId);
+            })
+            ->when($request->offer_id,function ($query, $offerId) {
+                $query->where('offer_id',$offerId);
+            })
+            ->exists()){
+                return $this->error('You already have a request submitted', Response::HTTP_OK);  
         }
 
         // $settings = SmtpSetting::checkSmtpConfig();
