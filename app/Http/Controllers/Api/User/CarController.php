@@ -638,7 +638,7 @@ class CarController extends ApiBaseController
     public function getComparison(Car $car)
     {
         $result[] = null;
-        $compareCar = CarComparisonList::where('car_id',$car->id)->first();
+        $compareCar = CarComparisonList::where('car_id',$car->id)->where('status',1)->first();
         if($compareCar)
         {
             $carId1 = $compareCar->car_1_id;

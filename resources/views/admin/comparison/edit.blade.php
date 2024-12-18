@@ -22,6 +22,14 @@
                 <x-form-select field="body_type_id" field-name="Body Type" id="body_type_id"></x-form-select>
                 <input type="hidden" id="body_type_id_text" name="body_type_id_text" />
             </div>
+            <div class="col-md-4">
+                    <x-form-select field="status" field-name="Status" defaultPrompt="Select status">
+                        @foreach (config('params.curated-comparisons.status') as $value => $label)
+                            <option {{ old('status',$carComparisonList->status)==$value ? 'Selected' : '' }} value="{{ $value }}">
+                                {{ $label }}</option>
+                        @endforeach
+                    </x-form-select>
+                </div>
         </div>
         <hr>
 
