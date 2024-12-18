@@ -27,6 +27,9 @@
                     </x-form-input>
                     <div class="col-mod-3" id="image_1-preview">
                 </div>
+                </div>
+
+                    </div>
 
                 </div>
             </div>
@@ -49,9 +52,9 @@
                     </x-form-input>
 
                     <div class="col-mod-3" id="image_2-preview">
+                    </div>
                 </div>
-                </div>
-                <hr>
+               
             </div>
 
             <!-- Car 3 Section -->
@@ -72,10 +75,9 @@
                     </x-form-input>
 
                     <div class="col-mod-3" id="image_3-preview">
-                </div>
+                    </div>
                 </div>
             </div>
-            <hr>
             <div class="row">
                 <div class="col-md-4">
                     <x-form-input type="text" field="source" field-name="Source"
@@ -107,9 +109,16 @@
                     </x-form-select>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-4">
+                <x-form-input type="text" field="sort_order" field-name="Sort Order"
+                value="{{ old('sort_order') }}"></x-form-input>
+                </div>   
+            </div>
+
             <div class="col-md-12">
                 <x-form-input type="text" field="title" field-name="Title"
-                    value="{{ old('title') }}"></x-form-textarea>
+                    value="{{ old('title') }}"></x-form-input>
             </div>
             <hr>
             <div class="row">

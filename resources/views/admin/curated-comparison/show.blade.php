@@ -134,6 +134,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Sort Order</label>
+                                    <div class="col-sm-8">
+                                        {{ $viewData['Sort Order']}}
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-sm-4 control-label">Created Date</label>
                                     <div class="col-sm-8">
                                         {{ date('d-m-Y h:i A', strtotime($curatedComparison->created_at)) }}

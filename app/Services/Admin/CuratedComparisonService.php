@@ -62,6 +62,7 @@ class CuratedComparisonService
                 'html_content' => $data['html_content'],
                 'status' => $request->status,
                 'published_date' => $data['published_date'],
+                'sort_order' => $data['sort_order'],
             ]);
 
 
@@ -71,7 +72,7 @@ class CuratedComparisonService
         } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
-            return back()->with('error', __('app.error'))->withInput();
+            // return back()->with('error', __('app.error'))->withInput();
         }
     }
 
@@ -139,6 +140,7 @@ class CuratedComparisonService
                 'html_content' => $data['html_content'],
                 'status' => $request->status,
                 'published_date' => $data['published_date'],
+                'sort_order' => $data['sort_order'],
             ]);
             DB::commit();
             return $curatedcomparison;
