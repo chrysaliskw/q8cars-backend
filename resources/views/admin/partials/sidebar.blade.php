@@ -199,9 +199,8 @@
                     </li>
                 @endcanany
                 @canany(['All'])
-                    <li class="has_sub">
-                        <a href="#" class="waves-effect"><i class="fa fa-setting"></i> <span> Settings </span> <span
-                                class="pull-right"><i class="md md-add"></i></span></a>
+                    <li class="has_sub"> 
+                    <a href="#" class="waves-effect"><i class="fa fa-cog"></i><span> Settings </span><span class="pull-right"><i class="md md-add"></i></span></a>
                         <ul class="list-unstyled">
                             <li>
                                 <a href="{{ route('admin.configurations') }}">Configurations</a>
