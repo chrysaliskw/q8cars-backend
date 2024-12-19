@@ -18,7 +18,7 @@ class CarReportsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         // if ($request->hasAny(['start_date', 'end_date'])) {
         //     $validated = $request->validate([
@@ -37,13 +37,13 @@ class CarReportsController extends Controller
         //         ],
         //     ]);
         // }
-        
-        $grid = new CarReportDataGrid(request()->query());  
+
+        $grid = new CarReportDataGrid(request()->query());
         // dd(request()->query());
-        return view('admin.reports.car.index',compact('grid'));
+        return view('admin.reports.car.index', compact('grid'));
     }
 
-     /**
+    /**
      * Exporting the file
      *
      * @return file
@@ -54,17 +54,17 @@ class CarReportsController extends Controller
             return back()->with('error', __('Please choose at least one filter to export the report'));
         }
         $name = 'Q8cars_Car_Report.xlsx';
-        if(! empty($request->startDate)) {
+        if (! empty($request->startDate)) {
             $start = Carbon::parse($request->startDate)->format('d_M_Y');
             $end = Carbon::parse($request->endDate)->format('d_M_Y');
-            $name = 'Q8cars_Car_Report'.$start.'_To_'.$end.'.xlsx';
+            $name = 'Q8cars_Car_Report' . $start . '_To_' . $end . '.xlsx';
         }
         return (new CarExport($request->startDate, $request->endDate))
-            ->forModel($request->model)
-            ->forBrand($request->brand)
+            ->forModel($request->car_1_id)
+            ->forBrand($request->brand_1_id)
             ->forUpcoming($request->is_upcoming)
             ->forJustLaunch($request->is_just_launched)
             ->forStatus($request->status)
-            ->download($name,\Maatwebsite\Excel\Excel::XLSX);
+            ->download($name, \Maatwebsite\Excel\Excel::XLSX);
     }
 }
