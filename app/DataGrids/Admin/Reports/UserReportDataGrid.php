@@ -26,7 +26,7 @@ class UserReportDataGrid extends Grid
         $query->when(request()->query('email'), function ($q, $email) {
             $q->where('email', 'like', '%' . $email . '%');
         });
-
+        // dd(request()->query('mobile'));
         $query->when(request()->query('mobile'), function ($q, $mobile) {
             $q->where(DB::raw("CONCAT(users.phone_code, users.mobile)"), 'like', '%' . $mobile . '%');
         });
