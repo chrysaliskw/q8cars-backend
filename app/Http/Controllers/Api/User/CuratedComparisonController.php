@@ -16,6 +16,7 @@ class CuratedComparisonController extends ApiBaseController
         // Get all curated comparisons that are active and have a published date less than or equal to today
         // Order them by id in descending order (newest first)
         $query = CuratedComparison::active()
+            ->orderByRaw('COALESCE(_sort_order) ASC')
             ->orderBy('id', 'Desc')
             ->where('published_date', '<=', date('Y-m-d'));
         $comarisons = $query->limit(3)->get();

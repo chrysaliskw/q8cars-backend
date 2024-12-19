@@ -92,13 +92,20 @@ class CuratedComparisonGrid extends Grid
           'published_date' => [
                 'label' => 'Published Date',
                 'value' => function ($model) {
-                    return $model->published_date;
+                    return dateFormat($model->published_date);
                 },
                 'filter' => true,
                 'filterOptions' => [
                     'type' => 'text',
                     'attribute' => 'published_date',
                 ]
+            ],
+            'sort_order' => [
+                'label' => 'Sort Order',
+                'value' => function ($model) {
+                    return $model->sort_order;
+                },
+               
             ],
                 
            'status' => [

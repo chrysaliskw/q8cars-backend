@@ -28,6 +28,13 @@
                         </div>
                     </div>
                     <div class="card-body">
+                    <div class="form-group row">
+                                    <label class="col-sm-4 control-label">Status </label>
+                                    <div class="col-sm-8">
+                                        {{ $viewData['status']}}
+
+                                    </div>
+                                </div>
                         <div class="row">
                             <table class="table table-bordered table-striped table-hover">
                                 <thead style="color: #bc1d1d; font-weight: bold;">

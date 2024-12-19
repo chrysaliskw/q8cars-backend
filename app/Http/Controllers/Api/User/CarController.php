@@ -27,6 +27,7 @@ use App\Models\CarAdditonalSpecifications;
 use Carbon\Carbon;
 use App\Models\CarComparisonList;
 use App\Models\CarFavourite;
+use App\Models\CarVideoView;
 use Illuminate\Support\Facades\Validator;
 use App\Services\Api\User\Car\SearchService;
 
@@ -637,7 +638,7 @@ class CarController extends ApiBaseController
     public function getComparison(Car $car)
     {
         $result[] = null;
-        $compareCar = CarComparisonList::where('car_id',$car->id)->first();
+        $compareCar = CarComparisonList::where('car_id',$car->id)->where('status',1)->first();
         if($compareCar)
         {
             $carId1 = $compareCar->car_1_id;
@@ -794,6 +795,37 @@ class CarController extends ApiBaseController
 
 
 
+    }
+
+    public function incrementVideoViewCount(Request $request)
+    {
+        $validator =   Validator::make($request->all(), [
+            'id' => 'required'
+        ]);
+      
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        DB::beginTransaction();
+    
+        try {
+            $model = CarVideoView::where('video_id',$request->id)->where('user_id',Auth::id())->first();
+            if (!$model) {
+                 $model = new CarVideoView();
+                $model->video_id = $request->id;
+                $model->user_id = Auth::id();
+                $model->save();
+                CarImage::where('id',$request->id)->increment('video_view_count');
+            } else {
+                $model->touch();
+            }
+    
+            DB::commit();
+            return $this->success(['data' => []], 'Success', Response::HTTP_OK);
+        } catch (Exception $ex) {
+            DB::rollBack();
+            logger($ex);
+        }
     }
 
 }

@@ -38,7 +38,7 @@ class HomeController extends ApiBaseController
 
     private function getCompareCars()
     {
-        $lists = CarComparisonList::where('page', CarComparisonList::HOME_PAGE)->get();
+        $lists = CarComparisonList::where('page', CarComparisonList::HOME_PAGE)->where('status',1)->get();
         $result = null;
 
 

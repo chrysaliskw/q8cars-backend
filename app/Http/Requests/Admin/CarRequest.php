@@ -351,7 +351,7 @@ class CarRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     if (request('is_just_launched') == Car::JUST_LAUNCHED && request('is_upcoming') == Car::LAUNCHED) {
                         if (is_null($value)) {
-                            $fail('The ' . $attribute . ' field is required when the car is just launched and upcoming.');
+                            $fail('The ' . $attribute . ' field is required when the car is just launched and car is not upcoming');
                         }
                     }
                 },

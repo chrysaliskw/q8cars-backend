@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\NotificationResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Models\UserNotificationMapping;
+use Illuminate\Http\Request;
 
 class NotificationController extends ApiBaseController
 {
@@ -45,6 +47,15 @@ class NotificationController extends ApiBaseController
         }
 
         return $this->error('User not found.', Response::HTTP_NOT_FOUND);
+    }
+
+    public function read(Request $request)
+    {
+        UserNotificationMapping::where('notification_id', $request->id)
+        ->where('user_id', Auth::id())
+        ->update(['read_status' => Notification::READ]);
+    
+        return $this->success(['data' => []], 'Read Status Updated Successfully', Response::HTTP_OK);
     }
 
 }

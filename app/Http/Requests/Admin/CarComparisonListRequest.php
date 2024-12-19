@@ -80,6 +80,7 @@ class CarComparisonListRequest extends FormRequest
                 }),
             ],
             'page' => ['required', 'integer'],
+            'status' => ['required', 'integer'],
         ];
     }
 
@@ -137,6 +138,7 @@ class CarComparisonListRequest extends FormRequest
                 }),
             ],
             'page' => ['required', 'integer'],
+            'status' => ['required', 'integer'],
         ];
     }
 

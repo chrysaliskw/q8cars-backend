@@ -36,6 +36,7 @@ class CuratedComparisonController extends Controller
      */
     public function store(CuratedCompareRequest $request)
     {
+        dd($request);
         if (
             $request->car_1_id == $request->car_2_id ||
             $request->car_1_id == $request->car_3_id ||
@@ -58,7 +59,7 @@ class CuratedComparisonController extends Controller
             logger($ex);
             return back()->with('error', __('app.error'))->withInput();
         }
-        return redirect()->route('admin.curated-comparison.index', $curatedComparison)->with('success', 'Curated Comparison Created successfully!');
+        return redirect()->route('admin.curated-comparison.show', $curatedComparison)->with('success', 'Curated Comparison Created successfully!');
     }
 
     /**
@@ -80,6 +81,7 @@ class CuratedComparisonController extends Controller
             'image_1' => empty($curatedComparison->image_1) ? 'NIL' : $curatedComparison->image_1,
             'image_2' => empty($curatedComparison->image_2) ? 'NIL' : $curatedComparison->image_2,
             'image_3' => empty($curatedComparison->image_3) ? 'NIL' : $curatedComparison->image_3,
+            'Sort Order' => $curatedComparison->sort_order,
             'status' => empty($curatedComparison->status) ? 'NIL' : ($curatedComparison->status == 1 ? 'Active' : 'Inactive')
         ];
 
@@ -135,6 +137,7 @@ class CuratedComparisonController extends Controller
      */
     public function update(CuratedCompareRequest $request, CuratedComparison $curatedComparison)
     {
+        // dd($request);
         // dd($request->all());
         // if ($request->image_1 == null) {
         //     $request->image_1 = $curatedComparison->image_1;

@@ -28,7 +28,8 @@ class CuratedComparison extends Model
         'image_2',
         'image_3',
         'status',
-        'published_date'
+        'published_date',
+        'sort_order',
         
     ];
 

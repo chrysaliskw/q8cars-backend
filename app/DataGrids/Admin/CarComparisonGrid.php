@@ -155,6 +155,20 @@ class CarComparisonGrid extends Grid
                 'sort'=>false,
 
             ],
+            'status' => [
+                'label' => 'Status',
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'select',
+                    'attribute' => 'car_comparison_lists.status',
+                    'operator' => '=',
+                    'data' => config('params.car.status')
+                ],
+                'value' => function ($model) {
+                    return config('params.car.status')[$model->status];
+                },
+                'contentCssClass' => 'filter',
+            ],
             'action' => [
                 'routePrefix' => 'admin.comparison',
                 'contentCssClass' => 'grid-action-col',
