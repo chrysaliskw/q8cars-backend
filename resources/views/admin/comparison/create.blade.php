@@ -11,7 +11,7 @@
             <div class="row">
                 <!-- Main Car Section -->
                 <div class="col-md-4">
-                    <x-form-select field="page" field-name="Page" id="page" defaultPrompt="Select status">
+                    <x-form-select field="page" field-name="Page" id="page" defaultPrompt="Select Page">
                         @foreach (config('params.car-comparison-list.page') as $value => $label)
                             <option {{ old('page') == $value ? 'Selected' : '' }} value="{{ $value }}">
                                 {{ $label }}
@@ -24,6 +24,15 @@
                 <div class="col-md-4">
                     <x-form-select field="body_type_id" field-name="Body Type" id="body_type_id"></x-form-select>
                     <input type="hidden" id="body_type_id_text" name="body_type_id_text" />
+                </div>
+                <div class="col-md-4">
+                    <x-form-select field="status" field-name="Status" id="status">
+                        <option disabled selected>Select status</option>
+                        @foreach (config('params.curated-comparisons.status') as $value => $label)
+                            <option {{ old('status') == $value ? 'Selected' : '' }} value="{{ $value }}">
+                                {{ $label }}</option>
+                        @endforeach
+                    </x-form-select>
                 </div>
             </div>
             <hr>

@@ -27,7 +27,9 @@ use App\Models\CarAdditonalSpecifications;
 use Carbon\Carbon;
 use App\Models\CarComparisonList;
 use App\Models\CarFavourite;
+use App\Models\CarVideoView;
 use Illuminate\Support\Facades\Validator;
+use App\Services\Api\User\Car\SearchService;
 
 class CarController extends ApiBaseController
 {
@@ -37,7 +39,12 @@ class CarController extends ApiBaseController
     public function index(Request $request)
     {
         $result = null;
-        $result = (new FilterService($request))->handle();
+        if($request->is_search){
+            $result = (new SearchService($request))->handle();
+
+        }else{
+            $result = (new FilterService($request))->handle();
+        }
 
         return CarResource::collection($result)
             ->additional([
@@ -154,6 +161,7 @@ class CarController extends ApiBaseController
             'colours' => count(json_decode($car->colours)),
             'photos' => $car->carPhoto()->count() ,
             'videos' => $car->carVideos->count(),
+            'image' =>  file_asset('files-car', $car->image),
             'main_image' =>  file_asset('files-car', $car->image_2),
             'showroom_price' => 'KWD '.$car->ex_showroom_price,
             'finance_available' =>'KWD '. $car->finance_available,
@@ -167,6 +175,7 @@ class CarController extends ApiBaseController
             'transmission_type_text' => config('params.car.transmission_type')[$car->carSpec->transmission_type],
             'available_transmission_types' =>$this->getversionTransmissionTypes($car),
             '360_view' => $car->carSpec->view_camera === null ? False : ($car->carSpec->view_camera == 1 ? True : False),
+            'is_active_review' => Review::where('user_id',Auth::id())->whereIn('status',[Review::STATUS_SUBMITTED,Review::STATUS_VERIFIED])->where('car_id',$car->id)->exists() ? true: false,
 
         ];
 
@@ -322,8 +331,9 @@ class CarController extends ApiBaseController
                     // Use both fuel_type and transmission_type to ensure uniqueness
                     return $item->transmission_type . '-' . $item->fuel_type;
                 });
-
-            $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
+          
+                $versionsByTransmission[$typeName] = CarDetailResource::collection($versions);
+                       
         }
         return $versionsByTransmission;
     }
@@ -628,7 +638,7 @@ class CarController extends ApiBaseController
     public function getComparison(Car $car)
     {
         $result[] = null;
-        $compareCar = CarComparisonList::where('car_id',$car->id)->first();
+        $compareCar = CarComparisonList::where('car_id',$car->id)->where('status',1)->first();
         if($compareCar)
         {
             $carId1 = $compareCar->car_1_id;
@@ -717,10 +727,12 @@ class CarController extends ApiBaseController
     private function getMileageDetails(Car $car)
     {
         // Fetch unique combinations of fuel_type and transmission_type
-        $versions = CarVersion::where('car_id', $car->id)
-            ->select('fuel_type', 'transmission_type')
-            ->distinct()
-            ->get();
+        $subquery = CarVersion::where('car_id', $car->id)
+            ->selectRaw('MIN(id) as id')
+            ->groupBy('fuel_type', 'transmission_type');
+    
+        $versions = CarVersion::whereIn('id', $subquery->pluck('id'))->get();
+            //dd($versions);
     
         return CarDetailResource::collection($versions);
     }
@@ -783,6 +795,37 @@ class CarController extends ApiBaseController
 
 
 
+    }
+
+    public function incrementVideoViewCount(Request $request)
+    {
+        $validator =   Validator::make($request->all(), [
+            'id' => 'required'
+        ]);
+      
+        if ($validator->fails()) {
+            return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        DB::beginTransaction();
+    
+        try {
+            $model = CarVideoView::where('video_id',$request->id)->where('user_id',Auth::id())->first();
+            if (!$model) {
+                 $model = new CarVideoView();
+                $model->video_id = $request->id;
+                $model->user_id = Auth::id();
+                $model->save();
+                CarImage::where('id',$request->id)->increment('video_view_count');
+            } else {
+                $model->touch();
+            }
+    
+            DB::commit();
+            return $this->success(['data' => []], 'Success', Response::HTTP_OK);
+        } catch (Exception $ex) {
+            DB::rollBack();
+            logger($ex);
+        }
     }
 
 }

@@ -141,9 +141,13 @@
                         @endforeach
                     </x-form-select>
                 </div>
-
-
-
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <x-form-input type="text" field="sort_order" 
+                    field-name="Sort Order"
+                        value="{{ old('sort_order',$curatedComparison->sort_order) }}"></x-form-textarea>
+                </div>
 
             </div>
             <div class="col-md-12">

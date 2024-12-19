@@ -59,7 +59,6 @@ class SmtpSetting extends Model
                 'mail.from.address' => $setting->smtp_username,
                 'mail.from.name' => $setting->smtp_from_name
                 // 'mail.mailers.smtp.host' => env('MAIL_HOST'),
-                // 'mail.mailers.smtp.port' => 587,
                 // 'mail.mailers.smtp.port' => env('MAIL_PORT'),
                 // 'mail.mailers.smtp.username' => env('MAIL_USERNAME'),
                 // 'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),

@@ -216,13 +216,13 @@ class CarController extends Controller
 
         $carVarient = $car->carSpec;
         $carImages = collect(CarImage::where('car_id', $car->id)->image()->whereNull('color')->get());
-        for ($i = $carImages->count() + 1; $i <= Car::MAX_NUM_IMAGES; $i++) {
-            $carImages->push(new CarImage());
-        }
+        // for ($i = $carImages->count() + 1; $i <= Car::MAX_NUM_IMAGES; $i++) {
+        //     $carImages->push(new CarImage());
+        // }
         $carVideos = collect(CarImage::where('car_id', $car->id)->video()->get());
-        for ($i = $car->carVideos->count() + 1; $i <= 3; $i++) {
-            $carVideos->push(new CarImage());
-        }
+        // for ($i = $car->carVideos->count() + 1; $i <= 3; $i++) {
+        //     $carVideos->push(new CarImage());
+        // }
 
         $additionals = collect(CarAdditonalSpecifications::where('car_id', $car->id)->where('car_version_id', $carVarient->id)->get());
         for ($i = $carVarient->carAdditionalSpecifications->count() + 1; $i <= 10; $i++) {
@@ -316,6 +316,7 @@ class CarController extends Controller
      */
     public function update(CarRequest $request, Car $car)
     {
+       // dd($request);
         $rows = $request->row_count;
 
         $rules = [];

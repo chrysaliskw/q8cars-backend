@@ -9,7 +9,7 @@
         <form method="GET" class="form-horizontal" action="{{ route('admin.reports.test-ride.index') }}">
             <div class="row">
                 <div class="col-md-4">
-                    <x-form-select field="brand_1_id" field-name="CarBrand" id="brand_1_id"></x-form-select>
+                    <x-form-select field="brand_1_id" field-name="Car Brand" id="brand_1_id"></x-form-select>
                     <input type="hidden" id="brand_1_id_text" name="brand_1_id_text" value="<?php echo isset($_GET['brand_1_id_text']) ? $_GET['brand_1_id_text'] : ''; ?>" />
                 </div>
                 @error('brand_1_id')
@@ -27,7 +27,11 @@
                 <div class="col-md-4">
                     <x-form-select field="status" field-name="Status" defaultPrompt="Select status"
                         value="{{ request()->get('status', '') }}">
-                        @foreach (config('params.test_drive.status') as $value => $label)
+                        @php
+                       $status = config('params.test_drive.status');
+                       unset($status[5]);
+                        @endphp
+                        @foreach ($status as $value => $label)
                             <option {{ old('status') == $value ? 'Selected' : '' }} value="{{ $value }}">
                                 {{ $label }}
                             </option>

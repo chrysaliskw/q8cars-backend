@@ -71,7 +71,7 @@ class LoanRequestReportDataGrid extends Grid
             ],
 
             'first_name' => [
-                'label' => 'Full Name',
+                'label' => 'Requested Name',
                 'value' => function ($model) {
                     return trim($model->first_name . ' ' . $model->last_name);
                 },
@@ -104,7 +104,7 @@ class LoanRequestReportDataGrid extends Grid
             ],
 
             'email' => [
-                'label' => 'Email',
+                'label' => 'Requested Email',
                 'value' => function ($model) {
                     return $model->email;
                 },

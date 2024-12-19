@@ -166,6 +166,28 @@
 
         jQuery(document).ready(function(){
 
+
+            $('.summernote').summernote({
+                    height: 200, // set editor height
+
+                    minHeight: null, // set minimum height of editor
+                    maxHeight: null, // set maximum height of editor
+
+                    focus: true, // set focus to editable area after initializing summernote
+                    toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline']],
+                        // ['style', ['bold', 'italic', 'underline', 'clear']],
+                        // ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        // ['color', ['color']],
+                        // ['para', ['ul', 'ol', 'paragraph']],
+                        ['para', ['ul', 'ol']],
+                        // ['height', ['height']]
+                        ['insert', ['picture']],
+                    ],
+                });
+
             $('#start_date').datepicker({
                 format: 'yyyy-mm-dd',
                 autoclose: true
@@ -180,26 +202,7 @@
             });
             $('#end_date').datepicker('setStartDate', new Date());
 
-            $('.summernote').summernote({
-                height: 200,                 // set editor height
 
-                minHeight: null,             // set minimum height of editor
-                maxHeight: null,             // set maximum height of editor
-
-                focus: true,                 // set focus to editable area after initializing summernote
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['style', ['bold', 'italic', 'underline']],
-                    // ['style', ['bold', 'italic', 'underline', 'clear']],
-                    // ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    // ['color', ['color']],
-                    // ['para', ['ul', 'ol', 'paragraph']],
-                    ['para', ['ul', 'ol']],
-                    // ['height', ['height']]
-                    ['insert', [ 'picture']],
-                ],
-            });
 
         });
     </script>

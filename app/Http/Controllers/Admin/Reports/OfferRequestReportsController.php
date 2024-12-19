@@ -50,6 +50,7 @@ class OfferRequestReportsController extends Controller
      */
     public function export(Request $request)
     {
+        // dd($request->all());
         if (empty($request->startDate) && empty($request->endDate) && empty($request->model) && empty($request->mobile)  && empty($request->type) && empty($request->status)) {
             return back()->with('error', __('Please choose at least one filter to export the report'));
         }
@@ -60,9 +61,10 @@ class OfferRequestReportsController extends Controller
             $end = Carbon::parse($request->endDate)->format('d_M_Y');
             $name = 'Q8cars_Offer_Requests_Report' . $start . '_To_' . $end . '.xlsx';
         }
+        // dd($request->mobile);
         return (new OfferRequestExport($request->startDate, $request->endDate))
             ->forModel($request->car_1_id)
-            ->forMobile($request->mobile)
+            ->forMobile($request->user_mobile)
             ->forType($request->type)
             ->forStatus($request->status)
             ->download($name, \Maatwebsite\Excel\Excel::XLSX);

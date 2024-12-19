@@ -38,6 +38,7 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
+        // dd($request->all());
         try {
             $service = new OfferService();
             $offer = $service->create($request);
@@ -55,16 +56,17 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
+
         $viewData = [
             'Brand' => empty($offer->brand) ? 'NIL' : $offer->brand->name,
             'Car' => empty($offer->car) ? 'NIL' : $offer->car->model_name,
             'Car Version' => empty($offer->carVersion) ? 'NIL' : $offer->carVersion->varient_name,
-            'Title' => empty($offer->title) ? 'NIL' : $offer->title,
-            'Key Feature 1' => empty($offer->key_feature_1) ? 'NIL' : $offer->key_feature_1,
-            'Key Icon 1' => $offer->key_icon_1 ,
-            'Key Feature 2' => empty($offer->key_feature_2) ? 'NIL' : $offer->key_feature_2,
-            'Key Icon 2' =>  $offer->key_icon_2 ,
-            'Description' => empty($offer->description) ? 'NIL' : $offer->description,
+            'Title' =>  $offer->title,
+            'Key Feature 1' => empty($offer->key_feature_1) ? 'NIL' : $offer->html_key_feature_1,
+            'Key Icon 1' => $offer->key_icon_1,
+            'Key Feature 2' => empty($offer->key_feature_2) ? 'NIL' : $offer->html_key_feature_2,
+            'Key Icon 2' =>  $offer->key_icon_2,
+            'Description' =>  $offer->html_description,
             'Start date' => empty($offer->start_date) ? 'NIL' : dateTimeFormat($offer->start_date),
             'End date' => empty($offer->end_date) ? 'NIL' : dateTimeFormat($offer->end_date),
             'View Count' => $offer->view_count,
@@ -73,7 +75,7 @@ class OfferController extends Controller
             'Created At' => dateTimeFormat($offer->created_at),
             'Updated At' => dateTimeFormat($offer->updated_at),
         ];
-// dd($viewData);
+        // dd($viewData);
         return view('admin.offers.show', compact('offer', 'viewData'));
     }
 

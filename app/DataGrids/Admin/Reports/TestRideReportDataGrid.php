@@ -21,6 +21,7 @@ class TestRideReportDataGrid extends Grid
     ->leftJoin('users as u', 'u.id', '=', 'test_drives.user_id')
     ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
     ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
+    ->where('test_drives.status','!=',TestDrive::STATUS_NOT_VERIFIED)
     
     ->when(request()->query('brand_1_id'), function ($q) {
         $q->where('c.brand_id', request()->query('brand_1_id'));
@@ -109,7 +110,7 @@ class TestRideReportDataGrid extends Grid
                     'type' => 'select',
                     'attribute' => 'test_drives.status',
                     'operator' => '=',
-                    'data' => config('params.test_drive.status')
+                    'data' => $this->getStatus(),
                 ],
                 'value' => function ($model) {
                     return config('params.test_drive.status')[$model->status] ?? 'Unknown';
@@ -150,5 +151,11 @@ class TestRideReportDataGrid extends Grid
             ],
 
         ];
+    }
+    private function getStatus()
+    {
+        $value = config('params.test_drive.status');
+        unset($value[5]);
+        return $value;
     }
 }

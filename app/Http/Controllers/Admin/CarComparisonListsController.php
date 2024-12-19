@@ -105,6 +105,7 @@ class CarComparisonListsController extends Controller
                     'brand_id' => $request->brand_id,
                     'brand_1_id' => $request->brand_1_id,
                     'brand_2_id' => $request->brand_2_id,
+                    'status' => $request->status,
                 ]
 
             );
@@ -148,6 +149,7 @@ class CarComparisonListsController extends Controller
             'Car 2 Image' => $carComparisonList->car2->image ?? 'N/A',
             'Car 2 Model' => $carComparisonList->car2->model_name ?? 'N/A',
             'Car version 2' => $carComparisonList->version2 ? $carComparisonList->version2->varient_name : 'N/A',
+            'status' => $carComparisonList->status ==1 ? 'Active' : 'Inactive',
         ];
         // dd($viewData);
 
@@ -308,7 +310,8 @@ class CarComparisonListsController extends Controller
                     'brand_id' => $request->brand_id,
                     'brand_1_id' => $request->brand_1_id,
                     'brand_2_id' => $request->brand_2_id,
-                    'body_type' => $request->body_type_id
+                    'body_type' => $request->body_type_id,
+                    'status' => $request->status,
                 ]
             );
 

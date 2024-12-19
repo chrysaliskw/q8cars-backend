@@ -63,8 +63,8 @@ class OfferRequest extends FormRequest
                     $validator->errors()->add('key_feature_2', 'The key feature 2 is required when key icon 2 is present.');
                 }
             });
+      
         }
-    
       
     }
 }

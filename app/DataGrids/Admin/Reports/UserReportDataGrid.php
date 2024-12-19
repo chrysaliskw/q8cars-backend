@@ -44,7 +44,7 @@ class UserReportDataGrid extends Grid
         return [
 
             'mobile' => [
-                'label' => 'Mobile',
+                'label' => 'User Mobile',
                 'value' => function ($model) {
                     return $model->phone_code . $model->mobile;
                 },
@@ -55,7 +55,7 @@ class UserReportDataGrid extends Grid
                 ]
             ],
             'name' => [
-                'label' => 'Name',
+                'label' => 'User Name',
                 'value' => function ($model) {
                     return $model->name;
                 },
@@ -66,7 +66,7 @@ class UserReportDataGrid extends Grid
                 ]
             ],
             'email' => [
-                'label' => 'Email',
+                'label' => 'User Email',
                 'value' => function ($model) {
                     return $model->email;
                 },

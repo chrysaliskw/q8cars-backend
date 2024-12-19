@@ -20,7 +20,8 @@ class Notification extends Model
         self::STATUS_INACTIVE => 'Inactive',
         self::STATUS_EXPIRED => 'Expired',
     ];
-
+const READ = 1;
+const NOT_READ = 0;
 
     protected $fillable = [
         'user_id',

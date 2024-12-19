@@ -28,15 +28,15 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-select field="is_upcoming" field-name="Is Upcoming ?" onchange="toggleUpcoming(this)" id="is_upcoming" >
-                    <option value="1" <?php if(1 == $car->is_upcoming){ echo "selected";}?>>Yes</option>
-                    <option  value="2" <?php if(2 == $car->is_upcoming){ echo "selected";}?>>No</option>
+                <x-form-select field="is_upcoming" field-name="Is Upcoming?" onchange="toggleUpcoming(this)" id="is_upcoming">
+                    <option value="1" {{ old('is_upcoming', $car->is_upcoming) == 1 ? 'selected' : '' }}>Yes</option>
+                    <option value="2" {{ old('is_upcoming', $car->is_upcoming) == 2 ? 'selected' : '' }}>No</option>
                 </x-form-select>
             </div>
             <div class="col-md-4 justLaunch">
-                <x-form-select field="is_just_launched" field-name="Is Just Launched ?" onchange="toggleJustLaunch(this)" id="is_just_launched" >
-                    <option value="1" <?php if(1 == $car->is_just_launched){ echo "selected";}?>>Yes</option>
-                    <option  value="2" <?php if(2 == $car->is_just_launched){ echo "selected";}?>>No</option>
+                <x-form-select field="is_just_launched" field-name="Is Just Launched?" onchange="toggleJustLaunch(this)" id="is_just_launched">
+                    <option value="1" {{ old('is_just_launched', $car->is_just_launched) == 1 ? 'selected' : '' }}>Yes</option>
+                    <option value="2" {{ old('is_just_launched', $car->is_just_launched) == 2 ? 'selected' : '' }}>No</option>
                 </x-form-select>
             </div>
             <div class="col-md-4 justLaunch">

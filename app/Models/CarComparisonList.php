@@ -23,7 +23,8 @@ class CarComparisonList extends Model
         'brand_id',
         'brand_1_id',
         'brand_2_id',
-        'car_id'
+        'car_id',
+        'status',
     ];
     public function car1()
     {

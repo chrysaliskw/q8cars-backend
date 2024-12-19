@@ -97,6 +97,7 @@ class CuratedCompareRequest extends FormRequest
             'content' => ['required', 'string'],
             'status' => ['required', Rule::in(array_keys(config('params.curated-comparisons.status')))],
             'published_date' => ['required', 'date'],
+            'sort_order' => 'required|integer',
 
         ];
     }
@@ -165,6 +166,7 @@ class CuratedCompareRequest extends FormRequest
             'content' => ['required', 'string'],
             'status' => ['required', Rule::in(array_keys(config('params.curated-comparisons.status')))],
             'published_date' => ['required', 'date'],
+             'sort_order' => 'required|integer',
 
         ];
     }

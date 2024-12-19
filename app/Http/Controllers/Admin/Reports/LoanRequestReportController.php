@@ -52,7 +52,7 @@ class LoanRequestReportController extends Controller
         if (! empty($request->startDate)) {
             $start = Carbon::parse($request->startDate)->format('d_M_Y');
             $end = Carbon::parse($request->endDate)->format('d_M_Y');
-            $name = 'WrapnSeal_Customer_Report' . $start . '_To_' . $end . '.xlsx';
+            $name = 'Q8cars_Loan_Report' . $start . '_To_' . $end . '.xlsx';
         }
         return (new LoanRequestsReportsExport($request->startDate, $request->endDate))
             // ->forBrand($request->brand_1_id)

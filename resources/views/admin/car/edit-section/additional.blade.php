@@ -41,7 +41,7 @@
                                             <x-form-input type="text" field="attribute_{{$i}}" id="attribute_{{$i}}" class="validate" value="{{$additionals[$i]->specification}}"> </x-form-input>
                                         </td>
                                         <td>
-                                            <x-form-select field="input_type_{{$i}}" id="input_type_{{$i}}" onchange="toggleFields({{$i}})">
+                                            <x-form-select field="input_type_{{$i}}" id="input_type_{{$i}}" onchange="toggleFields({{$i}})" style="width: 500px;">
                                                 <option value="1" <?php if(1 == $additionals[$i]->input_type){ echo "selected";}?>>Text</option>
                                                 <option value="2" <?php if(2 == $additionals[$i]->input_type){ echo "selected";}?>>Boolean</option>
                                             </x-form-select>
@@ -137,7 +137,7 @@
                 <x-form-input type="text" field="attribute_${rowCount}" id="attribute_${rowCount}" class="validate"></x-form-input>
             </td>
             <td>
-                <x-form-select field="input_type_${rowCount}" id="input_type_${rowCount}" onchange="toggleFields(${rowCount})">
+                <x-form-select field="input_type_${rowCount}" id="input_type_${rowCount}" onchange="toggleFields(${rowCount})" style="width:80px;>
                 <option value="1">Text</option>
                     <option value="2">Boolean</option>
                 </x-form-select>
@@ -239,7 +239,7 @@
                                         <x-form-input type="text" field="attribute_{{$i}}" id="attribute_{{$i}}" class="validate" value="{{$additionals[$i]->specification}}"></x-form-input>
                                     </td>
                                     <td>
-                                        <x-form-select field="input_type_{{$i}}" id="input_type_{{$i}}" onchange="toggleFields({{$i}})">
+                                        <x-form-select field="input_type_{{$i}}" id="input_type_{{$i}}" onchange="toggleFields({{$i}})" style="width: 80px;" >
                                             <option value="1" <?php if(1 == $additionals[$i]->input_type){ echo "selected";}?>>Text</option>
                                             <option value="2" <?php if(2 == $additionals[$i]->input_type){ echo "selected";}?>>Boolean</option>
                                         </x-form-select>

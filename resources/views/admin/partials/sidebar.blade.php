@@ -104,7 +104,7 @@
                 @canany(['All', 'Offers Requests'])
                     <li>
                         <a href="{{ route('admin.offer-requests.index') }}" class="waves-effect">
-                            <i class="fa fa-gift"></i><span> Offer Requests</span>
+                            <i class="fa fa-gift"></i><span> Enquiries</span>
                         </a>
                     </li>
                 @endcanany
@@ -171,7 +171,7 @@
                                 <a href="{{ route('admin.reports.loan-requests.index') }}">Loan Requests Report</a>
                             </li>
                             <li>
-                                <a href="{{ route('admin.reports.offer-request.index') }}">Offer Request Report</a>
+                                <a href="{{ route('admin.reports.offer-request.index') }}">Enquiries Report</a>
                             </li>
 
                         </ul>
@@ -192,6 +192,16 @@
                             <li>
                                 <a href="{{ route('admin.sub-admin.admin.index') }}">Users</a>
                             </li>
+                            <li>
+                                <a href="{{ route('admin.configurations') }}">Configurations</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
+                @canany(['All'])
+                    <li class="has_sub"> 
+                    <a href="#" class="waves-effect"><i class="fa fa-cog"></i><span> Settings </span><span class="pull-right"><i class="md md-add"></i></span></a>
+                        <ul class="list-unstyled">
                             <li>
                                 <a href="{{ route('admin.configurations') }}">Configurations</a>
                             </li>

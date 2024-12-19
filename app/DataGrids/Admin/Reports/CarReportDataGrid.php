@@ -14,54 +14,54 @@ class CarReportDataGrid extends Grid
 
     public function gridQuery()
     {
-  
+
         $endDate = Carbon::parse(request()->query('end_date'))->addHours(23)->addMinutes(59)->addSeconds(59)->format('Y-m-d H:i');
         $startDate = Carbon::parse(request()->query('start_date'))->format('Y-m-d H:i');
-      
-        $query = Car::query()
-        ->select([
-            'b.id as brand_id',
-            'b.name as brand_name',
-            'cars.id',
-            'cars.model_name as model_name',
-            'cars.sort_order as sort_order',
-            'cars.status as status',
-            'cars.is_upcoming as is_upcoming',
-            'cars.is_just_launched as is_just_launched',
-            DB::raw('(SELECT COUNT(*) FROM car_versions WHERE car_versions.car_id = cars.id AND car_versions.status = 1) as version_count'),
-            DB::raw('(SELECT COUNT(*) FROM test_drives WHERE test_drives.car_id = cars.id AND test_drives.status = 3) as test_ride_count'),
-            DB::raw('(SELECT COUNT(*) FROM offer_requests WHERE offer_requests.car_id = cars.id AND offer_requests.status = 2 AND offer_requests.type = 1) as offer_request_count'),
-            DB::raw('(SELECT COUNT(*) FROM offer_requests WHERE offer_requests.car_id = cars.id AND offer_requests.status = 2 AND offer_requests.type = 2) as onroad_price_count'),
-            DB::raw('(SELECT COUNT(*) FROM offer_requests WHERE offer_requests.car_id = cars.id AND offer_requests.status = 2 AND offer_requests.type = 3) as emi_request_count'),
 
-        ])
-        ->leftJoin('brands as b', 'b.id', '=', 'cars.brand_id') // Ensure correct join
-        ->groupBy('cars.id', 'b.id', 'b.name', 'cars.model_name', 'cars.sort_order', 'cars.status') // Group by necessary columns
-        ->orderBy('cars.id', 'DESC'); // Sort by car ID in descending order
-      $query->when(request()->query('model'), function ($query, $model) {
-            $query->where('cars.model_name', 'like', '%' . $model . '%');
+        $query = Car::query()
+            ->select([
+                'b.id as brand_id',
+                'b.name as brand_name',
+                'cars.id',
+                'cars.model_name as model_name',
+                'cars.sort_order as sort_order',
+                'cars.status as status',
+                'cars.is_upcoming as is_upcoming',
+                'cars.is_just_launched as is_just_launched',
+                DB::raw('(SELECT COUNT(*) FROM car_versions WHERE car_versions.car_id = cars.id AND car_versions.status = 1) as version_count'),
+                DB::raw('(SELECT COUNT(*) FROM test_drives WHERE test_drives.car_id = cars.id AND test_drives.status = 3) as test_ride_count'),
+                DB::raw('(SELECT COUNT(*) FROM offer_requests WHERE offer_requests.car_id = cars.id AND offer_requests.status = 2 AND offer_requests.type = 1) as offer_request_count'),
+                DB::raw('(SELECT COUNT(*) FROM offer_requests WHERE offer_requests.car_id = cars.id AND offer_requests.status = 2 AND offer_requests.type = 2) as onroad_price_count'),
+                DB::raw('(SELECT COUNT(*) FROM offer_requests WHERE offer_requests.car_id = cars.id AND offer_requests.status = 2 AND offer_requests.type = 3) as emi_request_count'),
+
+            ])
+            ->leftJoin('brands as b', 'b.id', '=', 'cars.brand_id') // Ensure correct join
+            ->groupBy('cars.id', 'b.id', 'b.name', 'cars.model_name', 'cars.sort_order', 'cars.status') // Group by necessary columns
+            ->orderBy('cars.id', 'DESC'); // Sort by car ID in descending order
+        $query->when(request()->query('car_1_id'), function ($query, $model) {
+            $query->where('cars.id', request()->query('car_1_id'));
         });
-        $query->when(request()->query('brand'), function ($query, $brand) {
-            $query->where('brands.name', 'like', '%' . $brand . '%');
+        $query->when(request()->query('brand_1_id'), function ($query, $brand) {
+            $query->where('cars.brand_id', request()->query('brand_1_id'));
         });
         $query->when(request()->query('is_upcoming'), function ($query, $value) {
             $query->where('cars.is_upcoming', $value);
         });
-        $query->when(request()->query('is_just_launched'),function ($query, $value) {
+        $query->when(request()->query('is_just_launched'), function ($query, $value) {
             $query->where('cars.is_just_launched', $value);
         });
         $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
-            $q->where('users.created_at', '>=', $startDate)
-                ->where('users.created_at', '<=', $endDate);
+            $q->where('cars.created_at', '>=', $startDate)
+                ->where('cars.created_at', '<=', $endDate);
         });
-   
+
         return $query;
     }
 
     public function columns()
     {
         return [
-           
+
             'model_name' => [
                 'label' => 'Model Name',
                 'value' => function ($model) {
@@ -168,7 +168,7 @@ class CarReportDataGrid extends Grid
                 'value' => function ($model) {
                     return config('params.car.status')[$model->status];
                 },
-               'contentCssClass' => 'filter',
+                'contentCssClass' => 'filter',
             ],
 
         ];

@@ -1,11 +1,11 @@
-<x-admin-layout title="Offer Request Reports">
+<x-admin-layout title="Enquiries Reports">
 
     <x-slot name="breadcrumb">
         <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-        <li class="active">Offer Request Reports</li>
+        <li class="active">OEnquiries Reports</li>
     </x-slot>
 
-    <x-crud-create cardTitle="Create Offer Request Report">
+    <x-crud-create cardTitle="Create Enquiries Report">
         <form method="GET" class="form-horizontal" action="{{ route('admin.reports.offer-request.index') }}">
             <div class="row">
                 <div class="col-md-4">

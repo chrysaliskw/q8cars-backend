@@ -36,6 +36,7 @@ use App\Http\Controllers\Api\User\CuratedComparisonController;
 use App\Http\Controllers\Api\User\CompareCarsDetailsController;
 use App\Http\Controllers\Api\User\FavouriteComparisonController;
 use App\Http\Controllers\Api\User\BankSuggestionRequestController;
+use Google\Service\Blogger\Post;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -65,6 +66,7 @@ Route::middleware('auth:user_api')->group(function () {
     //submit review
     Route::post('/submit-reviews',SubmitReviewController::class);
     // Cars Api
+    Route::post('cars/video-view',[CarController::class,'incrementVideoViewCount']);
     Route::get('cars/colors',[CarController::class,'colors']);
     Route::get('cars/compare-similar', [CarController::class, 'compareSimilar']);
     Route::get('cars/images', [CarController::class, 'carImages']);
@@ -99,6 +101,7 @@ Route::middleware('auth:user_api')->group(function () {
     //notifications
     Route::get('/notifications', NotificationController::class);
     Route::post('/notifications/toggle-mute', [NotificationController::class, 'toggleMute']);
+    Route::post('/notifications/read',[NotificationController::class,'read']);
 
     //favourite comparison
     Route::get('/fav-comparisons', FavouriteComparisonController::class);
