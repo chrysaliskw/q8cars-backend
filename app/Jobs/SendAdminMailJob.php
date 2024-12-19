@@ -39,26 +39,16 @@ class SendAdminMailJob implements ShouldQueue
      */
     public function handle()
     {
-        $settings = SmtpSetting::setSmtpConfig();
 
-        if ($settings) {
-            // Log::info($this->details['cc']);
-            try {
-                $resp = Mail::to($this->emailId)->cc($this->details['cc'] ?? [])->send(new SendAdminMail($this->details));
-               if ($resp) {
-                    Log::info('Email sent successfully', ['recipient' => $this->emailId]);
-                } else {
-                    Log::error('Failed to send email', ['recipient' => $this->emailId]);
-                }
-            } catch (\Exception $e) {
-                Log::error('Error sending email: ' . $e->getMessage(), ['recipient' => $this->emailId]);
+        try {
+            $resp = Mail::to($this->emailId)->cc($this->details['cc'] ?? [])->send(new SendAdminMail($this->details));
+            if ($resp) {
+                Log::info('Email sent successfully', ['recipient' => $this->emailId]);
+            } else {
+                Log::error('Failed to send email', ['recipient' => $this->emailId]);
             }
+        } catch (\Exception $e) {
+            Log::error('Error sending email: ' . $e->getMessage(), ['recipient' => $this->emailId]);
         }
-
-    //     $settings = SmtpSetting::setSmtpConfig();
-    //     if($settings){
-    //         Mail::to($this->emailId)->send(new SendAdminMail($this->details));
-    // }
     }
-
 }

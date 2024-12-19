@@ -10,7 +10,8 @@ class SmtpSetting extends Model
 {
     use HasFactory;
 
-    public static function checkSmtpConfig(){
+    public static function checkSmtpConfig()
+    {
         $setting = self::first();
 
         Log::info('Fetched SMTP settings:', [
@@ -22,8 +23,7 @@ class SmtpSetting extends Model
 
         // dd(config('mail.mailers.smtp'));
 
-        if($setting && isset($setting->smtp_host) && isset($setting->smtp_username) && isset($setting->smtp_password))
-        {
+        if ($setting && isset($setting->smtp_host) && isset($setting->smtp_username) && isset($setting->smtp_password)) {
             config([
                 'mail.mailers.smtp.host' => $setting->smtp_host,
                 'mail.mailers.smtp.port' => 587,
@@ -37,43 +37,38 @@ class SmtpSetting extends Model
                 // 'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),
                 // 'mail.from.address' => env('MAIL_USERNAME'),
                 // 'mail.from.name' => 'Shadiya',
-                ]);
+            ]);
 
 
             return true;
-        }else{
+        } else {
             return false;
         }
-
-
     }
 
     public static function setSmtpConfig()
     {
         $setting = self::first();
 
-        if($setting && isset($setting->smtp_host) && isset($setting->smtp_username) && isset($setting->smtp_password))
-        {
+        if ($setting && isset($setting->smtp_host) && isset($setting->smtp_username) && isset($setting->smtp_password)) {
             config([
-                    'mail.mailers.smtp.host' => $setting->smtp_host,
-                    'mail.mailers.smtp.port' => 587,
-                    'mail.mailers.smtp.username' => $setting->smtp_username,
-                    'mail.mailers.smtp.password' => $setting->smtp_password,
-                    'mail.from.address' => $setting->smtp_username,
-                    'mail.from.name' => $setting->smtp_from_name
-                    // 'mail.mailers.smtp.host' => env('MAIL_HOST'),
-                    // 'mail.mailers.smtp.port' => env('MAIL_PORT'),
-                    // 'mail.mailers.smtp.username' => env('MAIL_USERNAME'),
-                    // 'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),
-                    // 'mail.from.address' => env('MAIL_USERNAME'),
-                    // 'mail.from.name' => 'Shadiya',
-                    ]);
+                'mail.mailers.smtp.host' => $setting->smtp_host,
+                'mail.mailers.smtp.port' => 587,
+                'mail.mailers.smtp.username' => $setting->smtp_username,
+                'mail.mailers.smtp.password' => $setting->smtp_password,
+                'mail.from.address' => $setting->smtp_username,
+                'mail.from.name' => $setting->smtp_from_name
+                // 'mail.mailers.smtp.host' => env('MAIL_HOST'),
+                // 'mail.mailers.smtp.port' => env('MAIL_PORT'),
+                // 'mail.mailers.smtp.username' => env('MAIL_USERNAME'),
+                // 'mail.mailers.smtp.password' => env('MAIL_PASSWORD'),
+                // 'mail.from.address' => env('MAIL_USERNAME'),
+                // 'mail.from.name' => 'Shadiya',
+            ]);
 
             return true;
-        }else{
+        } else {
             return false;
         }
-
-
     }
 }
