@@ -22,6 +22,7 @@ class Notification extends Model
     ];
 const READ = 1;
 const NOT_READ = 0;
+const EXPIRED = 2;
 
     protected $fillable = [
         'user_id',

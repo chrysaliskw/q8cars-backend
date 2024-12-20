@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('offer:expired')->daily();
         $schedule->command('news:expired')->daily();
+        $schedule->command('notification:expired')->daily();
     }
 
     /**
