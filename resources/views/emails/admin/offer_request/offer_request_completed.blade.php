@@ -21,9 +21,18 @@
                                 </td>
                             </tr>
 
+                            </tr>
                             <tr>
                                 <td style="background-color: #fff;padding:15px;text-align:center;">
-                                    <h1>Offer Request Completed</h1>
+                                    {{-- <h1>Offer Request Completed</h1> --}}
+                                    @if ($offerRequest['type'] == 1)
+                                        <h1>Offer Request Completed</h1>
+                                    @elseif ($offerRequest['type'] == 2)
+                                        <h1>On Road Price Request Completed</h1>
+                                    @elseif ($offerRequest['type'] == 3)
+                                        <h1>EMI Request Completed</h1>
+
+                                    @endif
                                 </td>
                             </tr>
 
@@ -32,12 +41,28 @@
                                     <table width="300" style="border-spacing: 0;background-color:#F9F9F9;padding:12px;">
 
                                         <td width="200" style="padding-left:20px;">
+                                            @if ($offerRequest['type'] == 1)
 
-                                             Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
+                                                Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
 
-                                             We are pleased to inform you that your Offer Request has been completed.
+                                                We are pleased to inform you that your Offer Request has been completed.
 
-                                             Thank you for choosing us!
+                                                Thank you for choosing us!
+                                            @elseif ($offerRequest['type'] == 2)
+
+                                                Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
+
+                                                We are pleased to inform you that your On Road Price Request has been completed.
+
+                                                Thank you for choosing us!
+                                            @elseif ($offerRequest['type'] == 3)
+
+                                                Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
+
+                                                We are pleased to inform you that your EMI Request has been completed.
+
+                                                Thank you for choosing us!
+                                            @endif
 
                                         </td>
                                     </table>

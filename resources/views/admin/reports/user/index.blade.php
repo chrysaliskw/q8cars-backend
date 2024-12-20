@@ -13,7 +13,13 @@
                 </div>
 
                 <div class="col-md-4">
-                    <x-form-input type="text" field="mobile" field-name="Mobile" value="<?php echo isset($_GET['mobile']) ? $_GET['mobile'] : ''; ?>"></x-form-input>
+                    <x-form-input
+                        type="text"
+                        field="mobile"
+                        field-name="Mobile"
+                        id="mobile-field"
+                        value="<?php echo isset($_GET['mobile']) ? (strpos($_GET['mobile'], '+965') === 0 ? substr($_GET['mobile'], 4) : $_GET['mobile']) : ''; ?>"
+                    ></x-form-input>
                 </div>
 
                 <div class="col-md-4">
@@ -94,7 +100,7 @@
                         <input type="hidden" name="startDate" value="<?php echo $_GET['start_date'] ?? ''; ?>" />
                         <input type="hidden" name="endDate" value="<?php echo $_GET['end_date'] ?? ''; ?>" />
                         <input type="hidden" name="name" value="<?php echo $_GET['name'] ?? ''; ?>" />
-                        <input type="hidden" name="mobile" value="<?php echo $_GET['mobile'] ?? ''; ?>" />
+                        <input type="hidden" name="mobile" value="<?php echo isset($_GET['mobile']) ? str_replace('+965', '', $_GET['mobile']) : ''; ?>" />
                         <input type="hidden" name="email" value="<?php echo $_GET['email'] ?? ''; ?>" />
                         <input type="hidden" name="area_id" value="<?php echo $_GET['area_id'] ?? ''; ?>" />
                     </form>
@@ -122,6 +128,22 @@
 
 
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const mobileField = document.getElementById('mobile-field');
+
+                // Add +965 prefix for readability
+                if (mobileField && !mobileField.value.startsWith('+965')) {
+                    mobileField.value = '+965' + mobileField.value;
+                }
+
+                // Remove +965 prefix before form submission
+                mobileField.form.addEventListener('submit', function () {
+                    if (mobileField.value.startsWith('+965')) {
+                        mobileField.value = mobileField.value.replace('+965', '').trim();
+                    }
+                });
+            });
 
     </x-slot>
 

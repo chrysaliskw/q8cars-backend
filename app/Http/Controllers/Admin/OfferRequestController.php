@@ -82,6 +82,7 @@ class OfferRequestController extends Controller
             'title' => 'Offer Request',
             'page'  => $page,
             'offerRequest' => $offerRequest,
+
         ];
         // }
 
