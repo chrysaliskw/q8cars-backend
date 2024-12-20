@@ -43,6 +43,7 @@ class LoanRequestController extends ApiBaseController
         ];
 
         $existingLoanRequest = BankSuggestionRequest::where('user_id', $request->user()->id)
+            ->where('type', BankSuggestionRequest::TYPE_LOAN)
             ->where('status', BankSuggestionRequest::STATUS_SUBMITTED)->exists();
 
         if ($existingLoanRequest) {

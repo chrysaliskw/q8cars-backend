@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\TestDrive;
 use Exception;
+use App\Models\Offer;
+
+use App\Models\TestDrive;
 use App\Models\OfferRequest;
 use Illuminate\Http\Request;
 use App\Jobs\SendAdminMailJob;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\DataGrids\Admin\OfferRequestDataGrid;
-use App\Models\Offer;
 
 class OfferRequestController extends Controller
 {
@@ -81,6 +82,7 @@ class OfferRequestController extends Controller
             'title' => 'Offer Request',
             'page'  => $page,
             'offerRequest' => $offerRequest,
+
         ];
         // }
 

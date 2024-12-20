@@ -34,7 +34,15 @@ Thank you for choosing us!
 
                             <tr>
                                 <td style="background-color: #fff;padding:15px;text-align:center;">
-                                    <h1>Offer Request Submitted</h1>
+                                    @if($offerRequest['type'] == 1)
+                                        <h1>Offer Request Submitted</h1>
+                                    @elseif($offerRequest['type'] == 2)
+                                        <h1>On Road Price Request Submitted</h1>
+                                    @elseif($offerRequest['type'] == 3)
+                                        <h1>EMI Request Submitted</h1>
+                                    @endif
+
+
                                 </td>
                             </tr>
 
@@ -46,14 +54,36 @@ Thank you for choosing us!
 
                                              Hi <b>{{ $offerRequest['full_name'] }}</b>,
 
-                                            @if(isset($details['car']) && isset($details['car_version']))
-                                                 We are pleased to inform you that your offer request for {{ $details['car'] }} model, {{ $details['car_version'] }} variant has been <b>submitted</b>.
-                                            @elseif(isset($details['car']) && $details['car'] != 'Unknown Car')
-                                                We are pleased to inform you that your offer request for {{ $details['car'] }} model has been <b>submitted</b>.
-                                            @elseif(isset($details['car_version']) && $details['car_version'] != 'Unknown Car Version')
-                                                We are pleased to inform you that your offer request for {{ $details['car_version'] }} variant has been <b>submitted</b>.
-                                            @else
-                                                We are pleased to inform you that your offer request has been <b>submitted</b>.
+                                             @if($offerRequest['type'] == 1)
+                                                    @if(isset($details['car']) && isset($details['car_version']))
+                                                        We are pleased to inform you that your offer request for {{ $details['car'] }} model, {{ $details['car_version'] }} variant has been <b>submitted</b>.
+                                                    @elseif(isset($details['car']) && $details['car'] != 'Unknown Car')
+                                                        We are pleased to inform you that your offer request for {{ $details['car'] }} model has been <b>submitted</b>.
+                                                    @elseif(isset($details['car_version']) && $details['car_version'] != 'Unknown Car Version')
+                                                        We are pleased to inform you that your offer request for {{ $details['car_version'] }} variant has been <b>submitted</b>.
+                                                    @else
+                                                        We are pleased to inform you that your offer request has been <b>submitted</b>.
+                                                    @endif
+                                            @elseif($offerRequest['type'] == 2)
+                                                    @if(isset($details['car']) && isset($details['car_version']))
+                                                        We are pleased to inform you that your on road price request for {{ $details['car'] }} model, {{ $details['car_version'] }} variant has been <b>submitted</b>.
+                                                    @elseif(isset($details['car']) && $details['car'] != 'Unknown Car')
+                                                        We are pleased to inform you that your on road price request for {{ $details['car'] }} model has been <b>submitted</b>.
+                                                    @elseif(isset($details['car_version']) && $details['car_version'] != 'Unknown Car Version')
+                                                        We are pleased to inform you that your on road price request for {{ $details['car_version'] }} variant has been <b>submitted</b>.
+                                                    @else
+                                                        We are pleased to inform you that your on road price request has been <b>submitted</b>.
+                                                    @endif
+                                            @elseif($offerRequest['type'] == 3)
+                                                    @if(isset($details['car']) && isset($details['car_version']))
+                                                        We are pleased to inform you that your EMI request for {{ $details['car'] }} model, {{ $details['car_version'] }} variant has been <b>submitted</b>.
+                                                    @elseif(isset($details['car']) && $details['car'] != 'Unknown Car')
+                                                        We are pleased to inform you that your EMI request for {{ $details['car'] }} model has been <b>submitted</b>.
+                                                    @elseif(isset($details['car_version']) && $details['car_version'] != 'Unknown Car Version')
+                                                        We are pleased to inform you that your EMI request for {{ $details['car_version'] }} variant has been <b>submitted</b>.
+                                                    @else
+                                                        We are pleased to inform you that your EMI request has been <b>submitted</b>.
+                                                    @endif
                                             @endif
 
 

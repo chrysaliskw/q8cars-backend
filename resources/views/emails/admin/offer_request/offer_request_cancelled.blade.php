@@ -23,7 +23,14 @@
 
                             <tr>
                                 <td style="background-color: #fff;padding:15px;text-align:center;">
+
+                                    @if($offerRequest['type'] == 1)
                                     <h1>Offer Request Cancelled</h1>
+                                @elseif($offerRequest['type'] == 2)
+                                    <h1>On Road Price Request Cancelled</h1>
+                                @elseif($offerRequest['type'] == 3)
+                                    <h1>EMI Request Cancelled</h1>
+                                @endif
                                 </td>
                             </tr>
 
@@ -32,12 +39,26 @@
                                     <table width="300" style="border-spacing: 0;background-color:#F9F9F9;padding:12px;">
 
                                         <td width="200" style="padding-left:20px;">
+                                            @if ($offerRequest['type'] == 1)
 
-                                             Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
+                                                Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
 
-                                             We regret to inform you that your Offer Request has been cancelled.
+                                                We regret to inform you that your Offer Request has been cancelled.
 
-                                             If you have any questions, please feel free to reach out.
+                                                If you have any questions, please feel free to reach out.
+                                            @elseif ($offerRequest['type'] == 2)
+                                                Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
+
+                                                We regret to inform you that your On Road Price Request has been cancelled.
+
+                                                If you have any questions, please feel free to reach out.
+                                            @elseif ($offerRequest['type'] == 3)
+                                                Hi <b>{{ $offerRequest->first_name }} {{ $offerRequest->last_name }},</b>
+
+                                                We regret to inform you that your EMI Request has been cancelled.
+
+                                                If you have any questions, please feel free to reach out.
+                                            @endif
 
                                         </td>
                                     </table>
