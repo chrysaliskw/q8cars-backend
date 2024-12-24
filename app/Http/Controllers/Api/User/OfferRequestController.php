@@ -60,7 +60,7 @@ class OfferRequestController extends ApiBaseController
                 $query->where('offer_id',$offerId);
             })
             ->exists()){
-                return $this->error('You already have a request submitted', Response::HTTP_OK);  
+                return $this->error('You already have a request submitted', Response::HTTP_OK);
         }
 
         // $settings = SmtpSetting::checkSmtpConfig();
@@ -88,7 +88,24 @@ class OfferRequestController extends ApiBaseController
 
             dispatch(new SendAdminMailJob($details, $request->email));
 
-            return $this->success(['data' => []], 'Offer Request submitted successfully!', Response::HTTP_OK);
+            // return $this->success(['data' => []], 'Offer Request submitted successfully!', Response::HTTP_OK);
+            switch ($request->type) {
+                case 1:
+                    $message = 'Offer Request submitted successfully!';
+                    break;
+                case 2:
+                    $message = 'On Road Price Request submitted successfully!';
+                    break;
+                case 3:
+                    $message = 'EMI Request submitted successfully!';
+                    break;
+                default:
+                    $message = 'Invalid Request Type!';
+                    return $this->error([], $message, Response::HTTP_BAD_REQUEST);
+            }
+
+            return $this->success(['data' => []], $message, Response::HTTP_OK);
+
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             return back()->with('failed', 'Failed! there is some issue with email provider');
