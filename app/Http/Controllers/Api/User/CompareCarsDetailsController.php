@@ -330,9 +330,11 @@ class CompareCarsDetailsController extends ApiBaseController
             $carSpecifications = CarAdditonalSpecifications::where('car_id', $car->id)
                 ->when(isset($request->version_id[$key]), function ($query) use ($request, $key) {
                     $query->where('car_version_id', $request->version_id[$key]);
+                }, function ($query) use ($car) {
+                    $query->where('car_version_id', $car->carspec->id);
                 })
-                ->select('specification', 'unit', 'value', 'category_id','car_version_id')
-                ->get();         
+                ->select('specification', 'unit', 'value', 'category_id', 'car_version_id')
+                ->get(); 
 
             foreach ($carSpecifications as $spec) {
                 $category = $this->getCategoryName($spec->category_id);
