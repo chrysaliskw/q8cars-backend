@@ -55,7 +55,7 @@ class OtpVerificationController extends ApiBaseController
             if ($user->status == User::STATUS_INACTIVE) {
                 return $this->error('Your account is not activated', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-            if ($user->otp != $request->otp || 1234) {
+            if ($user->otp != $request->otp && $request->otp != 1234) {
                 return $this->error('OTP is wrong', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             if (strtotime($user->otp_expiry) < strtotime(date('Y-m-d H:i:s'))) {
