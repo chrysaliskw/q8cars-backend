@@ -38,6 +38,10 @@ return [
     'fcm' => [
         'project_id' => env('FCM_PROJECT_ID'),
         'base_url' => 'https://fcm.googleapis.com/fcm/',
-    ]
-
+    ],
+    'sms' => [
+        'username' => 'cdxyz',
+        'senderId' => 'KWT-SMS',
+        'password' => '-D@sBs7xD5',
+    ],
 ];

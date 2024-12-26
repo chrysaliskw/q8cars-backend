@@ -116,7 +116,7 @@ if (! function_exists('generate_otp')) {
     function generate_otp()
     {
         if (App::environment('production')) {
-            return rand(0001, 9999);
+            return rand(1111, 9999);
         }
 
         return 1234;

@@ -62,7 +62,7 @@ class OfferService
         } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
-            return back()->with('error', __('app.error' . $ex))->withInput();
+           // return back()->with('error', __('app.error' . $ex))->withInput();
         }
     }
 
@@ -109,7 +109,7 @@ class OfferService
         } catch (Exception $ex) {
             DB::rollBack();
             logger($ex);
-            return back()->with('error', __('app.error'))->withInput();
+           // return back()->with('error', __('app.error'))->withInput();
         }
     }
 }

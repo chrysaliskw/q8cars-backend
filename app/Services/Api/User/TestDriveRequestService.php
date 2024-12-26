@@ -36,7 +36,7 @@ class TestDriveRequestService
         $testDriveRequest->otp = generate_otp();
         $testDriveRequest->saveOrFail();
         Log::info('otp', [$testDriveRequest->otp]);
-        return true;
+        return $testDriveRequest;
     }
 
     public function verifyOtp()

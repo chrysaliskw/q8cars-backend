@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Exceptions\UnprocessableEntityException;
 use App\Services\Api\User\TestDriveRequestService;
+use App\Jobs\SendSmsJob;
 
 class TestDriveRequestController extends ApiBaseController
 {
@@ -59,6 +60,8 @@ class TestDriveRequestController extends ApiBaseController
             $res = $service->sendOtp();
 
             //ToDo SMS gateway integration job
+            $msg = 'Use this OTP to verify test ride request: '. $res->otp.' ';
+            SendSmsJob::dispatch($request->phone_code . $request->mobile, $msg);
         } catch (Exception $ex) {
             logger($ex);
             return $this->error(__('app.error'), Response::HTTP_INTERNAL_SERVER_ERROR);

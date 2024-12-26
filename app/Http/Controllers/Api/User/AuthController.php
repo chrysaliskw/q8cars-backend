@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Exceptions\UnprocessableEntityException;
 use App\Rules\RegexAlphaNumSpace;
+use App\Jobs\SendSmsJob;
 
 class AuthController extends ApiBaseController
 {
@@ -55,7 +56,12 @@ class AuthController extends ApiBaseController
             $user->otp_expiry = date('Y-m-d H:i:s', strtotime("+ 10 min"));
             $user->otp = generate_otp();
             $user->saveOrFail();
+
+
             // ToDo SMS Integration job
+            $msg = 'Welcome to Q8Cars! Use this OTP to verify: '. $user->otp.' ';
+            SendSmsJob::dispatch(  $request->phone_code . $request->mobile, $msg);
+           
         }
         catch (UnprocessableEntityException $ex) {
             return $this->error($ex->getMessage(), Response::HTTP_TOO_MANY_REQUESTS);

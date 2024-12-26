@@ -32,7 +32,7 @@ class OfferRequest extends FormRequest
             'key_icon_1' => 'nullable|image|max:2048|dimensions:width=34,height=35|mimes:png',
             'key_icon_2' => 'nullable|image|max:2048|dimensions:width=34,height=35|mimes:png',
             'description' => 'required|string',
-            'offer' => 'required|string',
+            'offer' => 'required|numeric',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'status' => ['required', Rule::in(array_keys(config('params.offers.status')))],
