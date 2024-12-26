@@ -36,7 +36,7 @@ class BodyTypeRequest extends FormRequest
      
         return [
             'name' => ['required', new RegexAlphaNumSpace, 'string', 'max:200','unique:body_types'],
-            'icon' => 'required|mimes:jpg,png,jpeg|max:2048',
+            'icon' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:width=45,height=17',
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
         ];
     }
@@ -57,7 +57,7 @@ class BodyTypeRequest extends FormRequest
                     ->ignore($bodyType->id) 
                     ->whereNull('deleted_at') 
             ],
-            'icon' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'icon' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:width=45,height=17',
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
         ];
     }

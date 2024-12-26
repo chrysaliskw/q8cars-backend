@@ -19,7 +19,7 @@
                     <x-form-input type="file" field="icon" field-name="Icon" value="{{ old('icon') }}">
                     </x-form-input>
                     <span class="text-muted">
-                        {{'Max size : 2MB'}} 
+                        {{'Max size : 2MB,Resolution:45px X 17px'}} 
                     </span>
                 </div>
               

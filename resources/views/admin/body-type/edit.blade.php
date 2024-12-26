@@ -22,7 +22,7 @@
                             <input id="icon" type="file" name="icon" class="form-control" style="padding-left: 2px;padding-top:2px">
                        
                             <span class="text-muted">
-                            {{'Max size : 2MB'}} 
+                            {{'Max size : 2MB ,Resolution: 45px X 17px'}}
                         </span>
                             </div>
                         <img src="{{ file_asset('files-body_type', $bodyType->icon) }}" 
