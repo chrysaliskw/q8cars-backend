@@ -26,8 +26,8 @@ class SubmitReviewController extends ApiBaseController
         $validator = Validator::make($request->all(), [
             'car_id' => 'required|exists:cars,id',
             'car_version_id' => 'required|integer',
-            'short_comment' => ['required', 'string'],
-            'detailed_comment' => ['required', 'string'],
+            'short_comment' => ['nullable', 'string'],
+            'detailed_comment' => ['nullable', 'string'],
             'rating' => ['required', 'integer', 'between:1,5'],
         ]);
 
