@@ -91,7 +91,7 @@ class NotificationService
 
     private function mapNotificationToAllUsers(Notification $notification)
     {
-        $users = User::all();
+        $users = User::active()->where('is_mute', 0)->get();
 
         foreach ($users as $user) {
             UserNotificationMapping::create([

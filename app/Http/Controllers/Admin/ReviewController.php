@@ -40,6 +40,7 @@ class ReviewController extends Controller
             'User Mobile' =>  $review->user ? "<a href='" . route('admin.user.show', $review->user->id) . "'>{$review->user->phone_code} {$review->user->mobile}</a>" : 'NA',
             'User Name' =>  $review->user ? "<a href='" . route('admin.user.show', $review->user->id) . "'>{$review->user->name} </a>" : 'NA',
             'Car Model' => $review->car->model_name,
+            'Car Version' => $review->car_version_id ? $review->carVersion->varient_name : $review->car->carSpec->varient_name,
             'Car Brand' => "<a href='" . route('admin.brand.show', $review->car->brand->id) . "'>{$review->car->brand->name}</a>",
             'Title' => $review->short_comment,
             'Description' => $review->detailed_comment,
