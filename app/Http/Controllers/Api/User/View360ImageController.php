@@ -27,6 +27,7 @@ class View360ImageController extends ApiBaseController
           
             return $this->success(['data' => [
                 'data' => $images,
+                'count' => $images->count(),
                 'common-data' => file_asset('files-360_view'),
             ]], '360 view images', Response::HTTP_OK);
 
