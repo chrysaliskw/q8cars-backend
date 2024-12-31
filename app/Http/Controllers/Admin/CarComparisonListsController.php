@@ -49,7 +49,7 @@ class CarComparisonListsController extends Controller
 
 
         if ($request->page == CarComparisonList::HOME_PAGE) {
-            if (CarComparisonList::where(function ($query) use ($request) {
+            if (CarComparisonList::where('page',CarComparisonList::HOME_PAGE)->where(function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('car_1_id', $request->car_id_1)
                         ->where('car_2_id', $request->car_id_2)
@@ -66,7 +66,7 @@ class CarComparisonListsController extends Controller
             }
         }
         if ($request->page == CarComparisonList::CAR_COMPARISON_PAGE) {
-            if (CarComparisonList::where(function ($query) use ($request) {
+            if (CarComparisonList::where('page',CarComparisonList::CAR_COMPARISON_PAGE)->where(function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('car_1_id', $request->car_id_1)
                         ->where('car_2_id', $request->car_id_2)
@@ -253,7 +253,7 @@ class CarComparisonListsController extends Controller
         // }
 
         if ($request->page == CarComparisonList::HOME_PAGE) {
-            if (CarComparisonList::where(function ($query) use ($request) {
+            if (CarComparisonList::where('page',CarComparisonList::HOME_PAGE)->where(function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('car_1_id', $request->car_id_1)
                         ->where('car_2_id', $request->car_id_2)
@@ -270,7 +270,7 @@ class CarComparisonListsController extends Controller
             }
         }
         if ($request->page == CarComparisonList::CAR_COMPARISON_PAGE) {
-            if (CarComparisonList::where(function ($query) use ($request) {
+            if (CarComparisonList::where('page',CarComparisonList::CAR_COMPARISON_PAGE)->where(function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
                     $q->where('car_1_id', $request->car_id_1)
                         ->where('car_2_id', $request->car_id_2)
