@@ -413,6 +413,7 @@ class CarController extends Controller
 
             $car->carImages()->delete();
             $car->news()->delete();
+            $car->carVersions()->delete();
             Faq::where('car_id', $car->id)->delete();
             CarFavourite::where('car_id', $car->id)->delete();
             Review::where('car_id', $car->id)->delete();
@@ -421,7 +422,7 @@ class CarController extends Controller
             CarAdditonalSpecifications::where('car_id', $car->id)->delete();
             CarComparisonList::where('car_1_id', $car->id)->orWhere('car_2_id', $car->id)->delete();
             OfferRequest::where('car_id', $car->id)->delete();
-
+            View360Image::where('car_id',$car->id)->delete();
             $car->delete();
 
             DB::commit();
