@@ -97,7 +97,9 @@ class ReviewController extends Controller
             ];
             // }
             DB::commit();
-            if ($page) {
+            if ($page && $review->user && $review->user->email !== null) {
+
+
                 dispatch(new SendAdminMailJob($details, $review->user->email));
                 return response()->json(['success' => true, 'message' => 'Review status updated and email sent.']);
             }

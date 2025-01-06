@@ -31,23 +31,23 @@ class CompareCarsDetailsController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-      
+
         $carIds = $request->carIds;
-        if((empty($request->version_id))){
+        if ((empty($request->version_id))) {
             for ($i = 0; $i < count($carIds); $i++) {
                 for ($j = $i + 1; $j < count($carIds); $j++) {
                     // Check if the comparison already exists
                     $existingComparison = RecentComparison::where('user_id', Auth::id())
-                        ->where(function($query) use ($carIds, $i, $j) {
+                        ->where(function ($query) use ($carIds, $i, $j) {
                             $query->where('car_1_id', $carIds[$i])
                                 ->where('car_2_id', $carIds[$j]);
                         })
-                        ->orWhere(function($query) use ($carIds, $i, $j) {
+                        ->orWhere(function ($query) use ($carIds, $i, $j) {
                             $query->where('car_1_id', $carIds[$j])
                                 ->where('car_2_id', $carIds[$i]);
                         })
                         ->exists();
-            
+
                     // If no existing comparison, create a new one
                     if (!$existingComparison) {
                         $comparison = new RecentComparison();
@@ -57,12 +57,12 @@ class CompareCarsDetailsController extends ApiBaseController
                         $comparison->save();
                     }
                 }
-            }       
-        } 
+            }
+        }
         $isCommon = $request->is_common;
         $isDifferent = $request->is_different;
-        $cars =[];
-        foreach($carIds as $carId){
+        $cars = [];
+        foreach ($carIds as $carId) {
             $cars[] = Car::find($carId);
         }
         // $cars[] = Car::
@@ -70,28 +70,28 @@ class CompareCarsDetailsController extends ApiBaseController
         //     ->get();
 
         if ($isCommon === '1') {
-            $data = $this->getCommonCarComparison($cars,$request);
+            $data = $this->getCommonCarComparison($cars, $request);
             return $this->success(['data' => $data], 'Common Comparison Details!', Response::HTTP_OK);
         }
 
         if ($isDifferent === '1') {
-            $data = $this->getDifferentCarComparison($cars, $carIds,$request);
+            $data = $this->getDifferentCarComparison($cars, $carIds, $request);
             return $this->success(['data' => $data], 'Different Comparison Details!', Response::HTTP_OK);
         }
 
         $specifications = [];
 
-        $basicInfo = $this->basicInfo($cars,$request);
+        $basicInfo = $this->basicInfo($cars, $request);
         $colorInfo = $this->colorInfo($cars);
-        $engineInfo = $this->engineInfo($cars,$request);
-        $fuelInfo = $this->fuelInfo($cars,$request);
-        $suspensionInfo = $this->suspensionInfo($cars,$request);
-        $dimensionInfo = $this->dimensionInfo($cars,$request);
-        $comfortInfo = $this->comfortInfo($cars,$request);
-        $interiorInfo = $this->interiorInfo($cars,$request);
-        $exteriorInfo = $this->exteriorInfo($cars,$request);
-        $safetyInfo = $this->safetyInfo($cars,$request);
-        $entertainmentInfo = $this->entertainmentInfo($cars,$request);
+        $engineInfo = $this->engineInfo($cars, $request);
+        $fuelInfo = $this->fuelInfo($cars, $request);
+        $suspensionInfo = $this->suspensionInfo($cars, $request);
+        $dimensionInfo = $this->dimensionInfo($cars, $request);
+        $comfortInfo = $this->comfortInfo($cars, $request);
+        $interiorInfo = $this->interiorInfo($cars, $request);
+        $exteriorInfo = $this->exteriorInfo($cars, $request);
+        $safetyInfo = $this->safetyInfo($cars, $request);
+        $entertainmentInfo = $this->entertainmentInfo($cars, $request);
 
         if (!is_array($basicInfo)) {
             $basicInfo = [];
@@ -151,12 +151,12 @@ class CompareCarsDetailsController extends ApiBaseController
 
         foreach ($cars as $key => $car) {
             $carSpecifications = CarAdditonalSpecifications::where('car_id', $car->id)
-            ->when(isset($request->version_id[$key]), function ($query) use ($request, $key) {
-                $query->where('car_version_id', $request->version_id[$key]);
-            })
-            ->select('specification', 'unit', 'value', 'category_id', 'car_version_id') // Include version_id in the selection
-            ->get();
-        
+                ->when(isset($request->version_id[$key]), function ($query) use ($request, $key) {
+                    $query->where('car_version_id', $request->version_id[$key]);
+                })
+                ->select('specification', 'unit', 'value', 'category_id', 'car_version_id') // Include version_id in the selection
+                ->get();
+
 
             if ($carSpecifications->isEmpty()) {
                 continue;
@@ -251,20 +251,20 @@ class CompareCarsDetailsController extends ApiBaseController
         }
     }
 
-    private function getCommonCarComparison($cars,Request $request)
+    private function getCommonCarComparison($cars, Request $request)
     {
         $specifications =  [
-            'basic_information'     => $this->basicInfo($cars,$request),
+            'basic_information'     => $this->basicInfo($cars, $request),
             'colors'                => $this->colorInfo($cars),
-            'engine_tranmission'    => $this->engineInfo($cars,$request),
-            'fuel_performance'      => $this->fuelInfo($cars,$request),
-            'suspension_steering'   => $this->suspensionInfo($cars,$request),
-            'dimension_capacity'    => $this->dimensionInfo($cars,$request),
-            'comfort_convenience'   => $this->comfortInfo($cars,$request),
-            'interior'              => $this->interiorInfo($cars,$request),
-            'exterior'              => $this->exteriorInfo($cars,$request),
-            'safety'                => $this->safetyInfo($cars,$request),
-            'entertainment'        => $this->entertainmentInfo($cars,$request),
+            'engine_tranmission'    => $this->engineInfo($cars, $request),
+            'fuel_performance'      => $this->fuelInfo($cars, $request),
+            'suspension_steering'   => $this->suspensionInfo($cars, $request),
+            'dimension_capacity'    => $this->dimensionInfo($cars, $request),
+            'comfort_convenience'   => $this->comfortInfo($cars, $request),
+            'interior'              => $this->interiorInfo($cars, $request),
+            'exterior'              => $this->exteriorInfo($cars, $request),
+            'safety'                => $this->safetyInfo($cars, $request),
+            'entertainment'        => $this->entertainmentInfo($cars, $request),
         ];
 
         $colorInfoByCar = [];
@@ -297,29 +297,29 @@ class CompareCarsDetailsController extends ApiBaseController
     {
         $specifications = [];
         $carKeyMap = [];
-        if($request->version_id){
+        if ($request->version_id) {
             foreach ($carIds as $index => $carId) {
                 $key = $request->version_id[$index] ?? $cars[$index]->carSpec->id;
-            
+
                 $carKeyMap[$key] = 'car_' . $index;
-            }  
-        }else{
-            foreach ($carIds as $index => $carId) {  
+            }
+        } else {
+            foreach ($carIds as $index => $carId) {
                 $carKeyMap[$cars[$index]->carSpec->id] = 'car_' . $index;
-            }  
+            }
         }
         $categories = [
             // 'basic_information'     => [],
             // 'colors'                => [],
             'engine_tranmission' => $this->engineInfo($cars, $request),
-            'fuel_performance' => $this->fuelInfo($cars,$request),
-            'suspension_steering' => $this->suspensionInfo($cars,$request),
-            'dimension_capacity' => $this->dimensionInfo($cars,$request),
-            'comfort_convenience' => $this->comfortInfo($cars,$request),
-            'interior' => $this->interiorInfo($cars,$request),
-            'exterior' => $this->exteriorInfo($cars,$request),
-            'safety' => $this->safetyInfo($cars,$request),
-            'entertainment' => $this->entertainmentInfo($cars,$request),
+            'fuel_performance' => $this->fuelInfo($cars, $request),
+            'suspension_steering' => $this->suspensionInfo($cars, $request),
+            'dimension_capacity' => $this->dimensionInfo($cars, $request),
+            'comfort_convenience' => $this->comfortInfo($cars, $request),
+            'interior' => $this->interiorInfo($cars, $request),
+            'exterior' => $this->exteriorInfo($cars, $request),
+            'safety' => $this->safetyInfo($cars, $request),
+            'entertainment' => $this->entertainmentInfo($cars, $request),
         ];
 
         foreach ($categories as $category => $data) {
@@ -334,7 +334,7 @@ class CompareCarsDetailsController extends ApiBaseController
                     $query->where('car_version_id', $car->carspec->id);
                 })
                 ->select('specification', 'unit', 'value', 'category_id', 'car_version_id')
-                ->get(); 
+                ->get();
 
             foreach ($carSpecifications as $spec) {
                 $category = $this->getCategoryName($spec->category_id);
@@ -351,11 +351,11 @@ class CompareCarsDetailsController extends ApiBaseController
                 if (empty($spec->unit)) {
                     $value = $spec->value;
                 }
-             
+
                 $carKey = $carKeyMap[$spec->car_version_id];
                 $specifications[$category][$spec->specification][$carKey] = $value;
             }
-        } 
+        }
 
         foreach ($specifications as $category => &$specCategory) {
             foreach ($specCategory as $specification => &$specValues) {
@@ -386,12 +386,13 @@ class CompareCarsDetailsController extends ApiBaseController
         return $specifications;
     }
 
-    private function basicInfo($cars,$request)
+    private function basicInfo($cars, $request)
     {
+        // dd($request);
         $comparisonData = [];
-          foreach ($cars as $key => $car) {
+        foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
-  
+
             $comparisonData['brand name']["car_$key"] =  $car->brand->name;
             $comparisonData['on road price']["car_$key"] = $version->on_road_price . ' KWD';
             $comparisonData['user rating']["car_$key"] = $car->total_reviews_count . ' Ratings';
@@ -415,7 +416,7 @@ class CompareCarsDetailsController extends ApiBaseController
         return $colours;
     }
 
-    private function engineInfo($cars,$request)
+    private function engineInfo($cars, $request)
     {
         $engineData = [];
         $carCount = count($cars);
@@ -433,12 +434,12 @@ class CompareCarsDetailsController extends ApiBaseController
                 }
             }
         }
-       
+
         ksort($engineData);
         return $this->mergeSimilarLabels($engineData, $carCount);
     }
 
-    private function fuelInfo($cars ,$request)
+    private function fuelInfo($cars, $request)
     {
         $fuelData = [];
         $carCount = count($cars);
@@ -458,13 +459,13 @@ class CompareCarsDetailsController extends ApiBaseController
         return $this->mergeSimilarLabels($fuelData, $carCount);
     }
 
-    private function suspensionInfo($cars,$request)
+    private function suspensionInfo($cars, $request)
     {
         $suspensionData = [];
         $carCount = count($cars);
         foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
-        
+
             if (isset($version->suspensionData)) {
                 foreach ($version->fuel as $spec) {
                     $specLabelLower = strtolower($spec->specification);
@@ -477,13 +478,13 @@ class CompareCarsDetailsController extends ApiBaseController
         return $this->mergeSimilarLabels($suspensionData, $carCount);
     }
 
-    private function dimensionInfo($cars,$request)
+    private function dimensionInfo($cars, $request)
     {
         $dimensionData = [];
         $carCount = count($cars);
         foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
-        
+
             $dimensionData['body type']["car_$key"] =  $version->bodyType->name;
             if (isset($version->dimension)) {
                 foreach ($version->dimension as $spec) {
@@ -496,13 +497,13 @@ class CompareCarsDetailsController extends ApiBaseController
         ksort($dimensionData);
         return $this->mergeSimilarLabels($dimensionData, $carCount);
     }
-    private function comfortInfo($cars , $request)
+    private function comfortInfo($cars, $request)
     {
         $comfortData = [];
         $carCount = count($cars);
         foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
-        
+
             $comfortData['seat capacity']["car_$key"] =  $car->seat_capacity;
             if (isset($version->comfort)) {
                 foreach ($version->comfort as $spec) {
@@ -516,12 +517,12 @@ class CompareCarsDetailsController extends ApiBaseController
 
         return $this->mergeSimilarLabels($comfortData, $carCount);
     }
-    private function interiorInfo($cars,$request)
+    private function interiorInfo($cars, $request)
     {
         $interiorData = [];
         $carCount = count($cars);
         foreach ($cars as $key => $car) {
-          
+
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
             if (isset($version->interior)) {
                 foreach ($version->interior as $spec) {
@@ -535,7 +536,7 @@ class CompareCarsDetailsController extends ApiBaseController
 
         return $this->mergeSimilarLabels($interiorData, $carCount);
     }
-    private function exteriorInfo($cars,$request)
+    private function exteriorInfo($cars, $request)
     {
         $exteriorData = [];
         $carCount = count($cars);
@@ -553,13 +554,13 @@ class CompareCarsDetailsController extends ApiBaseController
 
         return $this->mergeSimilarLabels($exteriorData, $carCount);
     }
-    private function safetyInfo($cars,$request)
+    private function safetyInfo($cars, $request)
     {
         $safetyData = [];
         $carCount = count($cars);
         foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
-        
+
             $safetyData['no of airbags']["car_$key"] =  $version->no_of_airbags;
             $safetyData['safety ratings']["car_$key"] =  $version->safety_ratings;
 
@@ -575,13 +576,13 @@ class CompareCarsDetailsController extends ApiBaseController
 
         return $this->mergeSimilarLabels($safetyData, $carCount);
     }
-    private function entertainmentInfo($cars,$request)
+    private function entertainmentInfo($cars, $request)
     {
         $entertainmentData = [];
         $carCount = count($cars);
         foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
-        
+
             if (isset($version->entertainment)) {
                 foreach ($version->entertainment as $spec) {
                     $specLabelLower = strtolower($spec->specification);
