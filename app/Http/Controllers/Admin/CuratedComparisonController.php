@@ -36,7 +36,7 @@ class CuratedComparisonController extends Controller
      */
     public function store(CuratedCompareRequest $request)
     {
-        dd($request);
+       
         if (
             $request->car_1_id == $request->car_2_id ||
             $request->car_1_id == $request->car_3_id ||
