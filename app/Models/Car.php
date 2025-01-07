@@ -24,9 +24,9 @@ class Car extends Model
 
     const MAX_NUM_IMAGES = 20;
     const UPCOMING = 1;
-    CONST LAUNCHED = 2;
+    const LAUNCHED = 2;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -42,31 +42,31 @@ class Car extends Model
     */
     public function brand()
     {
-        return $this->belongsTo(Brand::class);  
+        return $this->belongsTo(Brand::class);
     }
     public function carVersions()
     {
-        return $this->hasMany(CarVersion::class);  
+        return $this->hasMany(CarVersion::class);
     }
     public function baseVarient()
     {
-        return $this->hasOne(CarVersion::class)->where('is_base_varient', CarVersion::BASE_VARIENT);  
+        return $this->hasOne(CarVersion::class)->where('is_base_varient', CarVersion::BASE_VARIENT);
     }
     public function carSpec()
     {
-        return $this->hasOne(CarVersion::class)->where('is_car_spec', CarVersion::CAR_SPECIFICATION);  
+        return $this->hasOne(CarVersion::class)->where('is_car_spec', CarVersion::CAR_SPECIFICATION);
     }
     public function manualVersion()
     {
-        return $this->hasOne(CarVersion::class)->where('transmission_type', Car::TR_MANUAL)->first();  
+        return $this->hasOne(CarVersion::class)->where('transmission_type', Car::TR_MANUAL)->first();
     }
     public function automaticVersion()
     {
-        return $this->hasOne(CarVersion::class)->where('transmission_type', Car::TR_AUTOMATIC)->first();  
+        return $this->hasOne(CarVersion::class)->where('transmission_type', Car::TR_AUTOMATIC)->first();
     }
     public function news()
     {
-        return $this->hasMany(News::class);  
+        return $this->hasMany(News::class);
     }
     public function carImages()
     {
@@ -89,7 +89,18 @@ class Car extends Model
     {
         return $this->hasMany(CarComparisonList::class);
     }
-    
+    public function varients()
+    {
+        return $this->hasMany(CarVersion::class);
+    }
+
+
+    public function getVersionName($version_id)
+    {
+        return CarVersion::find($version_id)->version_name;
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | Local Scopes

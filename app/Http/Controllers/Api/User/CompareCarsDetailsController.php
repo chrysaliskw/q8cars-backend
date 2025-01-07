@@ -388,11 +388,15 @@ class CompareCarsDetailsController extends ApiBaseController
 
     private function basicInfo($cars, $request)
     {
-        // dd($request);
+        // dd($request->all());
         $comparisonData = [];
         foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
-
+            // if ($request->version_id && isset($request->version_id[$key])) {
+            //     $comparisonData['model name']["car_$key"] =  $version->name;
+            // } else {
+            //     $comparisonData['model name']["car_$key"] =  $car->name;
+            // }
             $comparisonData['brand name']["car_$key"] =  $car->brand->name;
             $comparisonData['on road price']["car_$key"] = $version->on_road_price . ' KWD';
             $comparisonData['user rating']["car_$key"] = $car->total_reviews_count . ' Ratings';
