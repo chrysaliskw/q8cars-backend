@@ -22,6 +22,7 @@ use App\Http\Resources\CarImageResource;
 use App\Http\Resources\CarDetailResource;
 use App\Services\Api\User\Car\FilterService;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Resources\CarVersionResource;
 use App\Models\BrandColorMapping;
 use App\Models\CarAdditonalSpecifications;
 use Carbon\Carbon;
@@ -41,12 +42,17 @@ class CarController extends ApiBaseController
         $result = null;
         if ($request->is_search) {
             $result = (new SearchService($request))->handle();
+        } elseif ($request->version_id) {
+            return CarVersionResource::collection(CarVersion::whereIn('id', $request->version_id)->get())
+                ->additional([
+                    'message' => 'Cars listing versions',
+                    'status' => Response::HTTP_OK
+                ]);
         } else {
             $result = (new FilterService($request))->handle();
         }
 
         // dd($request->all());
-        // dd($result);
         return CarResource::collection($result)
             ->additional([
                 'message' => 'Cars listing',
