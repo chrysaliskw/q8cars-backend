@@ -100,7 +100,7 @@ class TestDriveRequestController extends ApiBaseController
                 ->latest()
                 ->first();
 
-            if ($testDriveRequest) {
+            if ($testDriveRequest && isset(Auth::user()->email)) {
                 $car = $testDriveRequest->car;
                 $details = [
                     'title' => 'Test Drive Request Submitted',
