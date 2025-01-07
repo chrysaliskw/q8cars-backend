@@ -46,7 +46,7 @@ class CarController extends ApiBaseController
         }
 
         // dd($request->all());
-        // dd($result);
+        dd($result);
         return CarResource::collection($result)
             ->additional([
                 'message' => 'Cars listing',
@@ -61,7 +61,7 @@ class CarController extends ApiBaseController
     {
         $car = Car::find($id);
 
-        $data['counts'] = $this->getCounts($car);
+        $data['counts'] = $this->getCounts($car, $request);
         $data['key_features'] = $this->getKeyFeatures($car, $request);
         $data['key_specifications'] = $this->getKeySpecifications($car);
         $data['specification_and_features'] = $this->getAllSpecificationAndFeatures($car, $request);
@@ -150,13 +150,17 @@ class CarController extends ApiBaseController
             ]);
     }
 
-    private function getCounts(Car $car)
+    private function getCounts(Car $car, Request $request)
     {
+
         $result = [
             'id' => $car->id,
             'model_name' => $car->model_name,
             'brand_name' => $car->brand->name,
             'brand_id' => $car->brand_id,
+            // 'version_count' => $car->carVersion()->,
+            'varient_name' => $request->version_id ? $this->getVarientName($request->version_id) : $car->carSpec->varient_name,
+            'ex_showroom_price' => $request->version_id ? $this->getExShowroomPrice($request->version_id) : $car->ex_showroom_price,
             'colours' => count(json_decode($car->colours)),
             'photos' => $car->carPhoto()->count(),
             'videos' => $car->carVideos->count(),
@@ -829,5 +833,23 @@ class CarController extends ApiBaseController
             DB::rollBack();
             logger($ex);
         }
+    }
+
+
+
+    private function getVarientName($versionId)
+    {
+        $carVarient = CarVersion::where('id', $versionId)
+            ->first();
+
+        return $carVarient ? $carVarient->varient_name : "NO";
+    }
+
+    private function getExShowroomPrice($versionId)
+    {
+        $carVarient = CarVersion::where('id', $versionId)
+            ->first();
+
+        return $carVarient ? $carVarient->ex_showroom_price : "NO";
     }
 }
