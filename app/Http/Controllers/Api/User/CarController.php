@@ -46,7 +46,7 @@ class CarController extends ApiBaseController
         }
 
         // dd($request->all());
-        dd($result);
+        // dd($result);
         return CarResource::collection($result)
             ->additional([
                 'message' => 'Cars listing',
