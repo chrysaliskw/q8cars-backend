@@ -83,7 +83,8 @@ class TestRideRequestController extends Controller
             $testDrive->status = $request->status;
             $testDrive->save();
 
-            if($page){
+
+            if($page && isset($testDrive->user->email)){
                 dispatch(new SendAdminMailJob($details, $testDrive->user->email));
                 return response()->json(['success' => true, 'message' => 'Test Drive request status updated and email sent.']);
             }
