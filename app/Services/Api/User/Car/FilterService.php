@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 final class FilterService
 {
+    public $totalResults = 0;
+
     const SORT_BY_VIEW_COUNT = 1;
     const SORT_BY_LATEST = 2;
     const SORT_BY_PRICE_LOW_TO_HIGH = 3;
@@ -49,6 +51,7 @@ final class FilterService
      */
     public function __construct(Request $request)
     {
+        // dd($request->all());
         $this->sortBy = $request->sort;
         $this->request = $request;
     }
@@ -87,15 +90,19 @@ final class FilterService
     private function getResultData()
     {
         $result =  $this->query
-                    ->select([
-                       'cars.id',
-                       'cars.brand_id','model_name',
-                       'cars.ex_showroom_price', 'cars.on_road_price', 'cars.finance_available',
-                       'avg_rating', 'total_reviews_count',
-                       'image'
-                    ])
-                    ->selectRaw('IF(cf.id IS NULL, 0, 1) as is_favourite')
-                    ->paginate(20);
+            ->select([
+                'cars.id',
+                'cars.brand_id',
+                'model_name',
+                'cars.ex_showroom_price',
+                'cars.on_road_price',
+                'cars.finance_available',
+                'avg_rating',
+                'total_reviews_count',
+                'image'
+            ])
+            ->selectRaw('IF(cf.id IS NULL, 0, 1) as is_favourite')
+            ->paginate(20);
 
         return $result;
     }
@@ -107,14 +114,21 @@ final class FilterService
      */
     private function setQuery()
     {
+        // $this->query = Car::active()
+        //     ->launched()
+        //     ->with('brand')
+        //     ->leftJoin('car_favourites AS cf', function ($join) {
+        //         $join->on('cf.car_id', '=', 'cars.id')
+        //             ->where('cf.user_id', Auth::id());
+        //     })->orderByDesc('cars.id');
         $this->query = Car::active()
-                        ->launched()
-                        ->with('brand')
-                        ->leftJoin('car_favourites AS cf', function ($join) {
-                            $join->on('cf.car_id', '=', 'cars.id')
-                                ->where('cf.user_id', Auth::id());
-
-                        })->orderByDesc('cars.id');
+            ->launched()
+            ->with('brand')
+            ->leftJoin('car_favourites AS cf', function ($join) {
+                $join->on('cf.car_id', '=', 'cars.id')
+                    ->where('cf.user_id', Auth::id());
+            });
+        // ->orderByDesc('cars.id');
     }
 
     /**
@@ -129,7 +143,7 @@ final class FilterService
         $this->query = $this->query->whereIn('cars.brand_id', $this->request->brand_id);
     }
 
-     /**
+    /**
      * @return void
      */
     private function filterByBodyType()
@@ -174,7 +188,6 @@ final class FilterService
         $travel_type = array_map('intval', $this->request->travel_type);
 
         $this->query = $this->query->whereJsonContains('cars.travel_type', $travel_type);
-
     }
 
     /**
@@ -193,7 +206,7 @@ final class FilterService
         // $this->query = $this->query->whereIn('cars.id', $ids);
     }
 
-     /**
+    /**
      * @return void
      */
     private function filterByBudget()
@@ -206,11 +219,12 @@ final class FilterService
         //         ->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
         $this->query = $this->query->whereBetween('cars.ex_showroom_price', [
-                $this->request->min_price, $this->request->max_price
+            $this->request->min_price,
+            $this->request->max_price
         ]);
     }
 
-     /**
+    /**
      * @return void
      */
     private function filterByTransmissionType()
@@ -237,10 +251,9 @@ final class FilterService
         }
 
         $this->query = $this->query->whereIn('cars.seat_capacity', $this->request->seat_capacity);
-
     }
 
-     /**
+    /**
      * @return void
      */
     private function filterByAirBags()
@@ -251,17 +264,18 @@ final class FilterService
         // $ids = CarVersion::whereIn('no_of_airbags', $this->request->no_of_airbags)->pluck('car_id')->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
         $ids = [];
-        for($i = 0; $i < count($this->request->no_of_airbags_min); $i++) {
+        for ($i = 0; $i < count($this->request->no_of_airbags_min); $i++) {
             $bagMax = $this->request->no_of_airbags_max[$i] ?? PHP_INT_MAX;
-            if( $bagMax == 0) {
-                $ids = array_merge($ids, CarVersion::where('no_of_airbags','>=', $this->request->no_of_airbags_min[$i])->pluck('car_id')->toArray());
-            }else {
-                $ids = array_merge($ids, CarVersion::whereBetween('no_of_airbags',
-                    [$this->request->no_of_airbags_min[$i],  $bagMax])->pluck('car_id')->toArray());
+            if ($bagMax == 0) {
+                $ids = array_merge($ids, CarVersion::where('no_of_airbags', '>=', $this->request->no_of_airbags_min[$i])->pluck('car_id')->toArray());
+            } else {
+                $ids = array_merge($ids, CarVersion::whereBetween(
+                    'no_of_airbags',
+                    [$this->request->no_of_airbags_min[$i],  $bagMax]
+                )->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
-
     }
 
     /**
@@ -276,7 +290,7 @@ final class FilterService
         $this->query = $this->query->whereIn('cars.safety_ratings', $this->request->safety_ratings);
     }
 
-     /**
+    /**
      * @return void
      */
     private function filterByTorque()
@@ -287,20 +301,22 @@ final class FilterService
 
         $ids = [];
 
-        for($i = 0; $i < count($this->request->torque_min); $i++) {
+        for ($i = 0; $i < count($this->request->torque_min); $i++) {
             $torqueMax = $this->request->torque_max[$i] ?? PHP_INT_MAX;
-            if( $torqueMax == 0) {
-                $ids = array_merge($ids, CarVersion::where('torque','>=', $this->request->torque_min[$i])->pluck('car_id')->toArray());
-            }else {
-                $ids = array_merge($ids, CarVersion::whereBetween('torque',
-                    [$this->request->torque_min[$i],  $torqueMax])->pluck('car_id')->toArray());
+            if ($torqueMax == 0) {
+                $ids = array_merge($ids, CarVersion::where('torque', '>=', $this->request->torque_min[$i])->pluck('car_id')->toArray());
+            } else {
+                $ids = array_merge($ids, CarVersion::whereBetween(
+                    'torque',
+                    [$this->request->torque_min[$i],  $torqueMax]
+                )->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
         //$this->query = $this->query->where('cars.mileage', $this->request->mileage);
 
     }
-      /**
+    /**
      * @return void
      */
     private function filterByPower()
@@ -311,20 +327,22 @@ final class FilterService
 
         $ids = [];
 
-        for($i = 0; $i < count($this->request->power_min); $i++) {
+        for ($i = 0; $i < count($this->request->power_min); $i++) {
             $powerMax = $this->request->power_max[$i] ??  PHP_INT_MAX;
-            if( $powerMax == 0) {
-                $ids = array_merge($ids, CarVersion::where('power','>=', $this->request->power_min[$i])->pluck('car_id')->toArray());
-            }else {
-                $ids = array_merge($ids, CarVersion::whereBetween('power',
-                    [$this->request->power_min[$i],  $powerMax])->pluck('car_id')->toArray());
+            if ($powerMax == 0) {
+                $ids = array_merge($ids, CarVersion::where('power', '>=', $this->request->power_min[$i])->pluck('car_id')->toArray());
+            } else {
+                $ids = array_merge($ids, CarVersion::whereBetween(
+                    'power',
+                    [$this->request->power_min[$i],  $powerMax]
+                )->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
         //$this->query = $this->query->where('cars.mileage', $this->request->mileage);
 
     }
-     /**
+    /**
      * @return void
      */
     private function filterByEngineCapacity()
@@ -335,21 +353,23 @@ final class FilterService
 
         $ids = [];
 
-        for($i = 0; $i < count($this->request->engine_capacity_min); $i++) {
+        for ($i = 0; $i < count($this->request->engine_capacity_min); $i++) {
             $engineMax = $this->request->engine_capacity_max[$i] ??  PHP_INT_MAX;
-          //  $this->request->engine_capacity_max[$i] = $this->request->engine_capacity_max[$i] ??  PHP_INT_MAX;
-            if($engineMax == 0) {
-                $ids = array_merge($ids, CarVersion::where('engine_capacity','>=', $this->request->engine_capacity_min[$i])->pluck('car_id')->toArray());
-            }else {
-                $ids = array_merge($ids, CarVersion::whereBetween('engine_capacity',
-                    [$this->request->engine_capacity_min[$i],  $engineMax])->pluck('car_id')->toArray());
+            //  $this->request->engine_capacity_max[$i] = $this->request->engine_capacity_max[$i] ??  PHP_INT_MAX;
+            if ($engineMax == 0) {
+                $ids = array_merge($ids, CarVersion::where('engine_capacity', '>=', $this->request->engine_capacity_min[$i])->pluck('car_id')->toArray());
+            } else {
+                $ids = array_merge($ids, CarVersion::whereBetween(
+                    'engine_capacity',
+                    [$this->request->engine_capacity_min[$i],  $engineMax]
+                )->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
         //$this->query = $this->query->where('cars.mileage', $this->request->mileage);
 
     }
-     /**
+    /**
      * @return void
      */
     private function filterByMileage()
@@ -360,14 +380,16 @@ final class FilterService
 
         $ids = [];
 
-        for($i = 0; $i < count($this->request->mileage_min); $i++) {
+        for ($i = 0; $i < count($this->request->mileage_min); $i++) {
             $mileageMax = $this->request->mileage_max[$i] ?? PHP_INT_MAX;
             // $this->request->mileage_max[$i] = $this->request->mileage_max[$i] ?? PHP_INT_MAX;
-            if($mileageMax == 0) {
-                $ids = array_merge($ids, CarVersion::where('mileage','>=', $this->request->mileage_min[$i])->pluck('car_id')->toArray());
-            }else {
-                $ids = array_merge($ids, CarVersion::whereBetween('mileage',
-                    [$this->request->mileage_min[$i], $mileageMax])->pluck('car_id')->toArray());
+            if ($mileageMax == 0) {
+                $ids = array_merge($ids, CarVersion::where('mileage', '>=', $this->request->mileage_min[$i])->pluck('car_id')->toArray());
+            } else {
+                $ids = array_merge($ids, CarVersion::whereBetween(
+                    'mileage',
+                    [$this->request->mileage_min[$i], $mileageMax]
+                )->pluck('car_id')->toArray());
             }
         }
         $this->query = $this->query->whereIn('cars.id', $ids);
@@ -392,50 +414,56 @@ final class FilterService
     /**
      * @return void
      */
+
     private function applySorting()
+
     {
-        switch ($this->sortBy)
-        {
+        switch ($this->sortBy) {
+
             case self::SORT_BY_VIEW_COUNT:
-                $this->query = $this->query->orderBy('cars.view_count', 'desc');
+                $this->query = $this->query->orderBy('cars.view_count', 'DESC');
                 break;
 
             case self::SORT_BY_LATEST:
-                $this->query = $this->query->orderBy('cars.id', 'desc');
+                // dd('SORT_BY_VIEW_COUNT');
+                $this->query = $this->query->orderBy('cars.id', 'DESC');
                 break;
 
             case self::SORT_BY_LIKE_COUNT:
-                    $this->query = $this->query->orderBy('cars.favourites_count', 'desc');
-                    break;
+                // dd('SORT_BY_LIKE_COUNT');
+                // dd($this->query->orderBy('cars.favourites_count', 'DESC')->get());
+                $this->query = $this->query->orderBy('cars.favourites_count', 'DESC');
+                break;
 
             case self::SORT_BY_PRICE_LOW_TO_HIGH:
-                $this->query = $this->query->orderBy('cars.on_road_price', 'asc');
+                // $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
+                $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
                 break;
 
             case self::SORT_BY_PRICE_HIGH_TO_LOW:
+
                 $this->query = $this->query->orderBy('cars.on_road_price', 'desc');
                 break;
 
             case self::SORT_BY_MILEAGE_LOW_TO_HIGH:
-                    $this->query = $this->query->orderBy('cars.mileage', 'asc');
-                    break;
+                $this->query = $this->query->orderBy('cars.mileage', 'asc');
+                break;
 
             case self::SORT_BY_MILEAGE_HIGH_TO_LOW:
-                    $this->query = $this->query->orderBy('cars.mileage', 'desc');
-                    break;
+                $this->query = $this->query->orderBy('cars.mileage', 'desc');
+                break;
 
             case self::SORT_BY_SAFETY_RATINGS_LOW_TO_HIGH:
-                        $this->query = $this->query->orderBy('cars.safety_ratings', 'asc');
-                        break;
+                $this->query = $this->query->orderBy('cars.safety_ratings', 'asc');
+                break;
 
             case self::SORT_BY_SAFETY_RATINGS_HIGH_TO_LOW:
-                        $this->query = $this->query->orderBy('cars.safety_ratings', 'desc');
-                        break;
+                $this->query = $this->query->orderBy('cars.safety_ratings', 'desc');
+                break;
 
             default:
                 $this->query = $this->query->orderBy('cars.sort_order', 'asc');
                 break;
-
         }
     }
 
@@ -446,6 +474,5 @@ final class FilterService
         }
 
         $this->query = $this->query->whereIn('cars.id', $this->request->carIds);
-
     }
 }
