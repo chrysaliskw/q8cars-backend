@@ -166,14 +166,15 @@ final class FilterService
             return;
         }
 
-        $fuel_types = array_map('intval', $this->request->fuel_types);
+        // $fuel_types = array_map('intval', $this->request->fuel_types);
 
-        $this->query = $this->query->whereJsonContains('cars.fuel_types', $fuel_types);
+        // $this->query = $this->query->whereJsonContains('cars.fuel_types', $fuel_types);
 
 
-        // $ids = CarVersion::whereIn('fuel_type', $this->request->fuel_types)->pluck('car_id')->toArray();
-        // $this->query = $this->query->whereIn('cars.id', $ids);
-
+        $ids = CarVersion::whereIn('fuel_type', $this->request->fuel_types)->pluck('car_id')->toArray();
+        $id = array_unique($ids);
+        // dd($id);
+        $this->query = $this->query->whereIn('cars.id', $id);
     }
 
     /**
