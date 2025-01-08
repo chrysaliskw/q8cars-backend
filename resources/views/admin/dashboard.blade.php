@@ -323,10 +323,10 @@
                         ];
 
                         enquiriesTestRideReviewChart.data.labels = brandId ?
-                            ['Completed Offers ', 'Completed Test Rides ',
+                            ['Completed Enquiries ', 'Completed Test Rides ',
                                 'Verified Reviews'
                             ] :
-                            ['Offers (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
+                            ['Enquiries (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
 
                         enquiriesTestRideReviewChart.update();
                     },
