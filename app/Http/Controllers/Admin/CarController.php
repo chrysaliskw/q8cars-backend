@@ -70,7 +70,7 @@ class CarController extends Controller
             $rules["units_$i"] = 'nullable|string';
             $rules["key_feature_$i"] = 'nullable|integer';
             $rules["key_spec_$i"] = 'nullable|integer';
-            $rules["icon_$i"] = 'required_with:key_feature_'.$i.',key_spec_'.$i.'|mimes:jpg,png,jpeg|max:2048';            
+            $rules["icon_$i"] = 'required_with:key_feature_' . $i . ',key_spec_' . $i . '|mimes:jpg,png,jpeg|max:2048';
 
             $inputType = $request->input("input_type_$i");
             if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
@@ -136,7 +136,10 @@ class CarController extends Controller
             return back()->with('error', 'File size should be within 2MB')->withInput();
         } catch (Exception $ex) {
             logger($ex);
-            return back()->with('error', __('app.error'))->withInput();
+            return back()->with(
+                'error',
+                __('app.error') . $ex
+            )->withInput();
         }
         return redirect()->route('admin.car.show', $car)->with('success', 'Car created successfully!');
     }
@@ -316,7 +319,7 @@ class CarController extends Controller
      */
     public function update(CarRequest $request, Car $car)
     {
-       // dd($request);
+        // dd($request);
         $rows = $request->row_count;
 
         $rules = [];
@@ -330,7 +333,7 @@ class CarController extends Controller
             $rules["units_$i"] = 'nullable|string';
             $rules["key_feature_$i"] = 'nullable|integer';
             $rules["key_spec_$i"] = 'nullable|integer';
-            $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';            
+            $rules["icon_$i"] = 'nullable|mimes:jpg,png,jpeg|max:2048';
 
             $inputType = $request->input("input_type_$i");
             if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
@@ -389,8 +392,8 @@ class CarController extends Controller
         try {
             $service = new CarService($data, $car, $carVarient);
             $car = $service->handle();
-        }catch(FuelTtypeAndTransmissionException $e){
-            logger($e); 
+        } catch (FuelTtypeAndTransmissionException $e) {
+            logger($e);
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         } catch (Exception $ex) {
             logger($ex);
@@ -422,7 +425,7 @@ class CarController extends Controller
             CarAdditonalSpecifications::where('car_id', $car->id)->delete();
             CarComparisonList::where('car_1_id', $car->id)->orWhere('car_2_id', $car->id)->delete();
             OfferRequest::where('car_id', $car->id)->delete();
-            View360Image::where('car_id',$car->id)->delete();
+            View360Image::where('car_id', $car->id)->delete();
             $car->delete();
 
             DB::commit();
@@ -589,7 +592,7 @@ class CarController extends Controller
     {
         DB::beginTransaction();
         try {
-            $video =CarImage::find($request->id);
+            $video = CarImage::find($request->id);
             $car = Car::find($video->car_id);
             $video->delete();
             DB::commit();
@@ -599,7 +602,6 @@ class CarController extends Controller
             return back()->with('error', __('app.error'))->withInput();
         }
 
-        return redirect()->route('admin.car.show',compact('car'))->with('success', 'Car video deleted successfully!');
-
+        return redirect()->route('admin.car.show', compact('car'))->with('success', 'Car video deleted successfully!');
     }
 }

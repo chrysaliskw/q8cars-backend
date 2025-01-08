@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 final class FilterService
 {
+    public $totalResults = 0;
+
     const SORT_BY_VIEW_COUNT = 1;
     const SORT_BY_LATEST = 2;
     const SORT_BY_PRICE_LOW_TO_HIGH = 3;
@@ -49,6 +51,7 @@ final class FilterService
      */
     public function __construct(Request $request)
     {
+        // dd($request->all());
         $this->sortBy = $request->sort;
         $this->request = $request;
     }
@@ -111,13 +114,21 @@ final class FilterService
      */
     private function setQuery()
     {
+        // $this->query = Car::active()
+        //     ->launched()
+        //     ->with('brand')
+        //     ->leftJoin('car_favourites AS cf', function ($join) {
+        //         $join->on('cf.car_id', '=', 'cars.id')
+        //             ->where('cf.user_id', Auth::id());
+        //     })->orderByDesc('cars.id');
         $this->query = Car::active()
             ->launched()
             ->with('brand')
             ->leftJoin('car_favourites AS cf', function ($join) {
                 $join->on('cf.car_id', '=', 'cars.id')
                     ->where('cf.user_id', Auth::id());
-            })->orderByDesc('cars.id');
+            });
+        // ->orderByDesc('cars.id');
     }
 
     /**
@@ -155,14 +166,15 @@ final class FilterService
             return;
         }
 
-        $fuel_types = array_map('intval', $this->request->fuel_types);
+        // $fuel_types = array_map('intval', $this->request->fuel_types);
 
-        $this->query = $this->query->whereJsonContains('cars.fuel_types', $fuel_types);
+        // $this->query = $this->query->whereJsonContains('cars.fuel_types', $fuel_types);
 
 
-        // $ids = CarVersion::whereIn('fuel_type', $this->request->fuel_types)->pluck('car_id')->toArray();
-        // $this->query = $this->query->whereIn('cars.id', $ids);
-
+        $ids = CarVersion::whereIn('fuel_type', $this->request->fuel_types)->pluck('car_id')->toArray();
+        $id = array_unique($ids);
+        // dd($id);
+        $this->query = $this->query->whereIn('cars.id', $id);
     }
 
     /**
@@ -403,15 +415,18 @@ final class FilterService
     /**
      * @return void
      */
+
     private function applySorting()
+
     {
         switch ($this->sortBy) {
             case self::SORT_BY_VIEW_COUNT:
-                $this->query = $this->query->orderBy('cars.view_count', 'desc');
+                $this->query = $this->query->orderBy('cars.view_count', 'DESC');
                 break;
 
             case self::SORT_BY_LATEST:
-                $this->query = $this->query->orderBy('cars.id', 'desc');
+                // dd('SORT_BY_VIEW_COUNT');
+                $this->query = $this->query->orderBy('cars.id', 'DESC');
                 break;
 
             case self::SORT_BY_LIKE_COUNT:
@@ -419,10 +434,12 @@ final class FilterService
                 break;
 
             case self::SORT_BY_PRICE_LOW_TO_HIGH:
-                $this->query = $this->query->orderBy('cars.on_road_price', 'asc');
+                // $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
+                $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
                 break;
 
             case self::SORT_BY_PRICE_HIGH_TO_LOW:
+
                 $this->query = $this->query->orderBy('cars.on_road_price', 'desc');
                 break;
 
