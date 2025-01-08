@@ -64,6 +64,30 @@ final class SearchService
     /**
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
+    // private function getResultData()
+    // {
+    //     $result =  $this->query
+    //         ->select([
+    //             'cars.id',
+    //             'cars.brand_id',
+    //             'model_name',
+    //             //i test
+    //             'car_versions.varient_name as varient',
+    //             DB::raw('MAX(cars.ex_showroom_price) as ex_showroom_price'),
+    //             DB::raw('MAX(cars.on_road_price) as on_road_price'),
+    //             DB::raw('MAX(cars.finance_available) as finance_available'),
+    //             DB::raw('MAX(avg_rating) as avg_rating'),
+    //             DB::raw('MAX(total_reviews_count) as total_reviews_count'),
+    //             DB::raw('MAX(image) as image'),
+    //             DB::raw('MAX(image_2) as image_2'),
+    //             DB::raw('MAX(car_versions.varient_name) as varient'),
+    //             DB::raw('IF(MAX(cf.id) IS NULL, 0, 1) as is_favourite') // Using MAX to resolve the conflict
+    //         ])
+    //         ->groupBy('cars.id') // Ensure each car_id appears only once
+    //         ->paginate(20);
+
+    //     return $result;
+    // }
     private function getResultData()
     {
         $result =  $this->query
@@ -71,8 +95,8 @@ final class SearchService
                 'cars.id',
                 'cars.brand_id',
                 'model_name',
-                //i test
-                'car_versions.varient_name as varient',
+                // i test
+                // 'car_versions.varient_name as varient',
                 DB::raw('MAX(cars.ex_showroom_price) as ex_showroom_price'),
                 DB::raw('MAX(cars.on_road_price) as on_road_price'),
                 DB::raw('MAX(cars.finance_available) as finance_available'),
