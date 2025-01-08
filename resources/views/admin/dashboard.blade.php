@@ -323,7 +323,7 @@
                         ];
 
                         enquiriesTestRideReviewChart.data.labels = brandId ?
-                            ['Completed Enquiries ', 'Completed Test Rides ',
+                            ['Completed Enquiries', 'Completed Test Rides',
                                 'Verified Reviews'
                             ] :
                             ['Enquiries (Total)', 'Test Rides (Total)', 'Reviews (Total)'];
