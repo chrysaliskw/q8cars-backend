@@ -45,7 +45,9 @@ class CarController extends ApiBaseController
             $result = (new SearchService($request))->handle();
         } elseif ($request->version_id) {
 
-            return CarVersionResource::collection(CarVersion::whereIn('id', $request->version_id)->get())
+            return CarVersionResource::collection(
+                CarVersion::whereIn('id', $request->version_id)->get()
+            )
                 ->additional([
                     'message' => 'Cars listing versions',
                     'status' => Response::HTTP_OK

@@ -435,12 +435,12 @@ final class FilterService
 
             case self::SORT_BY_PRICE_LOW_TO_HIGH:
                 // $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
-                $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
+                $this->query = $this->query->orderBy('cars.ex_showroom_price', 'ASC');
+                // dd($this->query->toSql());
                 break;
 
             case self::SORT_BY_PRICE_HIGH_TO_LOW:
-
-                $this->query = $this->query->orderBy('cars.on_road_price', 'desc');
+                $this->query = $this->query->orderBy('cars.ex_showroom_price', 'desc');
                 break;
 
             case self::SORT_BY_MILEAGE_LOW_TO_HIGH:
