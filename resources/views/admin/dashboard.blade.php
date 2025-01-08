@@ -136,7 +136,7 @@
                 <div class="dashboard-card dashboard-card-6 d-flex align-items-start">
                     <img src="{{ asset('moltran-asset/images/offer.svg') }}" alt="profile-img" class="img-list">
                     <div class="data">
-                        <h4>Offer Requests</h4>
+                        <h4>Enquiries</h4>
                         <h6>{{ $viewData['totalOfferRequests'] }}</h6>
                         <div class="card-more-info">
                             <div class="lists">
@@ -199,7 +199,7 @@
         <div class="col-md-5">
             <div class="card mb-0" style="height:100%;">
                 <div class="card-header text-center bg-transparent">
-                    <h4 class="text-left" style="font-weight: bold">Offers, Test Rides and Loans</h4>
+                    <h4 class="text-left" style="font-weight: bold">Enquiries, Test Rides and Reviews</h4>
                 </div>
                 <div class="card-body pt-0">
                     <div class="mb-3">

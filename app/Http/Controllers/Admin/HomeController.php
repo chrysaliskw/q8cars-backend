@@ -69,7 +69,8 @@ class HomeController extends Controller
             'totalLoanRequests' => BankSuggestionRequest::where('type',BankSuggestionRequest::TYPE_LOAN)->count(),
             'newLoanRequests' => BankSuggestionRequest::where('type',BankSuggestionRequest::TYPE_LOAN)->where('status',BankSuggestionRequest::STATUS_SUBMITTED)->count(),
             'completedLoanRequests' => BankSuggestionRequest::where('type',BankSuggestionRequest::TYPE_LOAN)->where('status',BankSuggestionRequest::STATUS_ACCEPTED)->count(),
-            'totalTestRideRequest' =>TestDrive::count(),
+            // 'totalTestRideRequest' =>TestDrive::count(),
+            'totalTestRideRequest' => TestDrive::where('status', '!=', TestDrive::STATUS_NOT_VERIFIED)->count(),
             'newTestRideRequest' => TestDrive::where('status',TestDrive::STATUS_SUBMITTED)->count(),
             'completedTestRideRequest' => TestDrive::where('status',TestDrive::STATUS_COMPLETED)->count(),
             'totalOfferRequests' => OfferRequest::count(),
@@ -89,7 +90,8 @@ class HomeController extends Controller
         $carId = $request->input('brand_id');
 
         $offerRequests = OfferRequest::count();
-        $testRideRequests = TestDrive::count();
+        // $testRideRequests = TestDrive::count();
+        $testRideRequests = TestDrive::where('status', '!=', TestDrive::STATUS_NOT_VERIFIED)->count();
         $reviews = Review::count();
 
         if (!$carId) {
