@@ -230,10 +230,12 @@ final class FilterService
         if (! $this->request->transmission_types) {
             return;
         }
-        $transmission_types = array_map('intval', $this->request->transmission_types);
+        // $transmission_types = array_map('intval', $this->request->transmission_types);
 
-        $this->query = $this->query->whereJsonContains('cars.transmission_type', $transmission_types);
-
+        // $this->query = $this->query->whereJsonContains('cars.transmission_type', $transmission_types);
+        $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
+        $id = array_unique($ids);
+        $this->query = $this->query->whereIn('cars.id', $id);
         // $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
     }
