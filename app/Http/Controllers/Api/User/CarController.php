@@ -43,7 +43,7 @@ class CarController extends ApiBaseController
         $result = null;
         if ($request->is_search) {
             $result = (new SearchService($request))->handle();
-        } elseif ($request->is_comparison) {
+        } elseif ($request->is_comparison == 1) {
             if ($request->carIds) {
                 $responseData = [];
 
