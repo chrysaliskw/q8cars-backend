@@ -19,6 +19,7 @@ class CarVersionResource extends JsonResource
         return [
             'id' => $this->id,
             'car_id' => $this->car->id,
+            'key_id' => $this->car->id,
             'brand_id' => $this->car->brand_id,
             'brand_name' => $this->car->brand->name,
             'name' => $this->car->model_name,
