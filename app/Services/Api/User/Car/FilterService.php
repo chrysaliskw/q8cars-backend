@@ -131,7 +131,6 @@ final class FilterService
             $isUpcoming = $this->request->is_upcoming;
             if($isUpcoming == 1){
                 $this->query = Car::active()
-                ->upcoming()
                 ->with('brand')
                 ->leftJoin('car_favourites AS cf', function ($join) {
                     $join->on('cf.car_id', '=', 'cars.id')
