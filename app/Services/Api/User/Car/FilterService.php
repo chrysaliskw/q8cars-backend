@@ -176,19 +176,19 @@ final class FilterService
     // }
 
     private function filterByFuelType()
-{
-    if (! $this->request->fuel_types) {
-        return;
-    }
-
-    $fuel_types = array_map('intval', $this->request->fuel_types);
-
-    $this->query = $this->query->where(function ($query) use ($fuel_types) {
-        foreach ($fuel_types as $fuel_type) {
-            $query->orWhereJsonContains('cars.fuel_types', $fuel_type);
+    {
+        if (! $this->request->fuel_types) {
+            return;
         }
-    });
-}
+
+        $fuel_types = array_map('intval', $this->request->fuel_types);
+
+        $this->query = $this->query->where(function ($query) use ($fuel_types) {
+            foreach ($fuel_types as $fuel_type) {
+                $query->orWhereJsonContains('cars.fuel_types', $fuel_type);
+            }
+        });
+    }
 
 
     /**

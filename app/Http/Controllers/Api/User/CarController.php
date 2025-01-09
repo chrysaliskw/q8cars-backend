@@ -414,6 +414,283 @@ class CarController extends ApiBaseController
         return $result;
     }
 
+    // private function getAllSpecificationAndFeatures(Car $car, Request $request)
+    // {
+    //     $result = null;
+    //     $version = (CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first())->id;
+    //     if ($request->car_version_id) {
+    //         $version = $request->car_version_id;
+    //     }
+
+    //     $varient = CarVersion::find($version);
+
+    //     $sections = [
+    //         [
+    //             'key' => 1,
+    //             'id' => 'engine-type',
+    //             'section' => 'Engine and Transmission',
+    //             'features' => [
+    //                 // [
+    //                 //     'title' => 'Engine Type',
+    //                 //     'value' => $varient->engine_type,
+    //                 // ],
+    //                 [
+    //                     'title' => 'Engine Capacity (cc)',
+    //                     'value' => $varient->engine_capacity . 'cc',
+    //                 ],
+    //                 [
+    //                     'title' => 'Power & Torque',
+    //                     'value' => $varient->power . 'Bhp@' . $varient->torque . 'rpm',
+    //                 ],
+    //                 // [
+    //                 //     'title' => 'Drivetrain',
+    //                 //     'value' => $varient->drive_train,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'No. of Cylinders',
+    //                 //     'value' => $varient->no_of_cylinders,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Valves Per Cylinder',
+    //                 //     'value' => $varient->valves_per_cylinder,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Bore X Stroke',
+    //                 //     'value' => $varient->bore_stroke.'mm',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Compression Ratio',
+    //                 //     'value' => $varient->compression_ratio,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Turbo Charger',
+    //                 //     'value' => $varient->super_charge == 1 ? 'No' : 'Yes',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Super Charge',
+    //                 //     'value' => $varient->super_charge == 1 ? 'Yes' : 'No',
+    //                 // ],
+    //                 [
+    //                     'title' => 'Transmission Type',
+    //                     'value' => config('params.car.transmission_type')[$varient->transmission_type],
+    //                 ],
+    //                 // [
+    //                 //     'title' => 'Gear Box',
+    //                 //     'value' => $varient->gear_box,
+    //                 // ],
+    //             ],
+    //         ],
+    //         [
+    //             'key' => 2,
+    //             'id' => 'fuel-type',
+    //             'section' => 'Fuel & Performance',
+    //             'features' => [
+    //                 [
+    //                     'title' => 'Fuel Type',
+    //                     'value' => config('params.car.fuel_type')[$varient->fuel_type],
+    //                 ],
+    //                 // [
+    //                 //     'title' => 'Acceleration',
+    //                 //     'value' => $varient->acceleration.'sec',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Top Speed',
+    //                 //     'value' => $varient->top_speed.'kmph',
+    //                 // ],
+    //                 [
+    //                     'title' => 'Mileage',
+    //                     'value' => $varient->mileage . 'kmpl',
+    //                 ],
+    //                 // [
+    //                 //     'title' => 'Fuel Tank Capacity',
+    //                 //     'value' => $varient->fuel_tank_capacity.'L',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Emission Norm Complains',
+    //                 //     'value' => $varient->emission_norm_complains,
+    //                 // ],
+    //             ],
+    //         ],
+    //         [
+    //             'key' => 3,
+    //             'id' => 'suspension',
+    //             'section' => 'Suspension, Steering & Brakes',
+    //             'features' => [
+    //                 // [
+    //                 //     'title' => 'Front Suspension' ,
+    //                 //     'value' => $varient->front_suspension,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Rear Suspension',
+    //                 //     'value' => $varient->rear_suspension,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Steering Type',
+    //                 //     'value' =>  $varient->steering_type,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Steering Column',
+    //                 //     'value' => $varient->steering_column,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Tuning Radius',
+    //                 //     'value' => $varient->tuning_radius.'m',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Front Brake Type',
+    //                 //     'value' => $varient->front_brake_type,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Rear Brake Type',
+    //                 //     'value' =>$varient->rear_brake_type,
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Alloy Wheel Front',
+    //                 //     'value' => $varient->alloy_wheel_front ==1 ?'Yes':'No',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Alloy Wheel Rear',
+    //                 //     'value' => $varient->alloy_wheel_rear == 1? 'Yes':'No',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Power Steering',
+    //                 //     'value' => $varient->power_steering == 1 ? 'Yes':'No',
+    //                 // ],
+
+    //             ],
+    //         ],
+    //         [
+    //             'key' => 4,
+    //             'id' => 'dimension-capacity',
+    //             'section' => 'Dimensions & Capacity',
+    //             'features' => [
+    //                 [
+    //                     'title' => 'Body Type',
+    //                     'value' =>  $varient->bodyType->name,
+    //                 ],
+    //                 // [
+    //                 //     'title' => 'Length',
+    //                 //     'value' =>  $varient->length.'mm',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Width',
+    //                 //     'value' =>  $varient->width.'mm',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Height',
+    //                 //     'value' =>  $varient->height.'mm',
+    //                 // ],
+    //             ],
+    //         ],
+    //         [
+    //             'key' => 5,
+    //             'id' => 'comfort-convinience',
+    //             'section' => 'Comfort & Convenience',
+    //             'features' => [
+    //                 // [
+    //                 //     'title' => 'Seat Upholstery',
+    //                 //     'value' =>  $varient->seat_upholstery,
+    //                 // ],
+    //                 [
+    //                     'title' =>  'Seat Capacity',
+    //                     'value' => $varient->seat_capacity . ' Passengers',
+    //                 ],
+    //                 // [
+    //                 //     'title' => 'Air Conditioner',
+    //                 //     'value' => $varient->air_conditioner ==1 ?'Yes':'No',
+    //                 // ],
+    //                 // [
+    //                 //    'title' => 'Wheel Covers',
+    //                 //    'value' => $varient->wheel_covers ==1 ?'Yes':'No',
+    //                 // ],
+    //                 [
+    //                     'title' =>   '360 VieW Camera',
+    //                     'value' => $varient->view_camera == 1 ? 'Yes' : 'No',
+    //                 ],
+    //             ],
+    //         ],
+    //         [
+    //             'key' => 6,
+    //             'id' => 'interior',
+    //             'section' => 'Interior',
+    //             'features' => [
+    //                 // [
+    //                 //     'title' => 'Boot Space' ,
+    //                 //     'value' =>  $varient->boot_space.'cubic feet',
+    //                 // ],
+    //                 // [
+    //                 //     'title' =>  'Tachometer',
+    //                 //     'value' => $varient->tachometer  ==1 ?'Yes':'No',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Electronic Multi Tripmeter',
+    //                 //     'value' =>  $varient->electronic_multi_tripmeter  ==1 ?'Yes':'No',
+    //                 // ],
+    //                 // [
+    //                 //     'title' => 'Digital Odometer',
+    //                 //     'value' => $varient->digital_odometer ==1 ?'Yes':'No',
+    //                 // ],
+    //             ],
+    //         ],
+    //         [
+    //             'key' => 7,
+    //             'id' => 'exterior',
+    //             'section' => 'Exterior',
+    //             'features' => [],
+    //         ],
+    //         [
+    //             'key' => 8,
+    //             'id' => 'safety',
+    //             'section' => 'Safety',
+    //             'features' => [
+
+    //                 [
+    //                     'title' => 'Safety Ratings',
+    //                     'value' => $varient->safety_ratings,
+    //                 ],
+
+    //                 [
+    //                     'title' => 'No of Airbags',
+    //                     'value' => $varient->no_of_airbags,
+    //                 ],
+    //             ],
+    //         ],
+    //         [
+    //             'key' => 9,
+    //             'id' => 'entertainment',
+    //             'section' => 'Entertainment & Communication',
+    //             'features' => []
+    //         ],
+    //     ];
+    //     $additionalSpecsMapping = [
+    //         'engine-type' => $varient->engine,
+    //         'fuel-type' => $varient->fuel,
+    //         'suspension' => $varient->suspension,
+    //         'dimension-capacity' => $varient->dimension,
+    //         'comfort-convinience' => $varient->comfort,
+    //         'interior' => $varient->interior,
+    //         'exterior' => $varient->exterior,
+    //         'safety' => $varient->safety,
+    //         'entertainment' => $varient->entertainment,
+    //     ];
+    //     foreach ($sections as &$section) {
+
+    //         $sectionId = $section['id'];
+    //         if (isset($additionalSpecsMapping[$sectionId]) && !empty($additionalSpecsMapping[$sectionId])) {
+    //             foreach ($additionalSpecsMapping[$sectionId] as $spec) {
+    //                 $section['features'][] = [
+    //                     'title' => $spec->specification,
+    //                     'value' => $spec->input_type == 1
+    //                         ? $spec->value . ' ' . $spec->unit
+    //                         : ($spec->value == 1 ? 'Yes' : 'No'),
+    //                 ];
+    //             }
+    //         }
+    //     }
+    //     unset($section);
+    //     return $sections;
+    // }
+
     private function getAllSpecificationAndFeatures(Car $car, Request $request)
     {
         $result = null;
@@ -430,10 +707,6 @@ class CarController extends ApiBaseController
                 'id' => 'engine-type',
                 'section' => 'Engine and Transmission',
                 'features' => [
-                    // [
-                    //     'title' => 'Engine Type',
-                    //     'value' => $varient->engine_type,
-                    // ],
                     [
                         'title' => 'Engine Capacity (cc)',
                         'value' => $varient->engine_capacity . 'cc',
@@ -442,42 +715,10 @@ class CarController extends ApiBaseController
                         'title' => 'Power & Torque',
                         'value' => $varient->power . 'Bhp@' . $varient->torque . 'rpm',
                     ],
-                    // [
-                    //     'title' => 'Drivetrain',
-                    //     'value' => $varient->drive_train,
-                    // ],
-                    // [
-                    //     'title' => 'No. of Cylinders',
-                    //     'value' => $varient->no_of_cylinders,
-                    // ],
-                    // [
-                    //     'title' => 'Valves Per Cylinder',
-                    //     'value' => $varient->valves_per_cylinder,
-                    // ],
-                    // [
-                    //     'title' => 'Bore X Stroke',
-                    //     'value' => $varient->bore_stroke.'mm',
-                    // ],
-                    // [
-                    //     'title' => 'Compression Ratio',
-                    //     'value' => $varient->compression_ratio,
-                    // ],
-                    // [
-                    //     'title' => 'Turbo Charger',
-                    //     'value' => $varient->super_charge == 1 ? 'No' : 'Yes',
-                    // ],
-                    // [
-                    //     'title' => 'Super Charge',
-                    //     'value' => $varient->super_charge == 1 ? 'Yes' : 'No',
-                    // ],
                     [
                         'title' => 'Transmission Type',
                         'value' => config('params.car.transmission_type')[$varient->transmission_type],
                     ],
-                    // [
-                    //     'title' => 'Gear Box',
-                    //     'value' => $varient->gear_box,
-                    // ],
                 ],
             ],
             [
@@ -489,75 +730,17 @@ class CarController extends ApiBaseController
                         'title' => 'Fuel Type',
                         'value' => config('params.car.fuel_type')[$varient->fuel_type],
                     ],
-                    // [
-                    //     'title' => 'Acceleration',
-                    //     'value' => $varient->acceleration.'sec',
-                    // ],
-                    // [
-                    //     'title' => 'Top Speed',
-                    //     'value' => $varient->top_speed.'kmph',
-                    // ],
                     [
                         'title' => 'Mileage',
                         'value' => $varient->mileage . 'kmpl',
                     ],
-                    // [
-                    //     'title' => 'Fuel Tank Capacity',
-                    //     'value' => $varient->fuel_tank_capacity.'L',
-                    // ],
-                    // [
-                    //     'title' => 'Emission Norm Complains',
-                    //     'value' => $varient->emission_norm_complains,
-                    // ],
                 ],
             ],
             [
                 'key' => 3,
                 'id' => 'suspension',
                 'section' => 'Suspension, Steering & Brakes',
-                'features' => [
-                    // [
-                    //     'title' => 'Front Suspension' ,
-                    //     'value' => $varient->front_suspension,
-                    // ],
-                    // [
-                    //     'title' => 'Rear Suspension',
-                    //     'value' => $varient->rear_suspension,
-                    // ],
-                    // [
-                    //     'title' => 'Steering Type',
-                    //     'value' =>  $varient->steering_type,
-                    // ],
-                    // [
-                    //     'title' => 'Steering Column',
-                    //     'value' => $varient->steering_column,
-                    // ],
-                    // [
-                    //     'title' => 'Tuning Radius',
-                    //     'value' => $varient->tuning_radius.'m',
-                    // ],
-                    // [
-                    //     'title' => 'Front Brake Type',
-                    //     'value' => $varient->front_brake_type,
-                    // ],
-                    // [
-                    //     'title' => 'Rear Brake Type',
-                    //     'value' =>$varient->rear_brake_type,
-                    // ],
-                    // [
-                    //     'title' => 'Alloy Wheel Front',
-                    //     'value' => $varient->alloy_wheel_front ==1 ?'Yes':'No',
-                    // ],
-                    // [
-                    //     'title' => 'Alloy Wheel Rear',
-                    //     'value' => $varient->alloy_wheel_rear == 1? 'Yes':'No',
-                    // ],
-                    // [
-                    //     'title' => 'Power Steering',
-                    //     'value' => $varient->power_steering == 1 ? 'Yes':'No',
-                    // ],
-
-                ],
+                'features' => [],
             ],
             [
                 'key' => 4,
@@ -566,20 +749,8 @@ class CarController extends ApiBaseController
                 'features' => [
                     [
                         'title' => 'Body Type',
-                        'value' =>  $varient->bodyType->name,
+                        'value' => $varient->bodyType->name,
                     ],
-                    // [
-                    //     'title' => 'Length',
-                    //     'value' =>  $varient->length.'mm',
-                    // ],
-                    // [
-                    //     'title' => 'Width',
-                    //     'value' =>  $varient->width.'mm',
-                    // ],
-                    // [
-                    //     'title' => 'Height',
-                    //     'value' =>  $varient->height.'mm',
-                    // ],
                 ],
             ],
             [
@@ -587,24 +758,12 @@ class CarController extends ApiBaseController
                 'id' => 'comfort-convinience',
                 'section' => 'Comfort & Convenience',
                 'features' => [
-                    // [
-                    //     'title' => 'Seat Upholstery',
-                    //     'value' =>  $varient->seat_upholstery,
-                    // ],
                     [
-                        'title' =>  'Seat Capacity',
+                        'title' => 'Seat Capacity',
                         'value' => $varient->seat_capacity . ' Passengers',
                     ],
-                    // [
-                    //     'title' => 'Air Conditioner',
-                    //     'value' => $varient->air_conditioner ==1 ?'Yes':'No',
-                    // ],
-                    // [
-                    //    'title' => 'Wheel Covers',
-                    //    'value' => $varient->wheel_covers ==1 ?'Yes':'No',
-                    // ],
                     [
-                        'title' =>   '360 VieW Camera',
+                        'title' => '360 View Camera',
                         'value' => $varient->view_camera == 1 ? 'Yes' : 'No',
                     ],
                 ],
@@ -613,24 +772,7 @@ class CarController extends ApiBaseController
                 'key' => 6,
                 'id' => 'interior',
                 'section' => 'Interior',
-                'features' => [
-                    // [
-                    //     'title' => 'Boot Space' ,
-                    //     'value' =>  $varient->boot_space.'cubic feet',
-                    // ],
-                    // [
-                    //     'title' =>  'Tachometer',
-                    //     'value' => $varient->tachometer  ==1 ?'Yes':'No',
-                    // ],
-                    // [
-                    //     'title' => 'Electronic Multi Tripmeter',
-                    //     'value' =>  $varient->electronic_multi_tripmeter  ==1 ?'Yes':'No',
-                    // ],
-                    // [
-                    //     'title' => 'Digital Odometer',
-                    //     'value' => $varient->digital_odometer ==1 ?'Yes':'No',
-                    // ],
-                ],
+                'features' => [],
             ],
             [
                 'key' => 7,
@@ -643,12 +785,10 @@ class CarController extends ApiBaseController
                 'id' => 'safety',
                 'section' => 'Safety',
                 'features' => [
-
                     [
                         'title' => 'Safety Ratings',
                         'value' => $varient->safety_ratings,
                     ],
-
                     [
                         'title' => 'No of Airbags',
                         'value' => $varient->no_of_airbags,
@@ -659,9 +799,10 @@ class CarController extends ApiBaseController
                 'key' => 9,
                 'id' => 'entertainment',
                 'section' => 'Entertainment & Communication',
-                'features' => []
+                'features' => [],
             ],
         ];
+
         $additionalSpecsMapping = [
             'engine-type' => $varient->engine,
             'fuel-type' => $varient->fuel,
@@ -673,8 +814,8 @@ class CarController extends ApiBaseController
             'safety' => $varient->safety,
             'entertainment' => $varient->entertainment,
         ];
-        foreach ($sections as &$section) {
 
+        foreach ($sections as &$section) {
             $sectionId = $section['id'];
             if (isset($additionalSpecsMapping[$sectionId]) && !empty($additionalSpecsMapping[$sectionId])) {
                 foreach ($additionalSpecsMapping[$sectionId] as $spec) {
@@ -688,8 +829,14 @@ class CarController extends ApiBaseController
             }
         }
         unset($section);
-        return $sections;
+
+        $filteredSections = array_filter($sections, function ($section) {
+            return !empty($section['features']);
+        });
+
+        return array_values($filteredSections);
     }
+
 
     private function getRelatedNews(Car $car)
     {
