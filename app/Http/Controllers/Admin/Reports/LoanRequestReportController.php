@@ -33,6 +33,7 @@ class LoanRequestReportController extends Controller
         }
 
         $grid = new LoanRequestReportDataGrid(request()->query());
+        // dd($grid);
         return view('admin.reports.loan-requests-reports.index', compact('grid'));
     }
 

@@ -383,10 +383,11 @@ class CarController extends Controller
         foreach ($colorsAvailable as $id) {
             $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg|max:2048';
         }
-        $validatedData = $request->validate($rules);
-        if ($validatedData->fails()) {
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
             return back()->with('error', $validator->errors()->first())->withInput();
         }
+        $validatedData = $validator->validated();
         $data = array_merge($data, $validatedData);
         $data['update'] = 1;
         $carVarient = $car->carSpec;

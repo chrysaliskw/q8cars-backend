@@ -12,39 +12,39 @@ class TestRideReportDataGrid extends Grid
     public $wrapperClass = 'table-responsive';
 
     public function gridQuery()
-{
-    $endDate = Carbon::parse(request()->query('end_date'))
-        ->addHours(23)->addMinutes(59)->addSeconds(59)->format('Y-m-d H:i');
-    $startDate = Carbon::parse(request()->query('start_date'))->format('Y-m-d H:i');
+    {
+        $endDate = Carbon::parse(request()->query('end_date'))
+            ->addHours(23)->addMinutes(59)->addSeconds(59)->format('Y-m-d H:i');
+        $startDate = Carbon::parse(request()->query('start_date'))->format('Y-m-d H:i');
 
-    $query = TestDrive::query()
-    ->leftJoin('users as u', 'u.id', '=', 'test_drives.user_id')
-    ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
-    ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
-    ->where('test_drives.status','!=',TestDrive::STATUS_NOT_VERIFIED)
-    
-    ->when(request()->query('brand_1_id'), function ($q) {
-        $q->where('c.brand_id', request()->query('brand_1_id'));
-    })
-    ->when(request()->query('car_1_id'), function ($q) {
-        $q->where('test_drives.car_id', request()->query('car_1_id'));
-    })
-    ->select(['test_drives.*','u.phone_code as user_phone_code','u.mobile as user_mobile','c.model_name as car_model','brands.name as brand_name'])
-    ->where('test_drives.status', '<>', 5)
-    ->orderBy('test_drives.id', 'Desc');
-    
-    $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
-        $q->whereBetween('test_drives.created_at', [$startDate, $endDate]);
-    });
+        $query = TestDrive::query()
+            ->leftJoin('users as u', 'u.id', '=', 'test_drives.user_id')
+            ->leftJoin('cars as c', 'c.id', '=', 'test_drives.car_id')
+            ->leftJoin('brands', 'brands.id', '=', 'c.brand_id')
+            ->where('test_drives.status', '!=', TestDrive::STATUS_NOT_VERIFIED)
 
-    return $query;
-}
+            ->when(request()->query('brand_1_id'), function ($q) {
+                $q->where('c.brand_id', request()->query('brand_1_id'));
+            })
+            ->when(request()->query('car_1_id'), function ($q) {
+                $q->where('test_drives.car_id', request()->query('car_1_id'));
+            })
+            ->select(['test_drives.*', 'u.phone_code as user_phone_code', 'u.mobile as user_mobile', 'c.model_name as car_model', 'brands.name as brand_name'])
+            ->where('test_drives.status', '<>', 5)
+            ->orderBy('test_drives.id', 'Desc');
+
+        $query->when(request()->query('start_date'), function ($q) use ($startDate, $endDate) {
+            $q->whereBetween('test_drives.created_at', [$startDate, $endDate]);
+        });
+
+        return $query;
+    }
 
 
     public function columns()
     {
         return [
-           
+
             'user_mobile' => [
                 'label' => 'User Mobile',
                 'value' => function ($model) {
@@ -83,7 +83,7 @@ class TestRideReportDataGrid extends Grid
             'first_name' => [
                 'label' => 'Requested Name',
                 'value' => function ($model) {
-                    return $model->first_name . ' '. $model->last_name;
+                    return $model->first_name . ' ' . $model->last_name;
                 },
                 'filter' => true,
                 'filterOptions' => [
