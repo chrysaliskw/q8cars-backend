@@ -23,6 +23,7 @@ class LoanRequestReportDataGrid extends Grid
             ->leftJoin('users', 'users.id', '=', 'bank_suggestion_requests.user_id')
             ->leftJoin('banks', 'banks.id', '=', 'bank_suggestion_requests.bank_id')
             ->select([
+                'bank_suggestion_requests.*',
                 'bank_suggestion_requests.id',
                 'first_name',
                 'last_name',
@@ -125,6 +126,14 @@ class LoanRequestReportDataGrid extends Grid
                     return config('params.banks.status')[$model->status] ?? 'Unknown';
                 },
             ],
+            // 'created_at' => [
+            //     'label' => 'Created Date',
+            //     'value' => function ($model) {
+            //         // dd($model->created_at);
+            //         return dateFormat($model->created_at);
+            //     },
+            //     'filter' => false,
+            // ],
             'created_at' => [
                 'label' => 'Created Date',
                 'value' => function ($model) {
