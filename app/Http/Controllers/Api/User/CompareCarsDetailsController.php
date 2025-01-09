@@ -399,7 +399,7 @@ class CompareCarsDetailsController extends ApiBaseController
             // }
             $comparisonData['brand name']["car_$key"] =  $car->brand->name;
             $comparisonData['on road price']["car_$key"] = $version->on_road_price . ' KWD';
-            $comparisonData['user rating']["car_$key"] = $car->total_reviews_count . ' Ratings';
+            $comparisonData['user rating']["car_$key"] = $version->total_reviews_count . ' Ratings';
             $comparisonData['finance available']["car_$key"] = $version->finance_available . ' KWD';
             $comparisonData['insurance']["car_$key"] = $version->insurance . ' KWD';
             $comparisonData['service cost']["car_$key"] = $version->service_charge . ' KWD';
