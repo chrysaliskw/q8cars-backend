@@ -44,24 +44,65 @@ class CarController extends ApiBaseController
         if ($request->is_search) {
             $result = (new SearchService($request))->handle();
         } elseif ($request->version_id) {
+            if ($request->carIds) {
+                $responseData = [];
 
-            return CarVersionResource::collection(
-                CarVersion::whereIn('id', $request->version_id)->get()
-            )
-                ->additional([
+                foreach ($request->carIds as $key => $carId) {
+                    // Check if a specific version_id is provided
+                    $versionId = $request->version_id[$key] ?? null;
+
+                    if ($versionId) {
+                        // Fetch the specific version by ID
+                        $version = CarVersion::where('id', $versionId)->first();
+                        if ($version) {
+                            $responseData[] = new CarVersionResource($version);
+                        }
+                    } else {
+                        // No specific version, fetch base version or default logic
+                        $car = Car::with('carSpec')->find($carId);
+                        if ($car) {
+                            $version = CarVersion::where('varient_name', $car->carSpec->varient_name)->first();
+                            if ($version) {
+                                $responseData[] = new CarVersionResource($version);
+                            } else {
+                                // Add fallback base car details if no version is found
+                                $responseData[] = [
+                                    'id' => null,
+                                    'car_id' => $car->id,
+                                    'brand_id' => $car->brand_id,
+                                    'brand_name' => $car->brand_name,
+                                    'name' => $car->name,
+                                    'varient_name' => $car->carSpec->varient_name ?? 'Base Varient',
+                                    'ex_showroom_price' => $car->carSpec->ex_showroom_price ?? 'N/A',
+                                    'on_road_price' => $car->carSpec->on_road_price ?? 'N/A',
+                                    'finance_available' => $car->carSpec->finance_available ?? 'N/A',
+                                    'image' => $car->carSpec->image ?? 'N/A',
+                                    'fuel_type' => $car->carSpec->fuel_type ?? 'N/A',
+                                ];
+                            }
+                        }
+                    }
+                }
+
+                return response()->json([
+                    'data' => $responseData,
                     'message' => 'Cars listing versions',
-                    'status' => Response::HTTP_OK
-                ]);
+                    'status' => Response::HTTP_OK,
+                ], Response::HTTP_OK);
+            }
+
+            // Fallback if no carIds are provided in the request
+            return response()->json([
+                'message' => 'No car IDs provided in the request',
+                'status' => Response::HTTP_BAD_REQUEST,
+            ], Response::HTTP_BAD_REQUEST);
         } else {
-            // dd($request->all());
             $result = (new FilterService($request))->handle();
         }
-
-        // dd($request->all());
         return CarResource::collection($result)
             ->additional([
                 'message' => 'Cars listing',
-                'status' => Response::HTTP_OK
+                'status' => Response::HTTP_OK,
             ]);
     }
 
