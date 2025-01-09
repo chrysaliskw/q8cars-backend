@@ -384,6 +384,9 @@ class CarController extends Controller
             $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg|max:2048';
         }
         $validatedData = $request->validate($rules);
+        if ($validatedData->fails()) {
+            return back()->with('error', $validator->errors()->first())->withInput();
+        }
         $data = array_merge($data, $validatedData);
         $data['update'] = 1;
         $carVarient = $car->carSpec;
