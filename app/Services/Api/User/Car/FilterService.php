@@ -115,23 +115,15 @@ final class FilterService
     private function setQuery()
     {
 
-        if (!empty($request->sort)) {
-            $this->query = Car::active()
-                ->launched()
-                ->with('brand')
-                ->leftJoin('car_favourites AS cf', function ($join) {
-                    $join->on('cf.car_id', '=', 'cars.id')
-                        ->where('cf.user_id', Auth::id());
-                });
-        } else {
-            $this->query = Car::active()
-                ->launched()
-                ->with('brand')
-                ->leftJoin('car_favourites AS cf', function ($join) {
-                    $join->on('cf.car_id', '=', 'cars.id')
-                        ->where('cf.user_id', Auth::id());
-                })->orderByDesc('cars.id');
-        }
+
+        $this->query = Car::active()
+            ->launched()
+            ->with('brand')
+            ->leftJoin('car_favourites AS cf', function ($join) {
+                $join->on('cf.car_id', '=', 'cars.id')
+                    ->where('cf.user_id', Auth::id());
+            });
+
 
         // ->orderByDesc('cars.id');
     }
@@ -440,8 +432,9 @@ final class FilterService
 
             case self::SORT_BY_PRICE_LOW_TO_HIGH:
                 // $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
+                dd($this->query->toSql());
                 $this->query = $this->query->orderBy('cars.ex_showroom_price', 'ASC');
-                // dd($this->query->toSql());
+                dd($this->query->toSql());
                 break;
 
             case self::SORT_BY_PRICE_HIGH_TO_LOW:
@@ -465,7 +458,8 @@ final class FilterService
                 break;
 
             default:
-                $this->query = $this->query->orderBy('cars.sort_order', 'asc');
+                $this->query = $this->query->orderByDesc('cars.id');
+
                 break;
         }
     }
