@@ -165,22 +165,39 @@ final class FilterService
     /**
      * @return void
      */
+    // private function filterByFuelType()
+    // {
+    //     if (! $this->request->fuel_types) {
+    //         return;
+    //     }
+
+    //     $fuel_types = array_map('intval', $this->request->fuel_types);
+    //     // dd($fuel_types);
+
+    //     $this->query = $this->query->whereJsonContains('cars.fuel_types', $fuel_types);
+    //     dd($this->query->toSql(), $this->query->getBindings());
+
+    //     // $ids = CarVersion::whereIn('fuel_type', $this->request->fuel_types)->pluck('car_id')->toArray();
+    //     // $id = array_unique($ids);
+    //     // // dd($id);
+    //     // $this->query = $this->query->whereIn('cars.id', $id);
+    // }
+
     private function filterByFuelType()
-    {
-        if (! $this->request->fuel_types) {
-            return;
-        }
-
-        // $fuel_types = array_map('intval', $this->request->fuel_types);
-
-        // $this->query = $this->query->whereJsonContains('cars.fuel_types', $fuel_types);
-
-
-        $ids = CarVersion::whereIn('fuel_type', $this->request->fuel_types)->pluck('car_id')->toArray();
-        $id = array_unique($ids);
-        // dd($id);
-        $this->query = $this->query->whereIn('cars.id', $id);
+{
+    if (! $this->request->fuel_types) {
+        return;
     }
+
+    $fuel_types = array_map('intval', $this->request->fuel_types);
+
+    $this->query = $this->query->where(function ($query) use ($fuel_types) {
+        foreach ($fuel_types as $fuel_type) {
+            $query->orWhereJsonContains('cars.fuel_types', $fuel_type);
+        }
+    });
+}
+
 
     /**
      * @return void
