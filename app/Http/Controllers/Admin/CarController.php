@@ -381,7 +381,7 @@ class CarController extends Controller
         $colorsAvailable = BrandColorMapping::where('brand_id', $car->brand_id)->pluck('id')->toArray();
         $rules = [];
         foreach ($colorsAvailable as $id) {
-            $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg|max:2048';
+            $rules["colors_image_{$id}"] = 'mimes:jpg,png,jpeg';
         }
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {

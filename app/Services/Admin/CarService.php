@@ -63,6 +63,9 @@ class CarService
                 $this->saveCategoryAttributes();
             }
             $this->deleteCategoryAttributes();
+            if ($this->error) {
+                throw new \App\Exceptions\FuelTtypeAndTransmissionException($this->error);
+            }
 
             DB::commit();
 
@@ -689,6 +692,7 @@ class CarService
             if (empty($name)) {
                 continue;
             }
+           
 
             if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index]))
             {
@@ -700,7 +704,16 @@ class CarService
             {
                 $categoryAttribute = new CarAdditonalSpecifications();
             }
-
+            if($this->data['update'] == 1 && isset($this->data['attribute_id'][$index]) )
+            {
+                if( $this->data['key_feature'][$index] ||  $this->data['key_spec'][$index]) {
+                    if(!($categoryAttribute->key_feature || $categoryAttribute->key_spec)){
+                        if($this->data['icon'][$index] == ''){
+                            $this->error = 'Key icon is manadatoryif key specificatuion or key feature is selected';
+                        }
+                    }
+                }
+            }
             $categoryAttribute->car_id = $this->car->id;
             $categoryAttribute->car_version_id = $this->version->id;
             $categoryAttribute->input_type = $this->data['input_type'][$index];
