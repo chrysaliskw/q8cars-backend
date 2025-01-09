@@ -115,23 +115,15 @@ final class FilterService
     private function setQuery()
     {
 
-        if (!empty($request->sort)) {
-            $this->query = Car::active()
-                ->launched()
-                ->with('brand')
-                ->leftJoin('car_favourites AS cf', function ($join) {
-                    $join->on('cf.car_id', '=', 'cars.id')
-                        ->where('cf.user_id', Auth::id());
-                });
-        } else {
-            $this->query = Car::active()
-                ->launched()
-                ->with('brand')
-                ->leftJoin('car_favourites AS cf', function ($join) {
-                    $join->on('cf.car_id', '=', 'cars.id')
-                        ->where('cf.user_id', Auth::id());
-                })->orderByDesc('cars.id');
-        }
+
+        $this->query = Car::active()
+            ->launched()
+            ->with('brand')
+            ->leftJoin('car_favourites AS cf', function ($join) {
+                $join->on('cf.car_id', '=', 'cars.id')
+                    ->where('cf.user_id', Auth::id());
+            });
+
 
         // ->orderByDesc('cars.id');
     }
@@ -255,10 +247,12 @@ final class FilterService
         if (! $this->request->transmission_types) {
             return;
         }
-        $transmission_types = array_map('intval', $this->request->transmission_types);
+        // $transmission_types = array_map('intval', $this->request->transmission_types);
 
-        $this->query = $this->query->whereJsonContains('cars.transmission_type', $transmission_types);
-
+        // $this->query = $this->query->whereJsonContains('cars.transmission_type', $transmission_types);
+        $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
+        $id = array_unique($ids);
+        $this->query = $this->query->whereIn('cars.id', $id);
         // $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
     }
@@ -457,6 +451,7 @@ final class FilterService
 
             case self::SORT_BY_PRICE_LOW_TO_HIGH:
                 // $this->query = $this->query->orderBy('cars.on_road_price', 'ASC');
+                // dd($this->query->toSql());
                 $this->query = $this->query->orderBy('cars.ex_showroom_price', 'ASC');
                 // dd($this->query->toSql());
                 break;
@@ -482,7 +477,8 @@ final class FilterService
                 break;
 
             default:
-                $this->query = $this->query->orderBy('cars.sort_order', 'asc');
+                $this->query = $this->query->orderByDesc('cars.id');
+
                 break;
         }
     }
