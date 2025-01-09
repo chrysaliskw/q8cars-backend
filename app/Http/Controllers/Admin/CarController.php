@@ -392,7 +392,11 @@ class CarController extends Controller
         try {
             $service = new CarService($data, $car, $carVarient);
             $car = $service->handle();
-        } catch (FuelTtypeAndTransmissionException $e) {
+        }   catch (PostTooLargeException $ex) {
+            logger($ex);
+            return back()->with('error', 'File size should be within 2MB')->withInput();
+        } 
+        catch (FuelTtypeAndTransmissionException $e) {
             logger($e);
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         } catch (Exception $ex) {
