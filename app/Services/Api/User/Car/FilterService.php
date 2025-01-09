@@ -115,7 +115,7 @@ final class FilterService
     private function setQuery()
     {
 
-        if (!isset($request->sort)) {
+        if (!empty($request->sort)) {
             $this->query = Car::active()
                 ->launched()
                 ->with('brand')
