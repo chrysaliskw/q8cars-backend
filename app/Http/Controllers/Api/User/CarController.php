@@ -73,6 +73,7 @@ class CarController extends ApiBaseController
                                     'brand_name' => $car->brand_name,
                                     'name' => $car->name,
                                     'varient_name' => $car->carSpec->varient_name ?? 'Base Varient',
+                                    // 'rating' => $car->avg_rating,
                                     'ex_showroom_price' => $car->carSpec->ex_showroom_price ?? 'N/A',
                                     'on_road_price' => $car->carSpec->on_road_price ?? 'N/A',
                                     'finance_available' => $car->carSpec->finance_available ?? 'N/A',
