@@ -116,16 +116,37 @@ final class FilterService
     {
 
 
-        $this->query = Car::active()
-            ->launched()
-            ->with('brand')
-            ->leftJoin('car_favourites AS cf', function ($join) {
-                $join->on('cf.car_id', '=', 'cars.id')
-                    ->where('cf.user_id', Auth::id());
-            });
+        // $this->query = Car::active()
+        //     ->launched()
+        //     ->with('brand')
+        //     ->leftJoin('car_favourites AS cf', function ($join) {
+        //         $join->on('cf.car_id', '=', 'cars.id')
+        //             ->where('cf.user_id', Auth::id());
+        //     });
 
 
-        // ->orderByDesc('cars.id');
+        // // ->orderByDesc('cars.id');
+
+        if ($this->request->is_upcoming) {
+            $isUpcoming = $this->request->is_upcoming;
+            if($isUpcoming == 1){
+                $this->query = Car::active()
+                ->upcoming()
+                ->with('brand')
+                ->leftJoin('car_favourites AS cf', function ($join) {
+                    $join->on('cf.car_id', '=', 'cars.id')
+                        ->where('cf.user_id', Auth::id());
+                });
+            }
+        } else {
+            $this->query = Car::active()
+                ->launched()
+                ->with('brand')
+                ->leftJoin('car_favourites AS cf', function ($join) {
+                    $join->on('cf.car_id', '=', 'cars.id')
+                        ->where('cf.user_id', Auth::id());
+                });
+        }
     }
 
     /**
