@@ -617,6 +617,7 @@ class CarService
 
         if(isset($this->data['update']))
         {
+            $videoIds = $this->car->carVideos()->pluck('id')->toArray();
             $videosArr = $this->car->carVideos()->pluck('thumbnail')->toArray();
             $carVediosiIds = $this->car->carVideos()->pluck('id')->toArray();
         }
@@ -624,12 +625,11 @@ class CarService
         {
             $title = 'title_'.$i;
             $video = 'video_'.$i;
+            $description = 'description_'.$i;
+            $date = 'date_'.$i;
+            $thumbnail = 'thumbnail_'.$i;
+            $postedMedia = 'posted_media_'.$i;
             if(isset($this->data[$video])) {
-                $description = 'description_'.$i;
-                $date = 'date_'.$i;
-                $thumbnail = 'thumbnail_'.$i;
-                $postedMedia = 'posted_media_'.$i;
-
                 $this->data[$video]->store(Car::FILE_DIR);
                 $fileNameVideo = $this->data[$video]->hashName();
                 if(isset($this->data[$thumbnail])){
@@ -653,6 +653,22 @@ class CarService
                     'video_posted_media' => $this->data[$postedMedia],
                 ];
                 // dd($idstobedeleted);
+            }else{
+                if(isset($videoIds[$i-1])){
+                    if(isset($this->data[$thumbnail])){
+                        $this->data[$thumbnail]->store(Car::FILE_DIR);
+                        $fileNameThumbnail = $this->data[$thumbnail]->hashName();
+                    }else{
+                        $fileNameThumbnail = $videosArr[$i-1] ?? '';
+                    }
+                    $carVideo = CarImage::find($videoIds[$i-1]);   
+                    $carVideo->thumbnail = $fileNameThumbnail ;
+                    $carVideo->video_title = $this->data[$title];
+                    $carVideo->video_description = $this->data[$description];
+                    $carVideo->video_posted_date =  $this->data[$date] ? (new DateTime($this->data[$date]))->format('Y-m-d'):'';
+                    $carVideo->video_posted_media = $this->data[$postedMedia];
+                    $carVideo->save();
+                }
             }
 
         }
