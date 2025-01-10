@@ -29,7 +29,7 @@ class BankSuggestionRequestService
             'user_id' => Auth::id(),
             'first_name' => $this->request->first_name,
             'last_name' => $this->request->last_name,
-            'contact_number' => $this->request->contact_number,
+            'contact_number' =>'+965'.$this->request->contact_number,
             'civil_id' => $this->request->civil_id,
             'email' => $this->request->email,
             'bank_name' => $this->request->bank_name,
