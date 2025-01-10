@@ -110,10 +110,10 @@ class UserController extends Controller
         // $query = User::whereHas('offerRequests')->where('mobile', 'like', "%$term%");
         $query = User::whereHas('offerRequests', function ($query) use ($term) {
             // Concatenate 'phone_code' and 'mobile' to search for both
-            $query->whereRaw("CONCAT(phone_code, mobile) LIKE ?", ["%$term%"]);
+            $query->whereRaw("mobile LIKE ?", ["%$term%"]);
         });
 
-        $mobile = $query->select(['id', DB::raw("CONCAT(phone_code, mobile) AS text")])
+        $mobile = $query->select(['id', DB::raw("mobile AS text")])
             ->offset($offset)
             ->limit($limit)
             ->get()
