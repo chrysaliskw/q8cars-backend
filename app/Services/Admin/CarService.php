@@ -711,13 +711,12 @@ class CarService
             {
                 $categoryAttribute = new CarAdditonalSpecifications();
             }
-            if($this->data['update'] == 1 && isset($this->data['attribute_id'][$index]) )
-            {
-                if( $this->data['key_feature'][$index] ||  $this->data['key_spec'][$index]) {
-                    if(!($categoryAttribute->key_feature || $categoryAttribute->key_spec)){
-                        if($this->data['icon'][$index] == ''){
-                            $this->error = 'Key icon is manadatoryif key specificatuion or key feature is selected';
-                        }
+            if ($this->data['update'] == 1 && isset($this->data['attribute_id'][$index])) {
+                if ($this->data['key_feature'][$index] || $this->data['key_spec'][$index]) {
+                    // Check if key icon is missing in both the database and current input
+                    if (empty($categoryAttribute->key_icon) && empty($this->data['icon'][$index])) {
+                        $this->error = 'Key icon is mandatory if key specification or key feature is selected';
+                        return; // Stop further processing
                     }
                 }
             }
