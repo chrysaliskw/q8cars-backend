@@ -22,23 +22,23 @@ class UserReportsController extends Controller
     {
 
 
-        if ($request->hasAny(['start_date', 'end_date'])) {
-            $validated = $request->validate([
-                'start_date' => 'required|date|before_or_equal:today',
-                'end_date' => [
-                    'nullable',
-                    'date',
-                    'after_or_equal:start_date',
-                    function ($attribute, $value, $fail) use ($request) {
-                        $startDate = Carbon::parse($request->start_date);
-                        $endDate = $value ? Carbon::parse($value) : Carbon::today();
-                        if ($endDate->diffInDays($startDate) > 30) {
-                            $fail('The number of days should be 30 or less.');
-                        }
-                    },
-                ],
-            ]);
-        }
+        // if ($request->hasAny(['start_date', 'end_date'])) {
+        //     $validated = $request->validate([
+        //         'start_date' => 'required|date|before_or_equal:today',
+        //         'end_date' => [
+        //             'nullable',
+        //             'date',
+        //             'after_or_equal:start_date',
+        //             function ($attribute, $value, $fail) use ($request) {
+        //                 $startDate = Carbon::parse($request->start_date);
+        //                 $endDate = $value ? Carbon::parse($value) : Carbon::today();
+        //                 if ($endDate->diffInDays($startDate) > 30) {
+        //                     $fail('The number of days should be 30 or less.');
+        //                 }
+        //             },
+        //         ],
+        //     ]);
+        // }
 
         $grid = new UserReportDataGrid(request()->query());
         return view('admin.reports.user.index', compact('grid'));
