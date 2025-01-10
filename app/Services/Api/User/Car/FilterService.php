@@ -2,6 +2,7 @@
 
 namespace App\Services\Api\User\Car;
 
+use App\Models\BrandColorMapping;
 use App\Models\Car;
 use App\Models\CarFavourite;
 use App\Models\CarVersion;
@@ -458,15 +459,23 @@ final class FilterService
             return;
         }
 
-        $colours = array_map('intval', $this->request->colours);
+        // $colours = array_map('intval', $this->request->colours);
 
+        // $this->query = $this->query->where(function ($query) use ($colours) {
+        //     foreach ($colours as $colour) {
+        //         $query->orWhereJsonContains('cars.colours', $colour);
+        //     }
+        // });
+       
+        $colours = BrandColorMapping::whereIn('code', $this->request->colours)->pluck('id');
+        //  dd($colours);
         $this->query = $this->query->where(function ($query) use ($colours) {
             foreach ($colours as $colour) {
                 $query->orWhereJsonContains('cars.colours', $colour);
             }
-        });
+         });
         // $this->query = $this->query->whereJsonContains('cars.colours', $colours);
-    }
+     }
 
 
     /**
