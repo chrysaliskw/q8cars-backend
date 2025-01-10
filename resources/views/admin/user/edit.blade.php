@@ -35,7 +35,7 @@
                     <x-form-input type="text" field="phone_code" field-name="Country code" value="{{ $user->phone_code }}" id="phone_code" readonly></x-form-input>
                 </div>
                 <div class="col-md-4">
-                    <x-form-input type="text" field="mobile" field-name="Mobile" value="{{ $user->mobile }}" maxlength="8"></x-form-input>
+                    <x-form-input type="text" field="mobile" field-name="Mobile" value="{{ str_replace($user->phone_code, '', $user->mobile)}}" maxlength="8"></x-form-input>
                 </div>
                 <div class="col-md-4">
                     <x-form-textarea field="address" field-name="Address" field-value="{{ $user->address }}"> </x-form-textarea>

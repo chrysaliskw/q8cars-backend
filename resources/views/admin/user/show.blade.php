@@ -57,7 +57,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 control-label">Mobile</label>
                                 <div class="col-sm-8">
-                                    {{ $user->phone_code . $user->mobile }}
+                                    {{ $user->mobile }}
                                 </div>
                             </div>
                             <div class="form-group row">
