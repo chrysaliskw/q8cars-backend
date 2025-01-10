@@ -35,14 +35,17 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        $carversion = $review->car_version_id;
+        // dd($review);
+        // $carversion = $review->car_version_id;
         // dd($carversion);
+        // dd($review->carVersion ? $review->carVersion->varient_name : $review->car->carSpec->varient_name);
         $viewData = [
             'id' => $review->id,
             'User Mobile' =>  $review->user ? "<a href='" . route('admin.user.show', $review->user->id) . "'>{$review->user->phone_code} {$review->user->mobile}</a>" : 'NA',
             'User Name' =>  $review->user ? "<a href='" . route('admin.user.show', $review->user->id) . "'>{$review->user->name} </a>" : 'NA',
             'Car Model' => $review->car->model_name,
-            'Car Version' => $review->carVersion->varient_name ?? $review->car->carSpec->varient_name,
+
+            'Car Version' => $review->carVersion ? $review->carVersion->varient_name : $review->car->carSpec->varient_name,
             // $review->car->carSpec->varient_name ?? ($review->carVersion ? $review->carVersion->varient_name : $review->car->carSpec->varient_name),
             'Car Brand' => "<a href='" . route('admin.brand.show', $review->car->brand->id) . "'>{$review->car->brand->name}</a>",
             'Title' => $review->short_comment,

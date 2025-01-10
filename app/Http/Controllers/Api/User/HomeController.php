@@ -26,7 +26,7 @@ class HomeController extends ApiBaseController
         $data['compare_cars'] = $this->getCompareCars();
         $data['trending_news'] = $this->getTrending();
         $data['recently_purchased_brands'] = $this->getBrands();
-      
+
         return $this->success(['data' => $data], 'Home Page', Response::HTTP_OK);
     }
 
@@ -38,19 +38,19 @@ class HomeController extends ApiBaseController
 
     private function getCompareCars()
     {
-        $lists = CarComparisonList::where('page', CarComparisonList::HOME_PAGE)->where('status',1)->get();
+        $lists = CarComparisonList::where('page', CarComparisonList::HOME_PAGE)->where('status', 1)->orderBy('created_at', 'desc')->get();
         $result = null;
 
 
         $i = 0;
-        foreach($lists as $list) {
+        foreach ($lists as $list) {
             $car1 = new CarVersionResource(CarVersion::where('car_id', $list->car_1_id)->where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first());
-            if($list->car_version_1_id) {
+            if ($list->car_version_1_id) {
                 $car1 = new CarVersionResource(CarVersion::find($list->car_version_1_id));
             }
 
             $car2 = new CarVersionResource(CarVersion::where('car_id', $list->car_2_id)->where('is_car_spec', CarVersion::CAR_SPECIFICATION)->first());
-            if($list->car_version_2_id) {
+            if ($list->car_version_2_id) {
                 $car2 = new CarVersionResource(CarVersion::find($list->car_version_2_id));
             }
             $result[$i]['id'] = $list->id;
