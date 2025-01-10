@@ -85,7 +85,7 @@ class AuthController extends ApiBaseController
         $user = new User();
         $user->phone_code = '+'. 965;   // For Kuwait
         $user->country_id = 1;
-        $user->mobile = $request->mobile;
+        $user->mobile = $user->phone_code. $request->mobile;
         $user->status = User::STATUS_ACTIVE;
         $user->saveOrFail();
 
