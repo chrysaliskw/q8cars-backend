@@ -33,8 +33,13 @@ class OtpVerificationController extends ApiBaseController
      */
     public function __invoke(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'mobile' => ['required', 'string', 'regex:/^[\d]*$/', 'exists:' . User::class],
+        $mobileWithCode = '+965' . $request->input('mobile');
+        $validator = Validator::make([
+            'mobile' => $mobileWithCode, // Prepend +965 to mobile
+            'otp' => $request->input('otp'),
+            'device_name' => $request->input('device_name')
+        ], [
+            'mobile' => ['required', 'string', 'regex:/^\+965\d{8}$/', 'exists:users,mobile'],
             'otp' => 'required|digits:4',
             'device_name' => ['required', 'string', 'max:200', new RegexAlphaNumSpace]
         ]);
@@ -47,7 +52,7 @@ class OtpVerificationController extends ApiBaseController
             $this->ensureIsNotRateLimited($request);
             RateLimiter::hit($this->throttleKey());
 
-            $user = User::where('mobile', $request->mobile)->first();
+            $user = User::where('mobile', $mobileWithCode)->first();
 
             if (empty($user)) {
                 return $this->error('User not found', Response::HTTP_UNPROCESSABLE_ENTITY);
