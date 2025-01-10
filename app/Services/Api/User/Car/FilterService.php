@@ -222,7 +222,12 @@ final class FilterService
 
         $travel_type = array_map('intval', $this->request->travel_type);
 
-        $this->query = $this->query->whereJsonContains('cars.travel_type', $travel_type);
+        // $this->query = $this->query->whereJsonContains('cars.travel_type', $travel_type);
+        $this->query = $this->query->where(function ($query) use ($travel_type) {
+            foreach ($travel_type as $travel_types) {
+                $query->orWhereJsonContains('cars.travel_type', $travel_types);
+            }
+        });
     }
 
     /**
@@ -235,7 +240,12 @@ final class FilterService
         }
         $professions = array_map('intval', $this->request->professions);
 
-        $this->query = $this->query->whereJsonContains('cars.professions', $professions);
+        // $this->query = $this->query->whereJsonContains('cars.professions', $professions);
+        $this->query = $this->query->where(function ($query) use ($professions) {
+            foreach ($professions as $profession) {
+                $query->orWhereJsonContains('cars.professions', $profession);
+            }
+        });
 
         // $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
@@ -267,12 +277,18 @@ final class FilterService
         if (! $this->request->transmission_types) {
             return;
         }
-        // $transmission_types = array_map('intval', $this->request->transmission_types);
+        $transmission_types = array_map('intval', $this->request->transmission_types);
+
+        $this->query = $this->query->where(function ($query) use ($transmission_types) {
+            foreach ($transmission_types as $transmission_type) {
+                $query->orWhereJsonContains('cars.transmission_type', $transmission_type);
+            }
+        });
 
         // $this->query = $this->query->whereJsonContains('cars.transmission_type', $transmission_types);
-        $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
-        $id = array_unique($ids);
-        $this->query = $this->query->whereIn('cars.id', $id);
+        // $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
+        // $id = array_unique($ids);
+        // $this->query = $this->query->whereIn('cars.id', $id);
         // $ids = CarVersion::whereIn('transmission_type', $this->request->transmission_types)->pluck('car_id')->toArray();
         // $this->query = $this->query->whereIn('cars.id', $ids);
     }
@@ -442,9 +458,14 @@ final class FilterService
             return;
         }
 
-        $colours = array_map('intval', $this->request->colours); // Replace with your actual array
+        $colours = array_map('intval', $this->request->colours);
 
-        $this->query = $this->query->whereJsonContains('cars.colours', $colours);
+        $this->query = $this->query->where(function ($query) use ($colours) {
+            foreach ($colours as $colour) {
+                $query->orWhereJsonContains('cars.colours', $colour);
+            }
+        });
+        // $this->query = $this->query->whereJsonContains('cars.colours', $colours);
     }
 
 
