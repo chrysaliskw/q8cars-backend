@@ -35,12 +35,15 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
+        $carversion = $review->car_version_id;
+        // dd($carversion);
         $viewData = [
             'id' => $review->id,
             'User Mobile' =>  $review->user ? "<a href='" . route('admin.user.show', $review->user->id) . "'>{$review->user->phone_code} {$review->user->mobile}</a>" : 'NA',
             'User Name' =>  $review->user ? "<a href='" . route('admin.user.show', $review->user->id) . "'>{$review->user->name} </a>" : 'NA',
             'Car Model' => $review->car->model_name,
-            'Car Version' => $review->car_version_id ? $review->carVersion->varient_name : $review->car->carSpec->varient_name,
+            'Car Version' => $review->carVersion->varient_name ?? $review->car->carSpec->varient_name,
+            // $review->car->carSpec->varient_name ?? ($review->carVersion ? $review->carVersion->varient_name : $review->car->carSpec->varient_name),
             'Car Brand' => "<a href='" . route('admin.brand.show', $review->car->brand->id) . "'>{$review->car->brand->name}</a>",
             'Title' => $review->short_comment,
             'Description' => $review->detailed_comment,
@@ -50,6 +53,7 @@ class ReviewController extends Controller
             'Updated At' => dateTimeFormat($review->updated_at),
 
         ];
+        // dd($viewData);
         return view('admin.reviews.show', compact('viewData', 'review'));
     }
 
@@ -73,7 +77,7 @@ class ReviewController extends Controller
                 $ratingField = 'rating_' . $review->rating;
                 $review->car->$ratingField = $review->car->$ratingField + 1;
                 $review->car->save();
-                if(isset($review->car_version_id)){
+                if (isset($review->car_version_id)) {
                     $review->carVersion->avg_rating =  round(
                         (($review->carVersion->avg_rating * $review->carVersion->total_reviews_count) + $review->rating) /
                             ($review->carVersion->total_reviews_count + 1),
