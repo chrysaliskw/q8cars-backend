@@ -42,7 +42,7 @@ class AuthController extends ApiBaseController
             $this->ensureIsNotRateLimited($request);
             RateLimiter::hit($this->throttleKey());
 
-            $user = User::where('mobile', $request->mobile)->first();
+            $user = User::where('mobile', '+965'.$request->mobile)->first();
             if (empty($user)) {
                 if(User::where('mobile', $request->mobile)->withTrashed()->first()) {
                     return $this->error('Your account has been deactivated', Response::HTTP_UNPROCESSABLE_ENTITY);
