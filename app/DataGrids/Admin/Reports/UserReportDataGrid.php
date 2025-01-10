@@ -89,7 +89,7 @@ class UserReportDataGrid extends Grid
                 'label' => 'User Mobile',
                 'value' => function ($model) {
                     // Display the mobile number with the country code
-                    return $model->phone_code . $model->mobile;
+                    return $model->mobile;
                 },
                 'filter' => true,
                 'filterOptions' => [

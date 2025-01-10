@@ -61,7 +61,7 @@ class LoanRequestReportDataGrid extends Grid
         return [
 
             'requested_user' => [
-                'label' => 'Requested User',
+                'label' => ' User Name',
                 'value' => function ($model) {
                     return $model->requested_user;
                 },

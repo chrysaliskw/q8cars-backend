@@ -28,7 +28,7 @@ class OfferRequestDataGrid extends Grid
             'user_mobile' => [
                 'label' => 'User Mobile',
                 'value' => function ($model) {
-                    return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_phone_code $model->user_mobile</a>";
+                    return "<a href='" . route('admin.user.show', $model->user->id) . "'> $model->user_mobile</a>";
 
                 },
                 'filter' => true,
