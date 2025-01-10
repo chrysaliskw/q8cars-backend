@@ -25,7 +25,7 @@ class CarVersionResource extends JsonResource
             'name' => $this->car->model_name,
             'varient_name' => $this->varient_name,
             //i test
-            'rating' => $this->car->avg_rating,
+            'rating' => $this->avg_rating,
             'ex_showroom_price' => 'KWD ' . $this->ex_showroom_price,
             'on_road_price' => 'KWD ' . $this->on_road_price,
             'finance_available' => 'KWD ' . $this->finance_available,

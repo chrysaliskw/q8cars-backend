@@ -73,6 +73,13 @@ class ReviewController extends Controller
                 $ratingField = 'rating_' . $review->rating;
                 $review->car->$ratingField = $review->car->$ratingField + 1;
                 $review->car->save();
+                if(isset($review->car_version_id)){
+                    $review->carVersion->avg_rating =  round(
+                        (($review->carVersion->avg_rating * $review->carVersion->total_reviews_count) + $review->rating) /
+                            ($review->carVersion->total_reviews_count + 1),
+                        1
+                    );
+                }
             }
             // $settings = SmtpSetting::checkSmtpConfig();
             // $details = [];
