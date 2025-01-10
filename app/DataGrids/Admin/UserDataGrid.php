@@ -38,7 +38,7 @@ class UserDataGrid extends Grid
             'mobile' => [
                 'label' => 'Mobile',
                 'value' => function ($model) {
-                    return $model->phone_code . $model->mobile;
+                    return  $model->mobile;
                 },
                 'filter' => true,
                 'filterOptions' => [
