@@ -49,7 +49,7 @@ class SubmitReviewController extends ApiBaseController
                 ->latest()
                 ->first();
 
-            if ($review) {
+            if ($review && isset($user->email)) {
                 $details = [
                     'title' => 'New Car Review Submitted',
                     'page' => 'emails.admin.review.review_submitted',
