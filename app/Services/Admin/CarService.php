@@ -575,7 +575,8 @@ class CarService
                 }
                 $excludedTTypes = array_diff($existingTranmissionTypes, $result);
                 if (!empty($excludedTTypes)) {
-                    $this->error = 'The transmission types already assigned to car versions cannot be excluded';
+                    // $this->error = 'The transmission types already assigned to car versions cannot be excluded';
+                    Log::info('Transmission types removed during update: ' . implode(', ', $excludedTTypes));
                 }
             }else{
                 foreach($this->data['transmission_types'] as $p) {
@@ -671,7 +672,7 @@ class CarService
                     }else{
                         $fileNameThumbnail = $videosArr[$i-1] ?? '';
                     }
-                    $carVideo = CarImage::find($videoIds[$i-1]);   
+                    $carVideo = CarImage::find($videoIds[$i-1]);
                     $carVideo->thumbnail = $fileNameThumbnail ;
                     $carVideo->video_title = $this->data[$title];
                     $carVideo->video_description = $this->data[$description];
@@ -699,7 +700,7 @@ class CarService
             if (empty($name)) {
                 continue;
             }
-           
+
 
             if (isset($this->data['attribute_id']) && isset($this->data['attribute_id'][$index]))
             {
