@@ -59,15 +59,15 @@
 
 
 
-                    <label for="video_${sectionCount}" class="control-label">Video File</label><br>
+                    <label for="video_{{ $key + 1 }}" class="control-label">Video File</label><br>
                     @if($carVideo->file_name)
                     <video  width="100" height="150" controls class="img-thumbnail">
                         <source src="{{ file_asset('files-car', $carVideo->file_name) }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     @endif
-                    <input id="video_${sectionCount}" type="file" name="video_${sectionCount}" class="form-control"
-                        onchange="previewVideo(event, ${sectionCount})">
+                    <input id="video_{{ $key + 1 }}" type="file" name="video_{{ $key + 1 }}" class="form-control"
+                        onchange="previewVideo(event, $key+1)">
                     <span class="error" role="alert">
                         @error('video_' . ($key + 1))
                             {{ $message }}</br>

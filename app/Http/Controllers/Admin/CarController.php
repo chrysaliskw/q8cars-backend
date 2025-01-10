@@ -319,7 +319,7 @@ class CarController extends Controller
      */
     public function update(CarRequest $request, Car $car)
     {
-        // dd($request);
+         
         $rows = $request->row_count;
 
         $rules = [];
