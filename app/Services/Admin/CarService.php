@@ -57,7 +57,7 @@ class CarService
             $this->saveCarImages();
             $this->saveCarVideos();
             $this->saveCarColorsAndImages();
-            
+
             if(isset($this->data['attribute']))
             {
                 $this->saveCategoryAttributes();
@@ -213,7 +213,7 @@ class CarService
         // $this->version->power_steering = $this->data['power_steering'];
         if(isset($this->data['update'])&& $this->version->body_type !== $this->data['body_type_id']){
             $this->version->body_type = $this->data['body_type_id'];
-            CarVersion::where('car_id', $this->car->id)->update(['body_type' => $this->data['body_type_id']]);        
+            CarVersion::where('car_id', $this->car->id)->update(['body_type' => $this->data['body_type_id']]);
         }else{
             $this->version->body_type = $this->data['body_type_id'];
         }
@@ -411,7 +411,7 @@ class CarService
                 if ($existingImage) {
 
                     $image['id'] = $existingImage->id;
-                    
+
                     $existingImage->file_name = $image['file_name'];
                     $existingImage->color = $image['color'];
                     $existingImage->save();
@@ -432,7 +432,7 @@ class CarService
         $this->car->colours = $uploadedColors;
         $this->car->save();
         $this->car->carVersions()->update(['colours' => json_encode($uploadedColors)]);
-        
+
     }
 
     /**
@@ -506,24 +506,30 @@ class CarService
                 $i++;
             }
         }else {
-            if ($this->data['update']) {
-                $i = 0; 
-                $existingFuelTypes = Carversion::where('car_id', $this->car->id)->pluck('fuel_type')->toArray(); // Get existing fuel types for the car
+            // if ($this->data['update']) {
+            if (isset($this->data['update']) && $this->data['update']){
+                $i = 0;
+                $existingFuelTypes = Carversion::where('car_id', $this->car->id)->pluck('fuel_type')->toArray();
+                // dd($existingFuelTypes);
                 $result = [];
                 foreach ($this->data['fuel_types'] as $p) {
                        $result[$i] = intval($p);
                         $i++;
                 }
                 $excludedFuelTypes = array_diff($existingFuelTypes, $result);
+                // dd($excludedFuelTypes);
+                // if (!empty($excludedFuelTypes)) {
+                //  $this->error = 'The fuel types already assigned to car versions cannot be excluded';
+                // }
                 if (!empty($excludedFuelTypes)) {
-                 $this->error = 'The fuel types already assigned to car versions cannot be excluded';
+                    Log::info('Fuel types removed during update: ' . implode(', ', $excludedFuelTypes));
                 }
             }else{
                 foreach($this->data['fuel_types'] as $p) {
                     $result[$i] = intval($p);
                     $i++;
                 }
-            }    
+            }
         }
         return  json_encode($result);
     }
@@ -556,9 +562,10 @@ class CarService
                 $i++;
             }
         }else {
-            if ($this->data['update']) {
-                $i = 0; 
-                $existingTranmissionTypes = Carversion::where('car_id', $this->car->id)->pluck('transmission_type')->toArray(); 
+            // if ($this->data['update']) {
+            if (isset($this->data['update']) && $this->data['update']){
+                $i = 0;
+                $existingTranmissionTypes = Carversion::where('car_id', $this->car->id)->pluck('transmission_type')->toArray();
                 foreach ($this->data['transmission_types'] as $p) {
                        $result[$i] = intval($p);
                         $i++;
