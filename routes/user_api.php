@@ -1,5 +1,6 @@
 <?php
 
+use Google\Service\Blogger\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\CarController;
 use App\Http\Controllers\Api\User\OtpController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Api\User\BankController;
 use App\Http\Controllers\Api\User\HomeController;
 use App\Http\Controllers\Api\User\LoanController;
 use App\Http\Controllers\Api\User\BrandController;
+use App\Http\Controllers\Api\User\ColorController;
 use App\Http\Controllers\Api\User\GuestController;
 use App\Http\Controllers\Api\User\OfferController;
 use App\Http\Controllers\Api\User\ProfileController;
@@ -36,7 +38,6 @@ use App\Http\Controllers\Api\User\CuratedComparisonController;
 use App\Http\Controllers\Api\User\CompareCarsDetailsController;
 use App\Http\Controllers\Api\User\FavouriteComparisonController;
 use App\Http\Controllers\Api\User\BankSuggestionRequestController;
-use Google\Service\Blogger\Post;
 
 // Guest user login
 Route::post('/guests', GuestController::class);
@@ -98,6 +99,8 @@ Route::middleware('auth:user_api')->group(function () {
     // EMI Calculator
     Route::get('/emi-calculator', EmiCalculatorController::class);
 
+    Route::get('/colors', [ColorController::class, 'getAllColors']);
+
     //notifications
     Route::get('/notifications', NotificationController::class);
     Route::post('/notifications/toggle-mute', [NotificationController::class, 'toggleMute']);
@@ -123,7 +126,7 @@ Route::middleware('auth:user_api')->group(function () {
     //fuel cost calculator
     Route::post('/fuel-cost', FuelCostController::class);
     Route::get('/360-view-images',View360ImageController::class);
-   
+
 });
 
 /**
