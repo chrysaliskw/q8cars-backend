@@ -46,7 +46,7 @@ class LoanRequestReportDataGrid extends Grid
         });
 
         $query->when(request('status'), function ($query, $model) {
-            $query->where('status', $model);
+            $query->where('bank_suggestion_requests.status', $model);
         });
         $query->when(request('start_date'), function ($query, $model) use ($startDate, $endDate) {
             $query->where('bank_suggestion_requests.created_at', '>=', $startDate)
