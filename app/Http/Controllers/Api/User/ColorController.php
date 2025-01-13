@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Api\User;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Models\BrandColorMapping;
 
 class ColorController extends ApiBaseController
 {
     public function getAllColors()
     {
-        $colors = DB::table('brand_color_mappings')
+        $colors = BrandColorMapping::active()
             ->select('code', 'name')
-            ->distinct('code')
+            ->groupBy('code')
             ->get();
 
         return $this->success(['data' => $colors], 'Colors listing', Response::HTTP_OK);

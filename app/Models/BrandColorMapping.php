@@ -16,4 +16,8 @@ class BrandColorMapping extends Model
     {
         return $this->belongsTo(Brand::class);  
     }
+    public function scopeActive($query)
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
+    }
 }
