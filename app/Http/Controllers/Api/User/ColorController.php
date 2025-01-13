@@ -13,7 +13,7 @@ class ColorController extends ApiBaseController
     {
         $colors = BrandColorMapping::active()
             ->select('code', 'name')
-            ->groupBy('code')
+            ->groupBy('code','name')
             ->get();
 
         return $this->success(['data' => $colors], 'Colors listing', Response::HTTP_OK);
