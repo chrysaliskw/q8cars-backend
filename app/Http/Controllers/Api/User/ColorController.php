@@ -12,9 +12,8 @@ class ColorController extends ApiBaseController
     public function getAllColors()
     {
         $colors = BrandColorMapping::active()
-            ->select('code', 'name')
-            ->groupBy('code','name')
-            ->get();
+            ->selectRaw('DISTINCT code, name')
+            ->get();    
 
         return $this->success(['data' => $colors], 'Colors listing', Response::HTTP_OK);
     }
