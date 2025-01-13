@@ -12,7 +12,7 @@ class ColorController extends ApiBaseController
     {
         $colors = DB::table('brand_color_mappings')
             ->select('code', 'name')
-            ->distinct()
+            ->distinct('code')
             ->get();
 
         return $this->success(['data' => $colors], 'Colors listing', Response::HTTP_OK);
