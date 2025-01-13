@@ -100,19 +100,37 @@
                 </div>
                 <br>
 
-                <div class="row">
+                {{--   <div class="row">
                 <div class="col-md-12">
                         <x-form-textarea class="summernote form-control" field="description" field-name="Description" field-value="{{ old('description') }}"></x-form-textarea>
                     </div>
-                  {{--  <div class="col-md-12">
+                   <div class="col-md-12">
                         <div class="card">
                             <label for="description">Description</label>
                             <div class="card-body">
                                 <textarea class="summernote form-control" rows="9" name="description">{{ old('description') }}</textarea>
                             </div>
                         </div>
-                    </div>--}}
+                    </div>
+                </div>--}}
+                <div class="row">
+                <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <label for="description">Description</label>
+                                    <div class="card-body">
+                                        <textarea class="summernote form-control" rows="9" name="description">{{ old('description') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        @error('description')
+                            <span class="error" role="alert">{{ $message }}</span>
+                        @enderror
+                 
                 </div>
+            </div>
                 <br>
 
                 <div class="row">

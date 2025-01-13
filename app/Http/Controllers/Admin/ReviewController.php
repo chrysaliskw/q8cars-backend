@@ -86,6 +86,8 @@ class ReviewController extends Controller
                             ($review->carVersion->total_reviews_count + 1),
                         1
                     );
+                    $review->carVersion->total_reviews_count =    $review->carVersion->total_reviews_count +1;
+                    $review->carVersion->save();
                 }
             }
             // $settings = SmtpSetting::checkSmtpConfig();
