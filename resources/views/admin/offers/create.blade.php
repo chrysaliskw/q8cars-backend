@@ -36,6 +36,11 @@
                                     <div class="card-body">
                                         <textarea class="summernote form-control" rows="9" name="key_feature_1">{{ old('key_feature_1') }}</textarea>
                                     </div>
+                                    <span class="error" role="alert">
+                                        @error('key_feature_1')
+                                            {{ $message }}</br>
+                                        @enderror
+                                    </span>
                                 </div>
                             </div>
                 </div>
@@ -47,6 +52,11 @@
                                         <div class="card-body">
                                             <textarea class="summernote form-control" rows="9" name="key_feature_2">{{ old('key_feature_2') }}</textarea>
                                         </div>
+                                        <span class="error" role="alert">
+                                            @error('key_feature_2')
+                                                {{ $message }}</br>
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                     </div>
