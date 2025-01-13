@@ -192,14 +192,14 @@
                             <li>
                                 <a href="{{ route('admin.sub-admin.admin.index') }}">Users</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('admin.configurations') }}">Configurations</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
                 @endcanany
                 @canany(['All'])
-                    <li class="has_sub"> 
+                    <li class="has_sub">
                     <a href="#" class="waves-effect"><i class="fa fa-cog"></i><span> Settings </span><span class="pull-right"><i class="md md-add"></i></span></a>
                         <ul class="list-unstyled">
                             <li>
