@@ -80,6 +80,7 @@ class LoanRequestsReportsExport implements FromQuery, WithColumnFormatting, With
                 'bank_suggestion_requests.status',
                 'banks.bank_name as bank_name',
                 'users.name as requested_user',
+                'users.mobile as requested_mobile',
                 'bank_suggestion_requests.created_at as created_at',
             ])
             ->orderBy('bank_suggestion_requests.id', 'desc');
@@ -127,6 +128,7 @@ class LoanRequestsReportsExport implements FromQuery, WithColumnFormatting, With
             '#',
             'Bank Name',
             'User Name',
+            'User Mobile',
             'Email',
             'Contact Number',
             'Status',
@@ -151,6 +153,7 @@ class LoanRequestsReportsExport implements FromQuery, WithColumnFormatting, With
             $this->counter,
             $row->bank_name,
             $row->requested_user,
+            $row->requested_mobile,
             $row->email,
             $row->contact_number,
             config('params.banks.status')[$row->status] ?? 'Unknown',

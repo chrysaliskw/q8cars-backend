@@ -31,7 +31,8 @@ class LoanRequestReportDataGrid extends Grid
                 'bank_suggestion_requests.email',
                 'bank_suggestion_requests.status',
                 'banks.bank_name as bank_name',
-                'users.name as requested_user'
+                'users.name as requested_user',
+                'users.mobile as requested_mobile',
             ])
             ->where('type', BankSuggestionRequest::TYPE_LOAN)
             ->orderBy('bank_suggestion_requests.id', 'Desc');
@@ -68,6 +69,16 @@ class LoanRequestReportDataGrid extends Grid
                 'filter' => true,
                 'filterOptions' => [
                     'attribute' => 'users.name',
+                ]
+            ],
+            'requested_mobile' => [
+                'label' => ' User Mobile',
+                'value' => function ($model) {
+                    return $model->requested_mobile;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'attribute' => 'users.mobile',
                 ]
             ],
 
