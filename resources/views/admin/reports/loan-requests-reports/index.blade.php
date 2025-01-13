@@ -16,7 +16,7 @@
 
 
                 <div class="col-md-4">
-                    <x-form-input type="text" field="name" field-name="User" value="<?php echo isset($_GET['name']) ? $_GET['name'] : ''; ?>"></x-form-input>
+                    <x-form-input type="text" field="name" field-name="User Name" value="<?php echo isset($_GET['name']) ? $_GET['name'] : ''; ?>"></x-form-input>
                 </div>
 
                 <div class="col-md-4">
