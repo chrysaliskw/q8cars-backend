@@ -39,7 +39,7 @@
                                     </button>                                    
                                     <!-- Remove Button -->
                                     <button style="margin:10px" type="button" class="btn btn-danger btn-sm" 
-                                            onclick="removeImage(this, {{ $image->id }})">
+                                            onclick="removeImage(this, {{ $image->id }},2)">
                                             <i class="fa fa-trash"></i>
                                     </button>
                                 </div>
@@ -57,6 +57,29 @@
 
             <input type="hidden" id="id" name="id" value="{{ $car->id }}">
             <p id="max-limit-message" style="color: red; display: none;">You can only upload up to 10 images.</p>
+
+            <div class="row align-items-center" style="margin-bottom: 20px; margin-top:20px">
+                <div class="col-md-4">
+                    <input type="text" id="url-upload" name="url" class="form-control" placeholder="Enter a valid Url" value="{{$url ?$url->image : old('url') }}">
+                </div>
+              
+                <div class="col-md-4" style="padding-left: 10px;">
+                    <button type="button" class="btn btn-primary" id="upload-url_button" >Upload Url</button>
+                </div>
+            </div>
+            <div class="row align-items-center" style="margin-bottom: 20px; margin-top:20px" id="urlcontainer">
+                @if($url)
+                <div id="uploaded-url" style="margin-top: 10px;">
+                    <h5>Uploaded URL:</h5>
+                    <iframe src="{{ $url->image }}" style="width: 100%; height: 300px; border: 1px solid #ccc;"></iframe></div>
+                    <div class="mt-2" style="margin-left: 10px;">
+                        <button type="button" class="btn btn-danger"  onclick="removeImage(this, {{ $url->id }},1)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                
+            @endif
+            </div>
         </x-form>
     </x-crud-create>
 
@@ -73,7 +96,7 @@
                 uploadButton.disabled = true;
             }
         });
-
+        
         // Upload Image
         document.getElementById('upload-button').addEventListener('click', function () {
             const fileInput = document.getElementById('image-upload');
@@ -122,7 +145,7 @@
 
                             <!-- Remove Button -->
                             <button style="margin:10px" type="button" class="btn btn-danger btn-sm" 
-                                    onclick="removeImage(this, ${data.image_id})">
+                                    onclick="removeImage(this, ${data.image_id},2)">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
@@ -158,9 +181,9 @@
      });
 
         // Remove Image
-        function removeImage(button, imageId) {
+        function removeImage(button, imageId,type) {
             if (!confirm('Are you sure you want to delete this image?')) return;
-
+console.log(imageId);
             fetch('{{ route('admin.car.360-view.delete') }}', {
                 method: 'POST',
                 body: JSON.stringify({ image_id: imageId }),
@@ -172,18 +195,24 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const imageContainer = button.closest('.col-md-3');
-                    imageContainer.remove();
-                    uploadedImagesCount--;
-                    document.querySelector('#uploaded-images h5').textContent = `Uploaded Images (${uploadedImagesCount}/${maxImages}):`;
-                    if (uploadedImagesCount < maxImages) {
-                        document.getElementById('max-limit-message').style.display = 'none';
-                        console.log('sdnfjsdn');
+                    if(type == 2)
+                    {
+                        const imageContainer = button.closest('.col-md-3');
+                        imageContainer.remove();
+                        uploadedImagesCount--;
+                        document.querySelector('#uploaded-images h5').textContent = `Uploaded Images (${uploadedImagesCount}/${maxImages}):`;
+                        if (uploadedImagesCount < maxImages) {
+                            document.getElementById('max-limit-message').style.display = 'none';
+                            console.log('sdnfjsdn');
+                        }
+                        alert("Image deleted successfully!");
+                        if(uploadedImagesCount < 10){
+                        document.getElementById('upload-button').style.display = 'block';
+                        }
+                    }else{
+                        alert("URL deleted successfully!");
+                        location.reload(); // Reload the page to reflect changes for URL removal
                     }
-                    alert("Image deleted successfully!");
-                    if(uploadedImagesCount < 10){
-                    document.getElementById('upload-button').style.display = 'block';
-                }
                 } else {
                     alert(data.message || 'Delete failed.');
                 }
@@ -234,6 +263,68 @@ function handleFileSelection(input,imageId) {
         alert("An error occurred while updating the image.");
     });
 }
+
+    document.getElementById('upload-url_button').addEventListener('click', function () {
+        const urlInput = document.getElementById('url-upload'); // Get the URL input field
+        const urlValue = urlInput.value.trim(); // Get the trimmed URL value
+        const carId = document.getElementById('id').value; 
+
+        // Validate the URL
+        if (!urlValue) {
+            alert('URL field cannot be empty.');
+            return;
+        }
+
+        try {
+            new URL(urlValue); // Check if the URL is valid
+
+        } catch (error) {
+            alert('Please enter a valid URL.');
+            return;
+        }
+
+       // Prepare the form data
+        const formData = new FormData();
+        formData.append('url', urlValue);
+        formData.append('id', carId);
+
+    // Send the request to the server
+    fetch('{{ route('admin.car.360-view.store_url') }}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(data);
+            alert('URL uploaded successfully!');
+           const uploadedUrlContainer =  document.getElementById('urlcontainer');
+            if (uploadedUrlContainer) {
+                uploadedUrlContainer.innerHTML = `
+                 <div id="uploaded-url" style="margin-top: 10px;">
+                    <h5>Uploaded URL:</h5>
+                    <iframe src="${data.image_url}" style="width: 100%; height: 300px; border: 1px solid #ccc;"></iframe></div>
+                    <div class="mt-2" style="margin-left: 10px;">
+                        <button type="button" class="btn btn-danger" onclick="removeImage(this,${data.id},1)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+
+            }
+
+        } else {
+            alert(data.message || 'Failed to upload URL.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred during the upload.');
+    });
+});
 
 </script>
 </x-admin-layout>

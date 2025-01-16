@@ -12,6 +12,8 @@ class View360Image extends Model
     
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
+    const TYPE_URL =1;
+    const TYPE_IMAGE = 2;
 
     public function scopeActive($query)
     {

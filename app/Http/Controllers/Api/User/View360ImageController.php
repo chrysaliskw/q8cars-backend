@@ -22,9 +22,9 @@ class View360ImageController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-            // $images = View360Image::where('car_id',$request->car_id)->get();
+             $images = View360Image::where('car_id',$request->car_id)->get();
             // $common_data['base_url'] = file_asset('files-360_view');
-          $images = View360Image::find(111);
+        //   $images = View360Image::find(111);
             return $this->success(['data' => [
                 'data' => $images,
                 'count' => $images->count(),

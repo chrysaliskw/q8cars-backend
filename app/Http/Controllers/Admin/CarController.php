@@ -539,8 +539,10 @@ class CarController extends Controller
     public function add360ViewImages(Request $request)
     {
         $car = Car::find($request->id);
-        $images = View360Image::where('car_id', $car->id)->active()->get();
-        return view('admin.car.add-360-view', compact('car', 'images'));
+        $images = View360Image::where('car_id', $car->id)->where('type',View360Image::TYPE_IMAGE)->active()->get();
+        $url = View360Image::where('car_id', $car->id)->where('type',View360Image::TYPE_URL)->active()->first();
+   
+        return view('admin.car.add-360-view', compact('car', 'images','url'));
     }
 
     public function store360ViewImages(Request $request)
@@ -556,6 +558,7 @@ class CarController extends Controller
             $path = $request->picture->store(View360Image::FILE_DIR);
             $image->image = basename($path);
             $image->car_id = $request->id;
+            $image->type = View360Image::TYPE_IMAGE;
             $image->save();
             // Return the image URL
             return response()->json([
@@ -566,7 +569,24 @@ class CarController extends Controller
         return response()->json(['success' => false, 'message' => 'No file uploaded.'], 400);
     }
 
+    public function add360Url(Request $request)
+    {
+        $request->validate([ 
+            'url' => 'required|url', 
+            'id' => 'required',         
+        ]);
 
+        $image = View360Image::where('car_id',$request->id)->first()?? new View360Image();          
+        $image->image = $request->url;
+        $image->type = View360Image::TYPE_URL;
+        $image->car_id = $request->id;
+        $image->save();
+        return response()->json([
+                'success' => true,
+                'id' => $image->id,
+                'image_url' => $image->image, // Use 'storage' to generate a public URL
+            ]);
+    }
     public function delete360ViewImage(Request $request)
     {
         $image = View360Image::find($request->image_id);
