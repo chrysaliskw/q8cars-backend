@@ -127,7 +127,7 @@ class CompareCarsController extends ApiBaseController
         $car2Ids = RecentComparison::where('user_id', Auth::id())->pluck('car_2_id')->toArray();
         $uniqueCarIds = array_unique(array_merge($car1Ids, $car2Ids));
         // $suggestions = Car::whereNotIn('id', $uniqueCarIds)->active()->orderBy('view_count')->limit(3)->get();
-        $suggestions = Car::whereNotIn('id', $uniqueCarIds)->active()->orderByDesc('view_count')->limit(3)->get();
+        $suggestions = Car::whereNotIn('id', $uniqueCarIds)->active()->orderByDesc('view_count')->launched()->limit(3)->get();
         return $this->success(['data' => CarSuggestionResource::collection($suggestions)], 'Compare Cars suggestions!', Response::HTTP_OK);
     }
 }
