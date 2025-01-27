@@ -22,6 +22,8 @@
                     <!-- File Input -->
                     <input id="image_{{ $index }}" type="file" name="image_{{ $index }}" class="form-control mb-2"
                            onchange="previewImage(event, {{ $index }})" />
+                           <span class="text-muted"> resolution: 202 × 120 px</span>
+  
                     <input type="hidden" id="image_old_{{ $index }}" name="image_old_{{ $index }}"
                            value="{{ $carImage->file_name }}">
 

@@ -43,6 +43,7 @@
                     @endif
                     <input id="thumbnail_{{ $key + 1 }}" type="file" name="thumbnail_{{ $key + 1 }}"
                         class="form-control">
+                        <span class="text-muted">Max size: 2MB,resolution:415 × 280 px</span>
                     @error('thumbnail_' . ($key + 1))
                         <span class="error" role="alert">{{ $message }}</span>
                     @enderror
@@ -73,6 +74,7 @@
                             {{ $message }}</br>
                         @enderror
                     </span>
+                    
                 </div>
             </div>
         </div>

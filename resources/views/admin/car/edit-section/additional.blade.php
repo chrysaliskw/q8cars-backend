@@ -90,6 +90,7 @@
                     @endif
                 </div>
                                         <input type="file" id="icon_{{$i}}" name="icon_{{$i}}" class="d-none" onchange="previewIcon({{$i}})">
+                                        <small>resolution:  40 × 32 px</small>
                                     </td>
                                         <td>
                                             <button type="button" class="btn btn-md btn-danger" title="Clear"

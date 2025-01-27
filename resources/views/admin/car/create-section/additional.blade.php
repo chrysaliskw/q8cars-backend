@@ -89,6 +89,7 @@
             </td>
             <td>
                 <input type="file" id="icon_${rowCount}" name="icon_${rowCount}" class="d-none" onchange="previewIcon(${rowCount})">
+                  <small>resolution:  40 × 32 px</small>
             </td>
             <td>
                 <button type="button" class="btn btn-md btn-danger" title="Clear" id="delete_btn_${rowCount}" data-id="${rowCount}" onclick="clearRow(this)">

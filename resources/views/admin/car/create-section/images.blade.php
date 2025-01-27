@@ -17,6 +17,7 @@
         <div class="col-md-3">
             <input id="image_{{ $key}}" type="file" name="image_{{$key}}" class="form-control"
                 onchange="previewImage(event, {{$key}})" />
+                <span class="text-muted"> resolution:395 × 322 px</span>        
             <input type="hidden" id="image_old_{{$key}}" name="image_old_{{$key}}" value="">
 
             <span class="error" role="alert">
@@ -63,6 +64,7 @@
                     <input id="image_${imageSectionCount}" type="file" name="image_${imageSectionCount}" class="form-control"
                         onchange="previewImage(event, ${imageSectionCount})" />
                     <input type="hidden" id="image_old_${imageSectionCount}" name="image_old_${imageSectionCount}" value="">
+                       <span class="text-muted"> resolution:395 × 322 px</span>        
                 </div>
                 <div style="display:flex;">
                     <div class="col-md">

@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-4">
             <x-form-input type="file" field="thumbnail_1" field-name="Thumbnail" value="{{ old('thumbnail_1') }}"></x-form-input>
-            <span class="text-muted">Max size: 2MB</span>
+            <span class="text-muted">Max size: 2MB,resolution:415 × 280 px</span>
         </div>
         <div class="col-md-4">
             <x-form-input type="file" field="video_1" field-name="Video File" value="{{ old('video_1') }}"></x-form-input>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-md-4">
                     <x-form-input type="file" field="thumbnail_${sectionCount}" field-name="Thumbnail" value=""></x-form-input>
-                    <span class="text-muted">Max size: 2MB</span>
+                    <span class="text-muted">Max size: 2MB,resolution:415 × 280 px</span>
                 </div>
                 <div class="col-md-4">
                     <x-form-input type="file" field="video_${sectionCount}" field-name="Video File" value=""></x-form-input>

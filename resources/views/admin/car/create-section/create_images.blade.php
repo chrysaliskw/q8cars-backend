@@ -1,5 +1,6 @@
 <div class="form-group row mb-5">
     <label for="image" class="col-md-2 control-label">Profile Image 1*</label>
+    <span class="text-muted"> resolution: 202 × 120 px</span>
     <div class="col-md-5">
         <input id="image" type="file" name="image" class="form-control">
         <span class="error" role="alert">
@@ -14,6 +15,7 @@
 </div>
 <div class="form-group row mb-5">
     <label for="image_detail" class="col-md-2 control-label">Profile Image 2*</label>
+    <span class="text-muted"> resolution:816 × 543 px</span>
     <div class="col-md-5">
         <input id="image_detail" type="file" name="image_detail" class="form-control">
         <span class="error" role="alert">

@@ -23,7 +23,7 @@
                 <div class="form-group" style="padding-top: 10px;">
                     <input type="file" id="colors_image_{{ $key }}" name="colors_image_{{ $key }}">
                 </div>
-                <small>Image required when color is selected,Max:2MB</small>
+                <small>Image required when color is selected,Max:2MB,resolution:515 × 386 px</small>
             </div>
         </div>
     </div>

@@ -46,6 +46,7 @@
                 {{ $message }}</br>
             @enderror
         </span>
+        <span class="text-muted"> resolution: 202 × 120 px</span>
     </div>
     <div class="col-md-4" id="image-preview-detail">
         @if ($car->image_2)
