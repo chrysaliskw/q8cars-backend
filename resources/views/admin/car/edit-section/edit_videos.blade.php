@@ -47,7 +47,6 @@
                     @error('thumbnail_' . ($key + 1))
                         <span class="error" role="alert">{{ $message }}</span>
                     @enderror
-                    <span class="text-muted">Max size: 2MB</span>
                 </div>
             </div>
             {{-- <div class="col-md-4">
@@ -125,7 +124,7 @@
                 </div>
                 <div class="col-md-4">
                     <x-form-input type="file" field="thumbnail_${sectionCount}" field-name="Thumbnail" value=""></x-form-input>
-                    <span class="text-muted">Max size: 2MB</span>
+                    <span class="text-muted">Max size: 2MB,resolution:415 × 280 px</span>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">

@@ -70,6 +70,7 @@ function addImageSection() {
                 <!-- File Input -->
                 <input id="image_${imageSectionCount}" type="file" name="image_${imageSectionCount}" class="form-control mb-2"
                        onchange="previewImage(event, ${imageSectionCount})" />
+                     <span class="text-muted"> resolution: 202 × 120 px</span>
 
                 <!-- Image Preview -->
                 <div class="image-preview-wrapper text-center">
