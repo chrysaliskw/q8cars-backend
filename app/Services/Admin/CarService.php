@@ -712,7 +712,7 @@ class CarService
             {
                 $categoryAttribute = new CarAdditonalSpecifications();
             }
-            if ($this->data['update'] == 1) {
+            if (isset($this->data['update']) && ($this->data['update'] == 1)) {
                 if ($this->data['key_feature'][$index] || $this->data['key_spec'][$index]) {
                     // Check if key icon is missing in both the database and current input
                     if (empty($categoryAttribute->key_icon) && empty($this->data['icon'][$index])) {
