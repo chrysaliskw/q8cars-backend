@@ -280,7 +280,7 @@ class CarRequest extends FormRequest
             'rivals' => 'nullable|string',
 
             'professions.*' => ['nullable', Rule::in(array_keys(config('params.professions')))],
-            'colors.*' => ['required',Rule::exists('brand_color_mappings', 'id')],
+            'colors.*' => ['nullable',Rule::exists('brand_color_mappings', 'id')],
             // 'colors_image_1' => 'mimes:jpg,png,jpeg|max:2048',
             // 'colors_image_2' => 'mimes:jpg,png,jpeg|max:2048',
             // 'colors_image_3' => 'mimes:jpg,png,jpeg|max:2048',
@@ -561,7 +561,7 @@ class CarRequest extends FormRequest
         'mileage_summary' => 'nullable|string',
 
         'professions.*' => ['nullable', Rule::in(array_keys(config('params.professions')))],
-        'colors.*' => ['required',Rule::exists('brand_color_mappings', 'id')],
+        'colors.*' => ['nullable',Rule::exists('brand_color_mappings', 'id')],
         // 'colors_image.*' => 'mimes:jpg,png,jpeg|max:2048',
         // 'colors_image_1' => 'mimes:jpg,png,jpeg|max:2048',
         // 'colors_image_2' => 'mimes:jpg,png,jpeg|max:2048',
@@ -631,9 +631,9 @@ class CarRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (!isset($this->colors)) {
-                $validator->errors()->add('colors', 'Please choose a color.');
-            }
+            // if (!isset($this->colors)) {
+            //     $validator->errors()->add('colors', 'Please choose a color.');
+            // }
 
             if (!$this->all_fuels && !isset($this->fuel_types)) {
                 $validator->errors()->add('fuel_types', 'Please choose a fuel type.');

@@ -56,7 +56,10 @@ class CarService
             }
             $this->saveCarImages();
             $this->saveCarVideos();
-            $this->saveCarColorsAndImages();
+            if(isset($this->data['colors'])){
+                $this->saveCarColorsAndImages();
+            }
+           
 
             if(isset($this->data['attribute']))
             {
@@ -145,7 +148,7 @@ class CarService
         $this->car->fuel_types = $this->getIntValueFuel();
         $this->car->transmission_type = $this->getIntValueTransmission();
         $this->car->professions = $this->getIntValueProfession();
-        $this->car->colours = $this->getIntValueColor();
+        $this->car->colours = isset($this->data['colors'])?$this->getIntValueColor():json_encode([]);
         $this->car->travel_type = $this->getIntValueTravel();
 
         $this->car->why_choose = $this->data['why_choose'];

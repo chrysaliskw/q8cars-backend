@@ -172,10 +172,15 @@ class CarController extends Controller
         foreach ($newAtransmissionarray as $transmissionType) {
             $transmissionTypes[] = config('params.car.transmission_type')[$transmissionType];
         }
-
-        $color = json_decode($car->colours, true);
-        $colorArray = array_combine(range(1, count($color)), array_values($color));
         $colors = [];
+       
+
+      
+        $color = !empty($car->colours)?json_decode($car->colours, true):[];
+        if(!empty($color)){
+        
+        $colorArray = array_combine(range(1, count($color)), array_values($color));
+      
         // foreach ($colorArray as $c) {
 
         //     $colors[] = BrandColorMapping::find($c)->name;
@@ -186,6 +191,7 @@ class CarController extends Controller
                 $colors[] = $brandColor->name; // Add the name if the record exists
             }
         }
+          }
         $profession = json_decode($car->professions, true);
         $professions = [];
         if ($profession) {
