@@ -24,7 +24,8 @@ class CarDetailResource extends JsonResource
         'mileage' => $this->mileage. ' kmpl',
         'ex_showroom_price' => 'KWD ' . $this->ex_showroom_price,
         'on_road_price' => 'KWD ' . $this->on_road_price,
-        'price_in_lakh' => 'KWD '. $this->priceLack($this->ex_showroom_price).' Lakh',
+        'price_in_lakh' => 'KWD '. $this->ex_showroom_price,
+        // 'price_in_lakh' => 'KWD '. $this->priceLack($this->ex_showroom_price).' Lakh',
     ];
   }
 
