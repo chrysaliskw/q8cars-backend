@@ -253,7 +253,7 @@
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
-                        <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity*" value="{{ $carVarient->fuel_tank_capacity }}">
+                        <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity" value="{{ $carVarient->fuel_tank_capacity }}">
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
