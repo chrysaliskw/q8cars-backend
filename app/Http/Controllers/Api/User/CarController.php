@@ -248,9 +248,11 @@ class CarController extends ApiBaseController
         } else {
             $carVersion = $car->carSpec;
         }
-        $res['Fuel Tank Capacity']['value'] = $carVersion->fuel_tank_capacity . ' L';
-        $res['Fuel Tank Capacity']['icon'] = asset('images/fuel_tank_capacity.png');
-        if ($carVersion->keyFeature) {
+            if($carVersion->fuel_tank_capacity){
+                $res['Fuel Tank Capacity']['value'] = $carVersion->fuel_tank_capacity . ' L';
+                $res['Fuel Tank Capacity']['icon'] = asset('images/fuel_tank_capacity.png');    
+            }
+          if ($carVersion->keyFeature) {
             foreach ($carVersion->keyFeature as $feature) {
                 $res[$feature->specification]['value'] = $feature->input_type == CarAdditonalSpecifications::TYPE_TEXT ? $feature->value . ' ' . $feature->unit : ($feature->value == 1 ? 'Yes' : 'No');
                 $res[$feature->specification]['icon'] = $feature->key_icon ? file_asset('files-car', $feature->key_icon) : '';
@@ -732,10 +734,10 @@ class CarController extends ApiBaseController
                         'title' => 'Fuel Type',
                         'value' => config('params.car.fuel_type')[$varient->fuel_type],
                     ],
-                    [
-                        'title' => 'Mileage',
-                        'value' => $varient->mileage . 'kmpl',
-                    ],
+                    // [
+                    //     'title' => 'Mileage',
+                    //     'value' => $varient->mileage . 'kmpl',
+                    // ],
                 ],
             ],
             [
