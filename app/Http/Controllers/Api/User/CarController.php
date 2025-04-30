@@ -156,9 +156,9 @@ class CarController extends ApiBaseController
         $result['rating'] = round($car->avg_rating, 1);
         $result['image'] = file_asset('files-car', $car->image);
         $result['showroom_price'] = 'KWD ' . $version->ex_showroom_price;
-        $result['finance_available'] = 'KWD ' . $version->finance_available;
+        $result['finance_available'] = $version->finance_available ? 'KWD ' . $version->finance_available :'';
         $result['insurance'] = 'KWD ' . $version->insurance;
-        $result['service_amount'] = 'KWD ' . $version->service_charge;
+        $result['service_amount'] = $version->insurance ?'KWD ' . $version->service_charge :'';
         $result['gear_box'] = $version->gear_box;
         $result['power'] = $version->power;
         $result['torque'] = $version->torque;
@@ -220,9 +220,9 @@ class CarController extends ApiBaseController
             'image' =>  file_asset('files-car', $car->image),
             'main_image' =>  file_asset('files-car', $car->image_2),
             'showroom_price' => 'KWD ' . $car->ex_showroom_price,
-            'finance_available' => 'KWD ' . $car->finance_available,
-            'insurance' => 'KWD ' . $car->insurance,
-            'service_amount' => 'KWD ' . $car->service_charge,
+            'finance_available' => $car->finance_available ? 'KWD ' . $car->finance_available:'',
+            'insurance' => $car->insurance ? 'KWD ' . $car->insurance:'',
+            'service_amount' => $car->service_charge ? 'KWD ' . $car->service_charge :'',
             'gear_box' => $car->gear_box,
             'torque_power' => $car->power . 'Bhp @' . $car->torque . 'rpm',
             'is_favourite' => CarFavourite::where('user_id', Auth::id())->where('car_id', $car->id)->first() ? 1 : 0,
@@ -857,7 +857,7 @@ class CarController extends ApiBaseController
         if ($compareCar) {
             $carId1 = $compareCar->car_1_id;
             $carId2 = $compareCar->car_2_id;
-            $cars = Car::whereIn('id', [$carId1, $carId2])->orderBy('on_road_price', 'asc')->get();
+            $cars = Car::whereIn('id', [$carId1, $carId2])->orderBy('ex_showroom_price', 'asc')->get();
         } else {
             // $cars = Car::where('brand_id', '!=', $car->brand_id)->where('version_id')->active()->limit(2)->get();
             $carBaseVariantBodyType = CarVersion::where('car_id', $car->id)
@@ -871,10 +871,10 @@ class CarController extends ApiBaseController
                         ->where('is_car_spec', 1)
                         ->where('body_type', $carBaseVariantBodyType);
                 })
-                ->whereBetween('on_road_price', [$car->on_road_price * 0.95, $car->on_road_price * 1.05])
+                ->whereBetween('ex_showroom_price', [$car->ex_showroom_price * 0.95, $car->ex_showroom_price * 1.05])
                 //->whereNotNull('version_id')
                 ->active()
-                ->orderBy('on_road_price', 'asc')
+                ->orderBy('ex_showroom_price', 'asc')
                 ->limit(2)
                 ->get();
         }
@@ -886,9 +886,9 @@ class CarController extends ApiBaseController
             $result[$i]['rating'] = round($compare->avg_rating, 1);
             $result[$i]['image'] = file_asset('files-car', $compare->image);
             $result[$i]['showroom_price'] = 'KWD ' . $version->ex_showroom_price;
-            $result[$i]['finance_available'] = 'KWD ' . $version->finance_available;
-            $result[$i]['insurance'] = 'KWD ' . $version->insurance;
-            $result[$i]['service_amount'] = 'KWD ' . $version->service_charge;
+            $result[$i]['finance_available'] = $version->finance_available ?'KWD ' . $version->finance_available:'';
+            $result[$i]['insurance'] = $version->insurance ?'KWD ' . $version->insurance :'';
+            $result[$i]['service_amount'] = $version->service_charge ? 'KWD ' . $version->service_charge:'';
             $result[$i]['gear_box'] = $version->gear_box;
             $result[$i]['power'] = $version->power;
             $result[$i]['torque'] = $version->torque;

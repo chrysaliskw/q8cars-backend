@@ -84,6 +84,7 @@ return [
             2 => 'Diesel',
             3 => 'CNG',
             4 => 'Electric',
+            5 => 'Hybrid',
         ],
         'transmission_type' => [
             1 => 'Automatic',

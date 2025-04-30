@@ -398,11 +398,11 @@ class CompareCarsDetailsController extends ApiBaseController
             //     $comparisonData['model name']["car_$key"] =  $car->name;
             // }
             $comparisonData['brand name']["car_$key"] =  $car->brand->name;
-            $comparisonData['on road price']["car_$key"] = $version->on_road_price . ' KWD';
+            //$comparisonData['on road price']["car_$key"] = $version->on_road_price . ' KWD';
             $comparisonData['user rating']["car_$key"] = $version->total_reviews_count . ' Ratings';
-            $comparisonData['finance available']["car_$key"] = $version->finance_available . ' KWD';
-            $comparisonData['insurance']["car_$key"] = $version->insurance . ' KWD';
-            $comparisonData['service cost']["car_$key"] = $version->service_charge . ' KWD';
+            //$comparisonData['finance available']["car_$key"] = $version->finance_available . ' KWD';
+            // $comparisonData['insurance']["car_$key"] = $version->insurance . ' KWD';
+            // $comparisonData['service cost']["car_$key"] = $version->service_charge . ' KWD';
         }
         return $comparisonData;
     }
@@ -450,7 +450,7 @@ class CompareCarsDetailsController extends ApiBaseController
         foreach ($cars as $key => $car) {
             $version = $request->version_id && isset($request->version_id[$key]) ? CarVersion::find($request->version_id[$key]) : $car->carSpec;
             $fuelData['fuel type']["car_$key"] =  strtolower(config('params.car.fuel_type')[$version->fuel_type]);
-            $fuelData['mileage']["car_$key"] = $version->mileage . ' kmpl';
+           // $fuelData['mileage']["car_$key"] = $version->mileage . ' kmpl';
             if (isset($version->fuel)) {
                 foreach ($version->fuel as $spec) {
                     $specLabelLower = strtolower($spec->specification);

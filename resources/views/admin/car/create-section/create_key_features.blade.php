@@ -108,7 +108,7 @@
                 </x-form-input>
             </div>--}}
             <div class="col-md-4">
-                <x-form-input type="text" field="mileage" field-name="Mileage(Kmpl)*" value="{{ old('mileage') }}">
+                <x-form-input type="text" field="mileage" field-name="Mileage(Kmpl/kwh)" value="{{ old('mileage') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -133,7 +133,7 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity(L)*" value="{{ old('fuel_tank_capacity') }}">
+                <x-form-input type="text" field="fuel_tank_capacity" field-name="Fuel Tank Capacity(L/kW)" value="{{ old('fuel_tank_capacity') }}">
                 </x-form-input>
             </div>--}}
             <div class="col-md-12">

@@ -68,19 +68,19 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="on_road_price" field-name="On Road Price*" value="{{  $car->on_road_price }}">
+                <x-form-input type="text" field="on_road_price" field-name="On Road Price" value="{{  $car->on_road_price }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="finance_available" field-name="Finance Available*" value="{{  $car->finance_available }}">
+                <x-form-input type="text" field="finance_available" field-name="Finance Available" value="{{  $car->finance_available }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="insurance" field-name="Insurance*" value="{{  $car->insurance }}">
+                <x-form-input type="text" field="insurance" field-name="Insurance" value="{{  $car->insurance }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="service_charge" field-name="Service Cost(Avg of 5 Years)*" value="{{  $car->service_charge }}">
+                <x-form-input type="text" field="service_charge" field-name="Service Cost(Avg of 5 Years)" value="{{  $car->service_charge }}">
                 </x-form-input>
             </div>
         </div>
