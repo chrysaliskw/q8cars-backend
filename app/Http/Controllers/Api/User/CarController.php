@@ -125,7 +125,7 @@ class CarController extends ApiBaseController
         $data['faq'] = $this->getFaq($car);
         $data['news_banner'] = $this->getNewsBanner($car);
         $data['related_news'] = $this->getRelatedNews($car);
-        $data['mileage_details'] = $this->getMileageDetails($car);
+        $data['mileage_details'] = $car->mileage ? $this->getMileageDetails($car):null;
         $data['mileage_desc'] = $car->mileage_summary;
 
         try {
