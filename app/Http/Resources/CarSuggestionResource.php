@@ -24,7 +24,7 @@ class CarSuggestionResource extends JsonResource
         'name' => $this->model_name,
         'varient_name'=> $this->carSpec->varient_name,
         'ex_showroom_price' => 'KWD ' . $this->ex_showroom_price,
-        'on_road_price' => 'KWD ' . $this->on_road_price,
+        'on_road_price' =>$this->on_road_price ? 'KWD ' . $this->on_road_price :null,
         'image' => file_asset('files-car', $this->image),
         'transmission_type' => config('params.car.transmission_type')[$this->carSpec->transmission_type],
         'fuel_type' => config('params.car.fuel_type')[$this->carSpec->fuel_type]  ,

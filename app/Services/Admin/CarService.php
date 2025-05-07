@@ -140,7 +140,26 @@ class CarService
         // $this->car->drive_train = $this->data['drive_train'];
         // $this->car->acceleration = $this->data['acceleration'];
         // $this->car->top_speed = $this->data['top_speed'];
-        $this->car->mileage = $this->data['mileage'];
+        if (!empty($this->data['mileage'])) {
+            $mileage = $this->data['mileage'];
+        
+            if (strpos($mileage, '-') !== false) {
+                // Mileage is a range, e.g., "15-17"
+                [$min, $max] = array_map('floatval', explode('-', $mileage));
+                $avg = ($min + $max) / 2;
+        
+                $this->car->mileage = $avg;
+                $this->car->mileage_min = $min;
+                $this->car->mileage_max = $max;
+            } else {
+                // Mileage is a single value
+                $value = $mileage;
+        
+                $this->car->mileage = $value;
+                $this->car->mileage_min = null;
+                $this->car->mileage_max = null;
+            }
+        }
         // $this->car->gear_box = $this->data['gear_box'];
 
         $this->car->image = isset($this->data['image']) ? $this->moveUploadedProfileImage() : $this->car->image;
@@ -202,7 +221,27 @@ class CarService
         //$this->version->drive_train = $this->data['drive_train'];
        // $this->version->acceleration = $this->data['acceleration'];
         // $this->version->top_speed = $this->data['top_speed'];
-        $this->version->mileage = $this->data['mileage'];
+        if (!empty($this->data['mileage'])) {
+            $mileage = $this->data['mileage'];
+        
+            if (strpos($mileage, '-') !== false) {
+                // Mileage is a range, e.g., "15-17"
+                [$min, $max] = array_map('floatval', explode('-', $mileage));
+                $avg = ($min + $max) / 2;
+        
+                $this->version->mileage = $avg;
+                $this->version->mileage_min = $min;
+                $this->version->mileage_max = $max;
+            } else {
+                // Mileage is a single value
+                $value = $mileage;
+        
+                $this->version->mileage = $value;
+                $this->version->mileage_min = null;
+                $this->version->mileage_max = null;
+            }
+        }
+        //$this->version->mileage = $this->data['mileage'];
         // $this->version->emission_norm_complains = $this->data['emission_norm_complains'];
         $this->version->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
         $this->version->fuel_type = 1;

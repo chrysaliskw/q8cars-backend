@@ -337,7 +337,7 @@
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ $carVarient->seat_capacity }}">
+                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity" value="{{ $carVarient->seat_capacity }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -465,15 +465,15 @@
                 </x-form-select>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ $carVarient->no_of_airbags }}">
+                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags" value="{{ $carVarient->no_of_airbags }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="passenger_airbags" field-name="Passenger Airbags*" value="{{ $carVarient->passenger_airbags }}">
+                <x-form-input type="text" field="passenger_airbags" field-name="Passenger Airbags" value="{{ $carVarient->passenger_airbags }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="driver_airbags" field-name="Driver Airbags*" value="{{ $carVarient->driver_airbags }}">
+                <x-form-input type="text" field="driver_airbags" field-name="Driver Airbags" value="{{ $carVarient->driver_airbags }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">

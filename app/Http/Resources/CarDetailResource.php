@@ -21,7 +21,7 @@ class CarDetailResource extends JsonResource
         'transmission_type' => config('params.car.transmission_type')[$this->transmission_type],  
         'fuel_type' => config('params.car.fuel_type')[$this->fuel_type],
         'engine_capacity' => $this->engine_capacity. ' cc',
-        'mileage' => $this->mileage ? $this->mileage. ' kmpl':'',
+        'mileage' => $this->mileage ? ($this->fuel_type == 4 ? $this->mileage. ' kwh':$this->mileage. ' kmpl') :'',
         'ex_showroom_price' => 'KWD ' . $this->ex_showroom_price,
         'on_road_price' =>  $this->on_road_price ? 'KWD ' . $this->on_road_price :'',
         'price_in_lakh' => 'KWD '. $this->ex_showroom_price,

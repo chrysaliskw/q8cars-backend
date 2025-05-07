@@ -170,15 +170,15 @@
                         </x-form-input>
                     </div>--}}
                     <div class="col-md-4">
-                        <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)*" value="{{ $carVarient->engine_capacity }}">
+                        <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)" value="{{ $carVarient->engine_capacity }}">
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
-                        <x-form-input type="text" field="power" field-name="Power(Bhp)*" value="{{ $carVarient->power }}">
+                        <x-form-input type="text" field="power" field-name="Power(Bhp)" value="{{ $carVarient->power }}">
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
-                        <x-form-input type="text" field="torque" field-name="Torque(rpm)*" value="{{ $carVarient->torque }}">
+                        <x-form-input type="text" field="torque" field-name="Torque(rpm)" value="{{ $carVarient->torque }}">
                         </x-form-input>
                     </div>
                     {{--
@@ -245,11 +245,11 @@
                     </x-form-select>
                 </div>
                 <div class="col-md-4">
-                        <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ $carVarient->seat_capacity }}">
+                        <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity" value="{{ $carVarient->seat_capacity }}">
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
-                        <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ $carVarient->no_of_airbags }}">
+                        <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags" value="{{ $carVarient->no_of_airbags }}">
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
@@ -265,7 +265,7 @@
                         </x-form-select>
                     </div>
                    {{-- <div class="col-md-4">
-                        <x-form-input type="text" field="drive_train" field-name="Drive train*" value="{{ $carVarient->drive_train }}">
+                        <x-form-input type="text" field="drive_train" field-name="Drive train" value="{{ $carVarient->drive_train }}">
                         </x-form-input>
                     </div>
                     <div class="col-md-4">
@@ -281,7 +281,7 @@
                         </x-form-input>
                     </div>
                     {{-- <div class="col-md-4">
-                        <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
+                        <x-form-select field="safety_ratings" field-name="Safety ratings" defaultPrompt="Select">
                             <option selected value="1" <?php if(1 == $car->safety_ratings){ echo "selected";}?>>1</option>
                             <option value="2" <?php if(2 == $car->safety_ratings){ echo "selected";}?>>2</option>
                             <option value="3" <?php if(3 == $car->safety_ratings){ echo "selected";}?>>3</option>
@@ -290,7 +290,7 @@
                         </x-form-select>
                     </div> --}}
                     <div class="col-md-4">
-                        <x-form-select field="safety_ratings" field-name="Safety ratings*" defaultPrompt="Select">
+                        <x-form-select field="safety_ratings" field-name="Safety ratings" defaultPrompt="Select">
                             <option value="1" {{ $car->safety_ratings == 1 ? 'selected' : '' }}>1</option>
                             <option value="2" {{ $car->safety_ratings == 2 ? 'selected' : '' }}>2</option>
                             <option value="3" {{ $car->safety_ratings == 3 ? 'selected' : '' }}>3</option>
