@@ -38,7 +38,7 @@ class OfferRequestController extends Controller
     {
         $viewData = [
 
-            'User Mobile' =>  $offerRequest->user ? "<a href='" . route('admin.user.show', $offerRequest->user->id) . "'>{$offerRequest->user->phone_code} {$offerRequest->user->mobile}</a>" : 'NA',
+            'User Mobile' =>  $offerRequest->user ? "<a href='" . route('admin.user.show', $offerRequest->user->id) . "'>{$offerRequest->user->mobile}</a>" : 'NA',
             'Car Model' => $offerRequest->car ? $offerRequest->car->model_name : 'NA',
             'Requested Name' => $offerRequest->full_name ?? 'NA',
             'Requested Mobile' => $offerRequest->mobile ?? 'NA',
