@@ -714,11 +714,11 @@ class CarController extends ApiBaseController
                 'features' => [
                     [
                         'title' => 'Engine Capacity (cc)',
-                        'value' => $varient->engine_capacity . 'cc',
+                        'value' => $varient->engine_capacity ? $varient->engine_capacity . 'cc':null,
                     ],
                     [
                         'title' => 'Power & Torque',
-                        'value' => $varient->power . 'Bhp@' . $varient->torque . 'rpm',
+                        'value' =>$varient->power && $varient->torque ? $varient->power . 'Bhp@' . $varient->torque . 'rpm':null,
                     ],
                     [
                         'title' => 'Transmission Type',
@@ -765,7 +765,7 @@ class CarController extends ApiBaseController
                 'features' => [
                     [
                         'title' => 'Seat Capacity',
-                        'value' => $varient->seat_capacity . ' Passengers',
+                        'value' => $varient->seat_capacity ? $varient->seat_capacity . ' Passengers': null,
                     ],
                     [
                         'title' => '360 View Camera',
@@ -796,7 +796,7 @@ class CarController extends ApiBaseController
                     ],
                     [
                         'title' => 'No of Airbags',
-                        'value' => $varient->no_of_airbags,
+                        'value' =>$varient->no_of_airbags ? $varient->no_of_airbags : null,
                     ],
                 ],
             ],
@@ -898,7 +898,7 @@ class CarController extends ApiBaseController
             $result[$i]['transmission_type'] = $version->transmission_type;
             $result[$i]['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
             $result[$i]['rating'] = $compare->avg_rating;
-            $result[$i]['torque_power'] = $version->power . 'Bhp @' . $version->torque . 'rpm';
+            $result[$i]['torque_power'] = $version->power && $version->torque ? $version->power . 'Bhp @' . $version->torque . 'rpm':null;
             $result[$i]['available_transmission_types'] =  $this->getversionTransmissionTypes($version->car);
             $i++;
         }
