@@ -52,13 +52,33 @@ class CarVersionController extends Controller
     {
         $car = $carVersion->car;
         $carVarient = $carVersion;
-
-        $color = json_decode($car->colours, true);
-        $colorArray = array_combine(range(1, count($color)), array_values($color));
         $colors = [];
-        foreach($colorArray as $c) {
-            $colors[] = BrandColorMapping::find($c)->name;
+       
+
+      
+        $color = !empty($car->colours)?json_decode($car->colours, true):[];
+        if(!empty($color)){
+        
+        $colorArray = array_combine(range(1, count($color)), array_values($color));
+      
+        // foreach ($colorArray as $c) {
+
+        //     $colors[] = BrandColorMapping::find($c)->name;
+        // }
+        foreach ($colorArray as $c) {
+            $brandColor = BrandColorMapping::find($c); // Find the BrandColorMapping record
+            if ($brandColor) {
+                $colors[] = $brandColor->name; // Add the name if the record exists
+            }
         }
+          }
+
+        // $color = json_decode($car->colours, true);
+        // $colorArray = array_combine(range(1, count($color)), array_values($color));
+        // $colors = [];
+        // foreach($colorArray as $c) {
+        //     $colors[] = BrandColorMapping::find($c)->name;
+        // }
         return view('admin.car.car-version.show', compact('car','carVersion', 'colors', 'carVarient'));
     }
 
