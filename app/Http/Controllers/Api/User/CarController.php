@@ -703,27 +703,27 @@ class CarController extends ApiBaseController
         if ($request->car_version_id) {
             $version = $request->car_version_id;
         }
-
+    
         $varient = CarVersion::find($version);
-
+    
         $sections = [
             [
                 'key' => 1,
                 'id' => 'engine-type',
                 'section' => 'Engine and Transmission',
                 'features' => [
-                    [
+                    $varient->engine_capacity ? [
                         'title' => 'Engine Capacity (cc)',
-                        'value' => $varient->engine_capacity ? $varient->engine_capacity . 'cc':null,
-                    ],
-                    [
+                        'value' => $varient->engine_capacity . 'cc',
+                    ] : null,
+                    ($varient->power && $varient->torque) ? [
                         'title' => 'Power & Torque',
-                        'value' =>$varient->power && $varient->torque ? $varient->power . 'Bhp@' . $varient->torque . 'rpm':null,
-                    ],
-                    [
+                        'value' => $varient->power . 'Bhp@' . $varient->torque . 'rpm',
+                    ] : null,
+                    isset(config('params.car.transmission_type')[$varient->transmission_type]) ? [
                         'title' => 'Transmission Type',
                         'value' => config('params.car.transmission_type')[$varient->transmission_type],
-                    ],
+                    ] : null,
                 ],
             ],
             [
@@ -731,14 +731,11 @@ class CarController extends ApiBaseController
                 'id' => 'fuel-type',
                 'section' => 'Fuel & Performance',
                 'features' => [
-                    [
+                    isset(config('params.car.fuel_type')[$varient->fuel_type]) ? [
                         'title' => 'Fuel Type',
                         'value' => config('params.car.fuel_type')[$varient->fuel_type],
-                    ],
-                    // [
-                    //     'title' => 'Mileage',
-                    //     'value' => $varient->mileage . 'kmpl',
-                    // ],
+                    ] : null,
+                    // Add other specs if needed
                 ],
             ],
             [
@@ -752,10 +749,10 @@ class CarController extends ApiBaseController
                 'id' => 'dimension-capacity',
                 'section' => 'Dimensions & Capacity',
                 'features' => [
-                    [
+                    $varient->bodyType ? [
                         'title' => 'Body Type',
                         'value' => $varient->bodyType->name,
-                    ],
+                    ] : null,
                 ],
             ],
             [
@@ -763,10 +760,10 @@ class CarController extends ApiBaseController
                 'id' => 'comfort-convinience',
                 'section' => 'Comfort & Convenience',
                 'features' => [
-                    [
+                    $varient->seat_capacity ? [
                         'title' => 'Seat Capacity',
-                        'value' => $varient->seat_capacity ? $varient->seat_capacity . ' Passengers': null,
-                    ],
+                        'value' => $varient->seat_capacity . ' Passengers',
+                    ] : null,
                     [
                         'title' => '360 View Camera',
                         'value' => $varient->view_camera == 1 ? 'Yes' : 'No',
@@ -790,14 +787,14 @@ class CarController extends ApiBaseController
                 'id' => 'safety',
                 'section' => 'Safety',
                 'features' => [
-                    [
+                    $varient->safety_ratings ? [
                         'title' => 'Safety Ratings',
                         'value' => $varient->safety_ratings,
-                    ],
-                    [
+                    ] : null,
+                    $varient->no_of_airbags ? [
                         'title' => 'No of Airbags',
-                        'value' =>$varient->no_of_airbags ? $varient->no_of_airbags : null,
-                    ],
+                        'value' => $varient->no_of_airbags,
+                    ] : null,
                 ],
             ],
             [
@@ -807,7 +804,7 @@ class CarController extends ApiBaseController
                 'features' => [],
             ],
         ];
-
+    
         $additionalSpecsMapping = [
             'engine-type' => $varient->engine,
             'fuel-type' => $varient->fuel,
@@ -819,7 +816,7 @@ class CarController extends ApiBaseController
             'safety' => $varient->safety,
             'entertainment' => $varient->entertainment,
         ];
-
+    
         foreach ($sections as &$section) {
             $sectionId = $section['id'];
             if (isset($additionalSpecsMapping[$sectionId]) && !empty($additionalSpecsMapping[$sectionId])) {
@@ -832,16 +829,21 @@ class CarController extends ApiBaseController
                     ];
                 }
             }
+    
+            // Remove features where value is null
+            $section['features'] = array_values(array_filter($section['features'], function ($feature) {
+                return isset($feature['value']) && $feature['value'] !== null;
+            }));
         }
         unset($section);
-
+    
         $filteredSections = array_filter($sections, function ($section) {
             return !empty($section['features']);
         });
-
+    
         return array_values($filteredSections);
     }
-
+    
 
     private function getRelatedNews(Car $car)
     {
