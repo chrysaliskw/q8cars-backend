@@ -12,6 +12,7 @@ use App\Services\Admin\CarService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\CarAdditonalSpecifications;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -28,6 +29,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
         'travel_type' => 'car.travel_type',
         'professions' => 'professions',
         'status' => 'car.status',
+        'category' => 'car.specification-section',
     ];
 
     public function collection(Collection $rows)
@@ -80,6 +82,13 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
                     'body_type' => 'body_type_id',
                     'view_camera' => 'view_camera',
                     'noof_airbags' => 'no_of_airbags',
+                    'category' => 'category',
+                    'input_type' => 'input_type',
+                    'specification' => 'specification',
+                    'value' => 'value',
+                    'unit' => 'units',
+                    'is_key_feature' => 'is_key_feature',
+                    'is_key_spec' => 'is_key_spec',
                 ];
 
                 $data = [];
@@ -94,17 +103,41 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
                         continue;
                     }
 
+                    if ($field === 'input_type') {
+                        $value = $this->mapInputType($value, $index);
+                    }
+
+                    if (isset($data['is_key_feature']) || isset($data['is_key_spec'])) {
+                        $value = $this->mapKeyFeatureAndSpec($data['is_key_feature'] ?? null, $data['is_key_spec'] ?? null, $index);
+                        $data['is_key_feature'] = $value['is_key_feature'];
+                        $data['is_key_spec'] = $value['is_key_spec'];
+                    }
+
+                    if ($field === 'value') {
+                        $inputType = $data['input_type'] ?? null;
+                        if (!$inputType) {
+                            Log::warning("Row $index - input_type not set before value field.");
+                        }
+                        $value = $this->mapValueBasedOnInputType($value, $inputType, $index);
+                        $data[$field] = $value;
+                        continue;
+                    }
+
                     if (in_array($field, ['is_upcoming', 'is_just_launched', 'status'])) {
                         $value = $this->mapToConstant($field, $value, $index);
                         if (!$value) Log::warning("Row $index - $field is empty.");
                     }
 
-                    if (in_array($field, ['colors', 'professions', 'fuel_types', 'travel_type', 'transmission_types'])) {
+                    if (in_array($field, ['colors',
+                        'professions',
+                        'fuel_types',
+                        'travel_type',
+                        'transmission_types',
+                        'view_camera',
+                        'category'])) {
                         $value = $this->parseCsvToArray($value, $field, $index, $data);
                         if (empty($value)) Log::warning("Row $index - $field is empty.");
                     }
-
-                    $data[$field] = $value;
 
                     if ($field === 'transmission_types') {
                         $data['transmission_type'] = $value;
@@ -112,8 +145,25 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
                     if ($field === 'fuel_types') {
                         $data['fuel_type'] = $value;
                     }
+
+                    if ($field === 'is_key_feature') {
+                        $isKeyFeatureValue = $value;
+                        continue;
+                    }
+
+                    if ($field === 'is_key_spec') {
+                        $isKeySpecValue = $value;
+                        continue;
+                    }
+
+                    $data[$field] = $value;
                 }
 
+                $keyFeatureSpec = $this->mapKeyFeatureAndSpec($isKeyFeatureValue, $isKeySpecValue, $index);
+                $data['is_key_feature'] = $keyFeatureSpec['is_key_feature'];
+                $data['is_key_spec'] = $keyFeatureSpec['is_key_spec'];
+
+                // dd($data);
                 Log::info("Saving car for row $index.");
                 $carService = new CarService($data);
                 $carId = $carService->saveCar();
@@ -121,8 +171,13 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
                 if ($carId) {
                     Log::info("Car saved successfully with ID: $carId");
                     $data['car_id'] = $carId;
-                    $this->saveCarVersion($carId, $data);
+                    $carVersion = $this->saveCarVersion($carId, $data);
                     Log::info("Car version saved for car ID: $carId");
+
+                    $carVersionId = $carVersion->id;
+
+                    $this->saveCategoryAttributes($carId, $carVersionId, $data);
+
                     $successfulImports++;
                 } else {
                     Log::error("Failed to save car for row $index.");
@@ -151,6 +206,109 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
             'failed_imports' => $failedImports,
             'message' => $message
         ];
+    }
+
+    private function mapValueBasedOnInputType($value, $inputType, $rowIndex)
+    {
+        if (!in_array($inputType, [CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])) {
+            Log::error("Row $rowIndex - Invalid 'input_type': '$inputType'. Must be TYPE_TEXT or TYPE_BOOLEAN.");
+            return null;
+        }
+
+        $valueStr = strtolower(trim((string) $value));
+
+        if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
+            if ($valueStr === 'yes' || $valueStr === 'no') {
+                Log::error("Row $rowIndex - 'value' cannot be 'Yes' or 'No' when 'input_type' is TEXT.");
+                return null;
+            }
+            if (!is_string($value) || $valueStr === '') {
+                Log::error("Row $rowIndex - 'value' must be a non-empty string when 'input_type' is TEXT.");
+                return null;
+            }
+
+            return (string) $value;
+        }
+
+        if ($inputType == CarAdditonalSpecifications::TYPE_BOOLEAN) {
+            if (!in_array($valueStr, ['yes', 'no'])) {
+                Log::error("Row $rowIndex - 'value' must be 'Yes' or 'No' when 'input_type' is BOOLEAN.");
+                return null;
+            }
+
+            return $valueStr === 'yes' ? 1 : 2;
+        }
+
+        Log::error("Row $rowIndex - Unhandled 'input_type' ($inputType).");
+        return null;
+    }
+
+    private function mapInputType($value, $rowIndex)
+    {
+        $map = [
+            'Text' => CarAdditonalSpecifications::TYPE_TEXT,
+            'Boolean' => CarAdditonalSpecifications::TYPE_BOOLEAN,
+        ];
+
+        $trimmed = trim((string) $value);
+
+        foreach ($map as $label => $constValue) {
+            if (strcasecmp($trimmed, $label) === 0) {
+                return $constValue;
+            }
+        }
+
+        Log::warning("Row $rowIndex - Invalid input_type value: '$value'.");
+        return null;
+    }
+
+    public function saveCategoryAttributes($carId, $versionId, $data)
+    {
+       if (empty($data['specification'])) {
+            Log::warning('No specification provided for car ID ' . $carId);
+            return;
+        }
+
+        $categoryAttribute = new CarAdditonalSpecifications();
+
+        $categoryAttribute->car_id = $carId->id;
+        $categoryAttribute->car_version_id = $versionId;
+        $categoryAttribute->input_type = $data['input_type'] ?? null;
+        $categoryAttribute->specification = $data['specification'];
+        $categoryAttribute->category_id = is_array($data['category']) ? $data['category'][0] : $data['category'];
+        $categoryAttribute->unit = $data['unit'] ?? null;
+        $categoryAttribute->is_key_feature = $data['is_key_feature'] ?? 0;
+        $categoryAttribute->is_key_spec = $data['is_key_spec'] ?? 0;
+
+        // dd($data['is_key_spec']);
+
+        $categoryAttribute->value = $data['value'] ?? null;
+
+        $categoryAttribute->saveOrFail();
+    }
+
+    private function mapKeyFeatureAndSpec($featureValue, $specValue, $rowIndex)
+    {
+        $featureValue = strtolower(trim((string) $featureValue));
+        $specValue = strtolower(trim((string) $specValue));
+
+        $isFeatureYes = $featureValue === 'yes';
+        $isSpecYes = $specValue === 'yes';
+
+        if ($isFeatureYes && $isSpecYes) {
+            Log::error("Row $rowIndex - Both 'is_key_feature' and 'is_key_spec' are 'Yes'. Only one can be 'Yes'. Setting both to 0.");
+            return ['is_key_feature' => 0, 'is_key_spec' => 0];
+        }
+
+        if ($isFeatureYes) {
+            return ['is_key_feature' => CarAdditonalSpecifications::IS_KEY_FEATURE, 'is_key_spec' => 0];
+        }
+
+        if ($isSpecYes) {
+            return ['is_key_feature' => 0, 'is_key_spec' => CarAdditonalSpecifications::IS_KEY_SPEC];
+        }
+
+        return ['is_key_feature' => 0, 'is_key_spec' => 0];
     }
 
     private function mapNameToId($field, $value, $rowIndex)
@@ -305,55 +463,53 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
 
     public function saveCarVersion($car, $data)
     {
+        $carId = $data['car_id'] ?? null;
+
         $name = $data['varient_name'] ?? $car->model_name;
-        $carSpec = CarVersion::CAR_VARIENT_SPECIFICATION;
+        $carSpec = CarVersion::CAR_SPECIFICATION;
 
-        if (!$this->version) {
-            $this->version = new CarVersion();
-            $carSpec = CarVersion::CAR_SPECIFICATION;
-        }
+        $version = new CarVersion();
+        $version->car_id = $carId->id;
+        $version->is_car_spec = $carSpec;
+        $version->varient_name = $name;
+        $version->ex_showroom_price = $data['ex_showroom_price'];
+        $version->on_road_price = $data['on_road_price'];
+        $version->finance_available = $data['finance_available'];
+        $version->insurance = $data['insurance'];
+        $version->service_charge = $data['service_charge'];
+        $version->engine_capacity = $data['engine_capacity'];
+        $version->power = $data['power'];
+        $version->torque = $data['torque'];
 
-        $this->version->car_id = $car->id;
-        $this->version->is_car_spec = $this->version->is_car_spec ?? $carSpec;
-        $this->version->varient_name = $name;
-        $this->version->ex_showroom_price = $data['ex_showroom_price'];
-        $this->version->on_road_price = $data['on_road_price'];
-        $this->version->finance_available = $data['finance_available'];
-        $this->version->insurance = $data['insurance'];
-        $this->version->service_charge = $data['service_charge'];
-        $this->version->engine_capacity = $data['engine_capacity'];
-        $this->version->power = $data['power'];
-        $this->version->torque = $data['torque'];
-
-        $this->version->transmission_type = is_array($data['transmission_type']) ? $data['transmission_type'][0] : $data['transmission_type'];
-        $this->version->fuel_type = is_array($data['fuel_type']) ? $data['fuel_type'][0] : $data['fuel_type'];
-        $this->version->travel_type = is_array($data['travel_type']) ? $data['travel_type'][0] : $data['travel_type'];
-        $this->version->colours = is_array($data['colors']) ? $data['colors'][0] : $data['colors'];
+        $version->transmission_type = is_array($data['transmission_type']) ? $data['transmission_type'][0] : $data['transmission_type'];
+        $version->fuel_type = is_array($data['fuel_type']) ? $data['fuel_type'][0] : $data['fuel_type'];
+        $version->travel_type = is_array($data['travel_type']) ? $data['travel_type'][0] : $data['travel_type'];
+        $version->colours = is_array($data['colors']) ? $data['colors'][0] : $data['colors'];
+        $version->view_camera = is_array($data['view_camera']) ? $data['view_camera'][0] : $data['view_camera'];
 
         if (!empty($data['mileage'])) {
             $mileage = $data['mileage'];
             if (strpos($mileage, '-') !== false) {
                 [$min, $max] = array_map('floatval', explode('-', $mileage));
-                $this->version->mileage = ($min + $max) / 2;
-                $this->version->mileage_min = $min;
-                $this->version->mileage_max = $max;
+                $version->mileage = ($min + $max) / 2;
+                $version->mileage_min = $min;
+                $version->mileage_max = $max;
             } else {
-                $this->version->mileage = floatval($mileage);
-                $this->version->mileage_min = null;
-                $this->version->mileage_max = null;
+                $version->mileage = floatval($mileage);
+                $version->mileage_min = null;
+                $version->mileage_max = null;
             }
         }
 
-        $this->version->fuel_tank_capacity = $data['fuel_tank_capacity'];
-        $this->version->seat_capacity = $data['seat_capacity'];
-        $this->version->view_camera = $data['view_camera'] ?? null;
-        $this->version->safety_ratings = $data['safety_ratings'];
-        $this->version->no_of_airbags = $data['no_of_airbags'];
-        $this->version->body_type = $data['body_type_id'];
-        $this->version->status = $data['status'];
-        $this->version->save();
+        $version->fuel_tank_capacity = $data['fuel_tank_capacity'];
+        $version->seat_capacity = $data['seat_capacity'];
+        $version->safety_ratings = $data['safety_ratings'];
+        $version->no_of_airbags = $data['no_of_airbags'];
+        $version->body_type = $data['body_type_id'];
+        $version->status = $data['status'];
+        $version->save();
 
-        return $this->version;
+        return $version;
     }
 
     public function chunkSize(): int
