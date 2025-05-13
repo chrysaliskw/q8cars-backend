@@ -153,6 +153,7 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'
         'comparison' => CarComparisonListsController::class, // Car Comparison
         'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
     ]);
+    Route::post('car/bulk-upload', [CarController::class, 'import'])->name('car.bulk_upload.submit');
 });
 
 //Test Drive Requests
@@ -254,6 +255,6 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->name('sub-a
 });
 Route::middleware(['auth:admin', 'role_or_permission:Super Admin'])->group(function () {
     Route::get('configurations', [ConfigurationController::class, 'getInput'])->name('configurations');
-    Route::post('configurations/save', [ConfigurationController::class, 'saveValue'])->name('configurations.save');   
+    Route::post('configurations/save', [ConfigurationController::class, 'saveValue'])->name('configurations.save');
 });
 

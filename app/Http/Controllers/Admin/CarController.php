@@ -10,28 +10,50 @@ use App\Models\CarView;
 use App\Models\CarImage;
 use App\Models\TestDrive;
 use App\Models\CarVersion;
+use Illuminate\Log\Logger;
 use App\Models\CarFavourite;
 use App\Models\OfferRequest;
+use App\Models\View360Image;
 use Illuminate\Http\Request;
+use App\Imports\CarBulkImport;
 use Illuminate\Validation\Rule;
+use App\Models\BrandColorMapping;
 use App\Models\CarComparisonList;
 use App\Services\Admin\CarService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\DataGrids\Admin\CarDataGrid;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Admin\CarRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
 use App\Exceptions\FuelTtypeAndTransmissionException;
-use App\Models\BrandColorMapping;
-use App\Models\View360Image;
 use Illuminate\Http\Exceptions\PostTooLargeException;
-use Illuminate\Log\Logger;
-use Illuminate\Support\Facades\Log;
 
 class CarController extends Controller
 {
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        try {
+            $import = new CarBulkImport();
+            Excel::import($import, $request->file('file'));
+            if ($import->result['status'] === 'success') {
+                return redirect()->route('admin.car.index')->with('success', $import->result['message']);
+            }
+             else {
+                return back()->with('error', $import->result['message']);
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error during import: ' . $e->getMessage());
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -55,6 +77,7 @@ class CarController extends Controller
      */
     public function store(CarRequest $request)
     {
+        // dd($request->all());
         ini_set('upload_max_filesize', '50M');
         ini_set('post_max_size', '60M');
         $rows = $request->row_count;
@@ -173,14 +196,14 @@ class CarController extends Controller
             $transmissionTypes[] = config('params.car.transmission_type')[$transmissionType];
         }
         $colors = [];
-       
 
-      
+
+
         $color = !empty($car->colours)?json_decode($car->colours, true):[];
         if(!empty($color)){
-        
+
         $colorArray = array_combine(range(1, count($color)), array_values($color));
-      
+
         // foreach ($colorArray as $c) {
 
         //     $colors[] = BrandColorMapping::find($c)->name;
@@ -325,7 +348,7 @@ class CarController extends Controller
      */
     public function update(CarRequest $request, Car $car)
     {
-         
+
         $rows = $request->row_count;
 
         $rules = [];
@@ -405,7 +428,7 @@ class CarController extends Controller
         }   catch (PostTooLargeException $ex) {
             logger($ex);
             return back()->with('error', 'File size should be within 2MB')->withInput();
-        } 
+        }
         catch (FuelTtypeAndTransmissionException $e) {
             logger($e);
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
@@ -547,7 +570,7 @@ class CarController extends Controller
         $car = Car::find($request->id);
         $images = View360Image::where('car_id', $car->id)->where('type',View360Image::TYPE_IMAGE)->active()->get();
         $url = View360Image::where('car_id', $car->id)->where('type',View360Image::TYPE_URL)->active()->first();
-   
+
         return view('admin.car.add-360-view', compact('car', 'images','url'));
     }
 
@@ -577,12 +600,12 @@ class CarController extends Controller
 
     public function add360Url(Request $request)
     {
-        $request->validate([ 
-            'url' => 'required|url', 
-            'id' => 'required',         
+        $request->validate([
+            'url' => 'required|url',
+            'id' => 'required',
         ]);
 
-        $image = View360Image::where('car_id',$request->id)->first()?? new View360Image();          
+        $image = View360Image::where('car_id',$request->id)->first()?? new View360Image();
         $image->image = $request->url;
         $image->type = View360Image::TYPE_URL;
         $image->car_id = $request->id;

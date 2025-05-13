@@ -59,7 +59,7 @@ class CarService
             if(isset($this->data['colors'])){
                 $this->saveCarColorsAndImages();
             }
-           
+
 
             if(isset($this->data['attribute']))
             {
@@ -98,7 +98,7 @@ class CarService
         }
     }
 
-    private function saveCar()
+    public function saveCar()
     {
         if(!$this->car) {
             $this->car = new Car();
@@ -142,19 +142,19 @@ class CarService
         // $this->car->top_speed = $this->data['top_speed'];
         if (!empty($this->data['mileage'])) {
             $mileage = $this->data['mileage'];
-        
+
             if (strpos($mileage, '-') !== false) {
                 // Mileage is a range, e.g., "15-17"
                 [$min, $max] = array_map('floatval', explode('-', $mileage));
                 $avg = ($min + $max) / 2;
-        
+
                 $this->car->mileage = $avg;
                 $this->car->mileage_min = $min;
                 $this->car->mileage_max = $max;
             } else {
                 // Mileage is a single value
                 $value = $mileage;
-        
+
                 $this->car->mileage = $value;
                 $this->car->mileage_min = null;
                 $this->car->mileage_max = null;
@@ -180,6 +180,8 @@ class CarService
         $this->car->mileage_summary = $this->data['mileage_summary'];
 
         $this->car->save();
+
+        return $this->car;
     }
 
     public function saveToCarVersion()
@@ -223,19 +225,19 @@ class CarService
         // $this->version->top_speed = $this->data['top_speed'];
         if (!empty($this->data['mileage'])) {
             $mileage = $this->data['mileage'];
-        
+
             if (strpos($mileage, '-') !== false) {
                 // Mileage is a range, e.g., "15-17"
                 [$min, $max] = array_map('floatval', explode('-', $mileage));
                 $avg = ($min + $max) / 2;
-        
+
                 $this->version->mileage = $avg;
                 $this->version->mileage_min = $min;
                 $this->version->mileage_max = $max;
             } else {
                 // Mileage is a single value
                 $value = $mileage;
-        
+
                 $this->version->mileage = $value;
                 $this->version->mileage_min = null;
                 $this->version->mileage_max = null;
