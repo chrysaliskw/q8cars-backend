@@ -567,6 +567,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
     public function chunkSize(): int
     {
-        return 1;
+        return 500;
     }
 }
