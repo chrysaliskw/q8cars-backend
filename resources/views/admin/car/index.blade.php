@@ -11,12 +11,17 @@
     </x-slot>
 
 
-    <x-crud-index title="" createUrl="{{ route('admin.car.create') }}" createButtonText="Add Car">
-        <div class="mb-3 text-right">
-            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#bulkUploadModal">
-                <i class="fa fa-upload"></i> Bulk Upload
-            </button>
-        </div>
+    <div class="text-right carbulkupload">
+        <button type="button" class="btn btn-success btn-rounded waves-effect waves-light" data-toggle="modal" data-target="#bulkUploadModal">
+            <i class="fa fa-upload"></i> Bulk Upload
+        </button>
+        <a href="{{ route('admin.car.create') }}">
+          <button type="button" class="btn btn-primary btn-rounded waves-effect waves-light">
+             <i class="fa fa-plus"></i> Add Car
+         </button>
+        </a>
+    </div>
+    <x-crud-index title="">
         <div class="row">
             <div class="col-lg-12">
                 {!! $grid->render() !!}

@@ -21,11 +21,13 @@ use App\Models\BrandColorMapping;
 use App\Models\CarComparisonList;
 use App\Services\Admin\CarService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use App\DataGrids\Admin\CarDataGrid;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Admin\CarRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
@@ -40,17 +42,27 @@ class CarController extends Controller
             'file' => 'required|mimes:xlsx,xls,csv',
         ]);
 
-        try {
-            $import = new CarBulkImport();
-            Excel::import($import, $request->file('file'));
-            if ($import->result['status'] === 'success') {
-                return redirect()->route('admin.car.index')->with('success', $import->result['message']);
+        if($request->hasFile('file')){
+
+            try {
+                $file = $request->file('file');
+                $filename = 'car_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('car_uploads', $filename);
+                $fullPath = storage_path("app/{$path}");
+
+                $import = new CarBulkImport();
+                Bus::chain([
+                    fn () => Excel::queueImport($import, $fullPath),
+                    fn () => Storage::delete($path),
+                ])->dispatch();
+
+                return back()->with('success', 'File is being processed in the background and will be uploaded shortly!');
+            } catch (\Exception $e) {
+                return back()->with('error', 'Error during import: ' . $e->getMessage());
             }
-             else {
-                return back()->with('error', $import->result['message']);
-            }
-        } catch (\Exception $e) {
-            return back()->with('error', 'Error during import: ' . $e->getMessage());
+        } else {
+            Log::warning('No file uploaded.');
+            return back()->with('error', 'No file uploaded.');
         }
     }
 

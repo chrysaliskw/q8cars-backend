@@ -6,19 +6,28 @@ use Exception;
 use App\Models\Car;
 use App\Models\Brand;
 use App\Models\BodyType;
+use App\Models\CarImage;
 use App\Models\CarVersion;
+use Illuminate\Support\Str;
+use Illuminate\Bus\Batchable;
 use App\Models\BrandColorMapping;
+use Illuminate\Http\UploadedFile;
 use App\Services\Admin\CarService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use App\Models\CarAdditonalSpecifications;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
+class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, ShouldQueue
 {
+    use Batchable;
+
     protected $version;
     public $result;
 
@@ -48,6 +57,8 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
                 $headersToFields = [
                     'brand' => 'brand_id',
                     'model' => 'model_name',
+                    'image' => 'image',
+                    'image_2' => 'image_2',
                     'is_upcoming' => 'is_upcoming',
                     'is_just_launched' => 'is_just_launched',
                     'just_launch_sort_order' => 'just_launch_sort_order',
@@ -163,7 +174,12 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
                 $data['is_key_feature'] = $keyFeatureSpec['is_key_feature'];
                 $data['is_key_spec'] = $keyFeatureSpec['is_key_spec'];
 
-                // dd($data);
+                $image = $this->downloadImageAsUploadedFile($row['image']);
+                $imageDetail = $this->downloadImageAsUploadedFile($row['image_2']);
+
+                $data['image'] = $image;
+                $data['image_detail'] = $imageDetail;
+
                 Log::info("Saving car for row $index.");
                 $carService = new CarService($data);
                 $carId = $carService->saveCar();
@@ -171,6 +187,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
                 if ($carId) {
                     Log::info("Car saved successfully with ID: $carId");
                     $data['car_id'] = $carId;
+
                     $carVersion = $this->saveCarVersion($carId, $data);
                     Log::info("Car version saved for car ID: $carId");
 
@@ -206,6 +223,42 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
             'failed_imports' => $failedImports,
             'message' => $message
         ];
+    }
+
+    private function downloadImageAsUploadedFile($url, $name = null)
+    {
+        try {
+            $imageContent = @file_get_contents($url);
+
+            if ($imageContent === false) {
+                throw new \Exception("Failed to download image from URL.");
+            }
+
+            if (!$name) {
+                $name = 'downloaded_image_' . time() . rand(1000, 9999) . '.jpg';
+            }
+
+            $path = 'car-images/' . $name;
+            Storage::put($path, $imageContent);
+
+            $fullPath = storage_path('app/' . $path);
+
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $fullPath) ?: 'image/jpeg';
+            finfo_close($finfo);
+
+            return new UploadedFile(
+                $fullPath,
+                $name,
+                $mimeType,
+                null,
+                true
+            );
+
+        } catch (\Exception $e) {
+            Log::error("Failed to download image from URL: {$url} - " . $e->getMessage());
+            return null;
+        }
     }
 
     private function mapValueBasedOnInputType($value, $inputType, $rowIndex)
@@ -514,6 +567,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow
 
     public function chunkSize(): int
     {
-        return 500;
+        return 1;
     }
 }
