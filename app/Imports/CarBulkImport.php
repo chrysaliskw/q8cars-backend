@@ -174,11 +174,34 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 $data['is_key_feature'] = $keyFeatureSpec['is_key_feature'];
                 $data['is_key_spec'] = $keyFeatureSpec['is_key_spec'];
 
-                $image = $this->downloadImageAsUploadedFile($row['image']);
-                $imageDetail = $this->downloadImageAsUploadedFile($row['image_2']);
+                $image = null;
+                $imageDetail = null;
 
-                $data['image'] = $image;
-                $data['image_detail'] = $imageDetail;
+                if (!empty($row['image'])) {
+                    $image = $this->downloadImageAsUploadedFile($row['image']);
+                    if ($image === null) {
+                        Log::warning("Image 1 failed to download for row with ID: " . ($row['id'] ?? 'unknown'));
+                    }
+                } else {
+                    Log::warning("Image 1 URL missing for row with ID: " . ($row['id'] ?? 'unknown'));
+                }
+
+                if (!empty($row['image_2'])) {
+                    $imageDetail = $this->downloadImageAsUploadedFile($row['image_2']);
+                    if ($imageDetail === null) {
+                        Log::warning("Image 2 failed to download for row with ID: " . ($row['id'] ?? 'unknown'));
+                    }
+                } else {
+                    Log::warning("Image 2 URL missing for row with ID: " . ($row['id'] ?? 'unknown'));
+                }
+
+                if ($image) {
+                    $data['image'] = $image;
+                }
+
+                if ($imageDetail) {
+                    $data['image_detail'] = $imageDetail;
+                }
 
                 Log::info("Saving car for row $index.");
                 $carService = new CarService($data);
