@@ -134,10 +134,12 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         continue;
                     }
 
-                    if (in_array($field, ['is_upcoming', 'is_just_launched', 'status'])) {
-                        $value = $this->mapToConstant($field, $value, $index);
-                        if (!$value) Log::warning("Row $index - $field is empty.");
-                    }
+                    // if (in_array($field, ['is_upcoming', 'is_just_launched', 'status'])) {
+                    //     $value = $this->mapToConstant($field, $value, $index);
+                    //     if (!$value) Log::warning("Row $index - $field is empty.");
+                    //     if ($value !== null) $data[$field] = $value;
+                    //     continue;
+                    // }
 
                     if (in_array($field, ['colors',
                         'professions',
@@ -155,6 +157,36 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     }
                     if ($field === 'fuel_types') {
                         $data['fuel_type'] = $value;
+                    }
+
+                    if ($field === 'is_upcoming') {
+                        if($value){
+                            $value = $this->mapToConstant($field, $value, $index);
+                        }
+                        else{
+                            $value = 2;
+                        }
+                        $data['is_upcoming'] = $value;
+                    }
+
+                    if ($field === 'is_just_launched') {
+                        if($value){
+                            $value = $this->mapToConstant($field, $value, $index);
+                        }
+                        else{
+                            $value = 2;
+                        }
+                        $data['is_just_launched'] = $value;
+                    }
+
+                    if ($field === 'status') {
+                        if($value){
+                            $value = $this->mapToConstant($field, $value, $index);
+                        }
+                        else{
+                            $value = 1;
+                        }
+                        $data['status'] = $value;
                     }
 
                     if ($field === 'is_key_feature') {
