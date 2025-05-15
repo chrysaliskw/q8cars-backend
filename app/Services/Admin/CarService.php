@@ -326,27 +326,36 @@ class CarService
 
     private function moveUploadedProfileImage()
     {
+        $image = $this->data['image'] ?? null;
 
-        Log::info($this->data['image']->path());
-        compressAndResizeImage($this->data['image']->path(), $this->data['image']->path());
-        $this->data['image']->store(Car::FILE_DIR);    // Store original image
-        compressAndResizeImage($this->data['image']->path(), $this->data['image']->path(), 'large_x');  // REsixe to 950x550 for images pages
-        $this->data['image']->store(Car::FILE_DIR. DIRECTORY_SEPARATOR . 'large_x');  // Store resized image in car/large_x folder with same name.
-        $hashedFileName = $this->data['image']->hashName();
+        if ($image instanceof \Illuminate\Http\UploadedFile) {
+            Log::info($image->path());
+            compressAndResizeImage($image->path(), $image->path());
+            $image->store(Car::FILE_DIR);
+            compressAndResizeImage($image->path(), $image->path(), 'large_x');
+            $image->store(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x');
+            return $image->hashName();
+        }
 
-        return $hashedFileName;
+        Log::warning('moveUploadedProfileImage called but image is not an instance of UploadedFile.');
+        return null;
     }
 
     private function moveUploadedProfileImage2()
     {
-        Log::info($this->data['image_detail']->path());
-        compressAndResizeImage($this->data['image_detail']->path(), $this->data['image_detail']->path());
-        $this->data['image_detail']->store(Car::FILE_DIR);    // Store original image
-        compressAndResizeImage($this->data['image_detail']->path(), $this->data['image_detail']->path(), 'large_x');  // REsixe to 950x550 for images pages
-        $this->data['image_detail']->store(Car::FILE_DIR. DIRECTORY_SEPARATOR . 'large_x');  // Store resized image in car/large_x folder with same name.
-        $hashedFileName = $this->data['image_detail']->hashName();
+        $imageDetail = $this->data['image_detail'] ?? null;
 
-        return $hashedFileName;
+        if ($imageDetail instanceof \Illuminate\Http\UploadedFile) {
+            Log::info($imageDetail->path());
+            compressAndResizeImage($imageDetail->path(), $imageDetail->path());
+            $imageDetail->store(Car::FILE_DIR);
+            compressAndResizeImage($imageDetail->path(), $imageDetail->path(), 'large_x');
+            $imageDetail->store(Car::FILE_DIR . DIRECTORY_SEPARATOR . 'large_x');
+            return $imageDetail->hashName();
+        }
+
+        Log::warning('moveUploadedProfileImage2 called but image_detail is not an instance of UploadedFile.');
+        return null;
     }
 
 
