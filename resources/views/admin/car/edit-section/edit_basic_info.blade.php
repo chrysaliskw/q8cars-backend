@@ -179,7 +179,7 @@ function toggleUpcoming(that){
     };
 </script>
 
-@include('admin.car.edit-section.edit_key_features')
+
 
 
 
