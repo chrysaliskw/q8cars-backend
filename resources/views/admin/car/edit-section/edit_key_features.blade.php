@@ -38,20 +38,20 @@
                 </x-form-input>
             </div>--}}
             <div class="col-md-4">
-                <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)*" value="{{ $carVarient->engine_capacity }}">
+                <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)" value="{{ $carVarient->engine_capacity }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="power" field-name="Power(Bhp)*" value="{{ $carVarient->power }}">
+                <x-form-input type="text" field="power" field-name="Power(Bhp)" value="{{ $carVarient->power }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="torque" field-name="Torque(rpm)*" value="{{ $carVarient->torque }}">
+                <x-form-input type="text" field="torque" field-name="Torque(rpm)" value="{{ $carVarient->torque }}">
                 </x-form-input>
             </div>
 
           {{--  <div class="col-md-4">
-                <x-form-input type="text" field="drive_train" field-name="Drivetrain*" value="{{ $carVarient->drive_train }}">
+                <x-form-input type="text" field="drive_train" field-name="Drivetrain" value="{{ $carVarient->drive_train }}">
                 </x-form-input>
             </div>--}}
             <div class="col-md-12">
@@ -100,11 +100,11 @@
         <div class="row">
 
         <div class="col-md-4">
-                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity*" value="{{ $carVarient->seat_capacity }}">
+                <x-form-input type="text" field="seat_capacity" field-name="Seat Capacity" value="{{ $carVarient->seat_capacity }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags*" value="{{ $carVarient->no_of_airbags }}">
+                <x-form-input type="text" field="no_of_airbags" field-name="No.of Airbags" value="{{ $carVarient->no_of_airbags }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -112,11 +112,11 @@
                 </x-form-input>
             </div>
          {{--   <div class="col-md-4">
-                <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)*" value="{{ $carVarient->acceleration }}">
+                <x-form-input type="text" field="acceleration" field-name="Acceleration(sec)" value="{{ $carVarient->acceleration }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="top_speed" field-name="Top speed(kmph)*" value="{{ $carVarient->top_speed }}">
+                <x-form-input type="text" field="top_speed" field-name="Top speed(kmph)" value="{{ $carVarient->top_speed }}">
                 </x-form-input>
             </div>--}}
             <div class="col-md-4">
@@ -333,7 +333,7 @@
     <div class="card-body">
       <div class="row">
             <div class="col-md-4">
-                <x-form-input type="text" field="seat_upholstery" field-name="Seat Upholstery*" value="{{ $carVarient->seat_upholstery }}">
+                <x-form-input type="text" field="seat_upholstery" field-name="Seat Upholstery" value="{{ $carVarient->seat_upholstery }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
@@ -370,11 +370,11 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                <x-form-input type="text" field="boot_space" field-name="Boot Space*" value="{{ $carVarient->boot_space }}">
+                <x-form-input type="text" field="boot_space" field-name="Boot Space" value="{{ $carVarient->boot_space }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="power_windows" field-name="Power Windows*" value="{{ $carVarient->power_windows }}">
+                <x-form-input type="text" field="power_windows" field-name="Power Windows" value="{{ $carVarient->power_windows }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
