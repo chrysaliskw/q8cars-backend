@@ -162,7 +162,9 @@ class CarController extends ApiBaseController
         $result['gear_box'] = $version->gear_box;
         $result['power'] = $version->power;
         $result['torque'] = $version->torque;
-        $result['torque_power'] = $version->power . 'Bhp @' . $version->torque . 'rpm';
+        if (!empty($version->power) && !empty($version->torque)) {
+            $result['torque_power'] = $version->power . ' Bhp @ ' . $version->torque . ' rpm';
+        }
         $result['transmission_type'] = $version->transmission_type;
         $result['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
         $result['available_transmission_types'] =  $this->getversionTransmissionTypes($version->car);
@@ -250,7 +252,7 @@ class CarController extends ApiBaseController
         }
             if($carVersion->fuel_tank_capacity){
                 $res['Fuel Tank Capacity']['value'] = $carVersion->fuel_tank_capacity . ' L';
-                $res['Fuel Tank Capacity']['icon'] = asset('images/fuel_tank_capacity.png');    
+                $res['Fuel Tank Capacity']['icon'] = asset('images/fuel_tank_capacity.png');
             }
           if ($carVersion->keyFeature) {
             foreach ($carVersion->keyFeature as $feature) {
@@ -703,9 +705,9 @@ class CarController extends ApiBaseController
         if ($request->car_version_id) {
             $version = $request->car_version_id;
         }
-    
+
         $varient = CarVersion::find($version);
-    
+
         $sections = [
             [
                 'key' => 1,
@@ -804,7 +806,7 @@ class CarController extends ApiBaseController
                 'features' => [],
             ],
         ];
-    
+
         $additionalSpecsMapping = [
             'engine-type' => $varient->engine,
             'fuel-type' => $varient->fuel,
@@ -816,7 +818,7 @@ class CarController extends ApiBaseController
             'safety' => $varient->safety,
             'entertainment' => $varient->entertainment,
         ];
-    
+
         foreach ($sections as &$section) {
             $sectionId = $section['id'];
             if (isset($additionalSpecsMapping[$sectionId]) && !empty($additionalSpecsMapping[$sectionId])) {
@@ -829,21 +831,21 @@ class CarController extends ApiBaseController
                     ];
                 }
             }
-    
+
             // Remove features where value is null
             $section['features'] = array_values(array_filter($section['features'], function ($feature) {
                 return isset($feature['value']) && $feature['value'] !== null;
             }));
         }
         unset($section);
-    
+
         $filteredSections = array_filter($sections, function ($section) {
             return !empty($section['features']);
         });
-    
+
         return array_values($filteredSections);
     }
-    
+
 
     private function getRelatedNews(Car $car)
     {
