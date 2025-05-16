@@ -211,6 +211,9 @@ class CarController extends ApiBaseController
         if (!empty($car->power) && !empty($car->torque)) {
             $torque_power = $car->power . 'Bhp @' . $car->torque . 'rpm';
         }
+        else{
+            $torque_power = null;
+        }
 
 
         $result = [
