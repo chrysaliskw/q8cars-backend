@@ -331,7 +331,7 @@ class CarController extends ApiBaseController
                 return asset('images/fuel_type.png');
             case 'Engine Capacity':
                 return asset('images/engine.png');
-            case 'Power & Torqueee':
+            case 'Power & Torque':
                 return asset('images/power_torque.png');
             case 'Seat Capacity':
                 return asset('images/seat_capacity.png');
