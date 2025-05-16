@@ -316,7 +316,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         }
 
         if ($useDummy) {
-            $dummyPath = public_path('images/Q8.png');
+            $dummyPath = public_path('images/Vector1.jpg');
 
             if (!file_exists($dummyPath)) {
                 Log::error("Dummy image not found at {$dummyPath}");
