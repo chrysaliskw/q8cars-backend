@@ -331,7 +331,7 @@ class CarController extends ApiBaseController
                 return asset('images/fuel_type.png');
             case 'Engine Capacity':
                 return asset('images/engine.png');
-            case 'Power & Torque':
+            case 'Power & Torqueee':
                 return asset('images/power_torque.png');
             case 'Seat Capacity':
                 return asset('images/seat_capacity.png');
@@ -716,20 +716,6 @@ class CarController extends ApiBaseController
 
         $varient = CarVersion::find($version);
 
-        if(!empty($varient->power)){
-            $power = $varient->power;
-        }
-        else{
-            $power = null;
-        }
-
-        if(!empty($varient->torque)){
-            $torque = $varient->torque;
-        }
-        else{
-            $torque = null;
-        }
-
         $sections = [
             [
                 'key' => 1,
@@ -740,8 +726,8 @@ class CarController extends ApiBaseController
                         'title' => 'Engine Capacity (cc)',
                         'value' => $varient->engine_capacity . 'cc',
                     ] : null,
-                    ($power && $torque) ? [
-                        'title' => 'Power & Torquee',
+                    ($varient->power && $varient->torque) ? [
+                        'title' => 'Power & Torque',
                         'value' => $varient->power . 'Bhp@' . $varient->torque . 'rpm',
                     ] : null,
                     isset(config('params.car.transmission_type')[$varient->transmission_type]) ? [
