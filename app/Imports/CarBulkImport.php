@@ -134,13 +134,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         continue;
                     }
 
-                    // if (in_array($field, ['is_upcoming', 'is_just_launched', 'status'])) {
-                    //     $value = $this->mapToConstant($field, $value, $index);
-                    //     if (!$value) Log::warning("Row $index - $field is empty.");
-                    //     if ($value !== null) $data[$field] = $value;
-                    //     continue;
-                    // }
-
                     if (in_array($field, ['colors',
                         'professions',
                         'fuel_types',
@@ -212,7 +205,8 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 if (!empty($row['image'])) {
                     $image = $this->downloadImageAsUploadedFile($row['image']);
                     if ($image === null) {
-                        Log::warning("Image 1 failed to download for row with ID: " . ($row['id'] ?? 'unknown'));
+                        $image = $this->downloadImageAsUploadedFile($row['image']);
+                        Log::warning("Image 1 failed to download. Assigning dummy image for row with ID: " . ($row['id'] ?? 'unknown'));
                     }
                 } else {
                     Log::warning("Image 1 URL missing for row with ID: " . ($row['id'] ?? 'unknown'));
@@ -221,7 +215,8 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 if (!empty($row['image_2'])) {
                     $imageDetail = $this->downloadImageAsUploadedFile($row['image_2']);
                     if ($imageDetail === null) {
-                        Log::warning("Image 2 failed to download for row with ID: " . ($row['id'] ?? 'unknown'));
+                        $imageDetail = $this->downloadImageAsUploadedFile($row['image_2']);
+                        Log::warning("Image 2 failed to download. Assigning dummy image for row with ID: " . ($row['id'] ?? 'unknown'));
                     }
                 } else {
                     Log::warning("Image 2 URL missing for row with ID: " . ($row['id'] ?? 'unknown'));
@@ -282,37 +277,65 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
     private function downloadImageAsUploadedFile($url, $name = null)
     {
-        try {
-            $imageContent = @file_get_contents($url);
+        $useDummy = false;
 
-            if ($imageContent === false) {
-                throw new \Exception("Failed to download image from URL.");
+        if (empty($url)) {
+            $useDummy = true;
+        } else {
+            try {
+                $imageContent = @file_get_contents($url);
+
+                if ($imageContent === false) {
+                    throw new \Exception("Failed to download image from URL.");
+                }
+
+                if (!$name) {
+                    $name = 'downloaded_image_' . time() . rand(1000, 9999) . '.jpg';
+                }
+
+                $path = 'car-images/' . $name;
+                Storage::put($path, $imageContent);
+
+                $fullPath = storage_path('app/' . $path);
+
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mimeType = finfo_file($finfo, $fullPath) ?: 'image/jpeg';
+                finfo_close($finfo);
+
+                return new UploadedFile(
+                    $fullPath,
+                    $name,
+                    $mimeType,
+                    null,
+                    true
+                );
+            } catch (\Exception $e) {
+                Log::error("Failed to download image from URL: {$url} - " . $e->getMessage());
+                $useDummy = true;
+            }
+        }
+
+        if ($useDummy) {
+            $dummyPath = public_path('images/Q8.png');
+
+            if (!file_exists($dummyPath)) {
+                Log::error("Dummy image not found at {$dummyPath}");
+                throw new \Exception("Dummy image file is missing.");
             }
 
-            if (!$name) {
-                $name = 'downloaded_image_' . time() . rand(1000, 9999) . '.jpg';
-            }
-
-            $path = 'car-images/' . $name;
-            Storage::put($path, $imageContent);
-
-            $fullPath = storage_path('app/' . $path);
+            $dummyName = 'dummy_' . time() . rand(1000, 9999) . '.jpg';
 
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $mimeType = finfo_file($finfo, $fullPath) ?: 'image/jpeg';
+            $mimeType = finfo_file($finfo, $dummyPath) ?: 'image/jpeg';
             finfo_close($finfo);
 
             return new UploadedFile(
-                $fullPath,
-                $name,
+                $dummyPath,
+                $dummyName,
                 $mimeType,
                 null,
                 true
             );
-
-        } catch (\Exception $e) {
-            Log::error("Failed to download image from URL: {$url} - " . $e->getMessage());
-            return null;
         }
     }
 
