@@ -163,7 +163,7 @@ class CarController extends ApiBaseController
         $result['power'] = $version->power;
         $result['torque'] = $version->torque;
         if (!empty($version->power) && !empty($version->torque)) {
-            $result['torque_power'] = $version->power . ' Bhp @ ' . $version->torque . ' rpm';
+            $result['torque_power'] = $version->power . 'Bhp @' . $version->torque . 'rpm';
         }
         $result['transmission_type'] = $version->transmission_type;
         $result['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
@@ -208,6 +208,11 @@ class CarController extends ApiBaseController
     private function getCounts(Car $car, Request $request)
     {
 
+        if (!empty($car->power) && !empty($car->torque)) {
+            $torque_power = $car->power . 'Bhp @' . $car->torque . 'rpm';
+        }
+
+
         $result = [
             'id' => $car->id,
             'model_name' => $car->model_name,
@@ -226,7 +231,7 @@ class CarController extends ApiBaseController
             'insurance' => $car->insurance ? 'KWD ' . $car->insurance:'',
             'service_amount' => $car->service_charge ? 'KWD ' . $car->service_charge :'',
             'gear_box' => $car->gear_box,
-            'torque_power' => $car->power . 'Bhp @' . $car->torque . 'rpm',
+            'torque_power' => $torque_power,
             'is_favourite' => CarFavourite::where('user_id', Auth::id())->where('car_id', $car->id)->first() ? 1 : 0,
             'tranmission_version_count' => $this->getVersionTransmissionTypesCount($car),
             'transmission_type' => $car->carSpec->transmission_type,
