@@ -741,7 +741,7 @@ class CarController extends ApiBaseController
                         'value' => $varient->engine_capacity . 'cc',
                     ] : null,
                     ($power && $torque) ? [
-                        'title' => 'Power & Torque',
+                        'title' => 'Power & Torquee',
                         'value' => $varient->power . 'Bhp@' . $varient->torque . 'rpm',
                     ] : null,
                     isset(config('params.car.transmission_type')[$varient->transmission_type]) ? [
