@@ -716,6 +716,20 @@ class CarController extends ApiBaseController
 
         $varient = CarVersion::find($version);
 
+        if(!empty($varient->power)){
+            $power = $varient->power;
+        }
+        else{
+            $power = null;
+        }
+
+        if(!empty($varient->torque)){
+            $torque = $varient->torque;
+        }
+        else{
+            $torque = null;
+        }
+
         $sections = [
             [
                 'key' => 1,
@@ -726,7 +740,7 @@ class CarController extends ApiBaseController
                         'title' => 'Engine Capacity (cc)',
                         'value' => $varient->engine_capacity . 'cc',
                     ] : null,
-                    (!empty($varient->power) && !empty($varient->torque)) ? [
+                    ($power && $torque) ? [
                         'title' => 'Power & Torque',
                         'value' => $varient->power . 'Bhp@' . $varient->torque . 'rpm',
                     ] : null,
