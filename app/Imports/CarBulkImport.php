@@ -360,18 +360,15 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
     private function mapValueBasedOnInputType($value, $inputType, $rowIndex)
     {
-        // Handle array of values
         if (is_array($value)) {
             $mappedValues = [];
             foreach ($value as $i => $singleValue) {
                 $mapped = $this->mapSingleValueBasedOnInputType($singleValue, $inputType, $rowIndex, $i);
-                // If any element mapping returns null (error), you can decide to skip or set null explicitly
                 $mappedValues[] = $mapped;
             }
             return $mappedValues;
         }
 
-        // Handle single value
         return $this->mapSingleValueBasedOnInputType($value, $inputType, $rowIndex);
     }
 
