@@ -663,6 +663,9 @@ class CarService
 
     private function getIntValueColor()
     {
+         if (empty($this->data['colors'])) {
+            return json_encode([]);
+        }
         $result = null;
         $i = 0;
         foreach($this->data['colors'] as $p) {

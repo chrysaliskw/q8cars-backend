@@ -52,6 +52,12 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         foreach ($rows as $index => $row) {
             try {
                 $row = $row instanceof Collection ? $row->toArray() : $row;
+
+                if (collect($row)->filter(fn($value) => !is_null($value) && trim($value) !== '')->isEmpty()) {
+                    Log::info("Skipping empty row at index $index.");
+                    continue;
+                }
+
                 Log::info("Processing row $index: " . json_encode($row));
 
                 $headersToFields = [
@@ -104,8 +110,8 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                 $data = [];
 
-                foreach ($headersToFields as $header => $field) {
-                    $value = $row[$header] ?? null;
+                    foreach ($headersToFields as $header => $field) {
+                        $value = $row[$header] ?? null;
 
                     if ($field === 'brand_id' || $field === 'body_type_id') {
                         $value = $this->mapNameToId($field, $value, $index);
@@ -118,11 +124,11 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         $value = $this->mapInputType($value, $index);
                     }
 
-                    if (isset($data['is_key_feature']) || isset($data['is_key_spec'])) {
-                        $value = $this->mapKeyFeatureAndSpec($data['is_key_feature'] ?? null, $data['is_key_spec'] ?? null, $index);
-                        $data['is_key_feature'] = $value['is_key_feature'];
-                        $data['is_key_spec'] = $value['is_key_spec'];
-                    }
+                    // if (isset($data['is_key_feature']) || isset($data['is_key_spec'])) {
+                    //     $value = $this->mapKeyFeatureAndSpec($data['is_key_feature'] ?? null, $data['is_key_spec'] ?? null, $index);
+                    //     $data['is_key_feature'] = $value['is_key_feature'];
+                    //     $data['is_key_spec'] = $value['is_key_spec'];
+                    // }
 
                     if ($field === 'value') {
                         $inputType = $data['input_type'] ?? null;
@@ -134,7 +140,8 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         continue;
                     }
 
-                    if (in_array($field, ['colors',
+                    if (in_array($field, [
+                        // 'colors',
                         'professions',
                         'fuel_types',
                         'travel_type',
@@ -143,6 +150,12 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         'category'])) {
                         $value = $this->parseCsvToArray($value, $field, $index, $data);
                         if (empty($value)) Log::warning("Row $index - $field is empty.");
+                    }
+
+                    if (in_array($field, ['specification', 'input_type', 'value', 'units'])) {
+                        if (is_string($value)) {
+                            $value = array_map('trim', explode(',', $value));
+                        }
                     }
 
                     if ($field === 'transmission_types') {
@@ -182,22 +195,22 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         $data['status'] = $value;
                     }
 
-                    if ($field === 'is_key_feature') {
-                        $isKeyFeatureValue = $value;
-                        continue;
-                    }
+                    // if ($field === 'is_key_feature') {
+                    //     $isKeyFeatureValue = $value;
+                    //     continue;
+                    // }
 
-                    if ($field === 'is_key_spec') {
-                        $isKeySpecValue = $value;
-                        continue;
-                    }
+                    // if ($field === 'is_key_spec') {
+                    //     $isKeySpecValue = $value;
+                    //     continue;
+                    // }
 
                     $data[$field] = $value;
                 }
 
-                $keyFeatureSpec = $this->mapKeyFeatureAndSpec($isKeyFeatureValue, $isKeySpecValue, $index);
-                $data['is_key_feature'] = $keyFeatureSpec['is_key_feature'];
-                $data['is_key_spec'] = $keyFeatureSpec['is_key_spec'];
+                // $keyFeatureSpec = $this->mapKeyFeatureAndSpec($isKeyFeatureValue, $isKeySpecValue, $index);
+                // $data['is_key_feature'] = $keyFeatureSpec['is_key_feature'];
+                // $data['is_key_spec'] = $keyFeatureSpec['is_key_spec'];
 
                 $image = null;
                 $imageDetail = null;
@@ -612,10 +625,18 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         $version->power = $data['power'];
         $version->torque = $data['torque'];
 
-        $version->transmission_type = is_array($data['transmission_type']) ? $data['transmission_type'][0] : $data['transmission_type'];
-        $version->fuel_type = is_array($data['fuel_type']) ? $data['fuel_type'][0] : $data['fuel_type'];
-        $version->travel_type = is_array($data['travel_type']) ? $data['travel_type'][0] : $data['travel_type'];
-        $version->colours = is_array($data['colors']) ? $data['colors'][0] : $data['colors'];
+        $version->transmission_type = !empty($data['transmission_type'])
+            ? (is_array($data['transmission_type']) ? $data['transmission_type'][0] : $data['transmission_type'])
+            : null;
+        $version->fuel_type = !empty($data['fuel_type'])
+            ? (is_array($data['fuel_type']) ? $data['fuel_type'][0] : $data['fuel_type'])
+            : null;
+        $version->travel_type = !empty($data['travel_type'])
+            ? (is_array($data['travel_type']) ? $data['travel_type'][0] : $data['travel_type'])
+            : null;
+        $version->colours = !empty($data['colors'])
+            ? (is_array($data['colors']) ? $data['colors'][0] : $data['colors'])
+            : json_encode([]);
         $version->view_camera = is_array($data['view_camera']) ? $data['view_camera'][0] : $data['view_camera'];
 
         if (!empty($data['mileage'])) {
