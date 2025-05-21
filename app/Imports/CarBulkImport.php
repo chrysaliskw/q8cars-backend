@@ -131,7 +131,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     // }
 
                     if ($field === 'value') {
-                        $inputType = $data['input_type'] ?? null;
+                        $inputType = $data['input_type'][$index] ?? null; // make sure you get the input_type for this index
                         if (!$inputType) {
                             Log::warning("Row $index - input_type not set before value field.");
                         }
@@ -150,12 +150,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         'category'])) {
                         $value = $this->parseCsvToArray($value, $field, $index, $data);
                         if (empty($value)) Log::warning("Row $index - $field is empty.");
-                    }
-
-                    if (in_array($field, ['specification', 'input_type', 'value', 'units'])) {
-                        if (is_string($value)) {
-                            $value = array_map('trim', explode(',', $value));
-                        }
                     }
 
                     if ($field === 'transmission_types') {
@@ -256,7 +250,19 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                     $carVersionId = $carVersion->id;
 
-                    $this->saveCategoryAttributes($carId, $carVersionId, $data);
+                    $categories = $data['category'] ?? [];
+                    $inputTypes = $data['input_type'] ?? [];
+                    $specifications = $data['specification'] ?? [];
+                    $values = $data['value'] ?? [];
+                    $units = $data['units'] ?? [];
+
+                    $this->saveCategoryAttributes($carId, $carVersionId, [
+                        'category' => $categories,
+                        'input_type' => $inputTypes,
+                        'specification' => $specifications,
+                        'value' => $values,
+                        'unit' => $units,
+                    ]);
 
                     $successfulImports++;
                 } else {
@@ -354,20 +360,38 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
     private function mapValueBasedOnInputType($value, $inputType, $rowIndex)
     {
+        // Handle array of values
+        if (is_array($value)) {
+            $mappedValues = [];
+            foreach ($value as $i => $singleValue) {
+                $mapped = $this->mapSingleValueBasedOnInputType($singleValue, $inputType, $rowIndex, $i);
+                // If any element mapping returns null (error), you can decide to skip or set null explicitly
+                $mappedValues[] = $mapped;
+            }
+            return $mappedValues;
+        }
+
+        // Handle single value
+        return $this->mapSingleValueBasedOnInputType($value, $inputType, $rowIndex);
+    }
+
+    private function mapSingleValueBasedOnInputType($value, $inputType, $rowIndex, $subIndex = null)
+    {
+        $valueStr = strtolower(trim((string) $value));
+        $location = $subIndex !== null ? "Row $rowIndex, SubIndex $subIndex" : "Row $rowIndex";
+
         if (!in_array($inputType, [CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])) {
-            Log::error("Row $rowIndex - Invalid 'input_type': '$inputType'. Must be TYPE_TEXT or TYPE_BOOLEAN.");
+            Log::error("$location - Invalid 'input_type': '$inputType'. Must be TYPE_TEXT or TYPE_BOOLEAN.");
             return null;
         }
 
-        $valueStr = strtolower(trim((string) $value));
-
         if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
             if ($valueStr === 'yes' || $valueStr === 'no') {
-                Log::error("Row $rowIndex - 'value' cannot be 'Yes' or 'No' when 'input_type' is TEXT.");
+                Log::error("$location - 'value' cannot be 'Yes' or 'No' when 'input_type' is TEXT.");
                 return null;
             }
             if (!is_string($value) || $valueStr === '') {
-                Log::error("Row $rowIndex - 'value' must be a non-empty string when 'input_type' is TEXT.");
+                Log::error("$location - 'value' must be a non-empty string when 'input_type' is TEXT.");
                 return null;
             }
 
@@ -376,59 +400,122 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
         if ($inputType == CarAdditonalSpecifications::TYPE_BOOLEAN) {
             if (!in_array($valueStr, ['yes', 'no'])) {
-                Log::error("Row $rowIndex - 'value' must be 'Yes' or 'No' when 'input_type' is BOOLEAN.");
+                Log::error("$location - 'value' must be 'Yes' or 'No' when 'input_type' is BOOLEAN.");
                 return null;
             }
 
             return $valueStr === 'yes' ? 1 : 2;
         }
 
-        Log::error("Row $rowIndex - Unhandled 'input_type' ($inputType).");
+        Log::error("$location - Unhandled 'input_type' ($inputType).");
         return null;
     }
 
     private function mapInputType($value, $rowIndex)
     {
-        $map = [
+         $map = [
             'Text' => CarAdditonalSpecifications::TYPE_TEXT,
             'Boolean' => CarAdditonalSpecifications::TYPE_BOOLEAN,
         ];
 
-        $trimmed = trim((string) $value);
+        $result = [];
 
-        foreach ($map as $label => $constValue) {
-            if (strcasecmp($trimmed, $label) === 0) {
-                return $constValue;
+        if (is_string($value) && str_starts_with(trim($value), '[') && str_ends_with(trim($value), ']')) {
+            $decoded = json_decode($value, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $inputTypes = array_filter(array_map('trim', $decoded), fn($item) => $item !== '');
+            } else {
+                Log::warning("Row $rowIndex - Failed to decode JSON input_type array: '$value'");
+                return [];
+            }
+        } elseif (is_array($value)) {
+            $inputTypes = array_filter(array_map('trim', $value), fn($item) => $item !== '');
+        } else {
+            $inputTypes = array_map('trim', explode(',', (string) $value));
+        }
+
+        foreach ($inputTypes as $inputType) {
+            $found = false;
+            foreach ($map as $label => $constValue) {
+                if (strcasecmp($inputType, $label) === 0) {
+                    $result[] = $constValue;
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                Log::warning("Row $rowIndex - Invalid input_type value: '$inputType'.");
             }
         }
 
-        Log::warning("Row $rowIndex - Invalid input_type value: '$value'.");
-        return null;
+        Log::info("Row $rowIndex - Mapped input_type values: " . json_encode($result));
+        return $result;
     }
 
     public function saveCategoryAttributes($carId, $versionId, $data)
     {
-       if (empty($data['specification'])) {
-            Log::warning('No specification provided for car ID ' . $carId);
+        if (empty($data['category'])) {
+            Log::warning('No categories provided for car ID ' . $carId->id);
             return;
         }
 
-        $categoryAttribute = new CarAdditonalSpecifications();
+        foreach (['specification', 'value', 'unit'] as $field) {
+            if (!empty($data[$field]) && is_string($data[$field])) {
+                $decoded = json_decode($data[$field], true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $data[$field] = $decoded;
+                } else {
+                    Log::warning("Failed to decode JSON for field '$field': " . json_last_error_msg());
+                    $data[$field] = [];
+                }
+            }
+        }
 
-        $categoryAttribute->car_id = $carId->id;
-        $categoryAttribute->car_version_id = $versionId;
-        $categoryAttribute->input_type = $data['input_type'] ?? null;
-        $categoryAttribute->specification = $data['specification'];
-        $categoryAttribute->category_id = is_array($data['category']) ? $data['category'][0] : $data['category'];
-        $categoryAttribute->unit = $data['unit'] ?? null;
-        $categoryAttribute->is_key_feature = $data['is_key_feature'] ?? 0;
-        $categoryAttribute->is_key_spec = $data['is_key_spec'] ?? 0;
+        foreach ($data['category'] as $index => $categoryId) {
+            if (empty($categoryId)) {
+                continue;
+            }
 
-        // dd($data['is_key_spec']);
+            Log::debug("saveCategoryAttributes - data at index $index for car ID {$carId->id}", [
+                'category' => $categoryId,
+                'input_type' => $data['input_type'][$index] ?? null,
+                'specification' => $data['specification'][$index] ?? null,
+                'value' => $data['value'][$index] ?? null,
+                'unit' => $data['unit'][$index] ?? null,
+            ]);
 
-        $categoryAttribute->value = $data['value'] ?? null;
+            $categoryAttribute = new CarAdditonalSpecifications();
 
-        $categoryAttribute->saveOrFail();
+            $categoryAttribute->car_id = $carId->id;
+            $categoryAttribute->car_version_id = $versionId;
+            $categoryAttribute->category_id = (string)$categoryId;
+
+            $categoryAttribute->input_type = isset($data['input_type'][$index])
+                ? (is_array($data['input_type'][$index]) ? json_encode($data['input_type'][$index]) : (string)$data['input_type'][$index])
+                : null;
+
+            $categoryAttribute->specification = isset($data['specification'][$index])
+                ? (is_array($data['specification'][$index]) ? json_encode($data['specification'][$index]) : (string)$data['specification'][$index])
+                : null;
+
+            $categoryAttribute->value = isset($data['value'][$index])
+                ? (is_array($data['value'][$index]) ? json_encode($data['value'][$index]) : (string)$data['value'][$index])
+                : null;
+
+            $categoryAttribute->unit = isset($data['unit'][$index])
+                ? (is_array($data['unit'][$index]) ? json_encode($data['unit'][$index]) : (string)$data['unit'][$index])
+                : null;
+
+            $categoryAttribute->is_key_feature = 0;
+            $categoryAttribute->is_key_spec = 0;
+
+            try {
+                $categoryAttribute->save();
+            } catch (\Exception $e) {
+                Log::error("Error saving category index $index for car ID {$carId->id}: " . $e->getMessage());
+            }
+        }
     }
 
     private function mapKeyFeatureAndSpec($featureValue, $specValue, $rowIndex)
@@ -534,8 +621,20 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             return [];
         }
 
-        $items = array_map('trim', explode(',', (string) $value));
-        $filtered = array_filter($items, fn($item) => $item !== '');
+        if (is_string($value) && str_starts_with(trim($value), '[') && str_ends_with(trim($value), ']')) {
+            $decoded = json_decode($value, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $filtered = array_filter(array_map('trim', $decoded), fn($item) => $item !== '');
+            } else {
+                Log::warning("Row $rowIndex - Failed to decode JSON array for $field: '$value'");
+                return [];
+            }
+        } elseif (is_array($value)) {
+            $filtered = array_filter(array_map('trim', $value), fn($item) => $item !== '');
+        } else {
+            $items = array_map('trim', explode(',', (string) $value));
+            $filtered = array_filter($items, fn($item) => $item !== '');
+        }
 
         if ($field === 'colors') {
             return $this->mapColorsFromBrand($filtered, $rowData['brand_id'] ?? null, $rowIndex);
