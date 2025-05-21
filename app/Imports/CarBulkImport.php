@@ -646,6 +646,12 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             $configKey = $this->configFieldMappings[$field];
             $configArray = config("params.$configKey");
 
+            if (count($filtered) === 1 && strtolower($filtered[0]) === 'all') {
+                $allKeys = array_map('strval', array_keys($configArray));
+                Log::info("Row $rowIndex - '$field' set to 'all', returning all options: " . json_encode($allKeys));
+                return $allKeys;
+            }
+
             foreach ($filtered as $item) {
                 $found = false;
                 foreach ($configArray as $key => $name) {
