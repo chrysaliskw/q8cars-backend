@@ -216,6 +216,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         Log::warning("Image 1 failed to download. Assigning dummy image for row with ID: " . ($row['id'] ?? 'unknown'));
                     }
                 } else {
+                    $image = $this->downloadImageAsUploadedFile('https://dummy');
                     Log::warning("Image 1 URL missing for row with ID: " . ($row['id'] ?? 'unknown'));
                 }
 
@@ -226,6 +227,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         Log::warning("Image 2 failed to download. Assigning dummy image for row with ID: " . ($row['id'] ?? 'unknown'));
                     }
                 } else {
+                    $imageDetail = $this->downloadImageAsUploadedFile('https://dummy');
                     Log::warning("Image 2 URL missing for row with ID: " . ($row['id'] ?? 'unknown'));
                 }
 
@@ -297,6 +299,22 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
     private function downloadImageAsUploadedFile($url, $name = null)
     {
         $useDummy = false;
+
+        $headers = @get_headers($url, 1);
+
+        if (!$headers || strpos($headers[0], '200') === false) {
+            $url = null;
+            Log::warning("URL did not return 200 OK.");
+        }
+
+        if(!empty($headers)){
+            $normalizedHeaders = array_change_key_case($headers, CASE_LOWER);
+        }
+
+        if (!isset($normalizedHeaders['content-type']) || strpos($normalizedHeaders['content-type'], 'image/') === false) {
+            $url = null;
+            Log::warning('Not a valid URL. Processing with dummy image.');
+        }
 
         if (empty($url)) {
             $useDummy = true;
