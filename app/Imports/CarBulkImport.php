@@ -147,18 +147,18 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     'valve_all_cylinder' => ['category' => 1, 'input_type' => 1],
                     'bore_and_stroke' => ['category' => 1, 'input_type' => 1],
                     'compression_ratio' => ['category' => 1, 'input_type' => 1],
-                    'super_charge' => ['category' => 1, 'input_type' => 2],
+                    'super_charge' => ['category' => 1, 'input_type' => 1],
 
                     // Fuel and Performance (ID: 2)
-                    'acceleration' => ['category' => 2, 'input_type' => 1],
-                    'top_speed' => ['category' => 2, 'input_type' => 1],
-                    'emission_norm_compliance' => ['category' => 2, 'input_type' => 1],
+                    'acceleration' => ['category' => 2, 'input_type' => 1, 'unit' => 'sec'],
+                    'top_speed' => ['category' => 2, 'input_type' => 1, 'unit' => 'km/h'],
+                    'emission_norm_compliance' => ['category' => 2, 'input_type' => 1, 'unit' => 'g/km'],
 
                     //Suspension, Steering and Brake (ID: 3)
                     'front_suspension' => ['category' => 3, 'input_type' => 1],
                     'rear_suspension' => ['category' => 3, 'input_type' => 1],
                     'steering_type' => ['category' => 3, 'input_type' => 1],
-                    'turning_radius' => ['category' => 3, 'input_type' => 1],
+                    'turning_radius' => ['category' => 3, 'input_type' => 1, 'unit' => 'mtr'],
                     'front_brake_type' => ['category' => 3, 'input_type' => 1],
                     'rear_brake_type' => ['category' => 3, 'input_type' => 1],
                     'power_steering' => ['category' => 3, 'input_type' => 2],
@@ -175,7 +175,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     'wheel_covers' => ['category' => 5, 'input_type' => 2],
 
                     //Interior (ID: 6)
-                    'boot_space' => ['category' => 6, 'input_type' => 1],
+                    'boot_space' => ['category' => 6, 'input_type' => 1, 'unit' => 'L'],
                     'power_windows' => ['category' => 6, 'input_type' => 2],
                     'tachometer' => ['category' => 6, 'input_type' => 2],
                     'electric_multi_trip_meter' => ['category' => 6, 'input_type' => 2],
@@ -204,20 +204,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     if ($field === 'brand_id' || $field === 'body_type_id') {
                         $value = $this->mapNameToId($field, $value, $index);
                         if (!$value) Log::warning("Row $index - $field is empty.");
-                        $data[$field] = $value;
-                        continue;
-                    }
-
-                    if ($field === 'input_type') {
-                        $value = $this->mapInputType($value, $index);
-                    }
-
-                    if ($field === 'value') {
-                        $inputType = $data['input_type'][$index] ?? null;
-                        if (!$inputType) {
-                            Log::warning("Row $index - input_type not set before value field.");
-                        }
-                        $value = $this->mapValueBasedOnInputType($value, $inputType, $index);
                         $data[$field] = $value;
                         continue;
                     }
@@ -338,11 +324,13 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                     $label = $specLabels[$header] ?? ucwords(str_replace('_', ' ', $header));
                     $processedValue = trim($value);
+                    $unit = $specInfo['unit'] ?? null;
 
                     $spec['category'][] = $specInfo['category'];
                     $spec['specification'][] = $label;
                     $spec['value'][] = $processedValue;
                     $spec['input_type'][] = $specInfo['input_type'];
+                    $spec['unit'][] = $unit;
                 }
 
                 $image = null;
@@ -503,98 +491,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         }
     }
 
-    private function mapValueBasedOnInputType($value, $inputType, $rowIndex)
-    {
-        if (is_array($value)) {
-            $mappedValues = [];
-            foreach ($value as $i => $singleValue) {
-                $mapped = $this->mapSingleValueBasedOnInputType($singleValue, $inputType, $rowIndex, $i);
-                $mappedValues[] = $mapped;
-            }
-            return $mappedValues;
-        }
-
-        return $this->mapSingleValueBasedOnInputType($value, $inputType, $rowIndex);
-    }
-
-    private function mapSingleValueBasedOnInputType($value, $inputType, $rowIndex, $subIndex = null)
-    {
-        $valueStr = strtolower(trim((string) $value));
-        $location = $subIndex !== null ? "Row $rowIndex, SubIndex $subIndex" : "Row $rowIndex";
-
-        if (!in_array($inputType, [CarAdditonalSpecifications::TYPE_TEXT, CarAdditonalSpecifications::TYPE_BOOLEAN])) {
-            Log::error("$location - Invalid 'input_type': '$inputType'. Must be TYPE_TEXT or TYPE_BOOLEAN.");
-            return null;
-        }
-
-        if ($inputType == CarAdditonalSpecifications::TYPE_TEXT) {
-            if ($valueStr === 'yes' || $valueStr === 'no') {
-                Log::error("$location - 'value' cannot be 'Yes' or 'No' when 'input_type' is TEXT.");
-                return null;
-            }
-            if (!is_string($value) || $valueStr === '') {
-                Log::error("$location - 'value' must be a non-empty string when 'input_type' is TEXT.");
-                return null;
-            }
-
-            return (string) $value;
-        }
-
-        if ($inputType == CarAdditonalSpecifications::TYPE_BOOLEAN) {
-            if (!in_array($valueStr, ['yes', 'no'])) {
-                Log::error("$location - 'value' must be 'Yes' or 'No' when 'input_type' is BOOLEAN.");
-                return null;
-            }
-
-            return $valueStr === 'yes' ? 1 : 2;
-        }
-
-        Log::error("$location - Unhandled 'input_type' ($inputType).");
-        return null;
-    }
-
-    private function mapInputType($value, $rowIndex)
-    {
-         $map = [
-            'Text' => CarAdditonalSpecifications::TYPE_TEXT,
-            'Boolean' => CarAdditonalSpecifications::TYPE_BOOLEAN,
-        ];
-
-        $result = [];
-
-        if (is_string($value) && str_starts_with(trim($value), '[') && str_ends_with(trim($value), ']')) {
-            $decoded = json_decode($value, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $inputTypes = array_filter(array_map('trim', $decoded), fn($item) => $item !== '');
-            } else {
-                Log::warning("Row $rowIndex - Failed to decode JSON input_type array: '$value'");
-                return [];
-            }
-        } elseif (is_array($value)) {
-            $inputTypes = array_filter(array_map('trim', $value), fn($item) => $item !== '');
-        } else {
-            $inputTypes = array_map('trim', explode(',', (string) $value));
-        }
-
-        foreach ($inputTypes as $inputType) {
-            $found = false;
-            foreach ($map as $label => $constValue) {
-                if (strcasecmp($inputType, $label) === 0) {
-                    $result[] = $constValue;
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found) {
-                Log::warning("Row $rowIndex - Invalid input_type value: '$inputType'.");
-            }
-        }
-
-        Log::info("Row $rowIndex - Mapped input_type values: " . json_encode($result));
-        return $result;
-    }
-
     public function saveCategoryAttributes($carId, $versionId, $data)
     {
         if (empty($data['category'])) {
@@ -658,30 +554,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 Log::error("Error saving category index $index for car ID {$carId->id}: " . $e->getMessage());
             }
         }
-    }
-
-    private function mapKeyFeatureAndSpec($featureValue, $specValue, $rowIndex)
-    {
-        $featureValue = strtolower(trim((string) $featureValue));
-        $specValue = strtolower(trim((string) $specValue));
-
-        $isFeatureYes = $featureValue === 'yes';
-        $isSpecYes = $specValue === 'yes';
-
-        if ($isFeatureYes && $isSpecYes) {
-            Log::error("Row $rowIndex - Both 'is_key_feature' and 'is_key_spec' are 'Yes'. Only one can be 'Yes'. Setting both to 0.");
-            return ['is_key_feature' => 0, 'is_key_spec' => 0];
-        }
-
-        if ($isFeatureYes) {
-            return ['is_key_feature' => CarAdditonalSpecifications::IS_KEY_FEATURE, 'is_key_spec' => 0];
-        }
-
-        if ($isSpecYes) {
-            return ['is_key_feature' => 0, 'is_key_spec' => CarAdditonalSpecifications::IS_KEY_SPEC];
-        }
-
-        return ['is_key_feature' => 0, 'is_key_spec' => 0];
     }
 
     private function mapNameToId($field, $value, $rowIndex)
