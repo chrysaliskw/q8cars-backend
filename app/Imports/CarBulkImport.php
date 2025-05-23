@@ -34,7 +34,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
     private $configFieldMappings = [
         'fuel_types' => 'car.fuel_type',
         'transmission_types' => 'car.transmission_type',
-        'view_camera' => 'car.view-camera',
+        '360_view_camera' => 'car.view-camera',
         'travel_type' => 'car.travel_type',
         'professions' => 'professions',
         'status' => 'car.status',
@@ -76,14 +76,8 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     'insurance' => 'insurance',
                     'service_charge' => 'service_charge',
                     'fuel_tank_capacity' => 'fuel_tank_capacity',
-                    'seat_capacity' => 'seat_capacity',
-                    'safety_ratings' => 'safety_ratings',
-                    'engine_capacity' => 'engine_capacity',
                     'power' => 'power',
                     'torque' => 'torque',
-                    'mileage' => 'mileage',
-                    'fuel_types' => 'fuel_types',
-                    'transmission_types' => 'transmission_types',
                     'professions' => 'professions',
                     'colors' => 'colors',
                     'travel_type' => 'travel_type',
@@ -96,22 +90,116 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     'rivals' => 'rivals',
                     'mileage_summary' => 'mileage_summary',
                     'varient_name' => 'varient_name',
+                    'engine_capacity' => 'engine_capacity',
+                    'power_and_torque' => 'power_and_torque',
+                    'transmission_types' => 'transmission_types',
+                    'drivetrain' => 'drivetrain',
+                    'engine_type' => 'engine_type',
+                    'no_of_cylinders' => 'no_of_cylinders',
+                    'valve_all_cylinder' => 'valve_all_cylinder',
+                    'bore_and_stroke' => 'bore_and_stroke',
+                    'compression_ratio' => 'compression_ratio',
+                    'super_charge' => 'super_charge',
+                    'fuel_types' => 'fuel_types',
+                    'mileage' => 'mileage',
+                    'acceleration' => 'acceleration',
+                    'top_speed' => 'top_speed',
+                    'emission_norm_compliance' => 'emission_norm_compliance',
+                    'front_suspension' => 'front_suspension',
+                    'rear_suspension' => 'rear_suspension',
+                    'steering_type' => 'steering_type',
+                    'turning_radius' => 'turning_radius',
+                    'front_brake_type' => 'front_brake_type',
+                    'rear_brake_type' => 'rear_brake_type',
+                    'power_steering' => 'power_steering',
                     'body_type' => 'body_type_id',
-                    'view_camera' => 'view_camera',
-                    'noof_airbags' => 'no_of_airbags',
-                    'category' => 'category',
-                    'input_type' => 'input_type',
-                    'specification' => 'specification',
-                    'value' => 'value',
-                    'unit' => 'units',
-                    'is_key_feature' => 'is_key_feature',
-                    'is_key_spec' => 'is_key_spec',
+                    'length' => 'length',
+                    'width' => 'width',
+                    'height' => 'height',
+                    'seat_capacity' => 'seat_capacity',
+                    '360_view_camera' => '360_view_camera',
+                    'air_condition' => 'air_condition',
+                    'seat_upholstery' => 'seat_upholstery',
+                    'wheel_covers' => 'wheel_covers',
+                    'boot_space' => 'boot_space',
+                    'power_windows' => 'power_windows',
+                    'tachometer' => 'tachometer',
+                    'electric_multi_trip_meter' => 'electric_multi_trip_meter',
+                    'digital_odo_meter' => 'digital_odo_meter',
+                    'led_tail_lights' => 'led_tail_lights',
+                    'automatic_head_lamps' => 'automatic_head_lamps',
+                    'adjustable_head_lamps' => 'adjustable_head_lamps',
+                    'safety_ratings' => 'safety_ratings',
+                    'no_of_airbags' => 'no_of_airbags',
+                    'anti_theft_alarm' => 'anti_theft_alarm',
+                    'child_safety_locks' => 'child_safety_locks',
+                    'integrated_antenna' => 'integrated_antenna',
+                    'usb_and_auxiliary_input' => 'usb_and_auxiliary_input',
+                    'bluetooth_connectivity' => 'bluetooth_connectivity',
+                ];
+
+                $specMapping = [
+                    // Engine and Transmission (ID: 1)
+                    'power_and_torque' => ['category' => 1, 'input_type' => 1],
+                    'drivetrain' => ['category' => 1, 'input_type' => 1],
+                    'engine_type' => ['category' => 1, 'input_type' => 1],
+                    'no_of_cylinders' => ['category' => 1, 'input_type' => 1],
+                    'valve_all_cylinder' => ['category' => 1, 'input_type' => 1],
+                    'bore_and_stroke' => ['category' => 1, 'input_type' => 1],
+                    'compression_ratio' => ['category' => 1, 'input_type' => 1],
+                    'super_charge' => ['category' => 1, 'input_type' => 2],
+
+                    // Fuel and Performance (ID: 2)
+                    'acceleration' => ['category' => 2, 'input_type' => 1],
+                    'top_speed' => ['category' => 2, 'input_type' => 1],
+                    'emission_norm_compliance' => ['category' => 2, 'input_type' => 1],
+
+                    //Suspension, Steering and Brake (ID: 3)
+                    'front_suspension' => ['category' => 3, 'input_type' => 1],
+                    'rear_suspension' => ['category' => 3, 'input_type' => 1],
+                    'steering_type' => ['category' => 3, 'input_type' => 1],
+                    'turning_radius' => ['category' => 3, 'input_type' => 1],
+                    'front_brake_type' => ['category' => 3, 'input_type' => 1],
+                    'rear_brake_type' => ['category' => 3, 'input_type' => 1],
+                    'power_steering' => ['category' => 3, 'input_type' => 2],
+
+                    //Dimension and Capacity (ID: 4)
+                    'length' => ['category' => 4, 'input_type' => 1],
+                    'width' => ['category' => 4, 'input_type' => 1],
+                    'height' => ['category' => 4, 'input_type' => 1],
+                    'seat_capacity' => ['category' => 4, 'input_type' => 1],
+
+                    //Comfort and Convinience (ID: 5)
+                    'air_condition' => ['category' => 5, 'input_type' => 2],
+                    'seat_upholstery' => ['category' => 5, 'input_type' => 2],
+                    'wheel_covers' => ['category' => 5, 'input_type' => 2],
+
+                    //Interior (ID: 6)
+                    'boot_space' => ['category' => 6, 'input_type' => 1],
+                    'power_windows' => ['category' => 6, 'input_type' => 2],
+                    'tachometer' => ['category' => 6, 'input_type' => 2],
+                    'electric_multi_trip_meter' => ['category' => 6, 'input_type' => 2],
+                    'digital_odo_meter' => ['category' => 6, 'input_type' => 2],
+
+                    //Exterior (ID: 7)
+                    'led_tail_lights' => ['category' => 7, 'input_type' => 2],
+                    'automatic_head_lamps' => ['category' => 7, 'input_type' => 2],
+                    'adjustable_head_lamps' => ['category' => 7, 'input_type' => 2],
+
+                    //Safety (ID: 8)
+                    'anti_theft_alarm' => ['category' => 8, 'input_type' => 2],
+                    'child_safety_locks' => ['category' => 8, 'input_type' => 2],
+
+                    //Entertainment and Communication (ID: 9)
+                    'integrated_antenna' => ['category' => 9, 'input_type' => 2],
+                    'usb_and_auxiliary_input' => ['category' => 9, 'input_type' => 2],
+                    'bluetooth_connectivity' => ['category' => 9, 'input_type' => 2],
                 ];
 
                 $data = [];
 
-                    foreach ($headersToFields as $header => $field) {
-                        $value = $row[$header] ?? null;
+                foreach ($headersToFields as $header => $field) {
+                    $value = $row[$header] ?? null;
 
                     if ($field === 'brand_id' || $field === 'body_type_id') {
                         $value = $this->mapNameToId($field, $value, $index);
@@ -124,14 +212,8 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         $value = $this->mapInputType($value, $index);
                     }
 
-                    // if (isset($data['is_key_feature']) || isset($data['is_key_spec'])) {
-                    //     $value = $this->mapKeyFeatureAndSpec($data['is_key_feature'] ?? null, $data['is_key_spec'] ?? null, $index);
-                    //     $data['is_key_feature'] = $value['is_key_feature'];
-                    //     $data['is_key_spec'] = $value['is_key_spec'];
-                    // }
-
                     if ($field === 'value') {
-                        $inputType = $data['input_type'][$index] ?? null; // make sure you get the input_type for this index
+                        $inputType = $data['input_type'][$index] ?? null;
                         if (!$inputType) {
                             Log::warning("Row $index - input_type not set before value field.");
                         }
@@ -141,12 +223,11 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     }
 
                     if (in_array($field, [
-                        // 'colors',
                         'professions',
                         'fuel_types',
                         'travel_type',
                         'transmission_types',
-                        'view_camera',
+                        '360_view_camera',
                         'category'])) {
                         $value = $this->parseCsvToArray($value, $field, $index, $data);
                         if (empty($value)) Log::warning("Row $index - $field is empty.");
@@ -189,22 +270,80 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         $data['status'] = $value;
                     }
 
-                    // if ($field === 'is_key_feature') {
-                    //     $isKeyFeatureValue = $value;
-                    //     continue;
-                    // }
-
-                    // if ($field === 'is_key_spec') {
-                    //     $isKeySpecValue = $value;
-                    //     continue;
-                    // }
-
                     $data[$field] = $value;
                 }
 
-                // $keyFeatureSpec = $this->mapKeyFeatureAndSpec($isKeyFeatureValue, $isKeySpecValue, $index);
-                // $data['is_key_feature'] = $keyFeatureSpec['is_key_feature'];
-                // $data['is_key_spec'] = $keyFeatureSpec['is_key_spec'];
+                $specLabels = [
+                    'power_and_torque' => 'Power and Torque',
+                    'drivetrain' => 'Drivetrain',
+                    'engine_type' => 'Engine Type',
+                    'no_of_cylinders' => 'No. of Cylinders',
+                    'valve_all_cylinder' => 'Valve per Cylinder',
+                    'bore_and_stroke' => 'Bore & Stroke',
+                    'compression_ratio' => 'Compression Ratio',
+                    'super_charge' => 'Super Charger',
+
+                    'acceleration' => 'Acceleration',
+                    'top_speed' => 'Top Speed',
+                    'emission_norm_compliance' => 'Emission Norm Compliance',
+
+                    'front_suspension' => 'Front Suspension',
+                    'rear_suspension' => 'Rear Suspension',
+                    'steering_type' => 'Steering Type',
+                    'turning_radius' => 'Turning Radius',
+                    'front_brake_type' => 'Front Brake Type',
+                    'rear_brake_type' => 'Rear Brake Type',
+                    'power_steering' => 'Power Steering',
+
+                    'length' => 'Length',
+                    'width' => 'Width',
+                    'height' => 'Height',
+                    'seat_capacity' => 'Seat Capacity',
+
+                    'air_condition' => 'Air Conditioning',
+                    'seat_upholstery' => 'Seat Upholstery',
+                    'wheel_covers' => 'Wheel Covers',
+
+                    'boot_space' => 'Boot Space',
+                    'power_windows' => 'Power Windows',
+                    'tachometer' => 'Tachometer',
+                    'electric_multi_trip_meter' => 'Electric Multi Trip Meter',
+                    'digital_odo_meter' => 'Digital Odometer',
+
+                    'led_tail_lights' => 'LED Tail Lights',
+                    'automatic_head_lamps' => 'Automatic Head Lamps',
+                    'adjustable_head_lamps' => 'Adjustable Head Lamps',
+
+                    'anti_theft_alarm' => 'Anti Theft Alarm',
+                    'child_safety_locks' => 'Child Safety Locks',
+
+                    'integrated_antenna' => 'Integrated Antenna',
+                    'usb_and_auxiliary_input' => 'USB and Auxiliary Input',
+                    'bluetooth_connectivity' => 'Bluetooth Connectivity',
+                ];
+
+                $spec = [
+                    'category' => [],
+                    'specification' => [],
+                    'value' => [],
+                    'input_type' => [],
+                ];
+
+                foreach ($specMapping as $header => $specInfo) {
+                    $value = $row[$header] ?? null;
+
+                    if (is_null($value) || trim($value) === '') {
+                        continue;
+                    }
+
+                    $label = $specLabels[$header] ?? ucwords(str_replace('_', ' ', $header));
+                    $processedValue = trim($value);
+
+                    $spec['category'][] = $specInfo['category'];
+                    $spec['specification'][] = $label;
+                    $spec['value'][] = $processedValue;
+                    $spec['input_type'][] = $specInfo['input_type'];
+                }
 
                 $image = null;
                 $imageDetail = null;
@@ -252,19 +391,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                     $carVersionId = $carVersion->id;
 
-                    $categories = $data['category'] ?? [];
-                    $inputTypes = $data['input_type'] ?? [];
-                    $specifications = $data['specification'] ?? [];
-                    $values = $data['value'] ?? [];
-                    $units = $data['units'] ?? [];
-
-                    $this->saveCategoryAttributes($carId, $carVersionId, [
-                        'category' => $categories,
-                        'input_type' => $inputTypes,
-                        'specification' => $specifications,
-                        'value' => $values,
-                        'unit' => $units,
-                    ]);
+                    $this->saveCategoryAttributes($carId, $carVersionId, $spec);
 
                     $successfulImports++;
                 } else {
@@ -757,7 +884,9 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         $version->colours = !empty($data['colors'])
             ? (is_array($data['colors']) ? $data['colors'][0] : $data['colors'])
             : json_encode([]);
-        $version->view_camera = is_array($data['view_camera']) ? $data['view_camera'][0] : $data['view_camera'];
+        $version->view_camera = !empty($data['360_view_camera'])
+            ? (is_array($data['360_view_camera']) ? $data['360_view_camera'][0] : $data['360_view_camera'])
+            : null;
 
         if (!empty($data['mileage'])) {
             $mileage = $data['mileage'];

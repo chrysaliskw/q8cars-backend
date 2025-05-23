@@ -104,7 +104,7 @@ return [
             2 => 'Fuel and Performance',
             3 => 'Suspension, Steering and Brake',
             4 => 'Dimension and Capacity',
-            5 => 'Comfort and Convinience',
+            5 => 'Comfort and Convenience',
             6 => 'Interior',
             7 => 'Exterior',
             8 => 'Safety',
