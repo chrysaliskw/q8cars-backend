@@ -209,6 +209,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     }
 
                     if (in_array($field, [
+                        'colors',
                         'professions',
                         'fuel_types',
                         'travel_type',
