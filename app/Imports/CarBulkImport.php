@@ -220,6 +220,15 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         if (empty($value)) Log::warning("Row $index - $field is empty.");
                     }
 
+                    if ($field === '360_view_camera') {
+                        if ($value) {
+                            $value = $value;
+                        } else {
+                            $value = 2;
+                        }
+                        $data['view_camera'] = $value;
+                    }
+
                     if ($field === 'transmission_types') {
                         $data['transmission_type'] = $value;
                     }
@@ -255,6 +264,16 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                             $value = 1;
                         }
                         $data['status'] = $value;
+                    }
+
+                    if ($field === 'safety_ratings') {
+                        if($value){
+                            $value = $value;
+                        }
+                        else{
+                            $value = 1;
+                        }
+                        $data['safety_ratings'] = $value;
                     }
 
                     $data[$field] = $value;
