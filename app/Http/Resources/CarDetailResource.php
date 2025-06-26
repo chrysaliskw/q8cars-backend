@@ -54,6 +54,7 @@ class CarDetailResource extends JsonResource
             'ex_showroom_price' => 'KWD ' . $this->ex_showroom_price,
             'on_road_price' => $this->on_road_price ? 'KWD ' . $this->on_road_price : '',
             'price_in_lakh' => 'KWD ' . $this->ex_showroom_price,
+            'engine_unit' => $engineUnit
         ];
 
         if ($this->engine_capacity) {
