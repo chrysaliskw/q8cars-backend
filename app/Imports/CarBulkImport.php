@@ -435,20 +435,30 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
     {
         $useDummy = false;
 
-        $headers = @get_headers($url, 1);
+        $isGoogleDrive = preg_match('#drive\.google\.com\/file\/d\/([^\/]+)#', $url, $matches);
 
-        if (!$headers || strpos($headers[0], '200') === false) {
-            $url = null;
-            Log::warning("URL did not return 200 OK.");
+        if ($isGoogleDrive) {
+            $fileId = $matches[1];
+            $url = "https://drive.google.com/uc?export=download&id={$fileId}";
+            Log::info("Converted Google Drive link to direct download: {$url}");
         }
 
-        if(!empty($headers)){
-            $normalizedHeaders = array_change_key_case($headers, CASE_LOWER);
-        }
+        if (!$isGoogleDrive) {
+            $headers = @get_headers($url, 1);
 
-        if (!isset($normalizedHeaders['content-type']) || strpos($normalizedHeaders['content-type'], 'image/') === false) {
-            $url = null;
-            Log::warning('Not a valid URL. Processing with dummy image.');
+            if (!$headers || strpos($headers[0], '200') === false) {
+                $url = null;
+                Log::warning("URL did not return 200 OK.");
+            }
+
+            if (!empty($headers)) {
+                $normalizedHeaders = array_change_key_case($headers, CASE_LOWER);
+            }
+
+            if (!isset($normalizedHeaders['content-type']) || strpos($normalizedHeaders['content-type'], 'image/') === false) {
+                $url = null;
+                Log::warning('Not a valid URL. Processing with dummy image.');
+            }
         }
 
         if (empty($url)) {
