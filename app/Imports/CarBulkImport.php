@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CarAdditonalSpecifications;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,6 +31,13 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
     protected $version;
     public $result;
+
+    protected $userId;
+
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
 
     private $configFieldMappings = [
         'fuel_types' => 'car.fuel_type',
@@ -48,6 +56,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
         $successfulImports = 0;
         $failedImports = 0;
+        $rowErrors = [];
 
         foreach ($rows as $index => $row) {
             try {
@@ -430,6 +439,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             } catch (Exception $e) {
                 Log::error("Exception while saving car for row $index: " . $e->getMessage());
                 $failedImports++;
+                $rowErrors[] = "Row $index: " . $e->getMessage();
             }
         }
 
@@ -447,8 +457,15 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             'status' => $successfulImports === 0 ? 'error' : 'success',
             'successful_imports' => $successfulImports,
             'failed_imports' => $failedImports,
-            'message' => $message
+            'message' => $message,
+            'errors' => $rowErrors,
         ];
+
+        Cache::put(
+            "car_import_result_{$this->userId}",
+            $this->result,
+            now()->addMinutes(30)
+        );
     }
 
     private function downloadImageAsUploadedFile($url, $name = null)
@@ -547,6 +564,9 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             Log::warning('No categories provided for car ID ' . $carId->id);
             return;
         }
+
+        CarAdditonalSpecifications::where('car_version_id', $versionId)->delete();
+        Log::info("Deleted old specifications for car version ID: $versionId");
 
         foreach (['specification', 'value', 'unit'] as $field) {
             if (!empty($data[$field]) && is_string($data[$field])) {
@@ -777,14 +797,19 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
     public function saveCarVersion($car, $data)
     {
         $carId = $data['car_id'] ?? null;
-
-        $name = $data['varient_name'] ?? $car->model_name;
         $carSpec = CarVersion::CAR_SPECIFICATION;
 
-        $version = new CarVersion();
-        $version->car_id = $carId->id;
-        $version->is_car_spec = $carSpec;
-        $version->varient_name = $name;
+        $version = CarVersion::where('car_id', $car->id)
+            ->where('varient_name', $data['varient_name'] ?? $car->model_name)
+            ->first();
+
+        if (!$version) {
+            $version = new CarVersion();
+            $version->car_id = $car->id;
+            $version->is_car_spec = $carSpec;
+        }
+
+        $version->varient_name = $data['varient_name'] ?? $car->model_name;
         $version->ex_showroom_price = $data['ex_showroom_price'];
         $version->on_road_price = $data['on_road_price'];
         $version->finance_available = $data['finance_available'];

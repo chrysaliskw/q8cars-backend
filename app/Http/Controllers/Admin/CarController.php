@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Log;
 use App\DataGrids\Admin\CarDataGrid;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Admin\CarRequest;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +51,8 @@ class CarController extends Controller
                 $path = $file->storeAs('car_uploads', $filename);
                 $fullPath = storage_path("app/{$path}");
 
-                $import = new CarBulkImport();
+                // $import = new CarBulkImport();
+                $import = new CarBulkImport(Auth::id());
                 Bus::chain([
                     fn () => Excel::queueImport($import, $fullPath),
                     fn () => Storage::delete($path),

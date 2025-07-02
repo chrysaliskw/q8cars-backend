@@ -26,4 +26,16 @@ class CarAdditonalSpecifications extends Model
 
     const IS_KEY_FEATURE = 1;
     const IS_KEY_SPEC= 1;
+
+    protected $fillable = [
+        'car_id',
+        'car_version_id',
+        'category_id',
+        'specification',
+        'input_type',
+        'value',
+        'unit',
+        'is_key_feature',
+        'is_key_spec',
+    ];
 }

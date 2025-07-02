@@ -21,7 +21,7 @@ class ProfileController extends Controller
     public function show(Request $request)
     {
         $admin = Auth::user();
-        
+
         return view('admin.profile.show', compact('admin'));
     }
 
@@ -49,7 +49,7 @@ class ProfileController extends Controller
     {
         //dd($request);
         $admin = Admin::find(Auth::id());
-       
+
         $validatedData = $request->validate([
             'name' => [
                 'required', 'regex:/^[a-zA-Z\s\d]*$/', 'string', 'max:200',

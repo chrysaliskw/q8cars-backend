@@ -10,6 +10,27 @@
         <li class="active">Cars</li>
     </x-slot>
 
+    @php
+        $importResult = Cache::pull('car_import_result_' . auth()->id());
+    @endphp
+
+    @if ($importResult)
+        <div class="alert alert-info">
+            <strong>Bulk Import Status:</strong><br>
+            Status: {{ ucfirst($importResult['status']) }}<br>
+            Successful Rows: {{ $importResult['successful_imports'] }}<br>
+            Failed Rows: {{ $importResult['failed_imports'] }}<br>
+
+            @if (!empty($importResult['errors']))
+                <strong>Errors:</strong>
+                <ul>
+                    @foreach ($importResult['errors'] as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+    @endif
 
     <div class="text-right carbulkupload">
         <button type="button" class="btn btn-success btn-rounded waves-effect waves-light" data-toggle="modal" data-target="#bulkUploadModal">
