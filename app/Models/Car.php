@@ -118,4 +118,22 @@ class Car extends Model
     {
         return $query->where('is_upcoming', self::UPCOMING);
     }
+
+    protected static function booted()
+    {
+        static::creating(function ($car) {
+            if (!$car->car_ref_no) {
+                $brand = Brand::find($car->brand_id);
+                $brandPart = $brand ? strtoupper(substr($brand->name, 0, 3)) : 'CAR';
+
+                do {
+                    $randomNumber = mt_rand(100000, 999999);
+                    $carRefNo = $brandPart . '-' . $randomNumber;
+                } while (Car::where('car_ref_no', $carRefNo)->exists());
+
+                $car->car_ref_no = $carRefNo;
+            }
+        });
+    }
+
 }

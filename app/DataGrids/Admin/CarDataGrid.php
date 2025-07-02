@@ -29,8 +29,19 @@ class CarDataGrid extends Grid
                     if ($model->image) {
                         $url = file_asset('files-car', $model->image);
                         return "<img src='{$url}' alt='car-img' class='img-thumbnail img-list'>";
-                    } 
+                    }
                 }
+            ],
+            'car_ref_no' => [
+                'label' => 'Reference No.',
+                'value' => function ($model) {
+                    return $model->car_ref_no;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'car_ref_no',
+                ]
             ],
             'model_name' => [
                 'label' => 'Model Name',
@@ -150,5 +161,5 @@ class CarDataGrid extends Grid
             2 => 'No',
         ];
     }
-    
+
 }

@@ -63,6 +63,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 $headersToFields = [
                     'brand' => 'brand_id',
                     'model' => 'model_name',
+                    'reference_no' => 'car_ref_no',
                     'image' => 'image',
                     'image_2' => 'image_2',
                     'is_upcoming' => 'is_upcoming',
@@ -387,7 +388,26 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 }
 
                 Log::info("Saving car for row $index.");
-                $carService = new CarService($data);
+                // $carService = new CarService($data);
+                // $carId = $carService->saveCar();
+
+                $carRefNo = $data['car_ref_no'] ?? null;
+
+                if ($carRefNo) {
+                    $existingCar = Car::where('car_ref_no', $carRefNo)->first();
+                    if ($existingCar) {
+                        Log::info("Row $index: Updating existing car with car_ref_no: $carRefNo");
+                        $carService = new CarService($data);
+                        $carService->car = $existingCar;
+                    } else {
+                        Log::info("Row $index: car_ref_no provided but no match found. Will create new car.");
+                        $carService = new CarService($data);
+                    }
+                } else {
+                    Log::info("Row $index: No car_ref_no provided. Will create new car.");
+                    $carService = new CarService($data);
+                }
+
                 $carId = $carService->saveCar();
 
                 if ($carId) {

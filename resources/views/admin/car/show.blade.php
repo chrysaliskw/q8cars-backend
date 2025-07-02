@@ -79,6 +79,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-sm-4 control-label">Reference No.</label>
+                                <div class="col-sm-8">
+                                    {{ $car->car_ref_no }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-sm-4 control-label">Is Upcoming</label>
                                 <div class="col-sm-8">
                                     {{$car->is_upcoming == 1 ? 'Yes' :'No' }}
@@ -639,14 +645,14 @@
             @foreach($car->carImages as $image)
             @if($image->type == 2)
             <div class="row">
-        
+
                 <div class="col-md-5">
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Title</label>
                         <div class="col-sm-8">
                             {{ $image->video_title }}
                         </div>
-                       
+
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Description</label>
@@ -692,9 +698,9 @@
                                 @csrf
                                 @method('delete')
                             </form>
-                
+
                 </div>
-              
+
             </div>
             <hr>
             @endif
