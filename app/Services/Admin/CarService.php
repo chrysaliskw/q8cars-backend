@@ -309,9 +309,21 @@ class CarService
             $this->version->fuel_type = $this->data['fuel_type'];
             $this->version->travel_type = $this->data['travel_type'];
         } else {
-            $this->version->transmission_type = ($this->getIntValueTransmission()[1]);
-            $this->version->fuel_type = ($this->getIntValueFuel()[1]);
-            $this->version->travel_type = ($this->getIntValueTravel()[1]);
+            if (!$this->version->exists) {
+                $fuelTypes = $this->getIntValueFuel();
+                $this->version->fuel_type = $fuelTypes[0] ?? 1;
+
+                $transmissionTypes = $this->getIntValueTransmission();
+                $this->version->transmission_type = $transmissionTypes[0] ?? 1;
+
+                $travelTypes = $this->getIntValueTravel();
+                $this->version->travel_type = $travelTypes[0] ?? 1;
+            }
+            // else{
+            //     $this->version->transmission_type = ($this->getIntValueTransmission()[1]);
+            //     $this->version->fuel_type = ($this->getIntValueFuel()[1]);
+            //     $this->version->travel_type = ($this->getIntValueTravel()[1]);
+            // }
         }
 
         // $this->version->travel_type = $this->getIntValueTravel();
