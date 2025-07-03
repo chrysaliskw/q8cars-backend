@@ -356,6 +356,15 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     $processedValue = trim($value);
                     $unit = $specInfo['unit'] ?? null;
 
+                    if ($specInfo['input_type'] == 2) {
+                        $processedValue = strtolower($processedValue);
+                        if ($processedValue === 'yes') {
+                            $processedValue = 1;
+                        } elseif ($processedValue === 'no') {
+                            $processedValue = 0;
+                        }
+                    }
+
                     $spec['category'][] = $specInfo['category'];
                     $spec['specification'][] = $label;
                     $spec['value'][] = $processedValue;
@@ -464,7 +473,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         Cache::put(
             "car_import_result_{$this->userId}",
             $this->result,
-            now()->addMinutes(30)
+            now()->addMinutes(1)
         );
     }
 
