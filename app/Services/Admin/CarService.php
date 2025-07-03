@@ -219,7 +219,7 @@ class CarService
         $this->version->engine_capacity = $this->data['engine_capacity'];
         $this->version->power = $this->data['power'];
         $this->version->torque = $this->data['torque'];
-        $this->version->transmission_type = 1;
+        // $this->version->transmission_type = 1;
         //$this->version->drive_train = $this->data['drive_train'];
        // $this->version->acceleration = $this->data['acceleration'];
         // $this->version->top_speed = $this->data['top_speed'];
@@ -246,8 +246,8 @@ class CarService
         //$this->version->mileage = $this->data['mileage'];
         // $this->version->emission_norm_complains = $this->data['emission_norm_complains'];
         $this->version->fuel_tank_capacity = $this->data['fuel_tank_capacity'];
-        $this->version->fuel_type = 1;
-        $this->version->travel_type = 1;
+        // $this->version->fuel_type = 1;
+        // $this->version->travel_type = 1;
         // $this->version->front_suspension = $this->data['front_suspension'];
         // $this->version->rear_suspension = $this->data['rear_suspension'];
         // $this->version->steering_type = $this->data['steering_type'];
