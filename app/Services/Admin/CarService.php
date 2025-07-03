@@ -311,13 +311,13 @@ class CarService
         } else {
             if (!$this->version->exists) {
                 $fuelTypes = $this->getIntValueFuel();
-                $this->version->fuel_type = $fuelTypes[0] ?? 1;
+                $this->version->fuel_type = $fuelTypes[1] ?? 1;
 
                 $transmissionTypes = $this->getIntValueTransmission();
-                $this->version->transmission_type = $transmissionTypes[0] ?? 1;
+                $this->version->transmission_type = $transmissionTypes[1] ?? 1;
 
                 $travelTypes = $this->getIntValueTravel();
-                $this->version->travel_type = $travelTypes[0] ?? 1;
+                $this->version->travel_type = $travelTypes[1] ?? 1;
             }
             // else{
             //     $this->version->transmission_type = ($this->getIntValueTransmission()[1]);
