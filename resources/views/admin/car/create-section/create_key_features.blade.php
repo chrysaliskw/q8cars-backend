@@ -37,15 +37,15 @@
                 </x-form-input>
             </div>--}}
             <div class="col-md-4">
-                <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement(cc)" value="{{ old('engine_capacity') }}">
+                <x-form-input type="text" field="engine_capacity" field-name="Engine Displacement" value="{{ old('engine_capacity') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="power" field-name="Power(Bhp)" value="{{ old('power') }}">
+                <x-form-input type="text" field="power" field-name="Power(hp)" value="{{ old('power') }}">
                 </x-form-input>
             </div>
             <div class="col-md-4">
-                <x-form-input type="text" field="torque" field-name="Torque(rpm)" value="{{ old('torque') }}">
+                <x-form-input type="text" field="torque" field-name="Torque(nm)" value="{{ old('torque') }}">
                 </x-form-input>
             </div>
        {{--     <div class="col-md-4">

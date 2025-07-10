@@ -154,6 +154,8 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Car Management'
         'curated-comparison' => CuratedComparisonController::class, // Curated Comparison
     ]);
     Route::post('car/bulk-upload', [CarController::class, 'import'])->name('car.bulk_upload.submit');
+    Route::post('/clear-import-status', [CarController::class, 'clearImportStatus'])->name('clearImportStatus');
+
 });
 
 //Test Drive Requests

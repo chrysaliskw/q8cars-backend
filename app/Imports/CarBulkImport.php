@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CarAdditonalSpecifications;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -56,7 +57,9 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
         $successfulImports = 0;
         $failedImports = 0;
+        $skippedRows = 0;
         $rowErrors = [];
+        $rowHasError = false;
 
         foreach ($rows as $index => $row) {
             try {
@@ -64,6 +67,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                 if (collect($row)->filter(fn($value) => !is_null($value) && trim($value) !== '')->isEmpty()) {
                     Log::info("Skipping empty row at index $index.");
+                    $skippedRows++;
                     continue;
                 }
 
@@ -150,7 +154,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                 $specMapping = [
                     // Engine and Transmission (ID: 1)
-                    'power_and_torque' => ['category' => 1, 'input_type' => 1],
+                    // 'power_and_torque' => ['category' => 1, 'input_type' => 1],
                     'drivetrain' => ['category' => 1, 'input_type' => 1],
                     'engine_type' => ['category' => 1, 'input_type' => 1],
                     'no_of_cylinders' => ['category' => 1, 'input_type' => 1],
@@ -290,7 +294,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 }
 
                 $specLabels = [
-                    'power_and_torque' => 'Power and Torque',
+                    // 'power_and_torque' => 'Power and Torque',
                     'drivetrain' => 'Drivetrain',
                     'engine_type' => 'Engine Type',
                     'no_of_cylinders' => 'No. of Cylinders',
@@ -445,6 +449,34 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     $failedImports++;
                 }
 
+            } catch (QueryException $qe) {
+                $msg = $qe->getMessage();
+                $bindings = $qe->getBindings();
+
+                if (str_contains($msg, 'Data truncated')) {
+                    preg_match("/column '(.+?)'/", $msg, $m);
+                    $col = $m[1] ?? 'unknown';
+                    $value = $data[$col] ?? 'N/A';
+                    $userMsg = "Row $index: Value '$value' too large or wrong format for '$col'.";
+                } elseif (preg_match("/Incorrect (integer|decimal) value: '(.+?)' for column '(.+?)'/", $msg, $m)) {
+                    [$all, $type, $bad, $col] = $m;
+                    $userMsg = "Row $index: '$bad' is not a valid $type for '$col'.";
+                } elseif (isset($data['transmission_type']) && empty($data['transmission_type'])) {
+                    $originalVal = trim($row['transmission_types'] ?? '');
+                    if (!empty($originalVal)) {
+                        $userMsg = "Row $index - Invalid transmission_types value: '{$originalVal}'.";
+                    } else {
+                        $userMsg = "Row $index: General database error. Please check your input.";
+                    }
+                } else {
+                    $userMsg = "Row $index: General database error. Please check your input.";
+                }
+
+                Log::error("Row $index DATABASE ERROR: $msg | SQL: " . $qe->getSql());
+                Log::error("Bindings: " . json_encode($bindings));
+
+                $rowErrors[] = $userMsg;
+                $failedImports++;
             } catch (Exception $e) {
                 Log::error("Exception while saving car for row $index: " . $e->getMessage());
                 $failedImports++;
@@ -454,27 +486,40 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
         if ($successfulImports === 0) {
             DB::rollBack();
-            $message = "Car bulk import failed: All rows had errors.";
+
+            if ($failedImports === 0 && $skippedRows === count($rows)) {
+                $rowErrors[] = 'No rows were valid or all were empty.';
+            } elseif ($failedImports === 0) {
+                $failedImports = count($rows) - $skippedRows;
+                $rowErrors[] = 'All rows failed validation.';
+            }
+
+            $message = "Car bulk import failed: All rows had errors or were skipped.";
             Log::error($message);
         } else {
             DB::commit();
-            $message = "Car bulk import completed. Successfully imported $successfulImports rows. Failed rows: $failedImports.";
+            $message = "Car bulk import completed. Success: $successfulImports, Failed: $failedImports.";
             Log::info($message);
         }
 
-        $this->result = [
+        $cacheKey = "car_import_result_{$this->userId}";
+
+        $existing = Cache::get($cacheKey, [
+            'successful_imports' => 0,
+            'failed_imports' => 0,
+            'skipped_rows' => 0,
+            'errors' => [],
+        ]);
+
+        $merged = [
             'status' => $successfulImports === 0 ? 'error' : 'success',
-            'successful_imports' => $successfulImports,
-            'failed_imports' => $failedImports,
-            'message' => $message,
-            'errors' => $rowErrors,
+            'successful_imports' => $existing['successful_imports'] + $successfulImports,
+            'failed_imports' => $existing['failed_imports'] + $failedImports,
+            'skipped_rows' => ($existing['skipped_rows'] ?? 0) + $skippedRows,
+            'errors' => array_merge($existing['errors'], $rowErrors),
         ];
 
-        Cache::put(
-            "car_import_result_{$this->userId}",
-            $this->result,
-            now()->addMinutes(1)
-        );
+        Cache::put($cacheKey, $merged, now()->addMinutes(3));
     }
 
     private function downloadImageAsUploadedFile($url, $name = null)

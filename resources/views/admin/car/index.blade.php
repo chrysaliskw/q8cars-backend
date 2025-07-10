@@ -10,12 +10,15 @@
         <li class="active">Cars</li>
     </x-slot>
 
-    {{-- @php
-        $importResult = Cache::pull('car_import_result_' . auth()->id());
+    @php
+        $importResult = Cache::get('car_import_result_' . auth()->id());
     @endphp
 
     @if ($importResult)
-        <div class="alert alert-info">
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="clearImportStatus()">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <strong>Bulk Import Status:</strong><br>
             Status: {{ ucfirst($importResult['status']) }}<br>
             Successful Rows: {{ $importResult['successful_imports'] }}<br>
@@ -30,7 +33,7 @@
                 </ul>
             @endif
         </div>
-    @endif --}}
+    @endif
 
     <div class="text-right carbulkupload">
         <button type="button" class="btn btn-success btn-rounded waves-effect waves-light" data-toggle="modal" data-target="#bulkUploadModal">
@@ -89,7 +92,18 @@
         {!! $grid->scripts() !!}
 
         <script type="application/javascript">
-
+            function clearImportStatus() {
+                fetch('{{ route('admin.clearImportStatus') }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                }).then(() => {
+                    console.log('Import status cleared');
+                }).catch(err => console.error(err));
+            }
         </script>
 
     </x-slot>

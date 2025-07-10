@@ -27,8 +27,10 @@ use App\DataGrids\Admin\CarDataGrid;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\Admin\CarRequest;
 use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\DataGrids\Admin\CarVersionDataGrid;
@@ -51,6 +53,11 @@ class CarController extends Controller
                 $path = $file->storeAs('car_uploads', $filename);
                 $fullPath = storage_path("app/{$path}");
 
+                $spreadsheet = IOFactory::load($fullPath);
+                $worksheet = $spreadsheet->getActiveSheet();
+                $highestRow = $worksheet->getHighestRow();
+                $etaMinutes = ceil(($highestRow * 0.2) / 60);
+
                 // $import = new CarBulkImport();
                 $import = new CarBulkImport(Auth::id());
                 Bus::chain([
@@ -58,7 +65,7 @@ class CarController extends Controller
                     fn () => Storage::delete($path),
                 ])->dispatch();
 
-                return back()->with('success', 'File is being processed in the background and will be uploaded shortly!');
+                return back()->with('success', "File is being processed in the background. Estimated time: ~{$etaMinutes} minutes.");
             } catch (\Exception $e) {
                 return back()->with('error', 'Error during import: ' . $e->getMessage());
             }
@@ -66,6 +73,12 @@ class CarController extends Controller
             Log::warning('No file uploaded.');
             return back()->with('error', 'No file uploaded.');
         }
+    }
+
+    public function clearImportStatus(Request $request)
+    {
+        Cache::forget('car_import_result_' . Auth::id());
+        return response()->json(['status' => 'ok']);
     }
 
     /**
