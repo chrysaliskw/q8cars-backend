@@ -56,7 +56,7 @@ class CarController extends Controller
                 $spreadsheet = IOFactory::load($fullPath);
                 $worksheet = $spreadsheet->getActiveSheet();
                 $highestRow = $worksheet->getHighestRow();
-                $etaMinutes = ceil(($highestRow * 0.2) / 60);
+                $etaMinutes = ceil(($highestRow * 0.3) / 60);
 
                 // $import = new CarBulkImport();
                 $import = new CarBulkImport(Auth::id());
