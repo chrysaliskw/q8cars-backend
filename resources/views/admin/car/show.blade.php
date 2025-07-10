@@ -342,7 +342,8 @@
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Power & Torque</label>
                         <div class="col-sm-8">
-                            {{ $car->power .' Bhp  -'.$car->torque.' rpm' }}
+                            {{-- {{ $car->power .' hp and'.$car->torque.' nm' }} --}}
+                            {{ trim(($car->power ? $car->power . ' hp' : '') . ($car->power && $car->torque ? ' and ' : '') . ($car->torque ? $car->torque . ' nm' : '')) }}
                         </div>
                     </div>
                     <div class="form-group row">
