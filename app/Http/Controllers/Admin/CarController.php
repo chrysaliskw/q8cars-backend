@@ -11,6 +11,7 @@ use App\Models\CarImage;
 use App\Models\TestDrive;
 use App\Models\CarVersion;
 use Illuminate\Log\Logger;
+use App\Jobs\DeleteFileJob;
 use App\Models\CarFavourite;
 use App\Models\OfferRequest;
 use App\Models\View360Image;
@@ -60,10 +61,15 @@ class CarController extends Controller
 
                 // $import = new CarBulkImport();
                 $import = new CarBulkImport(Auth::id());
-                Bus::chain([
-                    fn () => Excel::queueImport($import, $fullPath),
-                    fn () => Storage::delete($path),
-                ])->dispatch();
+                // Bus::chain([
+                //     fn () => Excel::queueImport($import, $fullPath),
+                //     fn () => Storage::delete($path),
+                // ])->dispatch();
+
+                Excel::queueImport($import, $fullPath)
+                    ->chain([
+                        new DeleteFileJob($path)
+                    ]);
 
                 return back()->with('success', "File is being processed in the background. Estimated time: ~{$etaMinutes} minutes.");
             } catch (\Exception $e) {
