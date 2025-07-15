@@ -502,24 +502,24 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             Log::info($message);
         }
 
-        $cacheKey = "car_import_result_{$this->userId}";
+        // $cacheKey = "car_import_result_{$this->userId}";
 
-        $existing = Cache::get($cacheKey, [
-            'successful_imports' => 0,
-            'failed_imports' => 0,
-            'skipped_rows' => 0,
-            'errors' => [],
-        ]);
+        // $existing = Cache::get($cacheKey, [
+        //     'successful_imports' => 0,
+        //     'failed_imports' => 0,
+        //     'skipped_rows' => 0,
+        //     'errors' => [],
+        // ]);
 
-        $merged = [
-            'status' => $successfulImports === 0 ? 'error' : 'success',
-            'successful_imports' => $existing['successful_imports'] + $successfulImports,
-            'failed_imports' => $existing['failed_imports'] + $failedImports,
-            'skipped_rows' => ($existing['skipped_rows'] ?? 0) + $skippedRows,
-            'errors' => array_merge($existing['errors'], $rowErrors),
-        ];
+        // $merged = [
+        //     'status' => $successfulImports === 0 ? 'error' : 'success',
+        //     'successful_imports' => $existing['successful_imports'] + $successfulImports,
+        //     'failed_imports' => $existing['failed_imports'] + $failedImports,
+        //     'skipped_rows' => ($existing['skipped_rows'] ?? 0) + $skippedRows,
+        //     'errors' => array_merge($existing['errors'], $rowErrors),
+        // ];
 
-        Cache::put($cacheKey, $merged, now()->addMinutes(3));
+        // Cache::put($cacheKey, $merged, now()->addMinutes(3));
     }
 
     private function downloadImageAsUploadedFile($url, $name = null)

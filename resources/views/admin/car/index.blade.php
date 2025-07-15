@@ -10,7 +10,7 @@
         <li class="active">Cars</li>
     </x-slot>
 
-    @php
+    {{-- @php
         $importResult = Cache::get('car_import_result_' . auth()->id());
     @endphp
 
@@ -33,7 +33,7 @@
                 </ul>
             @endif
         </div>
-    @endif
+    @endif --}}
 
     <div class="text-right carbulkupload">
         <button type="button" class="btn btn-success btn-rounded waves-effect waves-light" data-toggle="modal" data-target="#bulkUploadModal">
