@@ -729,7 +729,8 @@ class CarController extends ApiBaseController
                         'value' => $varient->engine_capacity . 'cc',
                     ] : null,
                     ($varient->power || $varient->torque) ? [
-                        'title' => 'Power & Torque',
+                        'title' => ($varient->power && $varient->torque) ? 'Power & Torque'
+                            : ($varient->power ? 'Power' : 'Torque'),
                         'value' => trim(
                             ($varient->power ? $varient->power . 'hp' : '') .
                             ($varient->power && $varient->torque ? ' and ' : '') .
