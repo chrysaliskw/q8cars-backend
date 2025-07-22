@@ -9,7 +9,9 @@ use App\Http\Controllers\FileController;
 Route::get('/', function () {
     return redirect('/admin/login');
 });
-
+Route::get('/login', function () {
+    return redirect()->route('admin.login');
+})->name('login');
 
 // File path
 Route::get('/file', [FileController::class, 'index'])->name('file.index');
