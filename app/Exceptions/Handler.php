@@ -7,6 +7,7 @@ use Throwable;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -72,6 +73,13 @@ class Handler extends ExceptionHandler
         if (App::environment('local')) {
             return $this->errorResponse($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);;
         }
+
+        if ($ex instanceof RouteNotFoundException) {
+            //return $this->errorResponse('Route not defined', Response::HTTP_NOT_FOUND);
+            return redirect()->route('admin.login');
+
+        }
+
 
         return $this->errorResponse( __('app.error'), Response::HTTP_INTERNAL_SERVER_ERROR);
     }
