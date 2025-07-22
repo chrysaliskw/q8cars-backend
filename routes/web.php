@@ -3,9 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
 
+// Route::get('/', function () {
+//     return view(('admin.auth.login'));
+// });
 Route::get('/', function () {
-    return view(('admin.auth.login'));
+    return redirect('/admin/login');
 });
+
 
 // File path
 Route::get('/file', [FileController::class, 'index'])->name('file.index');
