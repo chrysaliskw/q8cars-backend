@@ -7,9 +7,18 @@ use App\Http\Controllers\FileController;
 //     return view(('admin.auth.login'));
 // });
 Route::get('/', function () {
+    $domain = parse_url(request()->root())['host'];
+    if($domain == 'admin.newsayara.com') {
+        return redirect()->route('admin.login');
+    } 
     return redirect('/admin/login');
 });
+
 Route::get('/login', function () {
+    $domain = parse_url(request()->root())['host'];
+    if($domain == 'admin.newsayara.com') {
+        return redirect()->route('admin.login');
+    } 
     return redirect()->route('admin.login');
 })->name('login');
 
