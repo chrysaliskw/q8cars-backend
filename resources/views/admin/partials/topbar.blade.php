@@ -6,7 +6,7 @@
             <!-- https://dev.kuwait-cars.aufaitux.com/_next/static/media/kuwait-logo-dark.ddd20637.svg -->
             <!-- https://dev.kuwait-cars.aufaitux.com/images/svg/kuwait-logo-light.svg -->
               <!--  <img src="https://dev.kuwait-cars.aufaitux.com/_next/static/media/kuwait-logo-dark.ddd20637.svg" alt="logo" >-->
-                <img src="{{ asset('images/kuwait-logo-dark.e252462e.png') }}" alt="logo" >
+                <img src="{{ asset('images/kuwait-logo-dark.e252462e.svg') }}" alt="logo" >
               <span style="color:#333;"> </span>
             </a>
         </div>
