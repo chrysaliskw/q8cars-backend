@@ -87,10 +87,12 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/get-brand-data', [HomeController::class, 'getBrandData'])->name('get-brand-data');
     Route::get('bank/select', [SuggestedBankController::class, 'select'])->name('bank.select');
     Route::get('user/select', [UserController::class, 'select'])->name('user.select');
+    Route::get('add-reference-number', [CarController::class, 'addReferenceNumber'])->name('add-reference-number');
     // Logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
    });
+
 
 
 
@@ -127,10 +129,16 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Colors'])->grou
 });
 
 //Emi Calculator
+// Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Emi Calculator'])->group(function () {
+//     Route::resources([
+//         'emi-info' => EmiCalculatorController::class,   // Emi Calculator
+//     ]);
+// });
 Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Emi Calculator'])->group(function () {
-    Route::resources([
-        'emi-info' => EmiCalculatorController::class,   // Emi Calculator
-    ]);
+    Route::resource('emi-info', EmiCalculatorController::class)->except(['show']);
+    
+    // Custom route for showing EMI calculator with query parameters
+    Route::get('emi-info/show', [EmiCalculatorController::class, 'show'])->name('emi-info.show');
 });
 
 //Loan Eligibility Calculator

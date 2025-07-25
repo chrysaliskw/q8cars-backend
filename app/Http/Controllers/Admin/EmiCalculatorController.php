@@ -24,13 +24,8 @@ class EmiCalculatorController extends Controller
         return view('admin.emi-info.show');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+public function store(Request $request)
     {
-        $input = $request->all();
-
         $validatedData = $request->validate([
             'brand_id' => 'required',
             'car_id' => 'required',
@@ -44,19 +39,85 @@ class EmiCalculatorController extends Controller
         $on_road_price = $car->on_road_price;
 
         if ($validatedData['principal'] > $on_road_price) {
-            return redirect()->back()->withErrors(['principal' => 'The principal amount cannot be greater than the on road price of the car. On road price : KWD '.$on_road_price])->withInput();
+            return redirect()->back()
+                ->withErrors(['principal' => 'The principal amount cannot be greater than the on road price of the car. On road price : KWD '.$on_road_price])
+                ->withInput();
         }
 
         $service = new EmiCalculatorService($request);
         $result = $service->handle();
 
         if (isset($result['error'])) {
-            return redirect()->back()->withErrors(['message' => $result['error']])->withInput();
+            return redirect()->back()
+                ->withErrors(['message' => $result['error']])
+                ->withInput();
         }
-        session()->put('form_data', $request->all());
 
-        return view('admin.emi-info.show', compact('result', 'input'))->with('form_data', session('form_data'));
+        // Redirect to show page with query parameters
+        return redirect()->route('admin.emi-info.index', [
+            'brand_id' => $request->brand_id,
+            'brand_id_text' => $request->brand_id_text,
+            'car_id' => $request->car_id,
+            'car_id_text' => $request->car_id_text,
+            'car_version_id' => $request->car_version_id,
+            'car_version_id_text' => $request->car_version_id_text,
+            'principal' => $request->principal,
+            'loanTenureYears' => $request->loanTenureYears,
+            'annualInterestRate' => $request->annualInterestRate,
+        ])->with(['result' => $result]);
     }
+    private function hasRequiredParameters($input)
+    {
+        $required = [
+            'brand_id',
+            'car_id',
+            'principal',
+            'loanTenureYears',
+            'annualInterestRate'
+        ];
+        
+        foreach ($required as $param) {
+            if (!isset($input[$param]) || empty($input[$param])) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    /**
+     * Store a newly created resource in storage.
+     */
+    // public function store(Request $request)
+    // {
+    //     $input = $request->all();
+
+    //     $validatedData = $request->validate([
+    //         'brand_id' => 'required',
+    //         'car_id' => 'required',
+    //         'car_version_id' => 'nullable',
+    //         'principal' => 'required|numeric',
+    //         'loanTenureYears' => 'required|integer|min:1|max:7',
+    //         'annualInterestRate' => 'required|numeric',
+    //     ]);
+
+    //     $car = Car::find($request->car_id);
+    //     $on_road_price = $car->on_road_price;
+
+    //     if ($validatedData['principal'] > $on_road_price) {
+    //         return redirect()->back()->withErrors(['principal' => 'The principal amount cannot be greater than the on road price of the car. On road price : KWD '.$on_road_price])->withInput();
+    //     }
+
+    //     $service = new EmiCalculatorService($request);
+    //     $result = $service->handle();
+
+    //     if (isset($result['error'])) {
+    //         return redirect()->back()->withErrors(['message' => $result['error']])->withInput();
+    //     }
+    //     session()->put('form_data', $request->all());
+
+    //     return view('admin.emi-info.show', compact('result', 'input'))->with('form_data', session('form_data'));
+    // }
+    
 
     /**
      * Display the specified resource.

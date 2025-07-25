@@ -694,4 +694,32 @@ class CarController extends Controller
 
         return redirect()->route('admin.car.show', compact('car'))->with('success', 'Car video deleted successfully!');
     }
+
+   public static function addReferenceNumber()
+{
+    // Find cars with NULL or empty car_ref_no
+    $carsWithoutReference = Car::whereNull('car_ref_no')
+                              ->orWhere('car_ref_no', '')
+                              ->pluck('id')
+                              ->toArray();
+    
+    if (!empty($carsWithoutReference)) {
+        $existingRefNos = Car::whereNotNull('car_ref_no')
+                           ->where('car_ref_no', '!=', '')
+                           ->pluck('car_ref_no')
+                           ->toArray();
+        foreach ($carsWithoutReference as $carId) {
+            do {
+                $randomNumber = mt_rand(100000, 999999);
+                $carRefNo = 'NS' . '-' . $randomNumber;
+            } while (in_array($carRefNo, $existingRefNos));
+            Car::where('id', $carId)->update(['car_ref_no' => $carRefNo]);
+            $existingRefNos[] = $carRefNo;
+        }
+
+        return ['success' => true, 'message' => 'Reference numbers added successfully'];
+    }
+
+    return ['success' => false, 'message' => 'No cars found without reference number'];
+}
 }
