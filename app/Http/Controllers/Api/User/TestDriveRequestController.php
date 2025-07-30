@@ -78,6 +78,7 @@ class TestDriveRequestController extends ApiBaseController
         ]);;
 
         if ($validator->fails()) {
+            Log::info('Validation failed for verifyOtp: ' . json_encode($validator->errors(), JSON_PRETTY_PRINT));
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -116,6 +117,7 @@ class TestDriveRequestController extends ApiBaseController
 
             return $this->success(['data' => $res['data']], $res['msg'], Response::HTTP_OK);
         } catch (UnprocessableEntityException $ex) {
+            Log::info('UnprocessableEntityException in verifyOtp: ' . $ex->getMessage());
             return $this->error($ex->getMessage(), Response::HTTP_TOO_MANY_REQUESTS);
         } catch (\Exception $ex) {
             Log::info($ex->getMessage());
