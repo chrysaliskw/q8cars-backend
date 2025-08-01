@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Http\Controllers\Api\ApiBaseController;
 use App\Models\Car;
+use App\Models\CarVersion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Resources\CarResource;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\CarVersion;
+use App\Http\Controllers\Api\ApiBaseController;
 
 class JustLaunchController extends ApiBaseController
 {
@@ -36,7 +37,7 @@ class JustLaunchController extends ApiBaseController
         $data['rating'] = $result->avg_rating;
         $data['image'] = file_asset('files-car', $result->image);
         $data['fuel_types'] =  $this->getFuelTypes($result->fuel_types);
-        $data['transmission_types'] =  $this->getTransmissionTypes($result->transmission_types);
+        $data['transmission_types'] =  $this->getTransmissionTypes($result->transmission_type);
         $data['mileage'] =  $this->getMileages($result);
         $data['seating'] =  $this->getSeatingCapacity($result);
         $data['tank_capacity'] =  $this->getTankCapacity($result);
@@ -68,34 +69,18 @@ class JustLaunchController extends ApiBaseController
 
     }
 
-    // private function getTransmissionTypes($types)
-    // {
-    //     $result = null;
-    //     $type = json_decode($types, true);
-    //     $newArray = array_combine(range(1, count($type)), array_values($type));
-    //     foreach($newArray as $transmissionType) {
-    //         $result[] = config('params.car.transmission_type')[$transmissionType];
-    //     }
-
-    //     return $result;
-    // }
-
     private function getTransmissionTypes($types)
     {
-        $decoded = json_decode($types, true);
-
-        if (!is_array($decoded) || empty($decoded)) {
-            return [];
-        }
-
-        $result = [];
-        foreach ($decoded as $transmissionType) {
-            $config = config('params.car.transmission_type');
-            $result[] = $config[$transmissionType] ?? 'Unknown';
+        $result = null;
+        $type = json_decode($types, true);
+        $newArray = array_combine(range(1, count($type)), array_values($type));
+        foreach($newArray as $transmissionType) {
+            $result[] = config('params.car.transmission_type')[$transmissionType];
         }
 
         return $result;
     }
+
     private function getFuelTypes($fuel_types)
     {
         $result = null;
