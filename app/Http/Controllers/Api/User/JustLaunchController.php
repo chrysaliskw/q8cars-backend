@@ -62,13 +62,30 @@ class JustLaunchController extends ApiBaseController
 
     }
 
+    // private function getTransmissionTypes($types)
+    // {
+    //     $result = null;
+    //     $type = json_decode($types, true);
+    //     $newArray = array_combine(range(1, count($type)), array_values($type));
+    //     foreach($newArray as $transmissionType) {
+    //         $result[] = config('params.car.transmission_type')[$transmissionType];
+    //     }
+
+    //     return $result;
+    // }
+
     private function getTransmissionTypes($types)
     {
-        $result = null;
-        $type = json_decode($types, true);
-        $newArray = array_combine(range(1, count($type)), array_values($type));
-        foreach($newArray as $transmissionType) {
-            $result[] = config('params.car.transmission_type')[$transmissionType];
+        $decoded = json_decode($types, true);
+
+        if (!is_array($decoded) || empty($decoded)) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($decoded as $transmissionType) {
+            $config = config('params.car.transmission_type');
+            $result[] = $config[$transmissionType] ?? 'Unknown';
         }
 
         return $result;
