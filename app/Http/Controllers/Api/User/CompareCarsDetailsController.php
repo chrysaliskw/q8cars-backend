@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Models\Car;
+use App\Models\CarVersion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\RecentComparison;
 use App\Models\BrandColorMapping;
+use App\Models\FavouriteComparison;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CarAdditonalSpecifications;
 use App\Http\Controllers\Api\ApiBaseController;
-use App\Models\CarVersion;
-use App\Models\RecentComparison;
-use Illuminate\Support\Facades\Auth;
 
 class CompareCarsDetailsController extends ApiBaseController
 {
@@ -222,6 +223,30 @@ class CompareCarsDetailsController extends ApiBaseController
 
         // $data =   $this->getCarComparison($cars);
         $data = $specifications;
+
+        $maxCars = 4;
+        $carIdsPadded = array_pad($carIds, $maxCars, null);
+        sort($carIdsPadded);
+
+        $existingFavourite = FavouriteComparison::where('user_id', Auth::id())
+            ->where(function ($query) use ($carIdsPadded) {
+                $query->where('car_1', $carIdsPadded[0])
+                    ->where('car_2', $carIdsPadded[1])
+                    ->where('car_3', $carIdsPadded[2])
+                    ->where('car_4', $carIdsPadded[3]);
+            })
+            ->exists();
+
+        if (!$existingFavourite) {
+            FavouriteComparison::create([
+                'user_id' => Auth::id(),
+                'car_1' => $carIdsPadded[0],
+                'car_2' => $carIdsPadded[1],
+                'car_3' => $carIdsPadded[2],
+                'car_4' => $carIdsPadded[3],
+            ]);
+        }
+
         return $this->success(['data' =>  $data], 'comparison Details!', Response::HTTP_OK);
     }
 
