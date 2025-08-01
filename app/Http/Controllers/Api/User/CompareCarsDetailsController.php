@@ -224,28 +224,28 @@ class CompareCarsDetailsController extends ApiBaseController
         // $data =   $this->getCarComparison($cars);
         $data = $specifications;
 
-        $maxCars = 4;
-        $carIdsPadded = array_pad($carIds, $maxCars, null);
-        sort($carIdsPadded);
+        // $maxCars = 4;
+        // $carIdsPadded = array_pad($carIds, $maxCars, null);
+        // sort($carIdsPadded);
 
-        $existingFavourite = FavouriteComparison::where('user_id', Auth::id())
-            ->where(function ($query) use ($carIdsPadded) {
-                $query->where('car_1', $carIdsPadded[0])
-                    ->where('car_2', $carIdsPadded[1])
-                    ->where('car_3', $carIdsPadded[2])
-                    ->where('car_4', $carIdsPadded[3]);
-            })
-            ->exists();
+        // $existingFavourite = FavouriteComparison::where('user_id', Auth::id())
+        //     ->where(function ($query) use ($carIdsPadded) {
+        //         $query->where('car_1', $carIdsPadded[0])
+        //             ->where('car_2', $carIdsPadded[1])
+        //             ->where('car_3', $carIdsPadded[2])
+        //             ->where('car_4', $carIdsPadded[3]);
+        //     })
+        //     ->exists();
 
-        if (!$existingFavourite) {
-            FavouriteComparison::create([
-                'user_id' => Auth::id(),
-                'car_1' => $carIdsPadded[0],
-                'car_2' => $carIdsPadded[1],
-                'car_3' => $carIdsPadded[2],
-                'car_4' => $carIdsPadded[3],
-            ]);
-        }
+        // if (!$existingFavourite) {
+        //     FavouriteComparison::create([
+        //         'user_id' => Auth::id(),
+        //         'car_1' => $carIdsPadded[0],
+        //         'car_2' => $carIdsPadded[1],
+        //         'car_3' => $carIdsPadded[2],
+        //         'car_4' => $carIdsPadded[3],
+        //     ]);
+        // }
 
         return $this->success(['data' =>  $data], 'comparison Details!', Response::HTTP_OK);
     }
