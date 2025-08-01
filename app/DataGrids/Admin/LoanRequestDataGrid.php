@@ -30,7 +30,7 @@ class LoanRequestDataGrid extends Grid
                 'label' => 'User Mobile',
                 'value' => function ($model) {
                     // return trim($model->user->phone_code . ' ' . $model->user->mobile);
-                    return "<a href='" . route('admin.user.show', $model->user_id) . "'> {$model->user->phone_code} {$model->user_mobile}</a>";
+                    return "<a href='" . route('admin.user.show', $model->user_id) . "'> {$model->user_mobile}</a>";
                 },
                 'filter' => true,
                 'filterOptions' => [
@@ -96,7 +96,7 @@ class LoanRequestDataGrid extends Grid
             'contact_number' => [
                 'label' => 'Requested Mobile',
                 'value' => function($model){
-                    return '+965 '. $model->contact_number;
+                    return $model->contact_number;
                 },
                 'filter' => true,
                 'filterOptions' => [

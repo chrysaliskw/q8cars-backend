@@ -36,11 +36,11 @@ class TestRideRequestController extends Controller
         $testDrive = TestDrive::find($id);
         $viewData = [
             'id' => $id,
-            'User Mobile' =>  $testDrive->user ? "<a href='" . route('admin.user.show', $testDrive->user->id) . "'>{$testDrive->user->phone_code} {$testDrive->user->mobile}</a>": 'NA',
+            'User Mobile' =>  $testDrive->user ? "<a href='" . route('admin.user.show', $testDrive->user->id) . "'>{$testDrive->user->mobile}</a>": 'NA',
             'Car Model' => $testDrive->car->model_name,
             'Car Brand' => "<a href='" . route('admin.brand.show', $testDrive->car->brand->id) . "'>{$testDrive->car->brand->name}</a>" ,
             'Requested Name' => $testDrive->first_name . ' '.$testDrive->last_name,
-            'Requeted Mobile' => $testDrive->mobile,
+            'Requested Mobile' => $testDrive->mobile,
             // 'status_key' => $testDrive->status,
             'Status' => config('params.test_drive.status')[$testDrive->status],
             'Created At' =>  dateTimeFormat($testDrive->created_at),

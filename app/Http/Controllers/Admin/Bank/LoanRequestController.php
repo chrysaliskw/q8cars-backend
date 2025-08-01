@@ -34,7 +34,7 @@ class LoanRequestController extends Controller
             'Requested User' => empty($loan_request->user) ? 'NIL' : $loan_request->user->name,
             'Requested Name' => empty($loan_request->first_name) && empty($loan_request->last_name) ? 'NIL' : trim($loan_request->first_name . ' ' . $loan_request->last_name),
             'Requested Email' => empty($loan_request->email) ? 'NIL' : $loan_request->email,
-            'Requested Mobile' => empty($loan_request->contact_number) ? 'NIL' : $loan_request->user->phone_code . ' ' . $loan_request->contact_number,
+            'Requested Mobile' => empty($loan_request->contact_number) ? 'NIL' : $loan_request->contact_number,
             'Bank Name' => empty($loan_request->bank) ? 'NIL' : $loan_request->bank->bank_name,
             'Status' => $loan_request->status == BankSuggestionRequest::STATUS_SUBMITTED ? 'Submitted' : ($loan_request->status == BankSuggestionRequest::STATUS_ACCEPTED ? 'Accepted' : ($loan_request->status == BankSuggestionRequest::STATUS_REJECTED ? 'Rejected' : 'unknown')),
             'Created At' => dateTimeFormat($loan_request->created_at),
