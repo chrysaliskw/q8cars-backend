@@ -62,7 +62,7 @@ class CompareCarsDetailsController extends ApiBaseController
         }
 
         $this->storeFavouriteComparison($carIds);
-        
+
         $isCommon = $request->is_common;
         $isDifferent = $request->is_different;
         $cars = [];
@@ -232,13 +232,24 @@ class CompareCarsDetailsController extends ApiBaseController
 
     private function storeFavouriteComparison(array $carIds): void
     {
-        $favourite = new FavouriteComparison();
-        $favourite->user_id = Auth::id();
-        $favourite->car_1 = $carIds[0] ?? null;
-        $favourite->car_2 = $carIds[1] ?? null;
-        $favourite->car_3 = $carIds[2] ?? null;
-        $favourite->car_4 = $carIds[3] ?? null;
-        $favourite->save();
+        $existing = FavouriteComparison::where('user_id', Auth::id())
+        ->where(function ($query) use ($carIds) {
+            $query->where('car_1', $carIds[0] ?? null)
+                  ->where('car_2', $carIds[1] ?? null)
+                  ->where('car_3', $carIds[2] ?? null)
+                  ->where('car_4', $carIds[3] ?? null);
+        })
+        ->exists();
+
+        if (!$existing) {
+            $favourite = new FavouriteComparison();
+            $favourite->user_id = Auth::id();
+            $favourite->car_1 = $carIds[0] ?? null;
+            $favourite->car_2 = $carIds[1] ?? null;
+            $favourite->car_3 = $carIds[2] ?? null;
+            $favourite->car_4 = $carIds[3] ?? null;
+            $favourite->save();
+        }
     }
 
     private function getCategoryName($categoryId)
