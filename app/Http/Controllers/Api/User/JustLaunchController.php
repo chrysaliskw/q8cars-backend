@@ -23,7 +23,7 @@ class JustLaunchController extends ApiBaseController
         if($request->id) {
             $result = Car::find($request->id);
         }
-   
+
         $data['id'] = $result->id;
         $data['brand_id'] = $result->brand_id;
         $data['model_name'] = $result->model_name;
@@ -33,7 +33,7 @@ class JustLaunchController extends ApiBaseController
         $data['rating'] = $result->avg_rating;
         $data['image'] = file_asset('files-car', $result->image);
         $data['fuel_types'] =  $this->getFuelTypes($result->fuel_types);
-        $data['transmission_types'] =  $this->getTransmissionTypes($result->fuel_types);
+        $data['transmission_types'] =  $this->getTransmissionTypes($result->transmission_types);
         $data['mileage'] =  $this->getMileages($result);
         $data['seating'] =  $this->getSeatingCapacity($result);
         $data['tank_capacity'] =  $this->getTankCapacity($result);
@@ -53,13 +53,13 @@ class JustLaunchController extends ApiBaseController
             ->limit(50)
             ->get();
 
-        
+
         return CarResource::collection($result)
             ->additional([
                 'message' => 'Just Lauch Cars listing',
                 'status' => Response::HTTP_OK
             ]);
-        
+
     }
 
     private function getTransmissionTypes($types)
