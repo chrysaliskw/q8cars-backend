@@ -30,12 +30,11 @@ public function __invoke(Request $request)
             })
             ->when($request->is_top_brand, function($query, $value) {
                 $query->where('brands.is_top_brand', Brand::TOP_BRAND);
-            })
+            })->get();
 
 
-            ->paginate(50);
-        BrandResource::collection($brands);
-        return $this->success(['data' => $brands], 'Brand listing!', Response::HTTP_OK);
+            // ->paginate(50);
+        return $this->success(['data' => BrandResource::collection($brands)], 'Brand listing!', Response::HTTP_OK);
     }
 
     public function popularBrands()
