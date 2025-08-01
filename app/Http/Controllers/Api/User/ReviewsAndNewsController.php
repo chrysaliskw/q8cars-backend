@@ -45,14 +45,24 @@ class ReviewsAndNewsController extends ApiBaseController
     }
     private function getNews(Request $request)
     {
+        $now = now();
+
         if ($request->id) {
             $news = News::active()->published()
                 ->where('id', $request->id)
+                ->where(function ($query) use ($now) {
+                    $query->whereNull('expiry_date')
+                        ->orWhere('expiry_date', '>=', $now);
+                })
                 ->first();
 
             return $news ? new NewsResource($news) : [];
         }
         $result = News::active()->published()
+            ->where(function ($query) use ($now) {
+                $query->whereNull('expiry_date')
+                    ->orWhere('expiry_date', '>=', $now);
+            })
             ->when($request->search, function($query, $value) {
                 $query->where('content', 'like', '%' . $value . '%')
                 ->orWhere('title', 'like', '%' . $value . '%');
