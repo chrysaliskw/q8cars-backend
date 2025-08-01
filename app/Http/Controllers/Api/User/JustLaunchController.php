@@ -19,6 +19,9 @@ class JustLaunchController extends ApiBaseController
                     ->when($request->brand_id, function($query, $value){
                         $query->where('cars.brand_id', $value);
                     })
+                    ->when($request->model_name, function($query, $value){
+                        $query->where('cars.model_name', $value);
+                    })
                     ->first();
         if($request->id) {
             $result = Car::find($request->id);
@@ -48,6 +51,9 @@ class JustLaunchController extends ApiBaseController
         $result = Car::where('is_just_launched', Car::JUST_LAUNCHED)
             ->when($request->brand_id, function($query, $value){
                 $query->where('cars.brand_id', $value);
+            })
+            ->when($request->model_name, function($query, $value){
+                $query->where('cars.model_name', $value);
             })
             ->orderByRaw('COALESCE(just_launch_sort_order) ASC')
             ->limit(50)
