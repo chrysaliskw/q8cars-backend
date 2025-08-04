@@ -40,6 +40,10 @@ class Car extends Model
     | Relationships
     |--------------------------------------------------------------------------
     */
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class, 'id', 'car_id');
+    }
     public function brand()
     {
         return $this->belongsTo(Brand::class);

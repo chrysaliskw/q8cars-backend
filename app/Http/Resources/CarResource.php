@@ -19,7 +19,7 @@ class CarResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'key_id' => $this->id,
+            'offer_id' => optional($this->offer)->id,
             'brand_id' => $this->brand_id,
             'brand_name' => $this->brand->name,
             'name' => $this->model_name,
