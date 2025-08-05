@@ -27,7 +27,7 @@ Thank you for choosing us!
                                 <td style="background-color: #F9F9F9;padding:15px;">
 
                                     <a href="">
-                                        <img src="http://15.185.44.189/images/user_default.jpg">
+                                        <img src="http://15.185.44.189/images/Q8.png">
                                     </a>
                                 </td>
                             </tr>
