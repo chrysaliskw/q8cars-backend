@@ -16,7 +16,7 @@
                                 <td style="background-color: #F9F9F9;padding:15px;">
 
                                     <a href="">
-                                        <img src="http://15.185.44.189/images/user_default.jpg">
+                                        <img src="http://15.185.44.189/images/new_sayara.png">
                                     </a>
                                 </td>
                             </tr>
