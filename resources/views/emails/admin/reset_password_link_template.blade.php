@@ -14,7 +14,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="http://43.205.160.26/public/images/emailer-banner.png">
+                                    <img src="{{ asset('images/kuwait-logo-dark.e252462e.svg') }}">
                                 </td>
                             </tr>
                             <tr>
@@ -50,7 +50,7 @@
                                 <td>
                                     <table width="100%" style="border-spacing: 0;padding-top:20px;">
                                         <td style="text-align: center;">
-                                
+
                                             <a href="http://43.205.160.26/public/admin/login/show-reset-form" target="_blank"><img  src="http://43.205.160.26/public/images/verify.png"></a>
                                         </td>
                                     </table>

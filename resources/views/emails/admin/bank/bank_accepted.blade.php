@@ -27,7 +27,7 @@ Thank you for choosing us!
                                 <td style="background-color: #F9F9F9;padding:15px;">
 
                                     <a href="">
-                                        <img src="{{ asset('moltran-asset/images/q8_logo.svg') }}" >
+                                        <img src="{{ asset('images/kuwait-logo-dark.e252462e.svg') }}" >
                                     </a>
                                 </td>
                             </tr>
