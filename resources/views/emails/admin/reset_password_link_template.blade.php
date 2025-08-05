@@ -14,7 +14,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="http://15.185.44.189/images/kuwait-logo-dark.e252462e.svg">
+                                    <img src="http://15.185.44.189/images/new_sayara.png">
                                 </td>
                             </tr>
                             <tr>

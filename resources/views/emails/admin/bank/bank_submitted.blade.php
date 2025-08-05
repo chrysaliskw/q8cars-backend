@@ -38,7 +38,7 @@ Thank you for choosing us!
                                 <td style="background-color: #F9F9F9;padding:15px;">
 
                                     <a href="">
-                                        <img src="http://15.185.44.189/images/kuwait-logo-dark.e252462e.svg">
+                                        <img src="http://15.185.44.189/images/new_sayara.png">
                                     </a>
                                 </td>
                             </tr>
