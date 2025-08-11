@@ -70,6 +70,7 @@ class CarExport implements FromQuery, WithColumnFormatting, WithMapping, WithHea
                 'b.id as brand_id',
                 'b.name as brand_name',
                 'cars.id',
+                'cars.car_ref_no',
                 'cars.model_name as model_name',
                 'cars.sort_order as sort_order',
                 'cars.status as status',
@@ -111,6 +112,7 @@ class CarExport implements FromQuery, WithColumnFormatting, WithMapping, WithHea
         return [
             'Model Name',
             'Brand',
+            'Reference No.',
             'Sort Order',
             'Version Count',
             'Is Upcoming',
@@ -141,6 +143,7 @@ class CarExport implements FromQuery, WithColumnFormatting, WithMapping, WithHea
         return [
             $car->model_name,
             $car->brand->name,
+            $car->car_ref_no,
             $car->sort_order,
             $car->version_count,
             $car->is_upcoming == Car::UPCOMING ? 'Yes' : 'No',

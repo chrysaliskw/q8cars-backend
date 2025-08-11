@@ -23,6 +23,7 @@ class CarReportDataGrid extends Grid
                 'b.id as brand_id',
                 'b.name as brand_name',
                 'cars.id',
+                'cars.car_ref_no',
                 'cars.model_name as model_name',
                 'cars.sort_order as sort_order',
                 'cars.status as status',
@@ -82,6 +83,17 @@ class CarReportDataGrid extends Grid
                 'filterOptions' => [
                     'type' => 'text',
                     'attribute' => 'b.name',
+                ]
+            ],
+            'car_ref_no' => [
+                'label' => 'Reference No.',
+                'value' => function ($model) {
+                    return $model->car_ref_no;
+                },
+                'filter' => true,
+                'filterOptions' => [
+                    'type' => 'text',
+                    'attribute' => 'car_ref_no',
                 ]
             ],
             'sort_order' => [
