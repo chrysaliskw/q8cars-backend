@@ -56,8 +56,23 @@ class CarController extends Controller
 
                 $spreadsheet = IOFactory::load($fullPath);
                 $worksheet = $spreadsheet->getActiveSheet();
-                $highestRow = $worksheet->getHighestRow();
-                $etaMinutes = ceil(($highestRow * 0.3) / 60);
+
+                $lastRow = $worksheet->getHighestDataRow();
+                $lastCol = $worksheet->getHighestDataColumn();
+
+                $realRowCount = 0;
+                for ($row = 1; $row <= $lastRow; $row++) {
+                    $rowData = $worksheet->rangeToArray("A{$row}:{$lastCol}{$row}", null, true, false);
+                    if (count(array_filter($rowData[0], fn($value) => trim((string) $value) !== '')) > 0) {
+                        $realRowCount++;
+                    }
+                }
+
+                $rowsToProcess = max(0, $realRowCount - 1);
+
+                $secondsPerRow = 5.5;
+                $totalSeconds  = $rowsToProcess * $secondsPerRow;
+                $etaMinutes    = max(1, ceil($totalSeconds / 60));
 
                 // $import = new CarBulkImport();
                 $import = new CarBulkImport(Auth::id());
@@ -702,7 +717,7 @@ class CarController extends Controller
                               ->orWhere('car_ref_no', '')
                               ->pluck('id')
                               ->toArray();
-    
+
     if (!empty($carsWithoutReference)) {
         $existingRefNos = Car::whereNotNull('car_ref_no')
                            ->where('car_ref_no', '!=', '')
