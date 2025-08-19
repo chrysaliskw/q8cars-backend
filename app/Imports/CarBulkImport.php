@@ -503,6 +503,11 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 $failedImports++;
                 $rowErrors[] = "Row $index: " . $e->getMessage();
                 $this->updateCache($cacheKey, 0, 1, 0, ["Row $index: " . $e->getMessage()]);
+            } catch (\Throwable $t) {
+                $message = "Row {$index}: An error occurred - " . $t->getMessage();
+                Log::error($message, ['exception' => $t]);
+
+                $this->updateCache($cacheKey, 0, 1, 0, [$message]);
             }
         }
 
