@@ -523,7 +523,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             'errors' => array_merge($existing['errors'], $rowErrors),
         ];
 
-        Cache::put($cacheKey, $merged, now()->addMinutes(3));
+        Cache::forever($cacheKey, $merged);
     }
 
     private function downloadImageAsUploadedFile($url, $name = null)
