@@ -54,6 +54,17 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
     {
         Log::info("Starting car bulk import.");
 
+        $cacheKey = "car_import_result_{$this->userId}";
+
+        Cache::forget($cacheKey);
+        Cache::forever($cacheKey, [
+            'status' => 'processing',
+            'successful_imports' => 0,
+            'failed_imports' => 0,
+            'skipped_rows' => 0,
+            'errors' => [],
+        ]);
+
         $successfulImports = 0;
         $failedImports = 0;
         $skippedRows = 0;
@@ -446,6 +457,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                     DB::commit();
                     $successfulImports++;
+                    $this->updateCache($cacheKey, 1, 0, 0, []);
                 } else {
                     Log::error("Failed to save car for row $index.");
                     $failedImports++;
@@ -484,10 +496,13 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                 $rowErrors[] = $userMsg;
                 $failedImports++;
+                $this->updateCache($cacheKey, 0, 1, 0, [$userMsg]);
             } catch (Exception $e) {
+                DB::rollBack();
                 Log::error("Exception while saving car for row $index: " . $e->getMessage());
                 $failedImports++;
                 $rowErrors[] = "Row $index: " . $e->getMessage();
+                $this->updateCache($cacheKey, 0, 1, 0, ["Row $index: " . $e->getMessage()]);
             }
         }
 
@@ -515,15 +530,35 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             'errors' => [],
         ]);
 
-        $merged = [
-            'status' => $successfulImports === 0 ? 'error' : 'success',
-            'successful_imports' => $existing['successful_imports'] + $successfulImports,
-            'failed_imports' => $existing['failed_imports'] + $failedImports,
-            'skipped_rows' => ($existing['skipped_rows'] ?? 0) + $skippedRows,
-            'errors' => array_merge($existing['errors'], $rowErrors),
-        ];
+        // $merged = [
+        //     'status' => $successfulImports === 0 ? 'error' : 'success',
+        //     'successful_imports' => $existing['successful_imports'] + $successfulImports,
+        //     'failed_imports' => $existing['failed_imports'] + $failedImports,
+        //     'skipped_rows' => ($existing['skipped_rows'] ?? 0) + $skippedRows,
+        //     'errors' => array_merge($existing['errors'], $rowErrors),
+        // ];
+        $cacheData = Cache::get($cacheKey);
+        $cacheData['status'] = ($cacheData['successful_imports'] > 0) ? 'success' : 'error';
 
-        Cache::forever($cacheKey, $merged);
+        Cache::forever($cacheKey, $cacheData);
+    }
+
+    private function updateCache(string $cacheKey, int $successCount, int $failCount, int $skipCount, array $errors)
+    {
+        $existing = Cache::get($cacheKey, [
+            'successful_imports' => 0,
+            'failed_imports' => 0,
+            'skipped_rows' => 0,
+            'errors' => [],
+            'status' => 'processing',
+        ]);
+
+        $existing['successful_imports'] += $successCount;
+        $existing['failed_imports'] += $failCount;
+        $existing['skipped_rows'] += $skipCount;
+        $existing['errors'] = array_merge($existing['errors'], $errors);
+
+        Cache::forever($cacheKey, $existing);
     }
 
     private function downloadImageAsUploadedFile($url, $name = null)
