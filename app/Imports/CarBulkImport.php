@@ -52,7 +52,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
     public function collection(Collection $rows)
     {
-        DB::beginTransaction();
         Log::info("Starting car bulk import.");
 
         $successfulImports = 0;
@@ -62,12 +61,14 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         $rowHasError = false;
 
         foreach ($rows as $index => $row) {
+            DB::beginTransaction();
             try {
                 $row = $row instanceof Collection ? $row->toArray() : $row;
 
                 if (collect($row)->filter(fn($value) => !is_null($value) && trim($value) !== '')->isEmpty()) {
                     Log::info("Skipping empty row at index $index.");
                     $skippedRows++;
+                    DB::rollBack();
                     continue;
                 }
 
@@ -443,6 +444,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
 
                     $this->saveCategoryAttributes($carId, $carVersionId, $spec);
 
+                    DB::commit();
                     $successfulImports++;
                 } else {
                     Log::error("Failed to save car for row $index.");
@@ -450,6 +452,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 }
 
             } catch (QueryException $qe) {
+                DB::rollBack();
                 $msg = $qe->getMessage();
                 $bindings = $qe->getBindings();
 
@@ -489,8 +492,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         }
 
         if ($successfulImports === 0) {
-            DB::rollBack();
-
             if ($failedImports === 0 && $skippedRows === count($rows)) {
                 $rowErrors[] = 'No rows were valid or all were empty.';
             } elseif ($failedImports === 0) {
@@ -501,7 +502,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
             $message = "Car bulk import failed: All rows had errors or were skipped.";
             Log::error($message);
         } else {
-            DB::commit();
             $message = "Car bulk import completed. Success: $successfulImports, Failed: $failedImports.";
             Log::info($message);
         }
