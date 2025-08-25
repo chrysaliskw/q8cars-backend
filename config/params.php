@@ -91,6 +91,7 @@ return [
             2 => 'Manual',
             3 => 'Clutchless Manual',
             4 => 'Automatic -TC',
+            5 => 'CVT',
         ],
         'image-section' =>  [
             1 => 'Exterior',
