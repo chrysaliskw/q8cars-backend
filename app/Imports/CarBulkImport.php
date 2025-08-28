@@ -476,10 +476,6 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 } elseif (preg_match("/Incorrect (integer|decimal) value: '(.+?)' for column '(.+?)'/", $msg, $m)) {
                     [$all, $type, $bad, $col] = $m;
                     $userMsg = "Row $index: '$bad' is not a valid $type for '$col'.";
-                } elseif (preg_match("/Column '(.+?)' cannot be null/", $msg, $m)) {
-                    $col = $m[1] ?? 'unknown';
-                    $enteredValue = $data[$col] ?? ($row[$col] ?? '');
-                    $userMsg = "Row $index: Required field '{$col}' is missing or invalid. Entered value: '" . (is_null($enteredValue) ? '' : $enteredValue) . "'";
                 } elseif (isset($data['transmission_type']) && empty($data['transmission_type'])) {
                     $originalVal = trim($row['transmission_types'] ?? '');
                     if (!empty($originalVal)) {
@@ -487,6 +483,19 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     } else {
                         $userMsg = "Row $index: General database error. Please check your input.";
                     }
+                } elseif (preg_match("/Column '(.+?)' cannot be null/", $msg, $m)) {
+                    $col = $m[1] ?? 'unknown';
+                    $enteredValue = $data[$col] ?? ($row[$col] ?? '');
+                    $enteredValueStr = '';
+                    if (is_null($enteredValue)) {
+                        $enteredValueStr = '';
+                    } elseif (is_array($enteredValue)) {
+                        $enteredValueStr = json_encode($enteredValue);
+                    } else {
+                        $enteredValueStr = (string)$enteredValue;
+                    }
+
+                    $userMsg = "Row $index: Required field '{$col}' is missing or invalid. Entered value: '" . $enteredValueStr . "'";
                 } else {
                     $userMsg = "Row $index: General database error. Please check your input.";
                 }
