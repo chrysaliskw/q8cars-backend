@@ -472,16 +472,16 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                     preg_match("/column '(.+?)'/", $msg, $m);
                     $col = $m[1] ?? 'unknown';
                     $value = $data[$col] ?? 'N/A';
-                    $userMsg = "Row $index: Value '$value' too large or wrong format for '$col'.";
+                    $userMsg = "Row " . ($index + 2) . ": Value '$value' too large or wrong format for '$col'.";
                 } elseif (preg_match("/Incorrect (integer|decimal) value: '(.+?)' for column '(.+?)'/", $msg, $m)) {
                     [$all, $type, $bad, $col] = $m;
-                    $userMsg = "Row $index: '$bad' is not a valid $type for '$col'.";
+                    $userMsg = "Row " . ($index + 2) . ": '$bad' is not a valid $type for '$col'.";
                 } elseif (isset($data['transmission_type']) && empty($data['transmission_type'])) {
                     $originalVal = trim($row['transmission_types'] ?? '');
                     if (!empty($originalVal)) {
-                        $userMsg = "Row $index - Invalid transmission_types value: '{$originalVal}'.";
+                        $userMsg = "Row " . ($index + 2) . ": Invalid transmission_types value: '{$originalVal}'.";
                     } else {
-                        $userMsg = "Row $index: General database error. Please check your input.";
+                        $userMsg = "Row " . ($index + 2) . ": General database error. Please check your input.";
                     }
                 } elseif (preg_match("/Column '(.+?)' cannot be null/", $msg, $m)) {
                     $col = $m[1] ?? 'unknown';
@@ -495,9 +495,9 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                         $enteredValueStr = (string)$enteredValue;
                     }
 
-                    $userMsg = "Row $index: Required field '{$col}' is missing or invalid. Entered value: '" . $enteredValueStr . "'";
+                    $userMsg = "Row " . ($index + 2) . ": Required field '{$col}' is missing or invalid. Entered value: '" . $enteredValueStr . "'";
                 } else {
-                    $userMsg = "Row $index: General database error. Please check your input.";
+                    $userMsg = "Row " . ($index + 2) . ": General database error. Please check your input.";
                 }
 
                 Log::error("Row $index DATABASE ERROR: $msg | SQL: " . $qe->getSql());
@@ -510,10 +510,10 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
                 DB::rollBack();
                 Log::error("Exception while saving car for row $index: " . $e->getMessage());
                 $failedImports++;
-                $rowErrors[] = "Row $index: " . $e->getMessage();
-                $this->updateCache($cacheKey, 0, 1, 0, ["Row $index: " . $e->getMessage()]);
+                $rowErrors[] = "Row " . ($index + 2) . ": " . $e->getMessage();
+                $this->updateCache($cacheKey, 0, 1, 0, ["Row " . ($index + 2) . ": " . $e->getMessage()]);
             } catch (\Throwable $t) {
-                $message = "Row {$index}: An error occurred - " . $t->getMessage();
+                $message = "Row " . ($index + 2) . ": An error occurred - " . $t->getMessage();
                 Log::error($message, ['exception' => $t]);
 
                 $this->updateCache($cacheKey, 0, 1, 0, [$message]);
@@ -869,7 +869,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
     private function mapColorsFromBrand(array $colors, $brandId, $rowIndex)
     {
         if (!$brandId) {
-            $message = "Row $rowIndex - Cannot map colors without brand_id.";
+            $message = "Cannot map colors without brand_id.";
             Log::warning($message);
             throw new Exception($message);
         }
@@ -893,7 +893,7 @@ class CarBulkImport implements ToCollection, WithChunkReading, WithHeadingRow, S
         }
 
         if (empty($result)) {
-            $message = "Row $rowIndex - No valid colors found for brand $brandName. Import aborted.";
+            $message = "No valid colors found for brand $brandName. Import aborted.";
             Log::error($message);
             throw new Exception($message);
         }
