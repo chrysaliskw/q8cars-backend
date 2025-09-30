@@ -718,6 +718,13 @@ class CarController extends ApiBaseController
 
         $varient = CarVersion::find($version);
 
+        $engine_capacity_unit = match ((int) $varient->fuel_type) {
+            1, 2, 3 => 'L',
+            4 => 'kWh',
+            5 => 'L/kWh',
+            default => 'cc',
+        };
+
         $sections = [
             [
                 'key' => 1,
@@ -725,8 +732,8 @@ class CarController extends ApiBaseController
                 'section' => 'Engine and Transmission',
                 'features' => [
                     $varient->engine_capacity ? [
-                        'title' => 'Engine Capacity (cc)',
-                        'value' => $varient->engine_capacity . 'cc',
+                        'title' => 'Engine Capacity',
+                        'value' => $varient->engine_capacity . ' ' . $engine_capacity_unit,
                     ] : null,
                     ($varient->power || $varient->torque) ? [
                         'title' => ($varient->power && $varient->torque) ? 'Power & Torque'

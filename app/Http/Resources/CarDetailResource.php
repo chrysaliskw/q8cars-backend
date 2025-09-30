@@ -45,8 +45,8 @@ class CarDetailResource extends JsonResource
 
         // $engineUnit = in_array($fuelType, [1, 2, 3, 5]) ? 'L' : ($fuelType == 4 ? 'kW' : 'cc');
         $engineUnit = match ($fuelType) {
-            4 => 'kW',
-            5 => 'L/kW',
+            4 => 'kWh',
+            5 => 'L/kWh',
             1, 2, 3 => 'L',
             default => 'cc',
         };
