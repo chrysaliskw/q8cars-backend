@@ -228,6 +228,19 @@ class CarController extends Controller
             $fuelTypes[] = config('params.car.fuel_type')[$fuelType];
         }
 
+        $engine_units = [];
+        foreach ($fuel as $ftype) {
+            $unit = match ((int) $ftype) {
+                1, 2, 3 => 'L',
+                4 => 'kWh',
+                5 => 'L/kWh',
+                default => 'cc',
+            };
+            $engine_units[] = $unit;
+        }
+        $engine_units = array_unique($engine_units);
+        $engine_units_display = implode(', ', $engine_units);
+
         $travel_type = json_decode($car->travel_type, true);
         $travel_types = [];
         if ($travel_type) {
@@ -276,7 +289,7 @@ class CarController extends Controller
         $carVersion = $carVarient;
         $carVersions = CarVersion::where('car_id', $car->id)->where('is_car_spec', CarVersion::CAR_VARIENT_SPECIFICATION)->get();
 
-        return view('admin.car.show', compact('car', 'carVersions', 'fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions', 'carVersion', 'colorsAvailable', 'travel_types'));
+        return view('admin.car.show', compact('car', 'carVersions', 'fuelTypes', 'transmissionTypes', 'carVarient', 'colors', 'professions', 'carVersion', 'colorsAvailable', 'travel_types', 'engine_units_display'));
     }
 
     /**

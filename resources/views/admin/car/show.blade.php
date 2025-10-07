@@ -336,7 +336,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Engine Capacity</label>
                         <div class="col-sm-8">
-                            {{ $car->engine_capacity .' cc' }}
+                            {{ $car->engine_capacity . ' ' . $engine_units_display }}
                         </div>
                     </div>
                     <div class="form-group row">
