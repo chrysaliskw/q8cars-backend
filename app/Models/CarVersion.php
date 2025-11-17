@@ -113,7 +113,7 @@ class CarVersion extends Model
         $value = parent::getAttribute($key);
 
         if (in_array($key, $priceFields) && !is_null($value)) {
-            return number_format($value, 0);
+            return (int) round($value);
         }
 
         return $value;
