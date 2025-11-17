@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Api\User;
 
 use Exception;
 use App\Models\User;
+use App\Jobs\SendSmsJob;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Traits\ThrottlesLogin;
+use App\Rules\RegexAlphaNumSpace;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\RateLimiter;
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Exceptions\UnprocessableEntityException;
-use App\Rules\RegexAlphaNumSpace;
-use App\Jobs\SendSmsJob;
 
 class AuthController extends ApiBaseController
 {
@@ -28,7 +29,7 @@ class AuthController extends ApiBaseController
     {
         $validator = Validator::make($request->all(), [
             'mobile' => ['required', 'regex:/^[\d]*$/', 'min:7', 'max:12'],
-        ], 
+        ],
         [   'mobile.min' => 'The mobile must be at least 7 digits.',
             'mobile.max' => 'The mobile may not be greater than 12 digits.',
         ]);
@@ -36,7 +37,7 @@ class AuthController extends ApiBaseController
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        
+
         try
         {
             $this->ensureIsNotRateLimited($request);
@@ -52,7 +53,7 @@ class AuthController extends ApiBaseController
             if($user->status == User::STATUS_INACTIVE) {
                 return $this->error('Your account is not activated', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-           
+
             $user->otp_expiry = date('Y-m-d H:i:s', strtotime("+ 10 min"));
             $user->otp = generate_otp();
             $user->saveOrFail();
@@ -60,8 +61,8 @@ class AuthController extends ApiBaseController
 
             // ToDo SMS Integration job
             $msg = 'Welcome to Q8Cars! Use this OTP to verify: '. $user->otp.' ';
-            SendSmsJob::dispatch(  $request->phone_code . $request->mobile, $msg);
-           
+            SendSmsJob::dispatch(  $user->phone_code . $request->mobile, $msg);
+
         }
         catch (UnprocessableEntityException $ex) {
             return $this->error($ex->getMessage(), Response::HTTP_TOO_MANY_REQUESTS);
@@ -73,12 +74,12 @@ class AuthController extends ApiBaseController
 
         return $this->success(['data' => []], 'OTP sent successfully!', Response::HTTP_OK);
     }
-    
+
     /**
      * Registration
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Models\User 
+     * @return \App\Models\User
      */
     private function registerUser(Request $request)
     {
@@ -97,7 +98,7 @@ class AuthController extends ApiBaseController
             'user_id' => ['required', 'exists:' . User::class . ',id'],
             'device_name' => ['required', 'string', 'max:200', new RegexAlphaNumSpace],
         ]);
-        
+
 
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -114,7 +115,7 @@ class AuthController extends ApiBaseController
             'access_token' => $newToken,
             'token_type' => 'Bearer',
             'expires_in' => config('sanctum.expiration') ? config('sanctum.expiration') * 60 : null,
-        ]], 'Token refreshed successfully!', Response::HTTP_OK); 
+        ]], 'Token refreshed successfully!', Response::HTTP_OK);
     }
-   
+
 }
