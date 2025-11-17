@@ -27,7 +27,7 @@ class SendSmsJob implements ShouldQueue
      */
     public function __construct($contactNumber, $msg)
     {
-        $this->contactNumber = substr($contactNumber, 1);
+        $this->contactNumber = $contactNumber;
         $this->message = $msg;
         $this->lang = 1;
     }
@@ -51,7 +51,7 @@ class SendSmsJob implements ShouldQueue
             "password" => $password,
             "sender" => $sender,
             "message" => $this->message,
-            "mobile" => [ $this->contactNumber],
+            "mobile" => $this->contactNumber,
             "lang" => $this->lang,
             "test" => 1,
         ], [

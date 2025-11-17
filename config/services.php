@@ -42,6 +42,6 @@ return [
     'sms' => [
         'username' => 'cdxyz',
         'senderId' => 'KWT-SMS',
-        'password' => '-D@sBs7xD5',
+        'password' => 'TTz2E!tdAW',
     ],
 ];
