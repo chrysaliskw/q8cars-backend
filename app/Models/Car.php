@@ -140,4 +140,23 @@ class Car extends Model
         });
     }
 
+    public function getAttribute($key)
+    {
+        $priceFields = [
+            'ex_showroom_price',
+            'on_road_price',
+            'finance_available',
+            'service_charge',
+            'insurance',
+        ];
+
+        $value = parent::getAttribute($key);
+
+        if (in_array($key, $priceFields) && !is_null($value)) {
+            return number_format($value, 0);
+        }
+
+        return $value;
+    }
+
 }
