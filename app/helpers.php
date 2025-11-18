@@ -115,11 +115,11 @@ if (! function_exists('timeFormat')) {
 if (! function_exists('generate_otp')) {
     function generate_otp()
     {
-        // if (App::environment('production')) {
-        //     return rand(1111, 9999);
-        // }
+        if (App::environment('production')) {
+            return rand(1111, 9999);
+        }
 
-        return 1234;
+        // return 1234;
     }
 }
 

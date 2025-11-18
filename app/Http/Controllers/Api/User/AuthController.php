@@ -60,7 +60,7 @@ class AuthController extends ApiBaseController
 
 
             // ToDo SMS Integration job
-            $msg = 'Welcome to Q8Cars! Use this OTP to verify: '. $user->otp.' ';
+            $msg = 'Welcome to New Sayara! Use this OTP to verify: '. $user->otp.' ';
             SendSmsJob::dispatch(  $user->phone_code . $request->mobile, $msg);
 
         }
