@@ -100,7 +100,8 @@ final class FilterService
                 'cars.finance_available',
                 'avg_rating',
                 'total_reviews_count',
-                'image'
+                'image',
+                'cars.slug'
             ])
             ->selectRaw('IF(cf.id IS NULL, 0, 1) as is_favourite')
             ->paginate(20);
@@ -466,7 +467,7 @@ final class FilterService
         //         $query->orWhereJsonContains('cars.colours', $colour);
         //     }
         // });
-       
+
         $colours = BrandColorMapping::whereIn('code', $this->request->colours)->pluck('id');
         //  dd($colours);
         $this->query = $this->query->where(function ($query) use ($colours) {

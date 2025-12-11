@@ -33,6 +33,7 @@ class CarResource extends JsonResource
             'is_favourite' => $this->is_favourite,
             'image_2' => $this->image_2 ? file_asset('files-car', $this->image_2) : null,
             'added_date' => $this->formatDate($this->created_at),
+            'slug' => $this->slug,
         ];
     }
     private function formatDate($createdAt)

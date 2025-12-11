@@ -110,9 +110,11 @@ class CarController extends ApiBaseController
     /**
      * Display the specified resource.
      */
-    public function show($id, Request $request)
+    // public function show($id, Request $request)
+    public function show($idOrSlug, Request $request)
     {
-        $car = Car::find($id);
+        // $car = Car::find($id);
+        $car = Car::where('id', $idOrSlug)->orWhere('slug', $idOrSlug)->first();
 
         $data['counts'] = $this->getCounts($car, $request);
         $data['key_features'] = $this->getKeyFeatures($car, $request);
@@ -127,11 +129,13 @@ class CarController extends ApiBaseController
         $data['related_news'] = $this->getRelatedNews($car);
         $data['mileage_details'] = $car->mileage ? $this->getMileageDetails($car):null;
         $data['mileage_desc'] = $car->mileage_summary;
+        $data['slug'] = $car->slug;
 
         try {
             if (Auth::user()->isNotGuest()) {
                 // dd('ssdfb');
-                $this->saveCarViewCount($id);
+                // $this->saveCarViewCount($id);
+                $this->saveCarViewCount($car->id);
             }
         } catch (Exception $ex) {
             logger($ex);
@@ -169,6 +173,7 @@ class CarController extends ApiBaseController
         $result['transmission_type'] = $version->transmission_type;
         $result['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
         $result['available_transmission_types'] =  $this->getversionTransmissionTypes($version->car);
+        $result['slug'] = $version->slug;
 
         return $this->success(['data' => $result], 'Car Details', Response::HTTP_OK);
     }
@@ -245,7 +250,6 @@ class CarController extends ApiBaseController
             '360_view' => $car->carSpec->view_camera === null ? False : ($car->carSpec->view_camera == 1 ? True : False),
             'is_active_review' => Review::where('user_id', Auth::id())->whereIn('status', [Review::STATUS_SUBMITTED, Review::STATUS_VERIFIED])->where('car_id', $car->id)->exists() ? true : false,
             'is_old' => $car->id == 28 ? true :false,
-
         ];
 
         return $result;
@@ -1001,6 +1005,7 @@ class CarController extends ApiBaseController
     }
     private function  getversionTransmissionTypes(Car $car)
     {
+        $res = [];
         foreach (json_decode($car->transmission_type) as $type) {
             if (isset(config('params.car.transmission_type')[$type])) {
                 if (CarVersion::active()->where('car_id', $car->id)->where('transmission_type', $type)->count() > 0) {

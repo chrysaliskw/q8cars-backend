@@ -72,7 +72,9 @@ Route::middleware('auth:user_api')->group(function () {
     Route::get('cars/compare-similar', [CarController::class, 'compareSimilar']);
     Route::get('cars/images', [CarController::class, 'carImages']);
     Route::get('cars/search',CarSearchController::class);
-    Route::apiResource('cars', CarController::class)->only(['index', 'show']);
+    // Route::apiResource('cars', CarController::class)->only(['index', 'show']);
+    Route::apiResource('cars', CarController::class)->only(['index']);
+    Route::get('cars/{idOrSlug}', [CarController::class, 'show'])->name('cars.show');
 
     //car versions according to car
     Route::get('car-versions',[CarSearchController::class,'getCarVersion']);

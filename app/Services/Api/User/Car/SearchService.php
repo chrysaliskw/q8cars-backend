@@ -95,6 +95,7 @@ final class SearchService
                 'cars.id',
                 'cars.brand_id',
                 'model_name',
+                'cars.slug',
                 // i test
                 // 'car_versions.varient_name as varient',
                 DB::raw('MAX(cars.ex_showroom_price) as ex_showroom_price'),

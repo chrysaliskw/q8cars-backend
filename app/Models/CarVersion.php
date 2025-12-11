@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CarVersion extends Model
 {
@@ -119,5 +120,14 @@ class CarVersion extends Model
         return $value;
     }
 
-
+    protected static function booted()
+    {
+        static::creating(function ($version) {
+            if ($version->car && $version->varient_name) {
+                $carSlug = $version->car->slug;
+                $variantSlug = Str::slug($version->varient_name);
+                $version->slug = $carSlug . '-' . $variantSlug;
+            }
+        });
+    }
 }

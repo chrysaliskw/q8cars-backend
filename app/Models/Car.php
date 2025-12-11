@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Car extends Model
 {
@@ -137,7 +138,22 @@ class Car extends Model
 
                 $car->car_ref_no = $carRefNo;
             }
+            $car->slug = static::generateUniqueSlug($car->model_name, $car->car_ref_no);
         });
+    }
+
+    protected static function generateUniqueSlug($modelName, $refNo)
+    {
+        $slug = Str::slug($modelName);
+        $baseSlug = $slug . '-' . $refNo;
+
+        $count = static::where('slug', 'like', "$slug%")->count();
+
+        if ($count > 0) {
+            return $baseSlug . '-' . ($count + 1);
+        }
+
+        return $baseSlug;
     }
 
     public function getAttribute($key)
