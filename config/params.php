@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\Bank;
+use App\Models\Banner;
 use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Car;
@@ -28,6 +29,7 @@ return [
         'banks' => Bank::FILE_DIR,
         '360_view' => View360Image::FILE_DIR,
         'offer' =>Offer::FILE_DIR,
+        'banner' => Banner::DOC_DIR,
     ],
 
     'admin' => [
@@ -42,6 +44,16 @@ return [
             1 => 'Active',
             2 => 'Inactive',
         ],
+    ],
+
+    'banner' => [
+        'status' => [
+            1 => 'Active',
+            2 => 'Inactive',
+        ],
+        'page' => [
+            1 => 'Home Page',
+        ]
     ],
 
     'brand' => [
@@ -236,6 +248,7 @@ return [
         'sections' => [
             'Dashboard' => 'Dashboard',
             'Users' => 'Users',
+            'Banners' => 'Banners',
             'Brands' => 'Brands',
             'Body Types' => 'Body Types',
             'Colors' => 'Colors',

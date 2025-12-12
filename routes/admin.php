@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Bank\LoanRequestController;
 use App\Http\Controllers\Admin\Bank\PartnerBankController;
 use App\Http\Controllers\Admin\Bank\SuggestedBankController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\BrandController;
@@ -125,6 +126,13 @@ Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Body Types'])->
 Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Colors'])->group(function () {
     Route::resources([
         'color' => ColorController::class,             //color
+    ]);
+});
+
+//Banner
+Route::middleware(['auth:admin', 'role_or_permission:Super Admin|Banners'])->group(function () {
+    Route::resources([
+        'banner' => BannerController::class,              // Banner
     ]);
 });
 

@@ -13,6 +13,8 @@ use App\Http\Resources\NewsResource;
 use App\Http\Resources\BrandResource;
 use App\Http\Resources\CarVersionResource;
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Resources\BannerResource;
+use App\Models\Banner;
 use App\Models\CarComparisonList;
 
 class HomeController extends ApiBaseController
@@ -26,6 +28,7 @@ class HomeController extends ApiBaseController
         $data['compare_cars'] = $this->getCompareCars();
         $data['trending_news'] = $this->getTrending();
         $data['recently_purchased_brands'] = $this->getBrands();
+        $data['home_banners'] = $this->getBanners();
 
         return $this->success(['data' => $data], 'Home Page', Response::HTTP_OK);
     }
@@ -72,5 +75,11 @@ class HomeController extends ApiBaseController
     {
         $brands = Brand::active()->orderBy('is_top_brand', 'asc')->where('is_recently_purchased', 1)->limit(50)->get();
         return BrandResource::collection($brands);
+    }
+
+    private function getBanners()
+    {
+        $banners = Banner::active()->orderBy('sort_order', 'asc')->get();
+        return BannerResource::collection($banners);
     }
 }

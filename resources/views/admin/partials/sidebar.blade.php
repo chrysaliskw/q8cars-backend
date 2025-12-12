@@ -33,6 +33,13 @@
                         </a>
                     </li>
                 @endcanany
+                @canany(['All', 'Banners'])
+                    <li>
+                        <a href="{{ route('admin.banner.index') }}" class="waves-effect">
+                            <i class="fa fa-picture-o"></i><span> Banners </span>
+                        </a>
+                    </li>
+                @endcanany
                 @canany(['All', 'Brands'])
                     <li>
                         <a href="{{ route('admin.brand.index') }}" class="waves-effect">
