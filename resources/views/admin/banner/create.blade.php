@@ -6,7 +6,7 @@
         <li class="active">Create</li>
     </x-slot>
 
-   <x-crud-create title="Banner">
+   <x-crud-create title="Banner" >
         <x-form method="POST" action="{{ route('admin.banner.store') }}" class="form" enctype="multipart/form-data">
             <div class="row">
 
