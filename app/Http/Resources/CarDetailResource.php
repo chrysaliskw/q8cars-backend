@@ -55,6 +55,7 @@ class CarDetailResource extends JsonResource
 
         $response = [
             'id' => $this->id,
+            'slug' => $this->slug ?? null,
             'version_name' => $this->varient_name,
             'transmission_type' => config('params.car.transmission_type')[$this->transmission_type] ?? 'N/A',
             'fuel_type' => config('params.car.fuel_type')[$fuelType] ?? 'N/A',

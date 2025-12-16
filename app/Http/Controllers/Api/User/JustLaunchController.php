@@ -29,6 +29,7 @@ class JustLaunchController extends ApiBaseController
         }
 
         $data['id'] = $result->id;
+        $data['slug'] = $result->slug ?? null;
         $data['brand_id'] = $result->brand_id;
         $data['model_name'] = $result->model_name;
         $data['ex_showroom_price'] = 'KWD ' . $result->ex_showroom_price;

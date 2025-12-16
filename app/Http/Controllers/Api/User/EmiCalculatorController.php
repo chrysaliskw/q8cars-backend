@@ -33,10 +33,10 @@ class EmiCalculatorController extends ApiBaseController
         $car = Car::find($request->car_id);
         $on_road_price = $car->on_road_price;
 
-        if ($request->principal > $on_road_price) {
-            return $this->error(
-                "The principal amount cannot be greater than the on-road price of the car. On-road price: KWD $on_road_price", Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        // if ($request->principal > $on_road_price) {
+        //     return $this->error(
+        //         "The principal amount cannot be greater than the on-road price of the car. On-road price: KWD $on_road_price", Response::HTTP_UNPROCESSABLE_ENTITY);
+        // }
 
         if(!isset($request->principal) || !isset($request->annualInterestRate) || !isset($request->loanTenureYears)) {
             $request->merge($this->getCarBaseEmiCalcualtions($request->car_id, $request->car_version_id));

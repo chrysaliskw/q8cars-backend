@@ -182,9 +182,15 @@ class CarController extends ApiBaseController
      */
     public function carImages(Request $request)
     {
-        $car = Car::find($request->id);
+        $car = null;
+        if (is_numeric($request->id)) {
+            $car = Car::find($request->id);
+        } else {
+            $car = Car::where('slug', $request->id)->first();
+        }
+
         if (!$car) {
-            return $this->error(null, 'Car Not Found', Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->error('Car Not Found', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
 
@@ -225,6 +231,7 @@ class CarController extends ApiBaseController
 
         $result = [
             'id' => $car->id,
+            'slug' => $car->slug,
             'model_name' => $car->model_name,
             'brand_name' => $car->brand->name,
             'brand_id' => $car->brand_id,

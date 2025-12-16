@@ -17,6 +17,7 @@ class FavouriteListResource extends JsonResource
   {
     return [
         'id' => $this->car_id,
+        'slug' => $this->car->slug,
         'favourite_id' => $this->id,
         'model_name' => $this->car->model_name,
         'brand_id' => $this->car->brand_id,

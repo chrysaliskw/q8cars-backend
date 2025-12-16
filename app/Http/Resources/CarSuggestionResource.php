@@ -19,6 +19,7 @@ class CarSuggestionResource extends JsonResource
   {
     return [
         'id' => $this->id,
+        'slug' => $this->slug ?? null,
         'brand_id' => $this->brand_id,
         'brand_name' => $this->brand->name,
         'name' => $this->model_name,
