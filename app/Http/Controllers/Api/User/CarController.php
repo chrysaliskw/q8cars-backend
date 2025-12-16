@@ -1033,7 +1033,7 @@ class CarController extends ApiBaseController
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-         $car = null;
+        $car = null;
         if (is_numeric($request->id)) {
             $car = Car::find($request->id);
         } else {
@@ -1041,6 +1041,10 @@ class CarController extends ApiBaseController
         }
 
         //$car = Car::find($request->car_id);
+
+        if(!$car) {
+            return $this->error('Car Not Found', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $colours = [];
         foreach (json_decode($car->colours) as $type) {
