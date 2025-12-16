@@ -1034,11 +1034,10 @@ class CarController extends ApiBaseController
         }
 
         $car = null;
-        if (is_numeric($request->id)) {
-            $car = Car::find($request->id);
-            Log::info('Car ID: ' . $request->id);
+        if (is_numeric($request->car_id)) {
+            $car = Car::find($request->car_id);
         } else {
-            $car = Car::where('slug', $request->id)->first();
+            $car = Car::where('slug', $request->car_id)->first();
         }
 
         //$car = Car::find($request->car_id);
