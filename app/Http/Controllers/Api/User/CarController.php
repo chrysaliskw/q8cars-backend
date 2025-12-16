@@ -22,7 +22,7 @@ use App\Http\Resources\CarImageResource;
 use App\Http\Resources\CarDetailResource;
 use App\Services\Api\User\Car\FilterService;
 use App\Http\Controllers\Api\ApiBaseController;
-
+use Illuminate\Support\Facades\Log;
 use App\Http\Resources\CarVersionResource;
 use App\Models\BrandColorMapping;
 use App\Models\CarAdditonalSpecifications;
@@ -1036,6 +1036,7 @@ class CarController extends ApiBaseController
         $car = null;
         if (is_numeric($request->id)) {
             $car = Car::find($request->id);
+            Log::info('Car ID: ' . $request->id);
         } else {
             $car = Car::where('slug', $request->id)->first();
         }
