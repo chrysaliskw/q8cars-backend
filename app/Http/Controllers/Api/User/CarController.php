@@ -1026,14 +1026,21 @@ class CarController extends ApiBaseController
     public function colors(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'car_id' => 'required|exists:cars,id',
+            'car_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->error($validator->errors()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $car = Car::find($request->car_id);
+         $car = null;
+        if (is_numeric($request->id)) {
+            $car = Car::find($request->id);
+        } else {
+            $car = Car::where('slug', $request->id)->first();
+        }
+
+        //$car = Car::find($request->car_id);
 
         $colours = [];
         foreach (json_decode($car->colours) as $type) {

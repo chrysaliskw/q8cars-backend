@@ -24,6 +24,10 @@ class JustLaunchController extends ApiBaseController
                         $query->where('cars.model_name', $value);
                     })
                     ->first();
+
+        if(!$result) {
+            return $this->error('No Just Launch Car Found', Response::HHTTP_NOT_FOUND);
+        }
         if($request->id) {
             $result = Car::find($request->id);
         }
