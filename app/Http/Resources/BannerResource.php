@@ -19,6 +19,7 @@ class BannerResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'file_name' => $this->file_name ? file_asset('files-banner', $this->file_name) : null,
+            'file_name_mobile_view' => $this->file_name_mobile_view ? file_asset('files-banner', $this->file_name_mobile_view) : null,
             'sort_order' => $this->sort_order,
             'status' => $this->status,
         ];

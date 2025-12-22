@@ -46,6 +46,27 @@
             </div> 
 
             <div class="row">
+
+             <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="icon" class="control-label">Mobile View Image</label>
+                        <div>
+                            <input id="icon" type="file" name="file_name_mobile_view" class="form-control" style="padding-left: 2px;padding-top:2px">
+                       
+                            <span class="text-muted">
+                            {{'Max size : 2MB,  Dimensions: 375x385 px'}} 
+                        </span>
+                            </div>
+                        <img src="{{ file_asset('files-banner', $banner->file_name_mobile_view) }}" 
+                            alt="banner-img" class="img-thumbnail" width="100" height="150">
+                            <span class="error" role="alert">
+                            @error('file_name')
+                                {{ $message }}</br>
+                            @enderror
+                        </span>  
+                       
+                    </div>
+                </div>  
            
                 <div class="col-md-4">
                     <x-form-input type="text" field="sort_order" field-name="Sort Order" value="{{ old('sort_order',$banner->sort_order) }}">

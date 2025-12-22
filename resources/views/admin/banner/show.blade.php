@@ -46,7 +46,13 @@
                                 </div>
                             </div>
 
-                        
+                            <div class="form-group row">
+                                <label class="col-sm-4 control-label">Mobile View Image</label>
+                                <div class="col-sm-8">
+                                    <img src="{{ file_asset('files-banner', $banner->file_name_mobile_view) }}" 
+                                        alt='brand-img' class='img-thumbnail' width='100' height='150'>
+                                </div>
+                            </div>
 
                        
 

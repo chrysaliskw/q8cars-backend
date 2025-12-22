@@ -56,6 +56,10 @@ class BannerController extends Controller
                 $request->file_name->store(Banner::DOC_DIR);
                 $banner->file_name = $request->file_name->hashName();  
             }
+            if($request->hasfile('file_name_mobile_view')){
+                $request->file_name_mobile_view->store(Banner::DOC_DIR);
+                $banner->file_name_mobile_view = $request->file_name_mobile_view->hashName();  
+            }
             $banner->save();
 
         } catch (Exception $ex) {
@@ -115,6 +119,13 @@ class BannerController extends Controller
                 JunkFileDeleteJob::dispatchAfterResponse(Banner::DOC_DIR, $oldPicture); 
             }
 
+            if($request->has('file_name_mobile_view')){
+                $oldPicture[] = $banner->file_name_mobile_view;
+                $request->file_name_mobile_view->store(Banner::DOC_DIR);
+                $banner->file_name_mobile_view = $request->file_name_mobile_view->hashName(); 
+                JunkFileDeleteJob::dispatchAfterResponse(Banner::DOC_DIR, $oldPicture); 
+            }
+
             $banner->saveOrFail();
 
         } catch (Exception $ex) {
@@ -141,8 +152,10 @@ class BannerController extends Controller
       
         try {
             $image = $banner->file_name;
+            $image_mobile_view = $banner->file_name_mobile_view;
             $banner->delete();
             Storage::delete(Banner::DOC_DIR . DIRECTORY_SEPARATOR . $image);
+            Storage::delete(Banner::DOC_DIR . DIRECTORY_SEPARATOR . $image_mobile_view);
         } catch (Exception $ex) {
             logger($ex);
             return back()->with('error', __('app.error'));

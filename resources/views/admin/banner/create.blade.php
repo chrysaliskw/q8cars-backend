@@ -35,6 +35,14 @@
             </div> 
 
                <div class="row">
+
+                <div class="col-md-4">
+                    <x-form-input type="file" field="file_name_mobile_view" field-name="Mobile View Image" value="{{ old('file_name_mobile_view') }}">
+                    </x-form-input>
+                    <span class="text-muted">
+                        {{'Max size : 2MB, Dimensions: 375x385 px'}} 
+                    </span>
+                </div>
               
                 <div class="col-md-4">
                     <x-form-input type="text" field="sort_order" field-name="Sort Order" value="{{ old('sort_order') }}">
