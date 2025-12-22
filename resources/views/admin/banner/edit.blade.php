@@ -60,7 +60,7 @@
                         <img src="{{ file_asset('files-banner', $banner->file_name_mobile_view) }}" 
                             alt="banner-img" class="img-thumbnail" width="100" height="150">
                             <span class="error" role="alert">
-                            @error('file_name')
+                            @error('file_name_mobile_view')
                                 {{ $message }}</br>
                             @enderror
                         </span>  
