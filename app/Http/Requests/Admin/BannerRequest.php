@@ -45,8 +45,10 @@ class BannerRequest extends FormRequest
      
         return [
             'name' => ['required', 'string', 'max:200'],
-            'file_name' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:width=1400,height=700',   //1440, 720
-            'file_name_mobile_view' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:width=375,height=385',   //1440, 720
+            'file_name' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:min_width=990,min_height=500',   //1440, 720
+            'file_name_mobile_view' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:min_width=250,min_height=200',   //1440, 720
+            // 'file_name' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:min_width=1400,height=700',   //1440, 720
+            // 'file_name_mobile_view' => 'required|mimes:jpg,png,jpeg|max:2048|dimensions:width=375,height=385',   //1440, 720
             // 'page' => ['nullable', Rule::in(array_keys(config('params.banners.page')))],
             'sort_order' => 'required|integer|min:1',
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
@@ -65,8 +67,10 @@ class BannerRequest extends FormRequest
                 'string', 
                 'max:200'
             ],
-           'file_name' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:width=1400,height=700',
-           'file_name_mobile_view' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:width=375,height=385',   //1440, 720
+              'file_name' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:min_width=990,min_height=500',   //1440, 720
+            'file_name_mobile_view' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:min_width=250,min_height=200',   //1440, 720
+            // 'file_name' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:width=1400,height=700',
+            // 'file_name_mobile_view' => 'nullable|mimes:jpg,png,jpeg|max:2048|dimensions:width=375,height=385',   //1440, 720
             // 'page' => ['required', Rule::in(array_keys(config('params.banners.page')))],
             'sort_order' => 'required|integer|min:1',
             'status' => ['required', Rule::in(array_keys(config('params.brand.status')))],
