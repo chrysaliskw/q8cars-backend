@@ -26,6 +26,7 @@ class OfferDetailsResource extends JsonResource
         return [
             'id' => $this->id,
             'car_id' => $this->car_id,
+            'slug' => $this->car->slug,
             'car_name' => $this->car->model_name,
             'varient_name'=>  $carVersion->varient_name,
             'car_versions'=> $this->getVariants($this->car_id),

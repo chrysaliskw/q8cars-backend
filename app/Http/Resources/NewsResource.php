@@ -17,6 +17,7 @@ class NewsResource extends JsonResource
         return [
             'id' => $this->id,
             'car_id' => $this->car_id,
+             'slug' => $this->car->slug,
             'car_name' => $this->car->model_name,
             'brand_id' => $this->brand_id,
             'brand_name' => $this->brand ? $this->brand->name : null,

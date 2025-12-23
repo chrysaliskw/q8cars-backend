@@ -17,6 +17,7 @@ class FaqListResource extends JsonResource
     return [
         'id' => $this->id,
         'model_name' => $this->car->model_name,
+        'slug' => $this->car->slug,
         'brand_id' => $this->car->brand_id,
         'brand_name' => $this->car->brand->name,
         'question' => $this->question,

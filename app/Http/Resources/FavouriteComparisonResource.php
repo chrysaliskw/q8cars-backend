@@ -18,6 +18,7 @@ class FavouriteComparisonResource extends JsonResource
             // 'id' => $this->id,
             'car_1' => $this->car1 ? [
                 'car_id' => $this->car1->id,
+                'slug' => $this->car1->slug,
                 'image' => file_asset('files-car', $this->car1->image),
                 'model_name' => $this->car1->model_name,
                 'version_name' => $this->car1->carSpec->varient_name,
@@ -25,6 +26,7 @@ class FavouriteComparisonResource extends JsonResource
             ] : null,
             'car_2' => $this->car2 ? [
                 'car_id' => $this->car2->id,
+                'slug' => $this->car2->slug,
                 'image' => file_asset('files-car', $this->car2->image),
                 'model_name' => $this->car2->model_name,
                 'version_name' => $this->car2->carSpec->varient_name,
@@ -32,6 +34,7 @@ class FavouriteComparisonResource extends JsonResource
             ] : null,
             'car_3' => $this->car3 ? [
                 'car_id' => $this->car3->id,
+                'slug' => $this->car3->slug,
                 'image' => file_asset('files-car', $this->car3->image),
                 'model_name' => $this->car3->model_name,
                 'version_name' => $this->car3->carSpec->varient_name,
@@ -39,6 +42,7 @@ class FavouriteComparisonResource extends JsonResource
             ] : null,
             'car_4' => $this->car4 ? [
                 'car_id' => $this->car4->id,
+                'slug' => $this->car4->slug,
                 'image' => file_asset('files-car', $this->car4->image),
                 'model_name' => $this->car4->model_name,
                 'version_name' => $this->car4->carSpec->varient_name,

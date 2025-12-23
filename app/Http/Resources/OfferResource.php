@@ -20,12 +20,13 @@ class OfferResource extends JsonResource
         $carVersion = $this->carVersion ?? $this->car->carSpec;
         return [
             'id' => $this->id,
+            'slug' => $this->car->slug,
             'car_name' => $this->car->model_name,
             'varient_name'=> $carVersion->varient_name  ,
             'title' => $this->title,
             'offer' => 'KWD '.$this->offer,
             'ex_showroom_price' => 'KWD ' . $carVersion->ex_showroom_price,
-          'offer_price' => 'KWD ' . number_format($carVersion->ex_showroom_price - $this->offer, 2, '.', ''),
+            'offer_price' => 'KWD ' . number_format($carVersion->ex_showroom_price - $this->offer, 2, '.', ''),
             'time_left' => $this->TimeLeft($this->end_date),
             'image' => file_asset('files-car', $this->car->image) 
         ];
