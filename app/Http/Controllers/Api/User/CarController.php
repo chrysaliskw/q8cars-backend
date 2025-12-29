@@ -409,8 +409,8 @@ class CarController extends ApiBaseController
                 ->where('transmission_type', $typeKey)
                 ->whereNotNull('mileage')
                 ->active()
-                ->get()
                 ->orderBy('created_at', 'desc')
+                ->get()
                 ->unique(function ($item) {
                     // Use both fuel_type and transmission_type to ensure uniqueness
                     return $item->transmission_type . '-' . $item->fuel_type;
