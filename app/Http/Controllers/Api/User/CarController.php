@@ -751,7 +751,7 @@ class CarController extends ApiBaseController
                         'title' => ($varient->power && $varient->torque) ? 'Power & Torque'
                             : ($varient->power ? 'Power' : 'Torque'),
                         'value' => trim(
-                            ($varient->power ? $varient->power . 'hp' : '') .
+                            ($varient->power ? $varient->power . ' hp' : '') .
                             ($varient->power && $varient->torque ? ' and ' : '') .
                             ($varient->torque ? $varient->torque . ' nm' : '')
                         ),
@@ -936,7 +936,7 @@ class CarController extends ApiBaseController
             $result[$i]['transmission_type'] = $version->transmission_type;
             $result[$i]['transmission_type_text'] = config('params.car.transmission_type')[$version->transmission_type];
             $result[$i]['rating'] = $compare->avg_rating;
-            $result[$i]['torque_power'] = $version->power && $version->torque ? $version->power . 'hp and ' . $version->torque . ' nm':null;
+            $result[$i]['torque_power'] = $version->power && $version->torque ? $version->power . ' hp and ' . $version->torque . ' nm':null;
             $result[$i]['available_transmission_types'] =  $this->getversionTransmissionTypes($version->car);
             $i++;
         }
